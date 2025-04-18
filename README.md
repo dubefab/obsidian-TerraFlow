@@ -1,4 +1,4 @@
-<img width="1099" alt="image" src="https://github.com/user-attachments/assets/7d19c37b-b28b-4141-8d7a-998057714f6c" /># ✨ Anthropic-Inspired Obsidian Theme
+# ✨ Anthropic-Inspired Obsidian Theme
 
 A modern, elegant Obsidian theme inspired by the design language of Anthropic (Claude AI). Clean shadows, soft gradients, rich contrast, and semantic color accents create a calm, focused writing experience for both light and dark modes.
 
