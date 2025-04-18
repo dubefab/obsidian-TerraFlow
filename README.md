@@ -67,12 +67,12 @@ The file is heavily commented to help guide edits.
 ## ✅ To-Do / Ideas
 
 - [ ] Add Iconize support
-- [ ] Add Style Settings support for advanced toggles
+- [ ] 
 
 ## 🙌 Credits
 
 - Inspired by the beautiful UI language of [Anthropic](https://www.anthropic.com/)
-- File browser inspired by Border theme fro Akifyss at [Border Theme](https://github.com/Akifyss/obsidian-border)
+- File browser inspired by Border theme from Akifyss at [Border Theme](https://github.com/Akifyss/obsidian-border)
 
 ---
 
