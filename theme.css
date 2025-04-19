@@ -41,6 +41,18 @@
   --h5-color-rgb: 195, 102, 134;
   --h6-color: #779088;
   --h6-color-rgb: 119, 144, 136;
+  --h1-border-color: #ae4e36;
+  --h2-border-color: #497aa0;
+  --h3-border-color: #6e6a8a;
+  --h4-border-color: #60704a;
+  --h5-border-color: #aa4266;
+  --h6-border-color: #5e736d;
+  --heading-border-left-width: 4px;
+  --heading-border-bottom-width: 4px;
+  --heading-padding-bottom: 3px;
+  --heading-margin-bottom: 0.8em;
+  --heading-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  
   --link-opacity-normal: 0.1;
   --link-opacity-hover: 0.18;
   --link-opacity-unresolved: 0.05;
@@ -457,53 +469,63 @@ textarea:focus-visible {
 .markdown-source-view .cm-header-5,
 .markdown-source-view .cm-header-6 {
   color: white;
-  padding: var(--spacing-xs) var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-sm);
   border-radius: var(--radius-lg);
   margin-top: var(--spacing-xl);
-  box-shadow: var(--shadow-md);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
-  border-left: 6px solid var(--h1-color);
-  background: var(--h1-color);
+  box-shadow: var(--heading-shadow);
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
   font-weight: var(--font-weight-semibold);
   letter-spacing: -0.01em;
   will-change: transform, box-shadow, background-color;
 }
 
-/* Heading colors */
+/* Heading colors with enhanced depth effect */
+/* Heading 1 */
 .markdown-preview-view h1,
 .markdown-source-view .cm-header-1 {
   background: var(--h1-color);
+  border-left: var(--heading-border-left-width) solid var(--h1-border-color);
+  border-bottom: var(--heading-border-bottom-width) solid var(--h1-border-color);
 }
 
+/* Heading 2 */
 .markdown-preview-view h2,
 .markdown-source-view .cm-header-2 {
-  border-left: 6px solid var(--h2-color);
   background: var(--h2-color);
+  border-left: var(--heading-border-left-width) solid var(--h2-border-color);
+  border-bottom: var(--heading-border-bottom-width) solid var(--h2-border-color);
 }
 
+/* Heading 3 */
 .markdown-preview-view h3,
 .markdown-source-view .cm-header-3 {
-  border-left: 6px solid var(--h3-color);
   background: var(--h3-color);
+  border-left: var(--heading-border-left-width) solid var(--h3-border-color);
+  border-bottom: var(--heading-border-bottom-width) solid var(--h3-border-color);
 }
 
+/* Heading 4 */
 .markdown-preview-view h4,
 .markdown-source-view .cm-header-4 {
-  border-left: 6px solid var(--h4-color);
   background: var(--h4-color);
+  border-left: var(--heading-border-left-width) solid var(--h4-border-color);
+  border-bottom: var(--heading-border-bottom-width) solid var(--h4-border-color);
 }
 
+/* Heading 5 */
 .markdown-preview-view h5,
 .markdown-source-view .cm-header-5 {
-  border-left: 6px solid var(--h5-color);
   background: var(--h5-color);
+  border-left: var(--heading-border-left-width) solid var(--h5-border-color);
+  border-bottom: var(--heading-border-bottom-width) solid var(--h5-border-color);
 }
 
+/* Heading 6 */
 .markdown-preview-view h6,
 .markdown-source-view .cm-header-6 {
-  border-left: 6px solid var(--h6-color);
   background: var(--h6-color);
+  border-left: var(--heading-border-left-width) solid var(--h6-border-color);
+  border-bottom: var(--heading-border-bottom-width) solid var(--h6-border-color);
 }
 
 /* Heading hover effects */
