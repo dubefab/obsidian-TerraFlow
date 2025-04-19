@@ -469,7 +469,7 @@ textarea:focus-visible {
 .markdown-source-view .cm-header-5,
 .markdown-source-view .cm-header-6 {
   color: white;
-  padding: var(--spacing-sm) var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--radius-lg);
   margin-top: var(--spacing-xl);
   box-shadow: var(--heading-shadow);
