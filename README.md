@@ -27,7 +27,7 @@ A modern, elegant Obsidian theme inspired by the design language of Anthropic (C
 ### Method 2: Manual
 1. Download [`theme.css`](./theme.css)
 2. Place it in `.obsidian/themes/Anthropic-Inspired/theme.css`
-3. Go to **Settings → Appearance → Themes**, and enable `Anthropic-Inspired`
+3. Go to **Settings → Appearance → Themes**, and enable `Anthropic`
 
 ---
 
@@ -66,26 +66,15 @@ The file is heavily commented to help guide edits.
 
 ## ✅ To-Do / Ideas
 
-- [ ] Add Iconize support
-- [ ] 
-
-## 🙌 Credits
-
-- Inspired by the beautiful UI language of [Anthropic](https://www.anthropic.com/)
-- File browser inspired by Border theme from Akifyss at [Border Theme](https://github.com/Akifyss/obsidian-border)
+- [ ] Outline pane
+- [ ] File browser
 
 ---
 
 ## 🪄 Preview
 
-<img width="736" alt="image" src="https://github.com/user-attachments/assets/31b95bc7-c4f0-4214-9cfb-89f3d2bab346" />
-<img width="732" alt="image" src="https://github.com/user-attachments/assets/0a97070b-2cd7-42d2-9e7b-7b17686857e1" />
-<img width="735" alt="image" src="https://github.com/user-attachments/assets/4825e16a-8fd7-4deb-8cb9-5ed2e874468d" />
-<img width="753" alt="image" src="https://github.com/user-attachments/assets/16f367a7-0708-4865-9f0f-98a0a983ea3b" />
-<img width="712" alt="image" src="https://github.com/user-attachments/assets/be1edb1a-9260-48cb-befe-42c6187a2619" />
-<img width="731" alt="image" src="https://github.com/user-attachments/assets/39493fe3-3b61-44f6-9490-2d822b05c4fc" />
-<img width="1099" alt="image" src="https://github.com/user-attachments/assets/b9414afd-b2d9-46b1-8a07-1e9ee77749b2" />
-
+<img width="718" alt="image" src="https://github.com/user-attachments/assets/bf9b3d11-ea04-49cd-b06a-5e68c7b000de" />
+<img width="710" alt="image" src="https://github.com/user-attachments/assets/dc8d3162-67a2-48e0-bdec-f786ea66aa03" />
 
 ---
 
