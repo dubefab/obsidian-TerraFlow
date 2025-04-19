@@ -52,7 +52,6 @@
   --heading-padding-bottom: 3px;
   --heading-margin-bottom: 0.8em;
   --heading-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
-  
   --link-opacity-normal: 0.1;
   --link-opacity-hover: 0.18;
   --link-opacity-unresolved: 0.05;
@@ -66,7 +65,6 @@
 /* Theme Colors - Light */
 .theme-light {
   --text-normal: #3d3929;
-  --text-normal-rgb: 61, 57, 41;
   --text-normal-rgb: 61, 57, 41;
   --background-primary: #eeece2;
   --background-primary-rgb: 238, 236, 226;
@@ -124,7 +122,6 @@
 /* Theme Colors - Dark */
 .theme-dark {
   --text-normal: #e0ded4;
-  --text-normal-rgb: 224, 222, 212;
   --text-normal-rgb: 224, 222, 212;
   --background-primary: #282520;
   --background-primary-rgb: 40, 37, 32;
@@ -238,12 +235,12 @@
 .glass-panel {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  background-color: rgba(var(--background-primary-rgb, 238, 236, 226), 0.7);
-  border: 1px solid rgba(var(--text-normal-rgb, 61, 57, 41), 0.1);
+  background-color: rgba(var(--background-primary-rgb), 0.7);
+  border: 1px solid rgba(var(--text-normal-rgb), 0.1);
 }
 
 .theme-dark .glass-panel {
-  background-color: rgba(var(--background-primary-rgb, 40, 37, 32), 0.7);
+  background-color: rgba(var(--background-primary-rgb), 0.7);
 }
 
 /* Editor fixes */
@@ -263,7 +260,7 @@
   box-shadow: none !important;
 }
 
-/* Common border radius - Group 1 */
+/* Common border radius and box shadow groups */
 .markdown-preview-view h1,
 .markdown-preview-view h2,
 .markdown-preview-view h3,
@@ -276,11 +273,7 @@ button,
 .callout,
 .cm-callout,
 .tag,
-a.tag {
-  border-radius: var(--radius-lg);
-}
-
-/* Common border radius - Group 2 */
+a.tag,
 input[type="text"],
 input[type="search"],
 input[type="password"],
@@ -293,11 +286,7 @@ textarea,
 .modal-container,
 .prompt,
 .menu,
-.dropdown {
-  border-radius: var(--radius-lg);
-}
-
-/* Common border radius - Group 3 */
+.dropdown,
 .search-result-file-title,
 .search-result-file-match,
 .nav-folder-title,
@@ -311,55 +300,6 @@ textarea,
 .tag-pane-tag-count,
 .tag-container {
   border-radius: var(--radius-lg);
-}
-
-/* Common box shadow - Group 1 */
-.markdown-preview-view h1,
-.markdown-preview-view h2,
-.markdown-preview-view h3,
-.markdown-preview-view h4,
-.markdown-preview-view h5,
-.markdown-preview-view h6,
-button,
-.clickable-icon,
-.nav-action-button,
-.callout,
-.cm-callout,
-.tag,
-a.tag {
-  box-shadow: var(--shadow-md);
-  transition: var(--transition-transform), var(--transition-shadow), var(--transition-opacity);
-}
-
-/* Common box shadow - Group 2 */
-input[type="text"],
-input[type="search"],
-input[type="password"],
-input[type="email"],
-input[type="number"],
-textarea,
-.markdown-rendered table,
-.markdown-preview-view table,
-.modal,
-.modal-container,
-.prompt,
-.menu,
-.dropdown {
-  box-shadow: var(--shadow-md);
-  transition: var(--transition-transform), var(--transition-shadow), var(--transition-opacity);
-}
-
-/* Common box shadow - Group 3 */
-.nav-folder-title,
-.nav-file-title,
-.vertical-tab-header,
-.vertical-tab-nav-item,
-.workspace-leaf,
-.workspace-split,
-.workspace-tabs,
-.view-header,
-.tag-pane-tag-count,
-.tag-container {
   box-shadow: var(--shadow-md);
   transition: var(--transition-transform), var(--transition-shadow), var(--transition-opacity);
 }
@@ -469,7 +409,7 @@ textarea:focus-visible {
 .markdown-source-view .cm-header-5,
 .markdown-source-view .cm-header-6 {
   color: white;
-  padding: var(--spacing-xs) var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-sm);
   border-radius: var(--radius-lg);
   margin-top: var(--spacing-xl);
   box-shadow: var(--heading-shadow);
@@ -577,7 +517,7 @@ textarea:focus-visible {
   line-height: var(--line-height-tight);
 }
 
-/* Highlight styling - Light theme */
+/* Highlight styling */
 .theme-light .markdown-rendered mark,
 .theme-light span.cm-highlight,
 .theme-light .markdown-preview-view mark,
@@ -589,7 +529,6 @@ textarea:focus-visible {
   border-bottom: 1px solid #a9c0b8;
 }
 
-/* Highlight styling - Dark theme */
 .theme-dark .markdown-rendered mark,
 .theme-dark span.cm-highlight,
 .theme-dark .markdown-preview-view mark,
@@ -917,10 +856,11 @@ textarea:focus {
 }
 
 @media (hover: hover) {
-  .markdown-source-view.mod-cm6 .cm-link .cm-underline:hover, /* <--- ADDED THIS SELECTOR */
+  .markdown-source-view.mod-cm6 .cm-link .cm-underline:hover,
   .markdown-source-view.mod-cm6 .cm-url .cm-underline:hover,
   .markdown-source-view.mod-cm6 .cm-hmd-external-link .cm-underline:hover {
-    color: var(--link-color-hover) !important;    text-decoration: none !important;
+    color: var(--link-color-hover) !important;
+    text-decoration: none !important;
   }
 }
 
@@ -1328,9 +1268,7 @@ a.tag:hover {
   }
 }
 
-/* --- Status Bar Hover --- */
-
-/* Base styles */
+/* Status Bar Hover */
 .status-bar {
   position: fixed;
   left: 50%;
@@ -1348,25 +1286,18 @@ a.tag:hover {
   color: var(--text-muted);
   cursor: default;
   z-index: var(--layer-status-bar);
-  
-  /* Enable text wrapping for responsive behavior */
   text-wrap: balance;
   white-space: normal;
   word-wrap: break-word;
-  
-  /* Center content */
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  
-  /* Animation properties */
   bottom: 2px;
   transition: transform 250ms cubic-bezier(0.2, 0.9, 0.3, 1.0);
   transform: translateX(-50%) translateY(0);
 }
 
-/* Initial COLLAPSED state - slides down when not hovered */
 .status-bar:not(:hover) {
   transform: translateX(-50%) translateY(calc(100% - 6px));
   height: 6px;
@@ -1378,8 +1309,6 @@ a.tag:hover {
   box-shadow: none;
   color: transparent;
   max-width: 60px;
-  
-  /* Slightly different timing for collapse animation */
   transition: transform 200ms cubic-bezier(0.4, 0.0, 0.2, 1.0),
               height 200ms ease,
               min-height 200ms ease,
@@ -1390,30 +1319,23 @@ a.tag:hover {
               box-shadow 200ms ease;
 }
 
-/* Status Bar Items - Initially Hidden */
 .status-bar > .status-bar-item {
   opacity: 0;
   transition: opacity 200ms ease-out;
   white-space: normal;
   pointer-events: none;
   color: inherit;
-  
-  /* Center items vertically */
   display: flex;
   align-items: center;
-  
-  /* Add margin for spacing between wrapped items */
   margin: 2px 4px;
 }
 
-/* Status Bar Items - Revealed on Hover */
 .status-bar:hover > .status-bar-item {
   opacity: 1;
   pointer-events: auto;
   transition-delay: 50ms;
 }
 
-/* Status Bar - Clickable Item Hover */
 .status-bar:hover .status-bar-item .clickable-icon:hover,
 .status-bar:hover .status-bar-item button:hover {
   background-color: rgba(var(--text-normal-rgb), 0.1);
@@ -1421,12 +1343,10 @@ a.tag:hover {
   color: var(--text-normal);
 }
 
-/* --- Ensure Positioning Context for Status Bar --- */
 .app-container .horizontal-main-container {
-    position: relative;
+  position: relative;
 }
 
-/* --- Media query for extremely small windows --- */
 @media screen and (max-width: 400px) {
   .status-bar:hover {
     max-width: 95%;
