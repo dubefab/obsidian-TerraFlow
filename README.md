@@ -1,6 +1,6 @@
-# Anthropic Obsidian Theme
+# Terraflow Obsidian Theme
 
-A sleek, Apple/Anthropic-inspired Obsidian theme with thoughtful design details that make note-taking delightful.
+Terraflow: A sophisticated Obsidian theme where warm earthy palettes meet flowing animations.
 
 ![image](https://github.com/user-attachments/assets/0d348976-14ca-40c6-9a2d-120b48f1ea93)
 
@@ -11,7 +11,7 @@ A sleek, Apple/Anthropic-inspired Obsidian theme with thoughtful design details 
 - Warm, earthy color palette with carefully selected accent colors
 - Light and dark modes with perfect contrast
 - Subtle depth effects and micro-interactions
-- Rounded corners and clean lines inspired by modern Apple aesthetics
+- Rounded corners and clean lines inspired by modern aesthetics
 
 **Typography That Pops**
 - Beautiful heading styles with background colors and subtle shadows
