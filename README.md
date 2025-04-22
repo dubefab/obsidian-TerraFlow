@@ -4,6 +4,7 @@ TerraFlow: A sophisticated Obsidian theme where warm earthy palettes meet flowin
 
 ![Terraflow](https://github.com/user-attachments/assets/37912907-b546-46f4-865d-5f13525c2385)
 
+![terraflow animations](https://github.com/user-attachments/assets/ab5c70a8-309f-42dc-8b12-f0c6f3ab8ce7)
 
 
 
