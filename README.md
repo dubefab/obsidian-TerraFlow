@@ -1,6 +1,6 @@
-# Terraflow Obsidian Theme
+# TerraFlow Obsidian Theme
 
-Terraflow: A sophisticated Obsidian theme where warm earthy palettes meet flowing animations.
+TerraFlow: A sophisticated Obsidian theme where warm earthy palettes meet flowing animations.
 
 ![Terraflow](https://github.com/user-attachments/assets/37912907-b546-46f4-865d-5f13525c2385)
 
