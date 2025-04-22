@@ -2,7 +2,7 @@
 
 A sleek, Apple/Anthropic-inspired Obsidian theme with thoughtful design details that make note-taking delightful.
 
-![image](https://github.com/user-attachments/assets/5ecc23a5-7424-4c00-bd68-3431b609383e)
+![image](https://github.com/user-attachments/assets/0d348976-14ca-40c6-9a2d-120b48f1ea93)
 
 
 ## Features
