@@ -1,6 +1,6 @@
 {
-  "name": "Anthropic",
-  "version": "0.1",
+  "name": "TerraFlow",
+  "version": "1.0",
   "minAppVersion": "1.0.0",
   "author": "fabdub",
   "modes": ["dark", "light"]
