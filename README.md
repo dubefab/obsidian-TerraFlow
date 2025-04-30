@@ -2,7 +2,8 @@
 
 TerraFlow: A sophisticated Obsidian theme where warm earthy palettes meet flowing animations.
 
-![Terraflow](https://github.com/user-attachments/assets/37912907-b546-46f4-865d-5f13525c2385)
+![image](https://github.com/user-attachments/assets/628e9b92-2701-47b1-86b1-369edbdd2f7a)
+
 
 ![terraflow animations](https://github.com/user-attachments/assets/8afdadf7-0b4b-4f8c-884f-84a0a736a11b)
 
