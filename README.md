@@ -1,47 +1,49 @@
 # TerraFlow Obsidian Theme
 
-TerraFlow: A sophisticated Obsidian theme where warm earthy palettes meet flowing animations.
+TerraFlow: A sophisticated Obsidian theme where seasonal palettes meet flowing animations.
 
 ![image](https://github.com/user-attachments/assets/628e9b92-2701-47b1-86b1-369edbdd2f7a)
 
 ![terraflow animations](https://github.com/user-attachments/assets/f619c4d3-2608-4871-bec4-c03a5b9267df)
 
 
-## Features
+A comprehensive Obsidian theme featuring four distinct seasonal color palettes that transform your note-taking environment throughout the year. Each season brings its own carefully crafted aesthetic with coordinated colors for headings, folders, callouts, and interface elements.
+Features
 
-**Elegant Design Language**
-- Warm, earthy color palette with carefully selected accent colors
-- Light and dark modes with perfect contrast
-- Subtle depth effects and micro-interactions
-- Rounded corners and clean lines inspired by modern aesthetics
+Four Complete Seasonal Themes:
 
-**Typography That Pops**
-- Beautiful heading styles with background colors and subtle shadows
-- Improved readability with optimized spacing
-- Refined blockquotes with gradient effects
-- Custom strikethrough styling with thematic colors
+    🍂 Autumn: Warm coral and orange tones with deep forest accents
 
-**Delightful Interactions**
-- Smooth hover animations that respond naturally to your movements
-- Elements that subtly raise on hover and press on click
-- Improved focus states for better accessibility
-- Custom checkbox animations that make checking items off satisfying
+    ❄️ Winter: Cool blues and grays inspired by Nordic ice and steel
 
-**Smart File Explorer**
-- Color-coded folders that rotate through the theme's palette
-- Visual hierarchy with subtle guides for nested content
-- Custom folder icons with open/closed states
-- Enhanced active file highlighting that makes navigation intuitive
+    🌱 Spring: Fresh greens with floral accent colors
 
-**UI That Gets Out of Your Way**
-- Minimalist tag styling with rounded corners
-- Glass panel effects for sidebars
-- Collapsible status bar that expands on hover
-- Tables with alternating row colors and rounded corners
+    ☀️ Summer: Vibrant beach-inspired palette with coral and ocean blues
 
-**Performance First**
-- Reduced motion option for distraction-free experience
-- Mobile-optimized for touch interfaces
-- Smart use of backdrop filters only where appropriate
+Comprehensive Styling:
 
-Built with extensive CSS variables for easy customization while maintaining a cohesive look. Transitions use natural cubic-bezier curves for animations that enhance rather than distract from writing.
+    Hierarchical heading colors (H1-H6) unique to each season
+
+    Color-coded folder navigation with cycling seasonal colors
+
+    Themed callouts and code blocks
+
+    Coordinated link styling without underlines
+
+    Enhanced table and blockquote formatting
+
+    Custom checkbox and tag styling
+
+Interface Enhancements:
+
+    Rounded corners and subtle shadows throughout
+
+    Smooth hover animations and transitions
+
+    Optimized dark and light mode variants for each season
+
+    Improved settings menu with seasonal accent colors
+
+    Enhanced workspace tabs and status bar
+
+    Refined outline view with hierarchical colors
