@@ -29,6 +29,10 @@ settings:
             -
                 label: ❄️ Winter (Blue)
                 value: winter-theme
+                
+            -
+                label: 🪷 Calming (Pastel)
+                value: calming-theme
 
 */
 
@@ -76,6 +80,249 @@ settings:
     --heading-text-multiplier: .85;
     --folder-text-multiplier: .85;
     --heading-bg-opacity: .2;
+}
+
+/* Calming Theme Variables */
+.calming-theme {
+    --primary-color: #FEFEFF;
+    --primary-color-rgb: 254, 254, 255;
+    --primary-color-dark: #C5D4B8;
+    --text-normal: #333333;
+    --text-normal-rgb: 51, 51, 51;
+    --emphasis-color: #4A4A4A;
+    --emphasis-color-light: #6B6B6B;
+    --interactive-accent: #A86159;
+    --interactive-accent-hover: #876E7B;
+    --link-color: #876E7B;
+    --link-color-hover: #6B5568;
+    --link-unresolved-color: #A86159;
+    --blockquote-border-color: #A86159;
+    --checkbox-color: #876E7B;
+    --text-accent: #4A4A4A;
+    --divider-color: #C8C6C4;
+    --text-muted: rgba(51, 51, 51, .8);
+    --scrollbar-thumb: rgba(107, 107, 107, .6);
+    --scrollbar-track: rgba(200, 198, 196, .4);
+    --callout-color: #4A4A4A;
+    --callout-color-rgb: 74, 74, 74;
+    --folder-color: rgba(74, 74, 74, .8);
+    --folder-text-color: #4A4A4A;
+    --folder-accent-opacity: .8;
+    --folder-active-opacity: .9;
+    --highlight-bg: #E8E6E4;
+    --highlight-bg-dark: #D8E2D0;
+    --heading-bg-opacity: .3;
+    --heading-text-multiplier: .75;
+    --link-opacity-hover: .25;
+    --link-opacity-normal: .15;
+    --link-opacity-unresolved: .1;
+    --link-opacity-unresolved-hover: .2;
+    --outline-item-spacing: .5em;
+    --layer-status-bar: 1000;
+    --tab-bg-inactive: rgba(200, 198, 196, .15);
+    --tab-bg-inactive-hover: rgba(200, 198, 196, .25);
+    --code-background: #E8E6E4;
+    --code-normal: #333333;
+    --code-comment: rgba(51, 51, 51, .75);
+    --code-function: #876E7B;
+    --code-important: #4A4A4A;
+    --code-keyword: #6B5568;
+    --code-property: #A86159;
+    --code-punctuation: rgba(51, 51, 51, .8);
+    --code-string: #8B6B78;
+    --code-tag: #876E7B;
+    --code-value: #A86159;
+    --accent-h: 25;
+    --accent-s: 30%;
+    --accent-l: 65%;
+    
+    --heading-primary: #6B5568;
+    --heading-secondary: #876E7B;
+    --heading-tertiary: #A86159;
+    --heading-quaternary: #8B6B78;
+    --heading-quinary: #B8A8B0;
+    --heading-senary: #C8B8C0;
+    
+    --heading-primary-rgb: 107, 85, 104;
+    --heading-secondary-rgb: 135, 110, 123;
+    --heading-tertiary-rgb: 168, 97, 89;
+    --heading-quaternary-rgb: 139, 107, 120;
+    --heading-quinary-rgb: 184, 168, 176;
+    --heading-senary-rgb: 200, 184, 192;
+    
+    --folder-1-color: #6B5568;
+    --folder-1-color-rgb: 107, 85, 104;
+    --folder-2-color: #876E7B;
+    --folder-2-color-rgb: 135, 110, 123;
+    --folder-3-color: #A86159;
+    --folder-3-color-rgb: 168, 97, 89;
+    --folder-4-color: #8B6B78;
+    --folder-4-color-rgb: 139, 107, 120;
+    --folder-5-color: #B8A8B0;
+    --folder-5-color-rgb: 184, 168, 176;
+    --folder-6-color: #C8B8C0;
+    --folder-6-color-rgb: 200, 184, 192;
+    
+    --callout-note: #4A4A4A;
+    --callout-note-rgb: 74, 74, 74;
+    --callout-info: #6B5568;
+    --callout-info-rgb: 107, 85, 104;
+    --callout-warning: #C49B7A;
+    --callout-warning-rgb: 196, 155, 122;
+    --callout-success: #8BAA8B;
+    --callout-success-rgb: 139, 170, 139;
+    --callout-danger: #B88B8B;
+    --callout-danger-rgb: 184, 139, 139;
+    --callout-example: #876E7B;
+    --callout-example-rgb: 135, 110, 123;
+    --callout-cite: #A86159;
+    --callout-cite-rgb: 168, 97, 89;
+    --highlight-bg-rgb: 232, 230, 228;
+    --highlight-bg-dark-color: #333333;
+    --highlight-bg-dark-color-rgb: 51, 51, 51;
+    --highlight-bg-light-color: #FEFEFF;
+    --surface-accent: #E8D5D3;
+    --surface-accent-rgb: 232, 213, 211;
+    --surface-dark: #333333;
+    --surface-dark-rgb: 51, 51, 51;
+    
+    --text-strikethrough: #4A4A4A;
+}
+
+/* Calming Theme - Light Mode Overrides */
+.theme-light.calming-theme {
+    --background-primary: #FEFEFF;
+    --background-primary-rgb: 254, 254, 255;
+    --background-secondary: #F8F6F5;
+    --background-secondary-rgb: 248, 246, 245;
+    --background-secondary-alt: #F0EEEC;
+    --text-highlight-bg: #E8E6E4;
+    --text-selection: #D8E2D0;
+}
+
+/* Calming Theme - Dark Mode Overrides */
+.theme-dark.calming-theme {
+    --text-normal: #F0EEEC;
+    --text-normal-rgb: 240, 238, 236;
+    --accent-primary: #A86159;
+    --accent-primary-rgb: 168, 97, 89;
+    --accent-primary-dark: #876E7B;
+    --background-primary: #2A2A2A;
+    --background-primary-rgb: 42, 42, 42;
+    --background-secondary: #333333;
+    --background-secondary-rgb: 51, 51, 51;
+    --background-secondary-alt: #3D3D3D;
+    --divider-color: #4A4A4A;
+    --text-muted: rgba(240, 238, 236, .8);
+    --code-background: #333333;
+    --code-normal: #F0EEEC;
+    --code-comment: rgba(240, 238, 236, .75);
+    --code-function: #C8A8B5;
+    --code-important: #B8A8B0;
+    --code-keyword: #A89BA8;
+    --code-property: #D8A89B;
+    --code-punctuation: rgba(240, 238, 236, .8);
+    --code-string: #C8B8C0;
+    --code-tag: #C8A8B5;
+    --code-value: #D8A89B;
+    
+    --heading-primary: #C8A8B5;
+    --heading-secondary: #D8A89B;
+    --heading-tertiary: #C8B8C0;
+    --heading-quaternary: #B8A8B0;
+    --heading-quinary: #D0C8D0;
+    --heading-senary: #E0D8E0;
+    
+    --heading-primary-rgb: 200, 168, 181;
+    --heading-secondary-rgb: 216, 168, 155;
+    --heading-tertiary-rgb: 200, 184, 192;
+    --heading-quaternary-rgb: 184, 168, 176;
+    --heading-quinary-rgb: 208, 200, 208;
+    --heading-senary-rgb: 224, 216, 224;
+    
+    --folder-1-color-rgb: 200, 168, 181;
+    --folder-2-color-rgb: 216, 168, 155;
+    --folder-3-color-rgb: 200, 184, 192;
+    --folder-4-color-rgb: 184, 168, 176;
+    --folder-5-color-rgb: 208, 200, 208;
+    --folder-6-color-rgb: 224, 216, 224;
+    
+    --callout-warning: #E6C9B3;
+    --callout-warning-rgb: 230, 201, 179;
+    --callout-success: #B3D9B3;
+    --callout-success-rgb: 179, 217, 179;
+    --callout-danger: #D9B3B3;
+    --callout-danger-rgb: 217, 179, 179;
+    --callout-cite: #D8A89B;
+    --callout-cite-rgb: 216, 168, 155;
+    --highlight-bg-dark-color: #F0EEEC;
+    --highlight-bg-dark-color-rgb: 240, 238, 236;
+    --highlight-bg-light-color: #A86159;
+    
+    --text-strikethrough: #D0CECC;
+}
+
+/* Settings Modal/Tab Styles */
+.calming-theme .modal,
+.calming-theme .modal-container {
+    --modal-background: var(--background-primary);
+    --modal-border-color: var(--divider-color);
+}
+
+.calming-theme .setting-item.mod-toggle.is-enabled .setting-item-control {
+    background-color: var(--interactive-accent) !important;
+}
+
+.calming-theme .horizontal-tab-nav-item.is-active,
+.calming-theme .vertical-tab-nav-item.is-active {
+    background-color: var(--interactive-accent) !important;
+    color: var(--background-primary) !important;
+    border-color: var(--interactive-accent) !important;
+}
+
+.calming-theme .horizontal-tab-nav-item:hover,
+.calming-theme .vertical-tab-nav-item:hover {
+    background-color: var(--interactive-accent-hover);
+    opacity: 0.8;
+}
+
+.calming-theme .modal-tab-title {
+    color: var(--text-normal);
+}
+
+.calming-theme .modal-tab-title.is-active {
+    color: var(--background-primary) !important;
+    font-weight: 500;
+}
+
+/* Strikethrough */
+.calming-theme .cm-strikethrough,
+.calming-theme del,
+.calming-theme s {
+    text-decoration-color: var(--text-strikethrough) !important;
+}
+
+/* Darker Properties Box */
+.calming-theme .metadata-properties,
+.calming-theme .metadata-container,
+.calming-theme .frontmatter-container {
+    background-color: #E8E6E4 !important;
+    border: 1px solid #D8D6D4 !important;
+    border-radius: 6px !important;
+}
+
+.calming-theme .metadata-property {
+    background-color: #F0EEEC !important;
+    border: 1px solid #E0DEDC !important;
+}
+
+.calming-theme .metadata-property-key {
+    color: #4A4A4A !important;
+    font-weight: 500 !important;
+}
+
+.calming-theme .metadata-property-value {
+    color: #333333 !important;
 }
 
 /* Autumn Theme Variables */
@@ -1912,7 +2159,6 @@ em,
 .markdown-source-view.mod-cm6 .cm-content img {
     border-radius: var(--r3);
     max-width: 100%;
-    height: auto;
     box-shadow: var(--shadow-2);
     transform: scale(.99);
     transition: transform 0.2s ease, filter 0.2s ease;
