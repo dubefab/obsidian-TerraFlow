@@ -4,6 +4,18 @@ name: Seasonal Color Schemes
 id: seasonal-themes
 settings:
     -
+        id: options-heading
+        title: ⚙️ Options
+        type: heading
+        level: 2
+        collapsed: false
+    -
+        id: disable-status-bar
+        title: Disable Status Bar Styling
+        description: Disable the status bar style
+        type: class-toggle
+        default: false
+    -
         id: seasonal-heading
         title: 🍂 Seasonal Theme Selector
         type: heading
@@ -2322,6 +2334,10 @@ em,
     border-bottom: 1px solid var(--divider-color);
 }
 
+.markdown-rendered table th strong {
+  color: inherit;        /* Prevent <strong> in header from changing color */
+}
+
 .theme-light .markdown-rendered table tr:nth-child(even) th,
 .theme-light .markdown-preview-view table tr:nth-child(even) th,
 .theme-light .markdown-rendered table tr:nth-child(odd) th,
@@ -2674,8 +2690,8 @@ input[type="checkbox"]:hover {
     background-color: transparent;
 }
 
-/* Status Bar Styling */
-.status-bar {
+/* Status Bar Styling - Only apply when toggle is OFF */
+body:not(.disable-status-bar) .status-bar {
     position: fixed;
     left: 50%;
     bottom: 5px;
@@ -2703,7 +2719,7 @@ input[type="checkbox"]:hover {
     transition: opacity 0.2s ease;
 }
 
-.status-bar:not(:hover) {
+body:not(.disable-status-bar) .status-bar:not(:hover) {
     opacity: .5;
     height: 6px;
     min-height: 0;
@@ -2715,7 +2731,7 @@ input[type="checkbox"]:hover {
     color: transparent;
 }
 
-.status-bar>.status-bar-item {
+body:not(.disable-status-bar) .status-bar > .status-bar-item {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease;
@@ -2726,13 +2742,13 @@ input[type="checkbox"]:hover {
     margin: 2px 4px;
 }
 
-.status-bar:hover>.status-bar-item {
+body:not(.disable-status-bar) .status-bar:hover > .status-bar-item {
     opacity: 1;
     pointer-events: auto;
 }
 
-.status-bar:hover .status-bar-item .clickable-icon:hover,
-.status-bar:hover .status-bar-item button:hover {
+body:not(.disable-status-bar) .status-bar:hover .status-bar-item .clickable-icon:hover,
+body:not(.disable-status-bar) .status-bar:hover .status-bar-item button:hover {
     background-color: rgba(var(--primary-color-rgb), .1);
     border-radius: var(--r1);
     color: var(--text-normal);
