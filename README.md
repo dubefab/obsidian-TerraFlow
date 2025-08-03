@@ -2,10 +2,6 @@
 
 > A sophisticated Obsidian theme where **warm earthy palettes** meet *flowing animations*
 
-[![GitHub release](https://img.shields.io/github/v/release/yourusername/terraflow-theme)](https://github.com/yourusername/terraflow-theme/releases)
-[![Downloads](https://img.shields.io/github/downloads/yourusername/terraflow-theme/total)](https://github.com/yourusername/terraflow-theme/releases)
-[![License](https://img.shields.io/github/license/yourusername/terraflow-theme)](LICENSE)
-
 ## 🎨 Theme Showcase
 
 TerraFlow adapts to the seasons, offering four distinct color palettes that change throughout the year, each available in both light and dark modes.
