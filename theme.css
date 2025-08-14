@@ -1307,7 +1307,7 @@ html {
 .markdown-preview-view h6,
 .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
     display: inline-flex;
-    padding: .1em .3em;
+    padding: .2em .5em;
     line-height: var(--line-tight);
     border-radius: var(--r2);
     position: relative;
@@ -1520,25 +1520,6 @@ em,
 .markdown-source-view.mod-cm6 .cm-line .cm-hmd-external-link:hover {
     text-decoration: none !important;
     border-bottom: none !important;
-}
-
-/* Tag Styling */
-:is(.tag, a.tag, .cm-hashtag, .token.hashtag, .cm-s-obsidian span.cm-hashtag, .markdown-source-view.mod-cm6 .cm-hashtag, .cm-hashtag-begin, .cm-hashtag-end) {
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
-    border-radius: 0;
-    padding: 0;
-    margin: 0 2px;
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: color 0.2s ease;
-    font-weight: var(--weight-medium);
-}
-
-:is(.tag, a.tag, .cm-hashtag, .token.hashtag, .cm-s-obsidian span.cm-hashtag, .markdown-source-view.mod-cm6 .cm-hashtag, .cm-hashtag-begin, .cm-hashtag-end):hover {
-    color: var(--link-color-hover);
-    filter: brightness(1.2);
 }
 
 /* Multi-select Pill Styling */
