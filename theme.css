@@ -217,8 +217,8 @@ settings:
   --folder-text-color: var(--folder-1-color);
   --folder-accent-opacity: .6;
   --folder-active-opacity: .8;
-  --highlight-bg: #513A3B;
-  --highlight-bg-rgb: 81, 58, 59;
+  --highlight-bg: #48502B;
+  --highlight-bg-rgb: 72, 80, 43;
   --highlight-bg-dark: #451B1B;
   --highlight-bg-dark-color: #451B1B;
   --highlight-bg-dark-color-rgb: 69, 27, 27;
