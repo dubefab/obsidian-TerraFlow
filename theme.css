@@ -34,6 +34,18 @@ settings:
         type: class-toggle
         default: false
     -
+        id: enable-ui-animations
+        title: Enable UI Animations
+        description: Toggle subtle pop-up animations for menus and modals
+        type: class-toggle
+        default: true
+    -
+        id: enable-modal-frost
+        title: Enable Modal Frost
+        description: Enable frosted glass effect for modal backgrounds
+        type: class-toggle
+        default: true
+    -
         id: seasonal-heading
         title: 🍂 Seasonal Color Schemes
         type: heading
@@ -65,6 +77,7 @@ settings:
             -
                 label: 📚 Academia
                 value: academia-theme
+
 */
 
 /* Global Variables */
@@ -856,6 +869,8 @@ settings:
     --tab-bg-inactive: rgba(21, 27, 33, .15);
     --tab-bg-inactive-hover: rgba(21, 27, 33, .25);
 }
+
+
 
 /* Spring Theme Variables */
 .spring-theme {
@@ -2054,7 +2069,7 @@ em,
 .callout .callout-content {
     padding: 0;
     font-size: .95em;
-    line-height: var(--line-relaxed);
+    line-height: var(--line-normal);
 }
 
 .markdown-source-view.mod-cm6 .cm-embed-block.cm-callout {
@@ -2936,6 +2951,36 @@ body.enable-fancy-bullets {
     }
 }
 
+
+
+@keyframes menuPop {
+    0% {
+        opacity: 0;
+        transform: scale(0.96) translateY(5px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Apply animation to menus, modals, and popovers */
+body.enable-ui-animations .menu,
+body.enable-ui-animations .modal,
+body.enable-ui-animations .popover,
+body.enable-ui-animations .prompt,
+body.enable-ui-animations .suggestion-container,
+body.enable-ui-animations .tooltip {
+    animation: menuPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Modal Background Frost */
+body.enable-modal-frost .modal-bg {
+    backdrop-filter: blur(3px);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
 
@@ -3050,7 +3095,6 @@ body.enable-fancy-bullets {
 }
 
 .workspace-tab-header:hover {
-    background-color: rgba(var(--background-secondary-rgb), .9);
     color: var(--text-normal);
     transform: scale(1.04);
 }
@@ -3077,16 +3121,12 @@ body.enable-fancy-bullets {
     background-color: rgba(var(--background-secondary-alt-rgb, var(--background-secondary-rgb)), .7);
 }
 
-.theme-dark .workspace-tab-header:hover {
-    background-color: rgba(var(--background-secondary-rgb), .8);
-}
-
 .theme-dark .workspace-tab-header.is-active {
     background-color: var(--background-primary);
 }
 
 .workspace-tab-header:not(.is-active):hover .workspace-tab-header-inner {
-    background-color: transparent;
+    background-color: transparent !important;
 }
 
 /* View Header Styling */
