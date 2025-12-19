@@ -3077,9 +3077,10 @@ body.enable-modal-frost .modal-bg {
 }
 
 .workspace-tab-header {
-    border-radius: var(--r2) var(--r2) 0 0;
+    border-radius: var(--r3) var(--r3) 0 0 !important;
+    overflow: visible;
     -electron-corner-smoothing: var(--squircle-main);
-    margin-right: 5px;
+    margin-right: 0;
     margin-bottom: 0;
     background-color: var(--tab-bg-inactive);
     color: var(--text-muted);
