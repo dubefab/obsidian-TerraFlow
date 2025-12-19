@@ -3644,6 +3644,47 @@ body:not(.disable-scrollbars) * {
     transform: scale(1.1);
 }
 
+/* All interactive elements and inputs with rounded corners */
+button,
+.clickable-icon,
+.mod-cta,
+.setting-item-control button,
+input[type="button"],
+input[type="submit"],
+.checkbox-container,
+.vertical-tab-nav-item,
+.setting-item,
+.suggestion-item,
+.menu-item,
+select,
+.dropdown,
+.combobox-button,
+textarea,
+.multi-select-container,
+input.metadata-input-text,
+input[type='date'],
+input[type='datetime-local'],
+input[type='text'],
+input[type='search'],
+input[type='email'],
+input[type='password'],
+input[type='number'] {
+  border-radius: var(--r4) !important;
+  -electron-corner-smoothing: var(--squircle-btn);
+}
+
+
+
+/* Dropdown options/menu */
+.dropdown-menu,
+.menu {
+  border-radius: var(--r3) !important;
+  -electron-corner-smoothing: var(--squircle-main);
+  overflow: hidden;
+}
+
+
+
 /* Ribbon Styling */
 .workspace-ribbon {
     background-color: var(--background-secondary);
