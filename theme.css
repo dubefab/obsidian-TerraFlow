@@ -4,52 +4,89 @@ name: TerraFlow
 id: seasonal-themes
 settings:
     -
-        id: options-heading
-        title: ⚙️ Options
+        id: visual-appearance-heading
+        title: 🎨 Visual & Appearance
         type: heading
         level: 2
         collapsed: false
     -
-        id: enable-fancy-bullets
-        title: Fancy Multilevel Bullet Styles
-        description: Toggle unique custom bullet shapes        
-        type: class-toggle
-        default: false
-    -        
-        id: disable-scrollbars
-        title: Disable Scrollbar Styling
-        description: Disable the custom scrollbars
-        type: class-toggle
-        default: false
+        id: heading-styles-heading
+        title: 📝 Heading Styles
+        type: heading
+        level: 3
+        collapsed: false
     -
-        id: disable-status-bar
-        title: Disable Status Bar Styling
-        description: Disable the status bar style
-        type: class-toggle
-        default: false
+        id: heading-style-selector
+        title: Heading Style
+        description: Choose a visual style for your headings
+        type: class-select
+        allowEmpty: false
+        default: heading-style-default
+        options:
+            -
+                label: Default (Background)
+                value: heading-style-default
+            -
+                label: Underline
+                value: heading-style-underline
+            -
+                label: Border Accent
+                value: heading-style-border
+            -
+                label: Minimal (Text Only)
+                value: heading-style-minimal
+            -
+                label: Gradient
+                value: heading-style-gradient
+            -
+                label: Badge (Pill)
+                value: heading-style-badge
+            -
+                label: Outline
+                value: heading-style-outline
+            -
+                label: 3D Embossed
+                value: heading-style-3d
     -
-        id: disable-shadows
-        title: Disable Box Shadows
-        description: Remove all box-shadows and elevation styling for maximum speed and flat look.
-        type: class-toggle
-        default: false
+        id: callout-styles-heading
+        title: 💬 Callout Styles
+        type: heading
+        level: 3
+        collapsed: false
     -
-        id: enable-ui-animations
-        title: Enable UI Animations
-        description: Toggle subtle pop-up animations for menus and modals
-        type: class-toggle
-        default: true
-    -
-        id: enable-modal-frost
-        title: Enable Modal Frost
-        description: Enable frosted glass effect for modal backgrounds
-        type: class-toggle
-        default: true
+        id: callout-style-selector
+        title: Callout Style
+        description: Choose a visual style for your callouts
+        type: class-select
+        allowEmpty: false
+        default: callout-style-default
+        options:
+            -
+                label: Default (Gradient)
+                value: callout-style-default
+            -
+                label: Vintage Paper
+                value: callout-style-vintage
+            -
+                label: Modern Glass
+                value: callout-style-glass
+            -
+                label: Bold Border
+                value: callout-style-bold
+            -
+                label: Soft Pastel
+                value: callout-style-pastel
+            -
+                label: Sharp Minimal
+                value: callout-style-sharp
+            -
+                label: Organic Flow
+                value: callout-style-organic
     -
         id: seasonal-heading
         title: 🍂 Seasonal Color Schemes
         type: heading
-        level: 2
+        level: 3
         collapsed: false
     -
         id: season-selector
@@ -77,6 +114,54 @@ settings:
             -
                 label: 📚 Academia
                 value: academia-theme
+    -
+        id: ui-elements-heading
+        title: 🖼️ UI Elements
+        type: heading
+        level: 3
+        collapsed: false
+    -
+        id: enable-fancy-bullets
+        title: Fancy Multilevel Bullet Styles
+        description: Toggle unique custom bullet shapes        
+        type: class-toggle
+        default: false
+    -
+        id: performance-heading
+        title: ⚡ Performance & Accessibility
+        type: heading
+        level: 2
+        collapsed: false
+    -
+        id: disable-shadows
+        title: Disable Box Shadows
+        description: Remove all box-shadows and elevation styling for maximum speed and flat look.
+        type: class-toggle
+        default: false
+    -
+        id: enable-modal-frost
+        title: Enable Modal Frost
+        description: Enable frosted glass effect for modal backgrounds
+        type: class-toggle
+        default: true
+    -
+        id: disable-scrollbars
+        title: Disable Scrollbar Styling
+        description: Disable the custom scrollbars
+        type: class-toggle
+        default: false
+    -
+        id: disable-status-bar
+        title: Disable Status Bar Styling
+        description: Disable the status bar style
+        type: class-toggle
+        default: false
+    -
+        id: enable-ui-animations
+        title: Enable UI Animations
+        description: Toggle subtle pop-up animations for menus and modals
+        type: class-toggle
+        default: true
 
 */
 
@@ -1556,6 +1641,400 @@ html {
     box-shadow: var(--shadow-1);
 }
 
+/* Heading Style Variants */
+
+/* Underline Style */
+.heading-style-underline .markdown-preview-view h1,
+.heading-style-underline .markdown-preview-view h2,
+.heading-style-underline .markdown-preview-view h3,
+.heading-style-underline .markdown-preview-view h4,
+.heading-style-underline .markdown-preview-view h5,
+.heading-style-underline .markdown-preview-view h6,
+.heading-style-underline .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    padding: .2em 0;
+    border-bottom: 3px solid;
+    border-radius: 0;
+}
+
+.heading-style-underline .markdown-preview-view h1,
+.heading-style-underline .markdown-source-view.mod-cm6 .cm-line .cm-header-1 {
+    border-bottom-color: var(--heading-primary);
+    border-bottom-width: 4px;
+}
+
+.heading-style-underline .markdown-preview-view h2,
+.heading-style-underline .markdown-source-view.mod-cm6 .cm-line .cm-header-2 {
+    border-bottom-color: var(--heading-secondary);
+    border-bottom-width: 3px;
+}
+
+.heading-style-underline .markdown-preview-view h3,
+.heading-style-underline .markdown-source-view.mod-cm6 .cm-line .cm-header-3 {
+    border-bottom-color: var(--heading-tertiary);
+    border-bottom-width: 2.5px;
+}
+
+.heading-style-underline .markdown-preview-view h4,
+.heading-style-underline .markdown-source-view.mod-cm6 .cm-line .cm-header-4 {
+    border-bottom-color: var(--heading-quaternary);
+    border-bottom-width: 2px;
+}
+
+.heading-style-underline .markdown-preview-view h5,
+.heading-style-underline .markdown-source-view.mod-cm6 .cm-line .cm-header-5 {
+    border-bottom-color: var(--heading-quinary);
+    border-bottom-width: 2px;
+}
+
+.heading-style-underline .markdown-preview-view h6,
+.heading-style-underline .markdown-source-view.mod-cm6 .cm-line .cm-header-6 {
+    border-bottom-color: var(--heading-senary);
+    border-bottom-width: 1.5px;
+}
+
+.heading-style-underline :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-line) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6):hover {
+    transform: none;
+    filter: brightness(1.1);
+    border-bottom-width: calc(var(--border-width, 2px) + 1px);
+}
+
+/* Border Accent Style */
+.heading-style-border .markdown-preview-view h1,
+.heading-style-border .markdown-preview-view h2,
+.heading-style-border .markdown-preview-view h3,
+.heading-style-border .markdown-preview-view h4,
+.heading-style-border .markdown-preview-view h5,
+.heading-style-border .markdown-preview-view h6,
+.heading-style-border .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    padding: .2em .5em .2em .8em;
+    border-left: 4px solid;
+    border-radius: 0;
+}
+
+.heading-style-border .markdown-preview-view h1,
+.heading-style-border .markdown-source-view.mod-cm6 .cm-line .cm-header-1 {
+    border-left-color: var(--heading-primary);
+    border-left-width: 5px;
+}
+
+.heading-style-border .markdown-preview-view h2,
+.heading-style-border .markdown-source-view.mod-cm6 .cm-line .cm-header-2 {
+    border-left-color: var(--heading-secondary);
+    border-left-width: 4px;
+}
+
+.heading-style-border .markdown-preview-view h3,
+.heading-style-border .markdown-source-view.mod-cm6 .cm-line .cm-header-3 {
+    border-left-color: var(--heading-tertiary);
+    border-left-width: 4px;
+}
+
+.heading-style-border .markdown-preview-view h4,
+.heading-style-border .markdown-source-view.mod-cm6 .cm-line .cm-header-4 {
+    border-left-color: var(--heading-quaternary);
+    border-left-width: 3px;
+}
+
+.heading-style-border .markdown-preview-view h5,
+.heading-style-border .markdown-source-view.mod-cm6 .cm-line .cm-header-5 {
+    border-left-color: var(--heading-quinary);
+    border-left-width: 3px;
+}
+
+.heading-style-border .markdown-preview-view h6,
+.heading-style-border .markdown-source-view.mod-cm6 .cm-line .cm-header-6 {
+    border-left-color: var(--heading-senary);
+    border-left-width: 3px;
+}
+
+.heading-style-border :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-line) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6):hover {
+    transform: translateX(2px);
+    filter: brightness(1.1);
+}
+
+/* Minimal Style */
+.heading-style-minimal .markdown-preview-view h1,
+.heading-style-minimal .markdown-preview-view h2,
+.heading-style-minimal .markdown-preview-view h3,
+.heading-style-minimal .markdown-preview-view h4,
+.heading-style-minimal .markdown-preview-view h5,
+.heading-style-minimal .markdown-preview-view h6,
+.heading-style-minimal .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    padding: .2em 0;
+    border-radius: 0;
+}
+
+.heading-style-minimal :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-line) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6):hover {
+    transform: none;
+    filter: brightness(1.15);
+}
+
+/* Gradient Style */
+.heading-style-gradient .markdown-preview-view h1,
+.heading-style-gradient .markdown-preview-view h2,
+.heading-style-gradient .markdown-preview-view h3,
+.heading-style-gradient .markdown-preview-view h4,
+.heading-style-gradient .markdown-preview-view h5,
+.heading-style-gradient .markdown-preview-view h6,
+.heading-style-gradient .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
+    background-image: linear-gradient(135deg, currentColor 0%, currentColor 100%) !important;
+    background-blend-mode: normal;
+}
+
+.heading-style-gradient .markdown-preview-view h1,
+.heading-style-gradient .markdown-source-view.mod-cm6 .cm-line .cm-header-1 {
+    background: linear-gradient(135deg, rgba(var(--heading-primary-rgb), 0.4), rgba(var(--heading-primary-rgb), 0.2)) !important;
+}
+
+.heading-style-gradient .markdown-preview-view h2,
+.heading-style-gradient .markdown-source-view.mod-cm6 .cm-line .cm-header-2 {
+    background: linear-gradient(135deg, rgba(var(--heading-secondary-rgb), 0.4), rgba(var(--heading-secondary-rgb), 0.2)) !important;
+}
+
+.heading-style-gradient .markdown-preview-view h3,
+.heading-style-gradient .markdown-source-view.mod-cm6 .cm-line .cm-header-3 {
+    background: linear-gradient(135deg, rgba(var(--heading-tertiary-rgb), 0.4), rgba(var(--heading-tertiary-rgb), 0.2)) !important;
+}
+
+.heading-style-gradient .markdown-preview-view h4,
+.heading-style-gradient .markdown-source-view.mod-cm6 .cm-line .cm-header-4 {
+    background: linear-gradient(135deg, rgba(var(--heading-quaternary-rgb), 0.4), rgba(var(--heading-quaternary-rgb), 0.2)) !important;
+}
+
+.heading-style-gradient .markdown-preview-view h5,
+.heading-style-gradient .markdown-source-view.mod-cm6 .cm-line .cm-header-5 {
+    background: linear-gradient(135deg, rgba(var(--heading-quinary-rgb), 0.4), rgba(var(--heading-quinary-rgb), 0.2)) !important;
+}
+
+.heading-style-gradient .markdown-preview-view h6,
+.heading-style-gradient .markdown-source-view.mod-cm6 .cm-line .cm-header-6 {
+    background: linear-gradient(135deg, rgba(var(--heading-senary-rgb), 0.4), rgba(var(--heading-senary-rgb), 0.2)) !important;
+}
+
+/* Badge (Pill) Style */
+.heading-style-badge .markdown-preview-view h1,
+.heading-style-badge .markdown-preview-view h2,
+.heading-style-badge .markdown-preview-view h3,
+.heading-style-badge .markdown-preview-view h4,
+.heading-style-badge .markdown-preview-view h5,
+.heading-style-badge .markdown-preview-view h6,
+.heading-style-badge .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
+    border-radius: 999px !important;
+    padding: .3em .8em;
+    background-image: none !important;
+    -electron-corner-smoothing: 0% !important;
+}
+
+.heading-style-badge :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-line) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6):hover {
+    transform: scale(1.02);
+}
+
+/* Outline Style */
+.heading-style-outline .markdown-preview-view h1,
+.heading-style-outline .markdown-preview-view h2,
+.heading-style-outline .markdown-preview-view h3,
+.heading-style-outline .markdown-preview-view h4,
+.heading-style-outline .markdown-preview-view h5,
+.heading-style-outline .markdown-preview-view h6,
+.heading-style-outline .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
+    background: transparent !important;
+    background-image: none !important;
+    border: 2px solid;
+    box-shadow: none !important;
+}
+
+.heading-style-outline .markdown-preview-view h1,
+.heading-style-outline .markdown-source-view.mod-cm6 .cm-line .cm-header-1 {
+    border-color: var(--heading-primary);
+    color: var(--heading-primary);
+}
+
+.heading-style-outline .markdown-preview-view h2,
+.heading-style-outline .markdown-source-view.mod-cm6 .cm-line .cm-header-2 {
+    border-color: var(--heading-secondary);
+    color: var(--heading-secondary);
+}
+
+.heading-style-outline .markdown-preview-view h3,
+.heading-style-outline .markdown-source-view.mod-cm6 .cm-line .cm-header-3 {
+    border-color: var(--heading-tertiary);
+    color: var(--heading-tertiary);
+}
+
+.heading-style-outline .markdown-preview-view h4,
+.heading-style-outline .markdown-source-view.mod-cm6 .cm-line .cm-header-4 {
+    border-color: var(--heading-quaternary);
+    color: var(--heading-quaternary);
+}
+
+.heading-style-outline .markdown-preview-view h5,
+.heading-style-outline .markdown-source-view.mod-cm6 .cm-line .cm-header-5 {
+    border-color: var(--heading-quinary);
+    color: var(--heading-quinary);
+}
+
+.heading-style-outline .markdown-preview-view h6,
+.heading-style-outline .markdown-source-view.mod-cm6 .cm-line .cm-header-6 {
+    border-color: var(--heading-senary);
+    color: var(--heading-senary);
+}
+
+.heading-style-outline :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-line) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6):hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 3D Embossed Style */
+.heading-style-3d .markdown-preview-view h1,
+.heading-style-3d .markdown-preview-view h2,
+.heading-style-3d .markdown-preview-view h3,
+.heading-style-3d .markdown-preview-view h4,
+.heading-style-3d .markdown-preview-view h5,
+.heading-style-3d .markdown-preview-view h6,
+.heading-style-3d .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, .25), rgba(255, 255, 255, .05)) !important;
+    background-blend-mode: overlay;
+    border: 2px solid;
+    border-top-color: rgba(255, 255, 255, 0.4);
+    border-left-color: rgba(255, 255, 255, 0.3);
+    border-right-color: rgba(0, 0, 0, 0.15);
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.15),
+        0 2px 4px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+    padding: .3em .7em;
+}
+
+.heading-style-3d .markdown-preview-view h1,
+.heading-style-3d .markdown-source-view.mod-cm6 .cm-line .cm-header-1 {
+    background-color: rgba(var(--heading-primary-rgb), var(--heading-bg-opacity));
+    color: hsl(from var(--heading-primary) h s calc(l * var(--heading-text-multiplier)));
+    border-top-color: rgba(255, 255, 255, 0.5);
+    border-left-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 
+        0 6px 12px rgba(0, 0, 0, 0.2),
+        0 3px 6px rgba(0, 0, 0, 0.15),
+        inset 0 2px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.heading-style-3d .markdown-preview-view h2,
+.heading-style-3d .markdown-source-view.mod-cm6 .cm-line .cm-header-2 {
+    background-color: rgba(var(--heading-secondary-rgb), var(--heading-bg-opacity));
+    color: hsl(from var(--heading-secondary) h s calc(l * var(--heading-text-multiplier)));
+    border-top-color: rgba(255, 255, 255, 0.45);
+    border-left-color: rgba(255, 255, 255, 0.35);
+    box-shadow: 
+        0 5px 10px rgba(0, 0, 0, 0.18),
+        0 2px 5px rgba(0, 0, 0, 0.12),
+        inset 0 1.5px 0 rgba(255, 255, 255, 0.35),
+        inset 0 -1.5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.heading-style-3d .markdown-preview-view h3,
+.heading-style-3d .markdown-source-view.mod-cm6 .cm-line .cm-header-3 {
+    background-color: rgba(var(--heading-tertiary-rgb), var(--heading-bg-opacity));
+    color: hsl(from var(--heading-tertiary) h s calc(l * var(--heading-text-multiplier)));
+    border-top-color: rgba(255, 255, 255, 0.4);
+    border-left-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.15),
+        0 2px 4px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.heading-style-3d .markdown-preview-view h4,
+.heading-style-3d .markdown-source-view.mod-cm6 .cm-line .cm-header-4 {
+    background-color: rgba(var(--heading-quaternary-rgb), var(--heading-bg-opacity));
+    color: hsl(from var(--heading-quaternary) h s calc(l * var(--heading-text-multiplier)));
+    border-width: 1.5px;
+    border-top-color: rgba(255, 255, 255, 0.35);
+    border-left-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 
+        0 3px 6px rgba(0, 0, 0, 0.12),
+        0 1px 3px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+}
+
+.heading-style-3d .markdown-preview-view h5,
+.heading-style-3d .markdown-source-view.mod-cm6 .cm-line .cm-header-5 {
+    background-color: rgba(var(--heading-quinary-rgb), var(--heading-bg-opacity));
+    color: hsl(from var(--heading-quinary) h s calc(l * var(--heading-text-multiplier)));
+    border-width: 1.5px;
+    border-top-color: rgba(255, 255, 255, 0.35);
+    border-left-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 
+        0 3px 6px rgba(0, 0, 0, 0.12),
+        0 1px 3px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+}
+
+.heading-style-3d .markdown-preview-view h6,
+.heading-style-3d .markdown-source-view.mod-cm6 .cm-line .cm-header-6 {
+    background-color: rgba(var(--heading-senary-rgb), var(--heading-bg-opacity));
+    color: hsl(from var(--heading-senary) h s calc(l * var(--heading-text-multiplier)));
+    border-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.3);
+    border-left-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.1),
+        0 1px 2px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.heading-style-3d :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-line) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6):hover {
+    transform: translateY(-3px) scale(1.01);
+    filter: brightness(1.08);
+    box-shadow: 
+        0 8px 16px rgba(0, 0, 0, 0.2),
+        0 4px 8px rgba(0, 0, 0, 0.15),
+        inset 0 2px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.theme-dark .heading-style-3d .markdown-preview-view h1,
+.theme-dark .heading-style-3d .markdown-preview-view h2,
+.theme-dark .heading-style-3d .markdown-preview-view h3,
+.theme-dark .heading-style-3d .markdown-preview-view h4,
+.theme-dark .heading-style-3d .markdown-preview-view h5,
+.theme-dark .heading-style-3d .markdown-preview-view h6,
+.theme-dark .heading-style-3d .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
+    border-top-color: rgba(255, 255, 255, 0.25);
+    border-left-color: rgba(255, 255, 255, 0.2);
+    border-right-color: rgba(0, 0, 0, 0.3);
+    border-bottom-color: rgba(0, 0, 0, 0.35);
+    box-shadow: 
+        0 4px 10px rgba(0, 0, 0, 0.3),
+        0 2px 5px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.theme-dark .heading-style-3d :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-line) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6):hover {
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.4),
+        0 4px 10px rgba(0, 0, 0, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+}
+
 /* Inline Title */
 .inline-title {
     color: var(--primary-color);
@@ -2339,6 +2818,342 @@ em,
     color: hsl(from var(--callout-color) h s calc(l * 1.4));
 }
 
+/* Callout Style Variants */
+
+/* Vintage Paper Style - Aged, textured, nostalgic */
+.callout-style-vintage .callout {
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            rgba(var(--callout-color-rgb), 0.03) 0px,
+            rgba(var(--callout-color-rgb), 0.05) 1px,
+            transparent 1px,
+            transparent 2px
+        ),
+        radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.08) 0%, transparent 50%),
+        linear-gradient(
+            135deg,
+            rgba(var(--callout-color-rgb), 0.15) 0%,
+            rgba(var(--background-secondary-rgb), 0.95) 50%,
+            rgba(var(--background-secondary-rgb), 0.9) 100%
+        ) !important;
+    border: 2px solid rgba(var(--callout-color-rgb), 0.25) !important;
+    border-left: 5px solid var(--callout-color) !important;
+    border-radius: 4px 12px 12px 4px !important;
+    box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+        0 2px 8px rgba(0, 0, 0, 0.15),
+        0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.callout-style-vintage .callout::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(var(--callout-color-rgb), 0.2),
+        transparent
+    );
+}
+
+.theme-dark .callout-style-vintage .callout {
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            rgba(var(--callout-color-rgb), 0.05) 0px,
+            rgba(var(--callout-color-rgb), 0.08) 1px,
+            transparent 1px,
+            transparent 2px
+        ),
+        radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.18) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.12) 0%, transparent 50%),
+        linear-gradient(
+            135deg,
+            rgba(var(--callout-color-rgb), 0.2) 0%,
+            rgba(var(--background-secondary-rgb), 0.85) 50%,
+            rgba(var(--background-secondary-rgb), 0.8) 100%
+        ) !important;
+    box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+        0 2px 8px rgba(0, 0, 0, 0.3),
+        0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+.callout-style-vintage .callout:hover {
+    box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.35),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+        0 4px 12px rgba(0, 0, 0, 0.2),
+        0 2px 6px rgba(0, 0, 0, 0.15) !important;
+    border-left-width: 6px !important;
+}
+
+.callout-style-vintage .callout .callout-icon {
+    filter: sepia(0.2) contrast(1.1) !important;
+}
+
+/* Modern Glass Style - Deep blur, floating effect */
+.callout-style-glass .callout {
+    background: 
+        radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.2) 0%, transparent 60%),
+        radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.15) 0%, transparent 60%),
+        linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.12) 0%, rgba(var(--background-primary-rgb), 0.5) 100%) !important;
+    backdrop-filter: blur(16px) saturate(200%) brightness(1.05) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(200%) brightness(1.05) !important;
+    border: 1.5px solid rgba(var(--callout-color-rgb), 0.25) !important;
+    border-left: 4px solid var(--callout-color) !important;
+    border-radius: var(--r4) !important;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.05) !important;
+    position: relative;
+}
+
+.callout-style-glass .callout::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        transparent 50%
+    );
+    border-radius: var(--r4);
+    pointer-events: none;
+}
+
+.theme-dark .callout-style-glass .callout {
+    background: 
+        radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.25) 0%, transparent 60%),
+        radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.2) 0%, transparent 60%),
+        linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.18) 0%, rgba(var(--background-primary-rgb), 0.3) 100%) !important;
+    backdrop-filter: blur(20px) saturate(180%) brightness(0.95) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(0.95) !important;
+    border-color: rgba(var(--callout-color-rgb), 0.35) !important;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+.callout-style-glass .callout:hover {
+    backdrop-filter: blur(20px) saturate(220%) brightness(1.08) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(220%) brightness(1.08) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Bold Border Style - Strong, confident, impactful */
+.callout-style-bold .callout {
+    background: 
+        radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.2) 0%, transparent 50%),
+        linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.18) 0%, rgba(var(--background-secondary-rgb), 0.9) 100%) !important;
+    border: 3px solid var(--callout-color) !important;
+    border-left: 6px solid var(--callout-color) !important;
+    border-radius: var(--r4) !important;
+    box-shadow: 
+        0 0 0 2px rgba(var(--callout-color-rgb), 0.15),
+        0 6px 20px rgba(0, 0, 0, 0.15),
+        inset 0 0 20px rgba(var(--callout-color-rgb), 0.05) !important;
+    position: relative;
+}
+
+.callout-style-bold .callout::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border: 1px solid rgba(var(--callout-color-rgb), 0.2);
+    border-radius: var(--r4);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.theme-dark .callout-style-bold .callout {
+    background: 
+        radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.25) 0%, transparent 50%),
+        linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.22) 0%, rgba(var(--background-secondary-rgb), 0.7) 100%) !important;
+    box-shadow: 
+        0 0 0 2px rgba(var(--callout-color-rgb), 0.25),
+        0 6px 20px rgba(0, 0, 0, 0.3),
+        inset 0 0 20px rgba(var(--callout-color-rgb), 0.08) !important;
+}
+
+.callout-style-bold .callout:hover {
+    border-width: 4px !important;
+    border-left-width: 8px !important;
+    box-shadow: 
+        0 0 0 3px rgba(var(--callout-color-rgb), 0.2),
+        0 8px 24px rgba(0, 0, 0, 0.2),
+        inset 0 0 25px rgba(var(--callout-color-rgb), 0.08) !important;
+    transform: translateY(-2px) scale(1.01) !important;
+}
+
+.callout-style-bold .callout .callout-title {
+    font-weight: var(--weight-bold) !important;
+    letter-spacing: 0.02em !important;
+}
+
+/* Soft Pastel Style - Gentle, dreamy, rounded */
+.callout-style-pastel .callout {
+    background: 
+        radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.1) 0%, transparent 60%),
+        linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.08) 0%, rgba(var(--callout-color-rgb), 0.04) 100%) !important;
+    border: 2px solid rgba(var(--callout-color-rgb), 0.2) !important;
+    border-left: 5px solid rgba(var(--callout-color-rgb), 0.6) !important;
+    border-radius: 20px 8px 20px 8px !important;
+    box-shadow: 
+        0 4px 16px rgba(var(--callout-color-rgb), 0.15),
+        0 2px 8px rgba(var(--callout-color-rgb), 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+.theme-dark .callout-style-pastel .callout {
+    background: 
+        radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.2) 0%, transparent 60%),
+        radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.15) 0%, transparent 60%),
+        linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.12) 0%, rgba(var(--callout-color-rgb), 0.06) 100%) !important;
+    border-color: rgba(var(--callout-color-rgb), 0.3) !important;
+    box-shadow: 
+        0 4px 16px rgba(var(--callout-color-rgb), 0.25),
+        0 2px 8px rgba(var(--callout-color-rgb), 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+.callout-style-pastel .callout:hover {
+    border-radius: 24px 10px 24px 10px !important;
+    box-shadow: 
+        0 6px 20px rgba(var(--callout-color-rgb), 0.2),
+        0 3px 10px rgba(var(--callout-color-rgb), 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+    transform: translateY(-2px) scale(1.005) !important;
+}
+
+.callout-style-pastel .callout .callout-title {
+    color: hsl(from var(--callout-color) h s calc(l * 0.75)) !important;
+    text-shadow: 0 1px 3px rgba(var(--callout-color-rgb), 0.2) !important;
+}
+
+/* Sharp Minimal Style - Clean geometric lines */
+.callout-style-sharp .callout {
+    background: 
+        linear-gradient(to right, rgba(var(--callout-color-rgb), 0.15) 0%, rgba(var(--callout-color-rgb), 0.08) 8%, rgba(var(--background-secondary-rgb), 0.6) 100%) !important;
+    border: none !important;
+    border-left: 4px solid var(--callout-color) !important;
+    border-bottom: 1px solid rgba(var(--callout-color-rgb), 0.2) !important;
+    border-radius: 0 !important;
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.08),
+        inset 4px 0 0 var(--callout-color),
+        inset 0 0 20px rgba(var(--callout-color-rgb), 0.05) !important;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 2px), calc(100% - 8px) 100%, 0 100%) !important;
+}
+
+.theme-dark .callout-style-sharp .callout {
+    background: 
+        linear-gradient(to right, rgba(var(--callout-color-rgb), 0.22) 0%, rgba(var(--callout-color-rgb), 0.12) 8%, rgba(var(--background-secondary-rgb), 0.4) 100%) !important;
+    border-bottom-color: rgba(var(--callout-color-rgb), 0.3) !important;
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.15),
+        inset 4px 0 0 var(--callout-color),
+        inset 0 0 20px rgba(var(--callout-color-rgb), 0.08) !important;
+}
+
+.callout-style-sharp .callout:hover {
+    border-left-width: 6px !important;
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.12),
+        inset 6px 0 0 var(--callout-color) !important;
+    transform: translateX(2px) !important;
+}
+
+.callout-style-sharp .callout .callout-title {
+    font-weight: var(--weight-semibold) !important;
+    letter-spacing: 0.01em !important;
+    text-transform: uppercase;
+    font-size: 0.95em !important;
+}
+
+/* Organic Flow Style - Flowing, curved, natural */
+.callout-style-organic .callout {
+    background: 
+        radial-gradient(ellipse 120% 80% at 20% 50%, rgba(var(--callout-color-rgb), 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse 100% 100% at 80% 50%, rgba(var(--callout-color-rgb), 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at top right, rgba(var(--callout-color-rgb), 0.1) 0%, transparent 40%),
+        linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.12) 0%, rgba(var(--callout-color-rgb), 0.08) 50%, rgba(var(--background-secondary-rgb), 0.7) 100%) !important;
+    border: 2px solid rgba(var(--callout-color-rgb), 0.25) !important;
+    border-left: 5px solid var(--callout-color) !important;
+    border-radius: 0 30px 20px 0 !important;
+    box-shadow: 
+        0 4px 16px rgba(var(--callout-color-rgb), 0.2),
+        inset -2px 0 8px rgba(var(--callout-color-rgb), 0.1) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.callout-style-organic .callout::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        var(--callout-color),
+        transparent
+    );
+    border-radius: 0 10px 10px 0;
+}
+
+.theme-dark .callout-style-organic .callout {
+    background: 
+        radial-gradient(ellipse 120% 80% at 20% 50%, rgba(var(--callout-color-rgb), 0.25) 0%, transparent 50%),
+        radial-gradient(ellipse 100% 100% at 80% 50%, rgba(var(--callout-color-rgb), 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at top right, rgba(var(--callout-color-rgb), 0.15) 0%, transparent 40%),
+        linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.18) 0%, rgba(var(--callout-color-rgb), 0.12) 50%, rgba(var(--background-secondary-rgb), 0.5) 100%) !important;
+    border-color: rgba(var(--callout-color-rgb), 0.35) !important;
+    box-shadow: 
+        0 4px 16px rgba(var(--callout-color-rgb), 0.3),
+        inset -2px 0 8px rgba(var(--callout-color-rgb), 0.15) !important;
+}
+
+.callout-style-organic .callout:hover {
+    border-radius: 0 35px 25px 0 !important;
+    box-shadow: 
+        0 6px 20px rgba(var(--callout-color-rgb), 0.3),
+        inset -3px 0 10px rgba(var(--callout-color-rgb), 0.15) !important;
+    transform: translateX(3px) translateY(-1px) !important;
+}
+
+.callout-style-organic .callout .callout-title {
+    font-style: italic;
+    color: hsl(from var(--callout-color) h s calc(l * 0.8)) !important;
+}
+
 /* Highlight Styling */
 :is(.theme-light, .theme-dark) :is(.markdown-rendered mark, span.cm-highlight, .markdown-preview-view mark, .cm-s-obsidian span.cm-highlight) {
     padding: 6px 4px;
@@ -2402,6 +3217,9 @@ em,
     font-size: .9em;
     box-shadow: var(--shadow-2);
     transition: box-shadow 0.2s ease, transform 0.2s ease;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .theme-dark :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
