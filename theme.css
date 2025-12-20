@@ -4,16 +4,42 @@ name: TerraFlow
 id: seasonal-themes
 settings:
     -
+        id: seasonal-heading
+        title: 🍂 Seasonal Color Schemes
+        type: heading
+        level: 3
+        collapsed: false
+    -
+        id: season-selector
+        title: Active Season
+        description: Choose your seasonal color palette
+        type: class-select
+        allowEmpty: false
+        default: autumn-theme
+        options:
+            -
+                label: 🌱 Spring
+                value: spring-theme
+            -
+                label: ☀️ Summer
+                value: summer-theme
+            -
+                label: 🍂 Autumn
+                value: autumn-theme
+            -
+                label: ❄️ Winter
+                value: winter-theme
+            -
+                label: 🧊 Iceberg
+                value: iceberg-theme
+            -
+                label: 📚 Academia
+                value: academia-theme
+    -
         id: visual-appearance-heading
         title: 🎨 Visual & Appearance
         type: heading
         level: 2
-        collapsed: false
-    -
-        id: heading-styles-heading
-        title: 📝 Heading Styles
-        type: heading
-        level: 3
         collapsed: false
     -
         id: heading-style-selector
@@ -48,12 +74,6 @@ settings:
                 label: 3D Embossed
                 value: heading-style-3d
     -
-        id: callout-styles-heading
-        title: 💬 Callout Styles
-        type: heading
-        level: 3
-        collapsed: false
-    -
         id: callout-style-selector
         title: Callout Style
         description: Choose a visual style for your callouts
@@ -83,38 +103,6 @@ settings:
                 label: Organic Flow
                 value: callout-style-organic
     -
-        id: seasonal-heading
-        title: 🍂 Seasonal Color Schemes
-        type: heading
-        level: 3
-        collapsed: false
-    -
-        id: season-selector
-        title: Active Season
-        description: Choose your seasonal color palette
-        type: class-select
-        allowEmpty: false
-        default: autumn-theme
-        options:
-            -
-                label: 🌱 Spring
-                value: spring-theme
-            -
-                label: ☀️ Summer
-                value: summer-theme
-            -
-                label: 🍂 Autumn
-                value: autumn-theme
-            -
-                label: ❄️ Winter
-                value: winter-theme
-            -
-                label: 🧊 Iceberg
-                value: iceberg-theme
-            -
-                label: 📚 Academia
-                value: academia-theme
-    -
         id: ui-elements-heading
         title: 🖼️ UI Elements
         type: heading
@@ -133,17 +121,24 @@ settings:
         level: 2
         collapsed: false
     -
-        id: disable-shadows
-        title: Disable Box Shadows
-        description: Remove all box-shadows and elevation styling for maximum speed and flat look.
+        id: enable-ui-animations
+        title: Enable UI Animations
+        description: Toggle subtle pop-up animations for menus and modals
         type: class-toggle
-        default: false
+        default: true
     -
         id: enable-modal-frost
         title: Enable Modal Frost
         description: Enable frosted glass effect for modal backgrounds
         type: class-toggle
         default: true
+    -
+        id: disable-shadows
+        title: Disable Box Shadows
+        description: Remove all box-shadows and elevation styling for maximum speed and flat look.
+        type: class-toggle
+        default: false
+
     -
         id: disable-scrollbars
         title: Disable Scrollbar Styling
@@ -156,12 +151,6 @@ settings:
         description: Disable the status bar style
         type: class-toggle
         default: false
-    -
-        id: enable-ui-animations
-        title: Enable UI Animations
-        description: Toggle subtle pop-up animations for menus and modals
-        type: class-toggle
-        default: true
 
 */
 
