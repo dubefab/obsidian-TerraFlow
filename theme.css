@@ -1661,35 +1661,34 @@ html {
 
 /* Tab Style: Floating Pill */
 
-/* macOS Traffic Lights Fix */
-body.tab-style-pill.is-frameless:not(.is-fullscreen) .workspace-tab-header-container {
-    padding-left: 80px !important;
-}
-
 body.tab-style-pill .workspace-tab-header-container {
-    background-color: var(--background-secondary-alt) !important;
-    padding: 0 8px;
-    padding-top: 0;
-    padding-bottom: 0;
-    border-bottom: none !important;
-    height: 50px !important;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+  background-color: var(--background-secondary-alt) !important;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-right: 8px;
+  padding-left: 8px;  /* Add horizontal padding */
+  border-bottom: none !important;
+  height: 50px !important;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-x: visible !important;  /* ← Allow horizontal overflow */
 }
 
 body.tab-style-pill .workspace-tab-header-container-inner {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    gap: 2px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  gap: 2px;
+  overflow-x: visible !important;
+  overflow-y: clip;
 }
 
 body.tab-style-pill .workspace-tab-header {
     background-color: rgba(var(--background-secondary-rgb), .5) !important;
-    border-radius: 9999px !important;
+    border-radius: 12px !important;
     border: none !important;
     height: 36px !important;
     min-width: 36px;
@@ -1701,6 +1700,11 @@ body.tab-style-pill .workspace-tab-header {
     justify-content: left;
     box-shadow: none;
 }
+
+body.tab-style-pill .workspace-tab-header {
+  margin-inline: 6px;   /* adds 3px left + right around each tab */
+}
+
 
 /* Vertical Separator: Only between two consecutive inactives */
 body.tab-style-pill .workspace-tab-header:not(.is-active):not(:last-child)::after {
