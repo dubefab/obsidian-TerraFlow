@@ -22,57 +22,43 @@ TerraFlow includes seven distinct color palettes, each designed to evoke a diffe
 
 Fresh greens and soft pastels for a rejuvenating workspace.
 
-| Light | Dark |
-|-------|------|
-| ![Spring Light](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/01%20-%20spring.png) | ![Spring Dark](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/01%20-%20spring%20dark.png) |
+![](https://img.shields.io/badge/%20-8FBC8F?style=flat-square&labelColor=8FBC8F) ![](https://img.shields.io/badge/%20-87CEAB?style=flat-square&labelColor=87CEAB) ![](https://img.shields.io/badge/%20-A8D5BA?style=flat-square&labelColor=A8D5BA)
 
 ### Summer
 
 Warm coral tones and vibrant energy for productive sessions.
 
-| Light | Dark |
-|-------|------|
-| ![Summer Light](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/02%20-%20summer.png) | ![Summer Dark](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/02%20-%20summer%20dark.png) |
+![](https://img.shields.io/badge/%20-E8B86D?style=flat-square&labelColor=E8B86D) ![](https://img.shields.io/badge/%20-D4945A?style=flat-square&labelColor=D4945A) ![](https://img.shields.io/badge/%20-C9A87C?style=flat-square&labelColor=C9A87C)
 
 ### Autumn
 
 Rich amber and burnt orange for a cozy, focused environment.
 
-| Light | Dark |
-|-------|------|
-| ![Autumn Light](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/03%20-%20autumn.png) | ![Autumn Dark](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/03%20-%20autumn%20dark.png) |
+![](https://img.shields.io/badge/%20-D4A574?style=flat-square&labelColor=D4A574) ![](https://img.shields.io/badge/%20-C49564?style=flat-square&labelColor=C49564) ![](https://img.shields.io/badge/%20-B8906A?style=flat-square&labelColor=B8906A)
 
 ### Winter
 
 Cool blues and crisp whites for a calm, minimal aesthetic.
 
-| Light | Dark |
-|-------|------|
-| ![Winter Light](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/04%20-%20winter.png) | ![Winter Dark](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/04%20-%20winter%20dark.png) |
+![](https://img.shields.io/badge/%20-7C9CB8?style=flat-square&labelColor=7C9CB8) ![](https://img.shields.io/badge/%20-A8C0D4?style=flat-square&labelColor=A8C0D4) ![](https://img.shields.io/badge/%20-D4DCE8?style=flat-square&labelColor=D4DCE8)
 
 ### Iceberg
 
 Pale glacial tones with a frosty, serene feel.
 
-| Light | Dark |
-|-------|------|
-| ![Iceberg Light](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/05%20-%20iceberg.png) | ![Iceberg Dark](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/05%20-%20iceberg%20dark.png) |
+![](https://img.shields.io/badge/%20-6B8E9F?style=flat-square&labelColor=6B8E9F) ![](https://img.shields.io/badge/%20-9AB87C?style=flat-square&labelColor=9AB87C) ![](https://img.shields.io/badge/%20-B8A0C8?style=flat-square&labelColor=B8A0C8)
 
 ### Academia
 
 Classic scholarly tones with deep greens and warm neutrals.
 
-| Light | Dark |
-|-------|------|
-| ![Academia Light](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/06%20-%20academia.png) | ![Academia Dark](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/06%20-%20academia%20dark.png) |
+![](https://img.shields.io/badge/%20-9AB87C?style=flat-square&labelColor=9AB87C) ![](https://img.shields.io/badge/%20-C8865A?style=flat-square&labelColor=C8865A) ![](https://img.shields.io/badge/%20-E8C8B8?style=flat-square&labelColor=E8C8B8)
 
 ### Twilight
 
 Dusky purples and soft pinks for late-night writing.
 
-| Light | Dark |
-|-------|------|
-| ![Twilight Light](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/07%20-%20twilight.png) | ![Twilight Dark](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/07%20-%20twilight%20dark.png) |
+![](https://img.shields.io/badge/%20-8878A8?style=flat-square&labelColor=8878A8) ![](https://img.shields.io/badge/%20-7C88B8?style=flat-square&labelColor=7C88B8) ![](https://img.shields.io/badge/%20-A890C8?style=flat-square&labelColor=A890C8)
 
 ---
 
