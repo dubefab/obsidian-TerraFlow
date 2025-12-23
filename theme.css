@@ -1662,33 +1662,35 @@ html {
 /* Tab Style: Floating Pill */
 
 body.tab-style-pill .workspace-tab-header-container {
-  background-color: var(--background-secondary-alt);
-  height: 50px;
-  align-items: center;
+    background-color: var(--background-secondary-alt);
+    height: 50px;
+    align-items: center;
 }
 
 body.tab-style-pill .workspace-tab-header-container-inner {
-  align-items: center;
-  height: 100%;
-  margin: 0;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+    padding: 0 10px;
 }
 
 body.tab-style-pill .workspace-tab-header {
     background-color: rgba(var(--background-secondary-rgb), .5);
     border-radius: var(--r3) !important;
     height: 36px;
-    transition: all 0.2s ease;  /* ← Add this */
+    transition: all 0.2s ease;
+    /* ← Add this */
 }
 
 body.tab-style-pill .workspace-tab-header.is-active {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12), 
-                0 1px 3px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12),
+        0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 body.tab-style-pill .workspace-tab-header.is-active:hover {
     transform: scale(1.04);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14),
-                0 2px 5px rgba(0, 0, 0, 0.10);
+        0 2px 5px rgba(0, 0, 0, 0.10);
 }
 
 body.tab-style-pill .workspace-tab-header:not(.is-active):hover {
@@ -1710,6 +1712,12 @@ body.tab-style-pill .workspace-tab-header.is-active .workspace-tab-header-inner-
 body.tab-style-pill .workspace-split.mod-left-split,
 body.tab-style-pill .workspace-split.mod-right-split {
     background-color: var(--background-secondary-alt);
+}
+
+body.tab-style-pill .sidebar-toggle-button.mod-right {
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%);
 }
 
 /* UI Element Styling */
