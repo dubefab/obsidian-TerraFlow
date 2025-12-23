@@ -22,43 +22,70 @@ TerraFlow includes seven distinct color palettes, each designed to evoke a diffe
 
 Fresh greens and soft pastels for a rejuvenating workspace.
 
-![](https://img.shields.io/badge/%20-8FBC8F?style=flat-square&labelColor=8FBC8F) ![](https://img.shields.io/badge/%20-87CEAB?style=flat-square&labelColor=87CEAB) ![](https://img.shields.io/badge/%20-A8D5BA?style=flat-square&labelColor=A8D5BA)
+![](https://img.shields.io/badge/%20-8FBC8F?style=flat-square&labelColor=8FBC8F)
+![](https://img.shields.io/badge/%20-87CEAB?style=flat-square&labelColor=87CEAB)
+![](https://img.shields.io/badge/%20-A8D5BA?style=flat-square&labelColor=A8D5BA)
+
+---
 
 ### Summer
 
-Warm coral tones and vibrant energy for productive sessions.
+Sun-washed teal and golden tones with pink as a supporting accent, for bright, energetic days.
 
-![](https://img.shields.io/badge/%20-E8B86D?style=flat-square&labelColor=E8B86D) ![](https://img.shields.io/badge/%20-D4945A?style=flat-square&labelColor=D4945A) ![](https://img.shields.io/badge/%20-C9A87C?style=flat-square&labelColor=C9A87C)
+![](https://img.shields.io/badge/%20-0C7A93?style=flat-square&labelColor=0C7A93)
+![](https://img.shields.io/badge/%20-CC8500?style=flat-square&labelColor=CC8500)
+![](https://img.shields.io/badge/%20-D63384?style=flat-square&labelColor=D63384)
+
+---
 
 ### Autumn
 
-Rich amber and burnt orange for a cozy, focused environment.
+Deep ambers and muted greens inspired by falling leaves and cozy evenings.
 
-![](https://img.shields.io/badge/%20-D4A574?style=flat-square&labelColor=D4A574) ![](https://img.shields.io/badge/%20-C49564?style=flat-square&labelColor=C49564) ![](https://img.shields.io/badge/%20-B8906A?style=flat-square&labelColor=B8906A)
+![](https://img.shields.io/badge/%20-B56A2D?style=flat-square&labelColor=B56A2D)
+![](https://img.shields.io/badge/%20-8C5A2B?style=flat-square&labelColor=8C5A2B)
+![](https://img.shields.io/badge/%20-5A6B4B?style=flat-square&labelColor=5A6B4B)
+
+---
 
 ### Winter
 
-Cool blues and crisp whites for a calm, minimal aesthetic.
+Cool blues and charcoal neutrals for a crisp, minimal writing environment.
 
-![](https://img.shields.io/badge/%20-7C9CB8?style=flat-square&labelColor=7C9CB8) ![](https://img.shields.io/badge/%20-A8C0D4?style=flat-square&labelColor=A8C0D4) ![](https://img.shields.io/badge/%20-D4DCE8?style=flat-square&labelColor=D4DCE8)
+![](https://img.shields.io/badge/%20-3A4A6B?style=flat-square&labelColor=3A4A6B)
+![](https://img.shields.io/badge/%20-4F6D8C?style=flat-square&labelColor=4F6D8C)
+![](https://img.shields.io/badge/%20-9BB3C8?style=flat-square&labelColor=9BB3C8)
+
+---
 
 ### Iceberg
 
-Pale glacial tones with a frosty, serene feel.
+Pale cyans and frosted whites for a clean, high-contrast interface.
 
-![](https://img.shields.io/badge/%20-6B8E9F?style=flat-square&labelColor=6B8E9F) ![](https://img.shields.io/badge/%20-9AB87C?style=flat-square&labelColor=9AB87C) ![](https://img.shields.io/badge/%20-B8A0C8?style=flat-square&labelColor=B8A0C8)
+![](https://img.shields.io/badge/%20-B0E0E6?style=flat-square&labelColor=B0E0E6)
+![](https://img.shields.io/badge/%20-A7D8E8?style=flat-square&labelColor=A7D8E8)
+![](https://img.shields.io/badge/%20-D3F0FF?style=flat-square&labelColor=D3F0FF)
+
+---
 
 ### Academia
 
-Classic scholarly tones with deep greens and warm neutrals.
+Muted olives, tans, and deep inks inspired by library stacks and worn notebooks.
 
-![](https://img.shields.io/badge/%20-9AB87C?style=flat-square&labelColor=9AB87C) ![](https://img.shields.io/badge/%20-C8865A?style=flat-square&labelColor=C8865A) ![](https://img.shields.io/badge/%20-E8C8B8?style=flat-square&labelColor=E8C8B8)
+![](https://img.shields.io/badge/%20-6B6A4F?style=flat-square&labelColor=6B6A4F)
+![](https://img.shields.io/badge/%20-AF9B72?style=flat-square&labelColor=AF9B72)
+![](https://img.shields.io/badge/%20-D7C9A3?style=flat-square&labelColor=D7C9A3)
+
+---
 
 ### Twilight
 
-Dusky purples and soft pinks for late-night writing.
+Dusky purples and soft blues tuned for late-night sessions.
 
-![](https://img.shields.io/badge/%20-8878A8?style=flat-square&labelColor=8878A8) ![](https://img.shields.io/badge/%20-7C88B8?style=flat-square&labelColor=7C88B8) ![](https://img.shields.io/badge/%20-A890C8?style=flat-square&labelColor=A890C8)
+![](https://img.shields.io/badge/%20-8878A8?style=flat-square&labelColor=8878A8)
+![](https://img.shields.io/badge/%20-7C88B8?style=flat-square&labelColor=7C88B8)
+![](https://img.shields.io/badge/%20-A890C8?style=flat-square&labelColor=A890C8)
+
 
 ---
 
