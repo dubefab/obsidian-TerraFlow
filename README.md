@@ -1,114 +1,85 @@
-# 🌿 TerraFlow - Seasonal Obsidian Theme
+# TerraFlow
 
-> A sophisticated Obsidian theme where **warm earthy palettes** meet *flowing animations*
+A sophisticated Obsidian theme where warm earthy palettes meet flowing animations.
 
-## 🎨 Theme Showcase
+![MIT License](https://img.shields.io/badge/license-MIT-blue) ![CSS](https://img.shields.io/badge/language-CSS-green) ![Version](https://img.shields.io/badge/version-3.7.9-orange)
+
+## Theme Showcase
 
 TerraFlow adapts to the seasons, offering four distinct color palettes that change throughout the year, each available in both light and dark modes.
 
-### 🌸 Spring Theme
-*Fresh greens and vibrant growth*
+### Spring
+Fresh greens and vibrant growth.
 
-<table>
-<tr>
-<td width="50%">
+| Light | Dark |
+|-------|------|
+| ![Spring Light](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/01%20-%20spring.png) | ![Spring Dark](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/01%20-%20spring%20dark.png) |
 
-**Light Mode**
-![Spring Light](https://hebbkx1anhila5yf.public.blob.vercel-storage.com/01%20-%20spring-WJlHRdkplBVlplJ3aQII8OuhewkArr.png)
+### Summer
+Warm pinks and energetic vibes.
 
-</td>
-<td width="50%">
+| Light | Dark |
+|-------|------|
+| ![Summer Light](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/02%20-%20summer.png) | ![Summer Dark](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/02%20-%20summer%20dark.png) |
 
-**Dark Mode**
-![Spring Dark](https://hebbkx1anhila5yf.public.blob.vercel-storage.com/01%20-%20spring%20dark-j3FO0yUY9D0fymvTd13VEb9yrSMB4K.png)
+### Autumn
+Rich oranges and cozy warmth.
 
-</td>
-</tr>
-</table>
+| Light | Dark |
+|-------|------|
+| ![Autumn Light](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/03%20-%20autumn.png) | ![Autumn Dark](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/03%20-%20autumn%20dark.png) |
 
-### ☀️ Summer Theme
-*Warm pinks and energetic vibes*
+### Winter
+Cool blues and serene calm.
 
-<table>
-<tr>
-<td width="50%">
+| Light | Dark |
+|-------|------|
+| ![Winter Light](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/04%20-%20winter.png) | ![Winter Dark](https://raw.githubusercontent.com/dubefab/obsidian-TerraFlow/refs/heads/main/assets/04%20-%20winter%20dark.png) |
 
-**Light Mode**
-![Summer Light](https://hebbkx1anhila5yf.public.blob.vercel-storage.com/02%20-%20summer-Xg18F6rBrHvmzb6etcdCzg3qPCTEoo.png)
+## Key Features
 
-</td>
-<td width="50%">
+**Beautiful Headers**  
+Sophisticated styling with seasonal color palettes. Smooth typography with perfect contrast ratios. Responsive design that scales beautifully.
 
-**Dark Mode**
-![Summer Dark](https://hebbkx1anhila5yf.public.blob.vercel-storage.com/02%20-%20summer%20dark-vJUWcmcOgMaQct1whQUj8nyfr7Ch68.png)
+**Vibrant Block Quotes**  
+Glass panel effects that create depth when hovered. Seasonal accent colors that match your current theme. Enhanced readability with subtle shadows.
 
-</td>
-</tr>
-</table>
+**Enhanced Images**  
+Rounded corners with elegant styling. Pop-up effects on hover with smooth transitions. Optimized spacing and alignment.
 
-### 🍂 Autumn Theme
-*Rich oranges and cozy warmth*
+**Refined Links**  
+Subtle hover animations. Consistent styling across all interface elements. Improved accessibility with better focus states.
 
-<table>
-<tr>
-<td width="50%">
+**Interactive Elements**  
+Task animations with smooth state transitions. Minimal tags with clean, modern styling. Enhanced checkbox and form controls.
 
-**Light Mode**
-![Autumn Light](https://hebbkx1anhila5yf.public.blob.vercel-storage.com/03%20-%20autumn-3y7NvILbEdZddVBYNLF5PG8LWUV6XR.png)
+## Installation
 
-</td>
-<td width="50%">
+### Via Community Themes
 
-**Dark Mode**
-![Autumn Dark](https://hebbkx1anhila5yf.public.blob.vercel-storage.com/03%20-%20autumn%20dark-9pTj6aLukhIuz2jEpJdVqaLX0Xp50V.png)
+1. Open Obsidian Settings
+2. Go to Appearance and click Manage
+3. Search for TerraFlow
+4. Click Install and then Use
 
-</td>
-</tr>
-</table>
+### Manual Installation
 
-### ❄️ Winter Theme
-*Cool blues and serene calm*
+1. Download the theme.css file from this repository
+2. Place it in your vault's `.obsidian/themes/TerraFlow/` folder
+3. Rename it to theme.css if needed
+4. Enable the theme in Obsidian's Appearance settings
 
-<table>
-<tr>
-<td width="50%">
+## Requirements
 
-**Light Mode**
-![Winter Light](https://hebbkx1anhila5yf.public.blob.vercel-storage.com/04%20-%20winter-hK5OblliWeulyyZAjzwSpomQbPB8ea.png)
+TerraFlow uses the Style Settings plugin to enable full customization. Without it, the theme will use its default Autumn configuration.
 
-</td>
-<td width="50%">
+**Style Settings Plugin**  
+Install from Community Plugins to access season selection, heading styles, callout variants, and performance toggles.
 
-**Dark Mode**
-![Winter Dark](https://hebbkx1anhila5yf.public.blob.vercel-storage.com/04%20-%20winter%20dark-jWKXweA9daK2lbV4eH5pOPb2BTd9Qv.png)
+## License
 
-</td>
-</tr>
-</table>
+MIT License. Feel free to modify and distribute as needed.
 
-## ✨ Key Features
+---
 
-### 🎯 Beautiful Headers
-- Sophisticated styling with seasonal color palettes
-- Smooth typography with perfect contrast ratios
-- Responsive design that scales beautifully
-
-### 💬 Vibrant Block Quotes
-- **Glass panel effects** that create depth when hovered
-- Seasonal accent colors that match your current theme
-- Enhanced readability with subtle shadows
-
-### 🖼️ Enhanced Images
-- **Rounded corners** with elegant styling
-- **Pop-up effects** on hover with smooth transitions
-- Optimized spacing and alignment
-
-### 🔗 Refined Links
-- Subtle hover animations
-- Consistent styling across all interface elements
-- Improved accessibility with better focus states
-
-### ✅ Interactive Elements
-- **Task animations** with smooth state transitions
-- **Minimal tags** with clean, modern styling
-- Enhanced checkbox and form controls
+Built with care for the Obsidian community.
