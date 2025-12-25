@@ -5222,7 +5222,14 @@ body.layout-card .workspace-leaf-content {
     margin-bottom: 20px;
 }
 
+/* Tab header hover scale effect - sidebars only */
+body.layout-card .workspace-split.mod-left-split .workspace-tab-header-inner:hover,
+body.layout-card .workspace-split.mod-right-split .workspace-tab-header-inner:hover {
+    transform: scale(1.05) !important;
+    transition: transform 0.2s ease !important;
+}
 
-
-
-
+body.layout-card .workspace-split.mod-left-split .workspace-tab-header-inner,
+body.layout-card .workspace-split.mod-right-split .workspace-tab-header-inner {
+    transition: transform 0.2s ease !important;
+}
