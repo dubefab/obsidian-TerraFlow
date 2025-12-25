@@ -36,7 +36,7 @@ settings:
                 label: 📚 Academia (Dark ONLY)
                 value: academia-theme
             -
-                label: Purple
+                label: 🌙 Twilight
                 value: twilight-theme
     -
         id: visual-appearance-heading
@@ -158,6 +158,20 @@ settings:
         description: Toggle unique custom bullet shapes        
         type: class-toggle
         default: false
+    -
+        id: layout-style
+        title: Interface Layout
+        description: Choose the overall layout structure of the application
+        type: class-select
+        allowEmpty: false
+        default: layout-default
+        options:
+            -
+                label: Default
+                value: layout-default
+            -
+                label: Card Interface
+                value: layout-card
     -
         id: tab-style-selector
         title: Tab Style
@@ -1679,7 +1693,6 @@ body.tab-style-pill .workspace-tab-header {
     border-radius: var(--r3) !important;
     height: 36px;
     transition: all 0.2s ease;
-    /* ← Add this */
 }
 
 body.tab-style-pill .workspace-tab-header.is-active {
@@ -1714,10 +1727,20 @@ body.tab-style-pill .workspace-split.mod-right-split {
     background-color: var(--background-secondary-alt);
 }
 
+/* Unified fix for sidebar header clipping on macOS */
+body.mod-macos.is-hidden-frameless.tab-style-pill .workspace-tab-header-container-inner {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
 body.tab-style-pill .sidebar-toggle-button.mod-right {
     position: absolute !important;
     top: 50% !important;
     transform: translateY(-50%);
+}
+
+body.is-focused .sidebar-toggle-button, body.is-focused .workspace-tabs.mod-top {
+    --tab-container-background: var(--background-secondary);
 }
 
 /* UI Element Styling */
@@ -4998,8 +5021,6 @@ input[type='number'] {
     -electron-corner-smoothing: var(--squircle-btn);
 }
 
-
-
 /* Dropdown options/menu */
 .dropdown-menu,
 .menu {
@@ -5007,8 +5028,6 @@ input[type='number'] {
     -electron-corner-smoothing: var(--squircle-main);
     overflow: hidden;
 }
-
-
 
 /* Ribbon Styling */
 .workspace-ribbon {
@@ -5115,3 +5134,95 @@ body.disable-shadows {
     --shadow-3: none !important;
     --shadow-4: none !important;
 }
+
+/* ============================== */
+/*    LAYOUT: CARD INTERFACE      */
+/* ============================== */
+
+/* Variables */
+body.layout-card {
+    --card-bg: var(--background-primary);
+    --card-radius: 20px;
+}
+
+/* Workspace leaf wrapper */
+body.layout-card .workspace-leaf {
+    background-color: transparent !important;
+    margin: 5px;
+}
+
+/* Leaf content - THE CARD */
+body.layout-card .workspace-leaf-content {
+    background-color: var(--card-bg) !important;
+    border-radius: var(--card-radius);
+    transform: none !important;
+}
+
+/* Tab headers - transparent background */
+body.layout-card .workspace-tab-header-container {
+    background-color: transparent !important;
+}
+
+/* Remove all borders from EVERYTHING */
+body.layout-card .workspace-leaf,
+body.layout-card .workspace-tab-header-container,
+body.layout-card .workspace-split,
+body.layout-card .workspace-leaf-resize-handle,
+body.layout-card .sidebar-left,
+body.layout-card .sidebar-right,
+body.layout-card .side-dock-plugin-panel,
+body.layout-card .side-dock-plugin-panel-inner {
+    border-right: none !important;
+    border-left: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+}
+
+/* === MIDDLE PANEL FIX === */
+body.layout-card .workspace-split,
+body.layout-card .workspace-split.mod-vertical,
+body.layout-card .workspace-split.mod-horizontal {
+    background-color: var(--background-secondary) !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+    z-index: auto !important;
+    transition: none !important;
+}
+
+body.layout-card .workspace-split:hover,
+body.layout-card .workspace-split:focus,
+body.layout-card .workspace-split:focus-within,
+body.layout-card .workspace-split.mod-vertical:hover,
+body.layout-card .workspace-split.mod-vertical:focus,
+body.layout-card .workspace-split.mod-vertical:focus-within,
+body.layout-card .workspace-split.mod-horizontal:hover,
+body.layout-card .workspace-split.mod-horizontal:focus,
+body.layout-card .workspace-split.mod-horizontal:focus-within {
+    background-color: var(--background-secondary) !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+    z-index: auto !important;
+}
+
+/* View header fixes */
+body.layout-card .view-header {
+    border: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    transition: none !important;
+    transform: none !important;
+}
+
+/* Add bottom padding for card effect */
+body.layout-card .workspace-leaf-content {
+    margin-bottom: 20px;
+}
+
+
+
+
+
