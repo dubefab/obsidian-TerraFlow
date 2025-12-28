@@ -8,7 +8,7 @@ A sophisticated Obsidian theme where warm earthy palettes meet flowing animation
 
 ---
 
-<img width="1260" height="1061" alt="image" src="https://github.com/user-attachments/assets/d67dc933-b08a-41d7-bc0c-3d31622e72c4" />
+<img width="630" height="530" alt="Terraflow" src="https://github.com/user-attachments/assets/d67dc933-b08a-41d7-bc0c-3d31622e72c4" />
 
 
 ## Overview
