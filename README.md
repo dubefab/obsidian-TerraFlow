@@ -3,10 +3,13 @@
 A sophisticated Obsidian theme where warm earthy palettes meet flowing animations.
 
 ![Downloads](https://img.shields.io/badge/downloads-1k+-blue)
-![Version](https://img.shields.io/badge/version-3.7.9-orange)
+![Version](https://img.shields.io/badge/version-4.0.0-orange)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 ---
+
+<img width="1260" height="1061" alt="image" src="https://github.com/user-attachments/assets/d67dc933-b08a-41d7-bc0c-3d31622e72c4" />
+
 
 ## Overview
 
