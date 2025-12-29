@@ -5462,7 +5462,6 @@ body:not(.is-mobile).enable-floating-nav .nav-buttons-container {
 body:not(.is-mobile).enable-floating-nav .nav-buttons-container:hover {
     width: fit-content;
     height: 38px;
-    padding: 12px;
     background-color: var(--background-secondary-alt);
     box-shadow: var(--shadow-2) !important;
     overflow: visible;
