@@ -45,6 +45,20 @@ settings:
         level: 2
         collapsed: false
     -
+        id: layout-style
+        title: Interface Layout
+        description: Choose the overall layout structure of the application
+        type: class-select
+        allowEmpty: false
+        default: layout-default
+        options:
+            -
+                label: Default
+                value: layout-default
+            -
+                label: Card
+                value: layout-card
+    -
         id: heading-style-selector
         title: Heading Style
         description: Choose a visual style for your headings
@@ -207,20 +221,6 @@ settings:
         description: Only show the entire view header (title and buttons) when hovering over the top area.
         type: class-toggle
         default: false
-    -
-        id: layout-style
-        title: Interface Layout
-        description: Choose the overall layout structure of the application
-        type: class-select
-        allowEmpty: false
-        default: layout-default
-        options:
-            -
-                label: Default
-                value: layout-default
-            -
-                label: Card
-                value: layout-card
     -
         id: performance-heading
         title: ⚡ Performance & Accessibility
@@ -4568,11 +4568,11 @@ body:not(.disable-modal-frost) .modal-bg {
 }
 
 /* Explicit styling for inactive tabs */
-.workspace-tab-header:not(.is-active) {
+body:not(.is-mobile).layout-card .workspace-tab-header:not(.is-active) {
     background-color: rgba(var(--primary-color-rgb), 0.08) !important;
 }
 
-.theme-dark .workspace-tab-header:not(.is-active) {
+body:not(.is-mobile).layout-card .theme-dark .workspace-tab-header:not(.is-active) {
     background-color: rgba(var(--primary-color-rgb), 0.08) !important;
 }
 
@@ -5462,7 +5462,7 @@ body:not(.is-mobile).enable-floating-nav .nav-buttons-container {
 body:not(.is-mobile).enable-floating-nav .nav-buttons-container:hover {
     width: fit-content;
     height: 38px;
-    padding: 0 12px;
+    padding: 12px;
     background-color: var(--background-secondary-alt);
     box-shadow: var(--shadow-2) !important;
     overflow: visible;
