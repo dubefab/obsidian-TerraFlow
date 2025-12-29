@@ -2,7 +2,7 @@
 
 A sophisticated Obsidian theme where warm earthy palettes meet flowing animations.
 
-![Downloads](https://img.shields.io/badge/downloads-1k+-blue)
+![Downloads](https://img.shields.io/badge/downloads-3k+-blue)
 ![Version](https://img.shields.io/badge/version-4.0.0-orange)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
