@@ -1743,7 +1743,6 @@ body:not(.is-mobile).layout-card .workspace-tab-header.is-active {
 
 body:not(.is-mobile).layout-card .workspace-tab-header.is-active:hover {
     transform: scale(1.04);
-
 }
 
 body:not(.is-mobile).layout-card .workspace-tab-header:not(.is-active):hover {
@@ -4570,11 +4569,11 @@ body:not(.disable-modal-frost) .modal-bg {
 
 /* Explicit styling for inactive tabs */
 .workspace-tab-header:not(.is-active) {
-    background-color: rgba(var(--background-primary-rgb), .5) !important;
+    background-color: rgba(var(--primary-color-rgb), 0.08) !important;
 }
 
 .theme-dark .workspace-tab-header:not(.is-active) {
-    background-color: rgba(var(--background-secondary-alt-rgb, var(--background-secondary-rgb)), 0.95) !important;
+    background-color: rgba(var(--primary-color-rgb), 0.08) !important;
 }
 
 /* View Header Styling */
