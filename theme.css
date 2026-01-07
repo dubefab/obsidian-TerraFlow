@@ -62,6 +62,20 @@ settings:
                 label: Card
                 value: layout-card
     -
+        id: animation-style
+        title: Animation Style
+        description: Choose the animation personality for the interface
+        type: class-select
+        allowEmpty: false
+        default: animation-style-default
+        options:
+            -
+                label: Default (Subtle Pop)
+                value: animation-style-default
+            -
+                label: Whimsy (Bouncy)
+                value: animation-style-whimsy
+    -
         id: heading-style-selector
         title: Heading Style
         description: Choose a visual style for your headings
@@ -310,6 +324,27 @@ settings:
     --layer-status-bar: 1000;
     --checklist-done-color: var(--emphasis-color);
     --checklist-done-decoration: line-through;
+
+    /* Shared mapping defaults - individual themes can override these */
+    --folder-1-color: var(--heading-primary);
+    --folder-1-color-rgb: var(--heading-primary-rgb);
+    --folder-2-color: var(--heading-secondary);
+    --folder-2-color-rgb: var(--heading-secondary-rgb);
+    --folder-3-color: var(--heading-tertiary);
+    --folder-3-color-rgb: var(--heading-tertiary-rgb);
+    --folder-4-color: var(--heading-quaternary);
+    --folder-4-color-rgb: var(--heading-quaternary-rgb);
+    --folder-5-color: var(--heading-quinary);
+    --folder-5-color-rgb: var(--heading-quinary-rgb);
+    --folder-6-color: var(--heading-senary);
+    --folder-6-color-rgb: var(--heading-senary-rgb);
+
+    --callout-color: var(--heading-primary);
+    --callout-color-rgb: var(--heading-primary-rgb);
+    --folder-color: rgba(var(--folder-1-color-rgb), var(--theme-folder-opacity));
+    --folder-text-color: var(--folder-1-color);
+    --folder-accent-opacity: .6;
+    --folder-active-opacity: .8;
 }
 
 /* Academia Theme Variables */
@@ -358,6 +393,7 @@ settings:
     --code-string: #C16119;
     --code-tag: #947E5A;
     --code-value: #947E5A;
+
     --heading-primary: #F2B5A8;
     --heading-secondary: #FFD484;
     --heading-tertiary: #B9E3DF;
@@ -370,34 +406,24 @@ settings:
     --heading-quaternary-rgb: 255, 170, 102;
     --heading-quinary-rgb: 138, 181, 132;
     --heading-senary-rgb: 132, 200, 255;
-    --folder-1-color: var(--heading-primary);
-    --folder-1-color-rgb: var(--heading-primary-rgb);
-    --folder-2-color: var(--heading-secondary);
-    --folder-2-color-rgb: var(--heading-secondary-rgb);
-    --folder-3-color: var(--heading-tertiary);
-    --folder-3-color-rgb: var(--heading-tertiary-rgb);
-    --folder-4-color: var(--heading-quaternary);
-    --folder-4-color-rgb: var(--heading-quaternary-rgb);
-    --folder-5-color: var(--heading-quinary);
-    --folder-5-color-rgb: var(--heading-quinary-rgb);
-    --folder-6-color: var(--heading-senary);
-    --folder-6-color-rgb: var(--heading-senary-rgb);
+
     --heading-text-multiplier: 1.15;
     --theme-text-multiplier: 1.0;
     --highlight-bg: #6a4e45;
     --highlight-bg-dark: #7d5c52;
     --highlight-bg-dark-color: #7d5c52;
     --highlight-bg-light-color: #FFD484;
-    --callout-note: #FFD484;
-    --callout-note-rgb: 255, 212, 132;
+
+    --callout-note: var(--heading-secondary);
+    --callout-note-rgb: var(--heading-secondary-rgb);
     --callout-info: #78DCE8;
     --callout-info-rgb: 120, 220, 232;
-    --callout-warning: #FFAA66;
-    --callout-warning-rgb: 255, 170, 102;
-    --callout-example: #A9DC76;
-    --callout-example-rgb: 169, 220, 118;
-    --callout-quote: #AB9DF2;
-    --callout-quote-rgb: 171, 157, 242;
+    --callout-warning: var(--heading-quaternary);
+    --callout-warning-rgb: var(--heading-quaternary-rgb);
+    --callout-example: var(--heading-quinary);
+    --callout-example-rgb: var(--heading-quinary-rgb);
+    --callout-quote: var(--callout-cite);
+    --callout-quote-rgb: var(--callout-cite-rgb);
     --callout-success: #88D6A0;
     --callout-success-rgb: 136, 214, 160;
     --callout-danger: #FF6188;
@@ -406,20 +432,13 @@ settings:
     --callout-cite-rgb: 187, 173, 255;
     --callout-video: #57E6FF;
     --callout-video-rgb: 87, 230, 255;
-    --callout-color: var(--heading-primary);
-    --callout-color-rgb: var(--heading-primary-rgb);
-    --folder-color: rgba(var(--folder-1-color-rgb), var(--theme-folder-opacity));
-    --folder-text-color: var(--folder-1-color);
-    --folder-accent-opacity: .6;
-    --folder-active-opacity: .8;
+
     --surface-accent: #6A5150;
     --surface-accent-rgb: 106, 81, 80;
     --surface-dark: #3C2A2B;
     --surface-dark-rgb: 60, 42, 43;
     --tab-bg-inactive: rgba(92, 66, 67, .15);
     --tab-bg-inactive-hover: rgba(92, 66, 67, .25);
-    --link-opacity-normal: .1;
-    --link-opacity-hover: .18;
 }
 
 
@@ -480,50 +499,30 @@ settings:
     --heading-quaternary-rgb: 50, 111, 149;
     --heading-quinary-rgb: 184, 69, 15;
     --heading-senary-rgb: 139, 58, 107;
-    --folder-1-color: var(--heading-primary);
-    --folder-1-color-rgb: var(--heading-primary-rgb);
-    --folder-2-color: var(--heading-secondary);
-    --folder-2-color-rgb: var(--heading-secondary-rgb);
-    --folder-3-color: var(--heading-tertiary);
-    --folder-3-color-rgb: var(--heading-tertiary-rgb);
-    --folder-4-color: var(--heading-quaternary);
-    --folder-4-color-rgb: var(--heading-quaternary-rgb);
-    --folder-5-color: var(--heading-quinary);
-    --folder-5-color-rgb: var(--heading-quinary-rgb);
-    --folder-6-color: var(--heading-senary);
-    --folder-6-color-rgb: var(--heading-senary-rgb);
-    --callout-note: #223e8c;
-    --callout-note-rgb: 34, 62, 140;
-    --callout-info: #547e2f;
-    --callout-info-rgb: 84, 126, 47;
+
+    --callout-note: var(--heading-primary);
+    --callout-note-rgb: var(--heading-primary-rgb);
+    --callout-info: var(--heading-secondary);
+    --callout-info-rgb: var(--heading-secondary-rgb);
     --callout-warning: #c67d3d;
     --callout-warning-rgb: 198, 125, 61;
-    --callout-success: #326f95;
-    --callout-success-rgb: 50, 111, 149;
+    --callout-success: var(--heading-quaternary);
+    --callout-success-rgb: var(--heading-quaternary-rgb);
     --callout-danger: #a55a5a;
     --callout-danger-rgb: 165, 90, 90;
-    --callout-example: #326f95;
-    --callout-example-rgb: 50, 111, 149;
+    --callout-example: var(--heading-quaternary);
+    --callout-example-rgb: var(--heading-quaternary-rgb);
     --callout-cite: #573d84;
     --callout-cite-rgb: 87, 61, 132;
     --callout-video: #57d9eb;
     --callout-video-rgb: 87, 217, 235;
     --callout-quote: #e2eafc;
     --callout-quote-rgb: 226, 234, 252;
-    --callout-color: var(--heading-primary);
-    --callout-color-rgb: var(--heading-primary-rgb);
-    --folder-color: rgba(var(--folder-1-color-rgb), var(--theme-folder-opacity));
-    --folder-text-color: var(--folder-1-color);
-    --folder-accent-opacity: .6;
-    --folder-active-opacity: .8;
+
     --highlight-bg: #a8b8d6;
     --highlight-bg-rgb: 168, 184, 214;
     --highlight-bg-dark: #8a9fc2;
     --highlight-bg-dark-color: #1a2535;
-    --link-opacity-hover: .18;
-    --link-opacity-normal: .1;
-    --link-opacity-unresolved: .05;
-    --link-opacity-unresolved-hover: .12;
     --surface-accent: #c0c4d1;
     --surface-accent-rgb: 192, 196, 209;
     --surface-dark: #26293b;
@@ -582,50 +581,30 @@ settings:
     --heading-quaternary-rgb: 120, 170, 181;
     --heading-quinary-rgb: 226, 164, 120;
     --heading-senary-rgb: 212, 161, 196;
-    --folder-1-color: var(--heading-primary);
-    --folder-1-color-rgb: var(--heading-primary-rgb);
-    --folder-2-color: var(--heading-secondary);
-    --folder-2-color-rgb: var(--heading-secondary-rgb);
-    --folder-3-color: var(--heading-tertiary);
-    --folder-3-color-rgb: var(--heading-tertiary-rgb);
-    --folder-4-color: var(--heading-quaternary);
-    --folder-4-color-rgb: var(--heading-quaternary-rgb);
-    --folder-5-color: var(--heading-quinary);
-    --folder-5-color-rgb: var(--heading-quinary-rgb);
-    --folder-6-color: var(--heading-senary);
-    --folder-6-color-rgb: var(--heading-senary-rgb);
-    --callout-note: #728eb9;
-    --callout-note-rgb: 114, 142, 185;
-    --callout-info: #a5b26f;
-    --callout-info-rgb: 165, 178, 111;
-    --callout-warning: #e2a478;
-    --callout-warning-rgb: 226, 164, 120;
-    --callout-success: #78aab5;
-    --callout-success-rgb: 120, 170, 181;
+
+    --callout-note: var(--heading-primary);
+    --callout-note-rgb: var(--heading-primary-rgb);
+    --callout-info: var(--heading-secondary);
+    --callout-info-rgb: var(--heading-secondary-rgb);
+    --callout-warning: var(--heading-quinary);
+    --callout-warning-rgb: var(--heading-quinary-rgb);
+    --callout-success: var(--heading-quaternary);
+    --callout-success-rgb: var(--heading-quaternary-rgb);
     --callout-danger: #cc6666;
     --callout-danger-rgb: 204, 102, 102;
-    --callout-example: #78aab5;
-    --callout-example-rgb: 120, 170, 181;
+    --callout-example: var(--heading-quaternary);
+    --callout-example-rgb: var(--heading-quaternary-rgb);
     --callout-cite: #a29bfe;
     --callout-cite-rgb: 162, 155, 254;
     --callout-video: #78dce8;
     --callout-video-rgb: 120, 220, 232;
     --callout-quote: #1d2033;
     --callout-quote-rgb: 29, 32, 51;
-    --callout-color: var(--heading-primary);
-    --callout-color-rgb: var(--heading-primary-rgb);
-    --folder-color: rgba(var(--folder-1-color-rgb), var(--theme-folder-opacity));
-    --folder-text-color: var(--folder-1-color);
-    --folder-accent-opacity: .6;
-    --folder-active-opacity: .8;
+
     --highlight-bg: #1f2635;
     --highlight-bg-dark: #2a354a;
     --highlight-bg-dark-color: #2a354a;
     --highlight-bg-light-color: #8a9fc2;
-    --link-opacity-hover: .18;
-    --link-opacity-normal: .1;
-    --link-opacity-unresolved: .05;
-    --link-opacity-unresolved-hover: .12;
     --surface-accent: #1b1e31;
     --surface-accent-rgb: 27, 30, 49;
     --surface-dark: #111319;
@@ -693,8 +672,8 @@ settings:
     --heading-senary-rgb: 155, 107, 107;
     --callout-note: #E9D5A3;
     --callout-note-rgb: 233, 213, 163;
-    --callout-info: #5885AF;
-    --callout-info-rgb: 88, 133, 175;
+    --callout-info: var(--heading-tertiary);
+    --callout-info-rgb: var(--heading-tertiary-rgb);
     --callout-warning: #C67D3D;
     --callout-warning-rgb: 198, 125, 61;
     --callout-example: #726DA8;
@@ -703,30 +682,12 @@ settings:
     --callout-quote-rgb: 146, 142, 170;
     --callout-success: #6B9080;
     --callout-success-rgb: 107, 144, 128;
-    --callout-danger: #B56576;
-    --callout-danger-rgb: 181, 101, 118;
-    --callout-cite: #5E548E;
-    --callout-cite-rgb: 94, 84, 142;
-    --callout-video: #4A6FA5;
-    --callout-video-rgb: 74, 111, 165;
-    --callout-color: var(--heading-primary);
-    --callout-color-rgb: var(--heading-primary-rgb);
-    --folder-1-color: var(--heading-primary);
-    --folder-1-color-rgb: var(--heading-primary-rgb);
-    --folder-2-color: var(--heading-secondary);
-    --folder-2-color-rgb: var(--heading-secondary-rgb);
-    --folder-3-color: var(--heading-tertiary);
-    --folder-3-color-rgb: var(--heading-tertiary-rgb);
-    --folder-4-color: var(--heading-quaternary);
-    --folder-4-color-rgb: var(--heading-quaternary-rgb);
-    --folder-5-color: var(--heading-quinary);
-    --folder-5-color-rgb: var(--heading-quinary-rgb);
-    --folder-6-color: var(--heading-senary);
-    --folder-6-color-rgb: var(--heading-senary-rgb);
-    --folder-color: rgba(var(--folder-1-color-rgb), var(--theme-folder-opacity));
-    --folder-text-color: var(--folder-1-color);
-    --folder-accent-opacity: .6;
-    --folder-active-opacity: .8;
+    --callout-danger: var(--heading-quaternary);
+    --callout-danger-rgb: var(--heading-quaternary-rgb);
+    --callout-cite: var(--heading-primary);
+    --callout-cite-rgb: var(--heading-primary-rgb);
+    --callout-video: var(--heading-quinary);
+    --callout-video-rgb: var(--heading-quinary-rgb);
     --highlight-bg: #d4c9e8;
     --highlight-bg-rgb: 212, 201, 232;
     --highlight-bg-dark: #bfafe0;
@@ -811,17 +772,6 @@ settings:
     --callout-cite-rgb: 187, 173, 255;
     --callout-video: #57D9EB;
     --callout-video-rgb: 87, 217, 235;
-    --callout-color: var(--heading-primary);
-    --callout-color-rgb: var(--heading-primary-rgb);
-    --folder-1-color: var(--heading-primary);
-    --folder-1-color-rgb: var(--heading-primary-rgb);
-    --folder-2-color: var(--heading-secondary);
-    --folder-2-color-rgb: var(--heading-secondary-rgb);
-    --folder-3-color: var(--heading-tertiary);
-    --folder-3-color-rgb: var(--heading-tertiary-rgb);
-    --folder-4-color: var(--heading-quaternary);
-    --folder-4-color-rgb: var(--heading-quaternary-rgb);
-    --folder-5-color: var(--heading-quinary);
     --folder-5-color-rgb: var(--heading-quinary-rgb);
     --folder-6-color: var(--heading-senary);
     --folder-6-color-rgb: var(--heading-senary-rgb);
@@ -847,142 +797,123 @@ settings:
 
 /* Autumn Theme Variables */
 .autumn-theme {
-    --accent-h: 15;
-    --accent-s: 65%;
-    --accent-l: 60%;
+    --accent-h: 24;
+    --accent-s: 45%;
+    --accent-l: 40%;
 }
 
 .theme-light.autumn-theme {
-    --background-primary: #eeece2;
-    --background-primary-rgb: 238, 236, 226;
-    --background-secondary: #e6e4da;
+    --background-primary: #fcf6f0;
+    --background-primary-rgb: 252, 246, 240;
+    --background-secondary: #f6efe9;
     --setting-items-background: var(--background-secondary);
-    --background-secondary-rgb: 230, 228, 218;
-    --background-secondary-alt: #dfdbd1;
-    --text-normal: #3d2e1a;
-    --text-normal-rgb: 61, 46, 26;
-    --text-muted: rgba(61, 46, 26, .7);
-    --emphasis-color: #ae4e36;
-    --emphasis-color-light: #d97756;
-    --primary-color: #d97756;
-    --primary-color-rgb: 217, 119, 86;
-    --primary-color-dark: #ae4e36;
-    --interactive-accent: #d97756;
-    --interactive-accent-hover: #ae4e36;
-    --link-color: #d97756;
-    --link-color-hover: #ae4e36;
-    --link-unresolved-color: #d97756;
-    --blockquote-border-color: #d97756;
-    --checkbox-color: #d97756;
-    --text-accent: #ae4e36;
-    --divider-color: #d2cfc588;
-    --text-selection: #f0e0d0;
-    --scrollbar-thumb: rgba(217, 119, 86, .35);
-    --scrollbar-track: rgba(245, 239, 224, .2);
-    --code-background: #f5efe0;
-    --code-normal: #3d2e1a;
-    --code-comment: #707592;
-    --code-function: #d97756;
-    --code-important: #ae4e36;
-    --code-keyword: #6a97bb;
-    --code-property: #798d5d;
-    --code-punctuation: rgba(61, 46, 26, .7);
-    --code-string: #8f8ca6;
-    --code-tag: #c36686;
-    --code-value: #779088;
-    --heading-primary: #d97756;
-    --heading-secondary: #6a97bb;
-    --heading-tertiary: #8f8ca6;
-    --heading-quaternary: #798d5d;
-    --heading-quinary: #c36686;
-    --heading-senary: #779088;
-    --heading-primary-rgb: 217, 119, 86;
-    --heading-secondary-rgb: 106, 151, 187;
-    --heading-tertiary-rgb: 143, 140, 166;
-    --heading-quaternary-rgb: 121, 141, 93;
-    --heading-quinary-rgb: 195, 102, 134;
-    --heading-senary-rgb: 119, 144, 136;
-    --folder-1-color: var(--heading-primary);
-    --folder-1-color-rgb: var(--heading-primary-rgb);
-    --folder-2-color: var(--heading-secondary);
-    --folder-2-color-rgb: var(--heading-secondary-rgb);
-    --folder-3-color: var(--heading-tertiary);
-    --folder-3-color-rgb: var(--heading-tertiary-rgb);
-    --folder-4-color: var(--heading-quaternary);
-    --folder-4-color-rgb: var(--heading-quaternary-rgb);
-    --folder-5-color: var(--heading-quinary);
-    --folder-5-color-rgb: var(--heading-quinary-rgb);
-    --folder-6-color: var(--heading-senary);
-    --folder-6-color-rgb: var(--heading-senary-rgb);
-    --callout-note: #d97756;
-    --callout-note-rgb: 217, 119, 86;
-    --callout-info: #d4af37;
-    --callout-info-rgb: 212, 175, 55;
-    --callout-warning: #e67e22;
-    --callout-warning-rgb: 230, 126, 34;
-    --callout-success: #798d5d;
-    --callout-success-rgb: 121, 141, 93;
-    --callout-danger: #c0392b;
-    --callout-danger-rgb: 192, 57, 43;
-    --callout-example: #779088;
-    --callout-example-rgb: 119, 144, 136;
+    --background-secondary-rgb: 246, 239, 233;
+    --background-secondary-alt: #ebdcd0;
+    --text-normal: #3d2b1f;
+    --text-normal-rgb: 61, 43, 31;
+    --text-muted: rgba(61, 43, 31, .75);
+    --emphasis-color: #8b4513;
+    --emphasis-color-light: #a0522d;
+    --primary-color: #8b4513;
+    --primary-color-rgb: 139, 69, 19;
+    --primary-color-dark: #5d2f1a;
+    --interactive-accent: #8b4513;
+    --interactive-accent-hover: #5d2f1a;
+    --link-color: #8b4513;
+    --link-color-hover: #5d2f1a;
+    --link-unresolved-color: #a0522d;
+    --blockquote-border-color: #8b4513;
+    --checkbox-color: #8b4513;
+    --text-accent: #5d2f1a;
+    --divider-color: #f0e6e088;
+    --text-selection: #f0e6e0;
+    --scrollbar-thumb: rgba(139, 69, 19, .35);
+    --scrollbar-track: rgba(252, 246, 240, .2);
+    --code-background: #fdfaf7;
+    --code-normal: #3d2b1f;
+    --code-comment: rgba(61, 43, 31, .6);
+    --code-function: #8b4513;
+    --code-important: #5d2f1a;
+    --code-keyword: #a0522d;
+    --code-property: #556b2f;
+    --code-punctuation: rgba(61, 43, 31, .7);
+    --code-string: #8b4513;
+    --code-tag: #cd5c5c;
+    --code-value: #d2691e;
+    --heading-primary: #8b4513;
+    --heading-secondary: #a0522d;
+    --heading-tertiary: #b06d2e;
+    --heading-quaternary: #556b2f;
+    --heading-quinary: #cd5c5c;
+    --heading-senary: #d2691e;
+    --heading-primary-rgb: 139, 69, 19;
+    --heading-secondary-rgb: 160, 82, 45;
+    --heading-tertiary-rgb: 176, 109, 46;
+    --heading-quaternary-rgb: 85, 107, 47;
+    --heading-quinary-rgb: 205, 92, 92;
+    --heading-senary-rgb: 210, 105, 30;
+    --callout-note: var(--heading-primary);
+    --callout-note-rgb: var(--heading-primary-rgb);
+    --callout-info: #e9d5a3;
+    --callout-info-rgb: 233, 213, 163;
+    --callout-warning: #f39c12;
+    --callout-warning-rgb: 243, 156, 18;
+    --callout-success: #27ae60;
+    --callout-success-rgb: 39, 174, 96;
+    --callout-danger: #e74c3c;
+    --callout-danger-rgb: 231, 76, 60;
+    --callout-example: var(--heading-quaternary);
+    --callout-example-rgb: var(--heading-quaternary-rgb);
     --callout-cite: #573d84;
     --callout-cite-rgb: 87, 61, 132;
-    --callout-video: #a67c52;
-    --callout-video-rgb: 166, 124, 82;
-    --callout-quote: #b0a483;
-    --callout-quote-rgb: 176, 164, 131;
-    --callout-color: var(--heading-primary);
-    --callout-color-rgb: var(--heading-primary-rgb);
-    --folder-color: rgba(var(--folder-1-color-rgb), var(--theme-folder-opacity));
-    --folder-text-color: var(--folder-1-color);
-    --folder-accent-opacity: .6;
-    --folder-active-opacity: .8;
-    --highlight-bg: #bcd1ca;
-    --highlight-bg: #e8c89a;
-    --highlight-bg-rgb: 232, 200, 154;
-    --highlight-bg-dark: #c9a772;
-    --highlight-bg-dark-color: #2d1f0e;
+    --callout-video: #5885af;
+    --callout-video-rgb: 88, 133, 175;
+    --callout-quote: #ffefd5;
+    --callout-quote-rgb: 255, 239, 213;
+    --highlight-bg: #f8e5d0;
+    --highlight-bg-rgb: 248, 229, 208;
+    --highlight-bg-dark: #f0ccb0;
+    --highlight-bg-dark-color: #3d2b1f;
     --link-opacity-hover: .18;
     --link-opacity-normal: .1;
     --link-opacity-unresolved: .05;
     --link-opacity-unresolved-hover: .12;
-    --surface-accent: #e8e6dc;
-    --surface-accent-rgb: 232, 230, 220;
-    --surface-dark: #36342e;
-    --surface-dark-rgb: 54, 52, 46;
-    --tab-bg-inactive: rgba(245, 239, 224, .15);
-    --tab-bg-inactive-hover: rgba(245, 239, 224, .25);
+    --surface-accent: #f6efe9;
+    --surface-accent-rgb: 246, 239, 233;
+    --surface-dark: #28201a;
+    --surface-dark-rgb: 40, 32, 26;
+    --tab-bg-inactive: rgba(139, 69, 19, .05);
+    --tab-bg-inactive-hover: rgba(139, 69, 19, .1);
 }
 
 .theme-dark.autumn-theme {
-    --background-primary: #282520;
-    --background-primary-rgb: 40, 37, 32;
-    --background-secondary: #32302a;
+    --background-primary: #1a1512;
+    --background-primary-rgb: 26, 21, 18;
+    --background-secondary: #211b17;
     --setting-items-background: var(--background-secondary);
-    --background-secondary-rgb: 50, 48, 42;
-    --background-secondary-alt: #3a3832;
+    --background-secondary-rgb: 33, 27, 23;
+    --background-secondary-alt: #28201a;
     --text-normal: #e8dcc6;
-    --text-normal-rgb: 232, 220, 198;
-    --text-muted: rgba(232, 220, 198, .7);
-    --emphasis-color: #e27a5a;
+    --text-normal-rgb: 232, 220, 200;
+    --text-muted: rgba(232, 220, 200, .7);
+    --emphasis-color: #f2a882;
     --emphasis-color-light: #f2a882;
-    --primary-color: #f0916f;
-    --primary-color-rgb: 240, 145, 111;
+    --primary-color: #f2a882;
+    --primary-color-rgb: 242, 168, 130;
     --primary-color-dark: #e27a5a;
-    --interactive-accent: #f0916f;
+    --interactive-accent: #f2a882;
     --interactive-accent-hover: #e27a5a;
-    --link-color: #f0916f;
+    --link-color: #f2a882;
     --link-color-hover: #e27a5a;
-    --link-unresolved-color: #f0916f;
-    --blockquote-border-color: #f0916f;
-    --checkbox-color: #f0916f;
+    --link-unresolved-color: #f2a882;
+    --blockquote-border-color: #f2a882;
+    --checkbox-color: #f2a882;
     --text-accent: #e27a5a;
     --divider-color: #4a473e88;
-    --text-selection: #4a3d2e;
-    --scrollbar-thumb: rgba(240, 145, 111, .35);
-    --scrollbar-track: rgba(40, 37, 32, .2);
-    --code-background: #3a3832;
+    --text-selection: #3d2b20;
+    --scrollbar-thumb: rgba(242, 168, 130, .35);
+    --scrollbar-track: rgba(26, 21, 18, .2);
+    --code-background: #211b17;
     --code-normal: #e8dcc6;
     --code-comment: #9c9584;
     --code-function: #f2a882;
@@ -1005,43 +936,24 @@ settings:
     --heading-quaternary-rgb: 168, 196, 122;
     --heading-quinary-rgb: 224, 139, 168;
     --heading-senary-rgb: 149, 179, 170;
-    --folder-1-color: var(--heading-primary);
-    --folder-1-color-rgb: var(--heading-primary-rgb);
-    --folder-2-color: var(--heading-secondary);
-    --folder-2-color-rgb: var(--heading-secondary-rgb);
-    --folder-3-color: var(--heading-tertiary);
-    --folder-3-color-rgb: var(--heading-tertiary-rgb);
-    --folder-4-color: var(--heading-quaternary);
-    --folder-4-color-rgb: var(--heading-quaternary-rgb);
-    --folder-5-color: var(--heading-quinary);
-    --folder-5-color-rgb: var(--heading-quinary-rgb);
-    --folder-6-color: var(--heading-senary);
-    --folder-6-color-rgb: var(--heading-senary-rgb);
-    --callout-note: #f2a882;
-    --callout-note-rgb: 242, 168, 130;
+    --callout-note: var(--heading-primary);
+    --callout-note-rgb: var(--heading-primary-rgb);
     --callout-info: #e9d5a3;
     --callout-info-rgb: 233, 213, 163;
     --callout-warning: #f39c12;
     --callout-warning-rgb: 243, 156, 18;
-    --callout-success: #a8c47a;
-    --callout-success-rgb: 168, 196, 122;
+    --callout-success: var(--heading-quaternary);
+    --callout-success-rgb: var(--heading-quaternary-rgb);
     --callout-danger: #e74c3c;
     --callout-danger-rgb: 231, 76, 60;
-    --callout-example: #95b3aa;
-    --callout-example-rgb: 149, 179, 170;
+    --callout-example: var(--heading-senary);
+    --callout-example-rgb: var(--heading-senary-rgb);
     --callout-cite: #a29bfe;
     --callout-cite-rgb: 162, 155, 254;
     --callout-video: #f2b399;
     --callout-video-rgb: 242, 179, 153;
     --callout-quote: #e8dcc6;
     --callout-quote-rgb: 232, 220, 198;
-    --callout-color: var(--heading-primary);
-    --callout-color-rgb: var(--heading-primary-rgb);
-    --folder-color: rgba(var(--folder-1-color-rgb), var(--theme-folder-opacity));
-    --folder-text-color: var(--folder-1-color);
-    --folder-accent-opacity: .6;
-    --folder-active-opacity: .8;
-    --highlight-bg: #4a3d2e;
     --highlight-bg: #3a2f20;
     --highlight-bg-dark: #5a4430;
     --highlight-bg-dark-color: #5a4430;
@@ -1115,50 +1027,30 @@ settings:
     --heading-quaternary-rgb: 45, 90, 45;
     --heading-quinary-rgb: 72, 61, 139;
     --heading-senary-rgb: 0, 139, 139;
-    --folder-1-color: var(--heading-primary);
-    --folder-1-color-rgb: var(--heading-primary-rgb);
-    --folder-2-color: var(--heading-secondary);
-    --folder-2-color-rgb: var(--heading-secondary-rgb);
-    --folder-3-color: var(--heading-tertiary);
-    --folder-3-color-rgb: var(--heading-tertiary-rgb);
-    --folder-4-color: var(--heading-quaternary);
-    --folder-4-color-rgb: var(--heading-quaternary-rgb);
-    --folder-5-color: var(--heading-quinary);
-    --folder-5-color-rgb: var(--heading-quinary-rgb);
-    --folder-6-color: var(--heading-senary);
-    --folder-6-color-rgb: var(--heading-senary-rgb);
-    --callout-note: #2e5984;
-    --callout-note-rgb: 46, 89, 132;
-    --callout-info: #4682b4;
-    --callout-info-rgb: 70, 130, 180;
+
+    --callout-note: var(--heading-primary);
+    --callout-note-rgb: var(--heading-primary-rgb);
+    --callout-info: var(--heading-secondary);
+    --callout-info-rgb: var(--heading-secondary-rgb);
     --callout-warning: #e07a5f;
     --callout-warning-rgb: 224, 122, 95;
     --callout-success: #27ae60;
     --callout-success-rgb: 39, 174, 96;
     --callout-danger: #c0392b;
     --callout-danger-rgb: 192, 57, 43;
-    --callout-example: #008b8b;
-    --callout-example-rgb: 0, 139, 139;
+    --callout-example: var(--heading-senary);
+    --callout-example-rgb: var(--heading-senary-rgb);
     --callout-cite: #573d84;
     --callout-cite-rgb: 87, 61, 132;
-    --callout-video: #5885af;
-    --callout-video-rgb: 88, 133, 175;
+    --callout-video: var(--heading-quinary);
+    --callout-video-rgb: var(--heading-quinary-rgb);
     --callout-quote: #a1c8f0;
     --callout-quote-rgb: 161, 200, 240;
-    --callout-color: var(--heading-primary);
-    --callout-color-rgb: var(--heading-primary-rgb);
-    --folder-color: rgba(var(--folder-1-color-rgb), var(--theme-folder-opacity));
-    --folder-text-color: var(--folder-1-color);
-    --folder-accent-opacity: .6;
-    --folder-active-opacity: .8;
+
     --highlight-bg: #9ec5e6;
     --highlight-bg-rgb: 158, 197, 230;
     --highlight-bg-dark: #7aaddb;
     --highlight-bg-dark-color: #0f2535;
-    --link-opacity-hover: .18;
-    --link-opacity-normal: .1;
-    --link-opacity-unresolved: .05;
-    --link-opacity-unresolved-hover: .12;
     --surface-accent: #e1f0ff;
     --surface-accent-rgb: 225, 240, 255;
     --surface-dark: #1e2a37;
@@ -1217,50 +1109,30 @@ settings:
     --heading-quaternary-rgb: 125, 179, 125;
     --heading-quinary-rgb: 138, 125, 216;
     --heading-senary-rgb: 77, 212, 212;
-    --folder-1-color: var(--heading-primary);
-    --folder-1-color-rgb: var(--heading-primary-rgb);
-    --folder-2-color: var(--heading-secondary);
-    --folder-2-color-rgb: var(--heading-secondary-rgb);
-    --folder-3-color: var(--heading-tertiary);
-    --folder-3-color-rgb: var(--heading-tertiary-rgb);
-    --folder-4-color: var(--heading-quaternary);
-    --folder-4-color-rgb: var(--heading-quaternary-rgb);
-    --folder-5-color: var(--heading-quinary);
-    --folder-5-color-rgb: var(--heading-quinary-rgb);
-    --folder-6-color: var(--heading-senary);
-    --folder-6-color-rgb: var(--heading-senary-rgb);
-    --callout-note: #7db3dd;
-    --callout-note-rgb: 125, 179, 221;
-    --callout-info: #a1c8f0;
-    --callout-info-rgb: 161, 200, 240;
+
+    --callout-note: var(--heading-primary);
+    --callout-note-rgb: var(--heading-primary-rgb);
+    --callout-info: var(--heading-secondary);
+    --callout-info-rgb: var(--heading-secondary-rgb);
     --callout-warning: #f39c12;
     --callout-warning-rgb: 243, 156, 18;
     --callout-success: #2ecc71;
     --callout-success-rgb: 46, 204, 113;
     --callout-danger: #e74c3c;
     --callout-danger-rgb: 231, 76, 60;
-    --callout-example: #4dd4d4;
-    --callout-example-rgb: 77, 212, 212;
+    --callout-example: var(--heading-senary);
+    --callout-example-rgb: var(--heading-senary-rgb);
     --callout-cite: #a29bfe;
     --callout-cite-rgb: 162, 155, 254;
     --callout-video: #81e6d9;
     --callout-video-rgb: 129, 230, 217;
     --callout-quote: #d9ebf7;
     --callout-quote-rgb: 217, 235, 247;
-    --callout-color: var(--heading-primary);
-    --callout-color-rgb: var(--heading-primary-rgb);
-    --folder-color: rgba(var(--folder-1-color-rgb), var(--theme-folder-opacity));
-    --folder-text-color: var(--folder-1-color);
-    --folder-accent-opacity: .6;
-    --folder-active-opacity: .8;
+
     --highlight-bg: #1f2d3a;
     --highlight-bg-dark: #2a3f52;
     --highlight-bg-dark-color: #2a3f52;
     --highlight-bg-light-color: #9ec5e6;
-    --link-opacity-hover: .18;
-    --link-opacity-normal: .1;
-    --link-opacity-unresolved: .05;
-    --link-opacity-unresolved-hover: .12;
     --surface-accent: #3a4a5c;
     --surface-accent-rgb: 58, 74, 92;
     --surface-dark: #151b21;
@@ -1328,18 +1200,7 @@ settings:
     --heading-quaternary-rgb: 107, 142, 35;
     --heading-quinary-rgb: 46, 90, 139;
     --heading-senary-rgb: 184, 134, 11;
-    --folder-1-color: var(--heading-primary);
-    --folder-1-color-rgb: var(--heading-primary-rgb);
-    --folder-2-color: var(--heading-secondary);
-    --folder-2-color-rgb: var(--heading-secondary-rgb);
-    --folder-3-color: var(--heading-tertiary);
-    --folder-3-color-rgb: var(--heading-tertiary-rgb);
-    --folder-4-color: var(--heading-quaternary);
-    --folder-4-color-rgb: var(--heading-quaternary-rgb);
-    --folder-5-color: var(--heading-quinary);
-    --folder-5-color-rgb: var(--heading-quinary-rgb);
-    --folder-6-color: var(--heading-senary);
-    --folder-6-color-rgb: var(--heading-senary-rgb);
+
     --callout-note: #6bb02d;
     --callout-note-rgb: 107, 176, 45;
     --callout-info: #3a8cd6;
@@ -1358,20 +1219,11 @@ settings:
     --callout-video-rgb: 123, 163, 212;
     --callout-quote: #b8e994;
     --callout-quote-rgb: 184, 233, 148;
-    --callout-color: var(--heading-primary);
-    --callout-color-rgb: var(--heading-primary-rgb);
-    --folder-color: rgba(var(--folder-1-color-rgb), var(--theme-folder-opacity));
-    --folder-text-color: var(--folder-1-color);
-    --folder-accent-opacity: .6;
-    --folder-active-opacity: .8;
+
     --highlight-bg: #c8e6a8;
     --highlight-bg-rgb: 200, 230, 168;
     --highlight-bg-dark: #a6d47a;
     --highlight-bg-dark-color: #1a2f0e;
-    --link-opacity-hover: .18;
-    --link-opacity-normal: .1;
-    --link-opacity-unresolved: .05;
-    --link-opacity-unresolved-hover: .12;
     --surface-accent: #f5faf0;
     --surface-accent-rgb: 245, 250, 240;
     --surface-dark: #2a3d1a;
@@ -1430,50 +1282,30 @@ settings:
     --heading-quaternary-rgb: 184, 217, 130;
     --heading-quinary-rgb: 123, 163, 212;
     --heading-senary-rgb: 230, 197, 71;
-    --folder-1-color: var(--heading-primary);
-    --folder-1-color-rgb: var(--heading-primary-rgb);
-    --folder-2-color: var(--heading-secondary);
-    --folder-2-color-rgb: var(--heading-secondary-rgb);
-    --folder-3-color: var(--heading-tertiary);
-    --folder-3-color-rgb: var(--heading-tertiary-rgb);
-    --folder-4-color: var(--heading-quaternary);
-    --folder-4-color-rgb: var(--heading-quaternary-rgb);
-    --folder-5-color: var(--heading-quinary);
-    --folder-5-color-rgb: var(--heading-quinary-rgb);
-    --folder-6-color: var(--heading-senary);
-    --folder-6-color-rgb: var(--heading-senary-rgb);
-    --callout-note: #a8d46f;
-    --callout-note-rgb: 168, 212, 111;
-    --callout-info: #7ba3d4;
-    --callout-info-rgb: 123, 163, 212;
+
+    --callout-note: var(--heading-primary);
+    --callout-note-rgb: var(--heading-primary-rgb);
+    --callout-info: var(--heading-quinary);
+    --callout-info-rgb: var(--heading-quinary-rgb);
     --callout-warning: #f1c40f;
     --callout-warning-rgb: 241, 196, 15;
     --callout-success: #2ecc71;
     --callout-success-rgb: 46, 204, 113;
     --callout-danger: #e67e22;
     --callout-danger-rgb: 230, 126, 34;
-    --callout-example: #f2b399;
-    --callout-example-rgb: 242, 179, 153;
+    --callout-example: var(--heading-tertiary);
+    --callout-example-rgb: var(--heading-tertiary-rgb);
     --callout-cite: #a29bfe;
     --callout-cite-rgb: 162, 155, 254;
     --callout-video: #8bbdd9;
     --callout-video-rgb: 139, 189, 217;
     --callout-quote: #dff9fb;
     --callout-quote-rgb: 223, 249, 251;
-    --callout-color: var(--heading-primary);
-    --callout-color-rgb: var(--heading-primary-rgb);
-    --folder-color: rgba(var(--folder-1-color-rgb), var(--theme-folder-opacity));
-    --folder-text-color: var(--folder-1-color);
-    --folder-accent-opacity: .6;
-    --folder-active-opacity: .8;
+
     --highlight-bg: #252f20;
     --highlight-bg-dark: #354530;
     --highlight-bg-dark-color: #354530;
     --highlight-bg-light-color: #b8d982;
-    --link-opacity-hover: .18;
-    --link-opacity-normal: .1;
-    --link-opacity-unresolved: .05;
-    --link-opacity-unresolved-hover: .12;
     --surface-accent: #3d4f2e;
     --surface-accent-rgb: 61, 79, 46;
     --surface-dark: #1a1f16;
@@ -1539,50 +1371,30 @@ settings:
     --heading-quaternary-rgb: 243, 120, 78;
     --heading-quinary-rgb: 10, 107, 93;
     --heading-senary-rgb: 75, 0, 130;
-    --folder-1-color: var(--heading-primary);
-    --folder-1-color-rgb: var(--heading-primary-rgb);
-    --folder-2-color: var(--heading-secondary);
-    --folder-2-color-rgb: var(--heading-secondary-rgb);
-    --folder-3-color: var(--heading-tertiary);
-    --folder-3-color-rgb: var(--heading-tertiary-rgb);
-    --folder-4-color: var(--heading-quaternary);
-    --folder-4-color-rgb: var(--heading-quaternary-rgb);
-    --folder-5-color: var(--heading-quinary);
-    --folder-5-color-rgb: var(--heading-quinary-rgb);
-    --folder-6-color: var(--heading-senary);
-    --folder-6-color-rgb: var(--heading-senary-rgb);
-    --callout-note: #d63384;
-    --callout-note-rgb: 214, 51, 132;
-    --callout-info: #cc8500;
-    --callout-info-rgb: 204, 133, 0;
-    --callout-warning: #0c7a93;
-    --callout-warning-rgb: 12, 122, 147;
-    --callout-success: #0a6b5d;
-    --callout-success-rgb: 10, 107, 93;
+
+    --callout-note: var(--heading-primary);
+    --callout-note-rgb: var(--heading-primary-rgb);
+    --callout-info: var(--heading-tertiary);
+    --callout-info-rgb: var(--heading-tertiary-rgb);
+    --callout-warning: var(--heading-secondary);
+    --callout-warning-rgb: var(--heading-secondary-rgb);
+    --callout-success: var(--heading-quinary);
+    --callout-success-rgb: var(--heading-quinary-rgb);
     --callout-danger: #e74c3c;
     --callout-danger-rgb: 231, 76, 60;
-    --callout-example: #f3784e;
-    --callout-example-rgb: 243, 120, 78;
+    --callout-example: var(--heading-quaternary);
+    --callout-example-rgb: var(--heading-quaternary-rgb);
     --callout-cite: #573d84;
     --callout-cite-rgb: 87, 61, 132;
     --callout-video: #57d9eb;
     --callout-video-rgb: 87, 217, 235;
     --callout-quote: #fff8dc;
     --callout-quote-rgb: 255, 248, 220;
-    --callout-color: var(--heading-primary);
-    --callout-color-rgb: var(--heading-primary-rgb);
-    --folder-color: rgba(var(--folder-1-color-rgb), var(--theme-folder-opacity));
-    --folder-text-color: var(--folder-1-color);
-    --folder-accent-opacity: .6;
-    --folder-active-opacity: .8;
+
     --highlight-bg: #ffc9e0;
     --highlight-bg-rgb: 255, 201, 224;
     --highlight-bg-dark: #f5a8c9;
     --highlight-bg-dark-color: #4a1530;
-    --link-opacity-hover: .18;
-    --link-opacity-normal: .1;
-    --link-opacity-unresolved: .05;
-    --link-opacity-unresolved-hover: .12;
     --surface-accent: #fff8f0;
     --surface-accent-rgb: 255, 248, 240;
     --surface-dark: #5d2f1a;
@@ -1641,56 +1453,232 @@ settings:
     --heading-quaternary-rgb: 242, 168, 130;
     --heading-quinary-rgb: 102, 196, 170;
     --heading-senary-rgb: 176, 143, 217;
-    --folder-1-color: var(--heading-primary);
-    --folder-1-color-rgb: var(--heading-primary-rgb);
-    --folder-2-color: var(--heading-secondary);
-    --folder-2-color-rgb: var(--heading-secondary-rgb);
-    --folder-3-color: var(--heading-tertiary);
-    --folder-3-color-rgb: var(--heading-tertiary-rgb);
-    --folder-4-color: var(--heading-quaternary);
-    --folder-4-color-rgb: var(--heading-quaternary-rgb);
-    --folder-5-color: var(--heading-quinary);
-    --folder-5-color-rgb: var(--heading-quinary-rgb);
-    --folder-6-color: var(--heading-senary);
-    --folder-6-color-rgb: var(--heading-senary-rgb);
-    --callout-note: #f28bb8;
-    --callout-note-rgb: 242, 139, 184;
-    --callout-info: #e6c266;
-    --callout-info-rgb: 230, 194, 102;
-    --callout-warning: #66c4e6;
-    --callout-warning-rgb: 102, 196, 230;
-    --callout-success: #66c4aa;
-    --callout-success-rgb: 102, 196, 170;
+
+    --callout-note: var(--heading-primary);
+    --callout-note-rgb: var(--heading-primary-rgb);
+    --callout-info: var(--heading-tertiary);
+    --callout-info-rgb: var(--heading-tertiary-rgb);
+    --callout-warning: var(--heading-secondary);
+    --callout-warning-rgb: var(--heading-secondary-rgb);
+    --callout-success: var(--heading-quinary);
+    --callout-success-rgb: var(--heading-quinary-rgb);
     --callout-danger: #f1c40f;
     --callout-danger-rgb: 241, 196, 15;
-    --callout-example: #f2a882;
-    --callout-example-rgb: 242, 168, 130;
+    --callout-example: var(--heading-quaternary);
+    --callout-example-rgb: var(--heading-quaternary-rgb);
     --callout-cite: #a29bfe;
     --callout-cite-rgb: 162, 155, 254;
     --callout-video: #57e6ff;
     --callout-video-rgb: 87, 230, 255;
     --callout-quote: #fbd3e9;
     --callout-quote-rgb: 251, 211, 233;
-    --callout-color: var(--heading-primary);
-    --callout-color-rgb: var(--heading-primary-rgb);
-    --folder-color: rgba(var(--folder-1-color-rgb), var(--theme-folder-opacity));
-    --folder-text-color: var(--folder-1-color);
-    --folder-accent-opacity: .6;
-    --folder-active-opacity: .8;
+
     --highlight-bg: #3a2030;
     --highlight-bg-dark: #5a3345;
     --highlight-bg-dark-color: #5a3345;
     --highlight-bg-light-color: #f5a8c9;
-    --link-opacity-hover: .18;
-    --link-opacity-normal: .1;
-    --link-opacity-unresolved: .05;
-    --link-opacity-unresolved-hover: .12;
     --surface-accent: #5c3d2f;
     --surface-accent-rgb: 92, 61, 47;
     --surface-dark: #1f1a1a;
     --surface-dark-rgb: 31, 26, 26;
     --tab-bg-inactive: rgba(31, 26, 26, .15);
     --tab-bg-inactive-hover: rgba(31, 26, 26, .25);
+}
+
+/* Paper Theme Variables */
+.paper-theme {
+    --accent-h: 210;
+    --accent-s: 15%;
+    --accent-l: 55%;
+}
+
+.theme-light.paper-theme {
+    --background-primary: #F3F1EC;
+    --background-primary-rgb: 243, 241, 236;
+    --background-secondary: #E5E3E0;
+    --setting-items-background: var(--background-secondary);
+    --background-secondary-rgb: 229, 227, 224;
+    --background-secondary-alt: #DBD9D6;
+
+    --text-normal: #656360;
+    --text-normal-rgb: 101, 99, 96;
+    --text-muted: #969491;
+    --text-faint: #C7C5C2;
+
+    --bold-color: #D14532;
+    --italic-color: #D14532;
+
+    --emphasis-color: #D14532;
+    --emphasis-color-light: #E65A48;
+
+    --primary-color: #555555;
+    --primary-color-rgb: 85, 85, 85;
+    --primary-color-dark: #333333;
+    --interactive-accent: #555555;
+    --interactive-accent-hover: #333333;
+
+    --link-color: #D14532;
+    --link-color-hover: #B83E2D;
+    --link-unresolved-color: #E65A48;
+
+    --blockquote-border-color: #D14532;
+    --checkbox-color: #D14532;
+    --text-accent: #D14532;
+    --divider-color: rgba(0, 0, 0, 0.08);
+    --text-selection: rgba(209, 69, 50, 0.15);
+
+    --scrollbar-thumb: rgba(0, 0, 0, 0.15);
+    --scrollbar-track: rgba(0, 0, 0, 0.03);
+
+    --code-background: #E8E7E3;
+    --code-normal: #1C1C1E;
+    --code-comment: #8E8E93;
+    --code-function: #555555;
+    --code-important: #C96652;
+    --code-keyword: #1C1C1E;
+    --code-property: #555555;
+    --code-punctuation: #8E8E93;
+    --code-string: #C96652;
+    --code-tag: #555555;
+    --code-value: #1C1C1E;
+
+    --heading-primary: #000000;
+    --heading-secondary: #1C1C1E;
+    --heading-tertiary: #333333;
+    --heading-quaternary: #444444;
+    --heading-quinary: #666666;
+    --heading-senary: #8E8E93;
+
+    --heading-primary-rgb: 0, 0, 0;
+    --heading-secondary-rgb: 28, 28, 30;
+    --heading-tertiary-rgb: 51, 51, 51;
+    --heading-quaternary-rgb: 68, 68, 68;
+    --heading-quinary-rgb: 102, 102, 102;
+    --heading-senary-rgb: 142, 142, 147;
+
+    --callout-note: #555555;
+    --callout-note-rgb: 85, 85, 85;
+    --callout-info: #555555;
+    --callout-info-rgb: 85, 85, 85;
+    --callout-warning: #555555;
+    --callout-warning-rgb: 85, 85, 85;
+    --callout-faq: #555555;
+    --callout-faq-rgb: 85, 85, 85;
+    --callout-question: #555555;
+    --callout-question-rgb: 85, 85, 85;
+    --callout-success: #555555;
+    --callout-success-rgb: 85, 85, 85;
+    --callout-danger: #555555;
+    --callout-danger-rgb: 85, 85, 85;
+    --callout-example: #555555;
+    --callout-example-rgb: 85, 85, 85;
+    --callout-cite: #555555;
+    --callout-cite-rgb: 85, 85, 85;
+    --callout-video: #555555;
+    --callout-video-rgb: 85, 85, 85;
+    --callout-quote: #555555;
+    --callout-quote-rgb: 85, 85, 85;
+
+    --highlight-bg: rgba(209, 69, 50, 0.2);
+    --highlight-bg-rgb: 209, 69, 50;
+    --highlight-bg-dark: rgba(209, 69, 50, 0.3);
+
+    --tab-bg-inactive: transparent;
+    --tab-bg-inactive-hover: rgba(0, 0, 0, 0.05);
+}
+
+.theme-dark.paper-theme {
+    --background-primary: #1c1c1e;
+    --background-primary-rgb: 28, 28, 30;
+    --background-secondary: #2c2c2e;
+    --setting-items-background: var(--background-secondary);
+    --background-secondary-rgb: 44, 44, 46;
+    --background-secondary-alt: #3a3a3c;
+
+    --text-normal: #d1d1d6;
+    --text-normal-rgb: 209, 209, 214;
+    --text-muted: #8e8e93;
+    --text-faint: #636366;
+
+    --bold-color: #D14532;
+    --italic-color: #D14532;
+
+    --emphasis-color: #D14532;
+    --emphasis-color-light: #E65A48;
+
+    --primary-color: #8E8E93;
+    --primary-color-rgb: 142, 142, 147;
+    --primary-color-dark: #636366;
+    --interactive-accent: #8E8E93;
+    --interactive-accent-hover: #636366;
+
+    --link-color: #D14532;
+    --link-color-hover: #E65A48;
+    --link-unresolved-color: #E65A48;
+
+    --blockquote-border-color: #D14532;
+    --checkbox-color: #D14532;
+    --text-accent: #D14532;
+    --divider-color: rgba(255, 255, 255, 0.1);
+    --text-selection: rgba(209, 69, 50, 0.15);
+
+    --scrollbar-thumb: rgba(255, 255, 255, 0.15);
+    --scrollbar-track: rgba(255, 255, 255, 0.02);
+
+    --code-background: #2c2c2e;
+    --code-normal: #d1d1d6;
+    --code-comment: #8e8e93;
+    --code-function: #8E8E93;
+    --code-important: #C96652;
+    --code-keyword: #d1d1d6;
+    --code-property: #b0b0b5;
+    --code-punctuation: #8e8e93;
+    --code-string: #C96652;
+    --code-tag: #8E8E93;
+    --code-value: #d1d1d6;
+
+    --heading-primary: #ffffff;
+    --heading-secondary: #e5e5ea;
+    --heading-tertiary: #d1d1d6;
+    --heading-quaternary: #98989d;
+    --heading-quinary: #8e8e93;
+    --heading-senary: #636366;
+
+    --heading-primary-rgb: 255, 255, 255;
+    --heading-secondary-rgb: 229, 229, 234;
+    --heading-tertiary-rgb: 209, 209, 214;
+    --heading-quaternary-rgb: 152, 152, 157;
+    --heading-quinary-rgb: 142, 142, 147;
+    --heading-senary-rgb: 99, 99, 102;
+
+    --callout-note: #8E8E93;
+    --callout-note-rgb: 142, 142, 147;
+    --callout-info: #8E8E93;
+    --callout-info-rgb: 142, 142, 147;
+    --callout-warning: #8E8E93;
+    --callout-warning-rgb: 142, 142, 147;
+    --callout-faq: #8E8E93;
+    --callout-faq-rgb: 142, 142, 147;
+    --callout-question: #8E8E93;
+    --callout-question-rgb: 142, 142, 147;
+    --callout-success: #8E8E93;
+    --callout-success-rgb: 142, 142, 147;
+    --callout-danger: #8E8E93;
+    --callout-danger-rgb: 142, 142, 147;
+    --callout-example: #8E8E93;
+    --callout-example-rgb: 142, 142, 147;
+    --callout-cite: #8E8E93;
+    --callout-cite-rgb: 142, 142, 147;
+    --callout-video: #8E8E93;
+    --callout-video-rgb: 142, 142, 147;
+    --callout-quote: #8E8E93;
+    --callout-quote-rgb: 142, 142, 147;
+
+    --highlight-bg: rgba(209, 69, 50, 0.2);
+    --highlight-bg-rgb: 209, 69, 50;
+
+    --tab-bg-inactive: transparent;
+    --tab-bg-inactive-hover: rgba(255, 255, 255, 0.05);
 }
 
 /* Global Transitions */
@@ -4400,6 +4388,901 @@ body:not(.disable-ui-animations) .tooltip {
     animation: menuPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* ================================================= ==================================================
+   WHIMSY ANIMATIONS (From Blobob)
+================================================ ================================================== */
+
+/* --- Keyframes --- */
+
+@keyframes whimsy-modal-open {
+    0% {
+        transform: translateY(18px) scale(0.99);
+    }
+
+    65% {
+        transform: translateY(-1px) scale(1.01);
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes whimsy-settle-bounce {
+    0% {
+        transform: scaleY(1.05);
+    }
+
+    60% {
+        transform: scaleY(0.98);
+    }
+
+    100% {
+        transform: scaleY(1);
+    }
+}
+
+@keyframes whimsy-settle-container {
+    0% {
+        transform: scaleY(1);
+    }
+
+    40% {
+        transform: scaleY(1.025);
+    }
+
+    100% {
+        transform: scaleY(1);
+    }
+}
+
+@keyframes whimsy-collapse-bounce {
+    0% {
+        transform: scaleY(1);
+    }
+
+    40% {
+        transform: scaleY(1.06);
+    }
+
+    100% {
+        transform: scaleY(0.92);
+    }
+}
+
+@keyframes whimsy-notice-in {
+    0% {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.96);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes whimsy-callout-open-settle {
+    0% {
+        transform: scaleY(0.9);
+    }
+
+    60% {
+        transform: scaleY(1.03);
+    }
+
+    100% {
+        transform: scaleY(1);
+    }
+}
+
+@keyframes whimsy-callout-close-bounce {
+    0% {
+        transform: scaleY(1);
+    }
+
+    40% {
+        transform: scaleY(1.05);
+    }
+
+    100% {
+        transform: scaleY(0.95);
+    }
+}
+
+@keyframes whimsy-float {
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    25% {
+        transform: translateY(-4px) rotate(-0.5deg);
+    }
+
+    50% {
+        transform: translateY(8px) rotate(0.5deg);
+    }
+
+    75% {
+        transform: translateY(-2px) rotate(-0.3deg);
+    }
+}
+
+/* --- Application Rules --- */
+
+/* Modals */
+body.animation-style-whimsy:not(.disable-ui-animations) .modal-container {
+    transform-origin: center;
+    animation: whimsy-modal-open 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.7) !important;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .modal {
+    animation: none !important;
+}
+
+/* Metadata/Properties */
+body.animation-style-whimsy:not(.disable-ui-animations) .metadata-container:not(.is-collapsed) .metadata-content {
+    animation: whimsy-settle-bounce 0.4s forwards;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .metadata-container:not(.is-collapsed) {
+    animation: whimsy-settle-container 0.5s forwards;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .metadata-container.is-collapsed {
+    animation: whimsy-collapse-bounce 0.35s cubic-bezier(0.175, 0.885, 0.32, 2) forwards;
+}
+
+/* Notices */
+body.animation-style-whimsy:not(.disable-ui-animations) .notice-container {
+    animation: whimsy-notice-in 0.35s cubic-bezier(0.175, 0.885, 0.32, 2) !important;
+    transform-origin: top center;
+}
+
+/* Callouts */
+body.animation-style-whimsy:not(.disable-ui-animations) .callout:not(.is-collapsed) {
+    animation: whimsy-callout-open-settle 0.4s cubic-bezier(0.175, 0.885, 0.32, 2) !important;
+    transform-origin: top center;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .callout.is-collapsed {
+    animation: whimsy-callout-close-bounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 2) forwards !important;
+    transform-origin: top center;
+}
+
+/* Loading Screen */
+body.animation-style-whimsy:not(.disable-ui-animations) .progress-bar-message {
+    animation: whimsy-float 2s ease-in-out infinite;
+    display: inline-block;
+    /* Ensure transform works */
+}
+
+/* --- Expanded Whimsy Elements --- */
+
+@keyframes whimsy-checkbox-pop {
+    0% {
+        transform: scale(1);
+    }
+
+    40% {
+        transform: scale(1.35);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Jelly/Rubber effect for interactive elements */
+@keyframes whimsy-jelly {
+    0% {
+        transform: scale(1, 1);
+    }
+
+    25% {
+        transform: scale(0.95, 1.05);
+    }
+
+    50% {
+        transform: scale(1.05, 0.95);
+    }
+
+    75% {
+        transform: scale(0.98, 1.02);
+    }
+
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+/* Wiggle for attention/error states */
+@keyframes whimsy-wiggle {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    20% {
+        transform: rotate(-3deg);
+    }
+
+    40% {
+        transform: rotate(3deg);
+    }
+
+    60% {
+        transform: rotate(-2deg);
+    }
+
+    80% {
+        transform: rotate(2deg);
+    }
+}
+
+/* Slide-in from side with bounce */
+@keyframes whimsy-slide-in-right {
+    0% {
+        transform: translateX(30px) scale(0.95);
+        opacity: 0;
+    }
+
+    70% {
+        transform: translateX(-5px) scale(1.02);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* Gentle pulse for focus states */
+@keyframes whimsy-pulse-soft {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0.4);
+    }
+
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 0 0 8px rgba(var(--primary-color-rgb), 0);
+    }
+}
+
+/* Heartbeat for important notifications */
+@keyframes whimsy-heartbeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    14% {
+        transform: scale(1.1);
+    }
+
+    28% {
+        transform: scale(1);
+    }
+
+    42% {
+        transform: scale(1.1);
+    }
+
+    56% {
+        transform: scale(1);
+    }
+}
+
+/* Reveal animation for content entrance */
+@keyframes whimsy-reveal-up {
+    0% {
+        opacity: 0;
+        transform: translateY(15px);
+        filter: blur(3px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+/* Popups (Menu, Popover, Etc) */
+body.animation-style-whimsy:not(.disable-ui-animations) .menu,
+body.animation-style-whimsy:not(.disable-ui-animations) .popover,
+body.animation-style-whimsy:not(.disable-ui-animations) .prompt,
+body.animation-style-whimsy:not(.disable-ui-animations) .suggestion-container,
+body.animation-style-whimsy:not(.disable-ui-animations) .tooltip {
+    animation: whimsy-modal-open 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.7) !important;
+}
+
+/* Checkboxes */
+body.animation-style-whimsy:not(.disable-ui-animations) input[type="checkbox"]:checked,
+body.animation-style-whimsy:not(.disable-ui-animations) .task-list-item-checkbox:checked {
+    animation: whimsy-checkbox-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+}
+
+/* Buttons and Icons Hover */
+body.animation-style-whimsy button,
+body.animation-style-whimsy .clickable-icon {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5);
+}
+
+body.animation-style-whimsy button:hover,
+body.animation-style-whimsy .clickable-icon:hover {
+    transform: scale(1.15);
+}
+
+body.animation-style-whimsy button:active,
+body.animation-style-whimsy .clickable-icon:active {
+    transform: scale(0.9);
+}
+
+/* --- Bouncy & Rotaty Buttons --- */
+body.animation-style-whimsy .workspace-tab-header-inner-close-button {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5), opacity 0.2s ease, width 0.2s ease !important;
+}
+
+body.animation-style-whimsy .workspace-tab-header-inner-close-button:hover {
+    transform: scale(1.15) rotate(90deg);
+    background-color: var(--background-modifier-error) !important;
+    color: var(--text-on-accent);
+}
+
+/* Sidebar Toggle Buttons (Left Rotates 180) */
+body.animation-style-whimsy .sidebar-toggle-button.mod-left {
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+}
+
+body.animation-style-whimsy .sidebar-toggle-button.mod-left:hover {
+    transform: rotate(180deg) scale(1.15);
+}
+
+body.animation-style-whimsy .side-dock-ribbon-action:hover,
+body.animation-style-whimsy .workspace-ribbon-collapse-btn:hover {
+    transform: scale(1.15) rotate(5deg);
+}
+
+body.animation-style-whimsy .collapse-icon {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+}
+
+body.animation-style-whimsy .collapse-icon:hover {
+    transform: scale(1.3);
+}
+
+body.animation-style-whimsy .status-bar-item {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+}
+
+body.animation-style-whimsy .status-bar-item:hover {
+    transform: translateY(-3px);
+}
+
+body.animation-style-whimsy .tag,
+body.animation-style-whimsy .multi-select-pill {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+    display: inline-block;
+}
+
+body.animation-style-whimsy .tag:hover,
+body.animation-style-whimsy .multi-select-pill:hover {
+    transform: scale(1.1) rotate(-2deg);
+}
+
+body.animation-style-whimsy .canvas-control-item {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+}
+
+body.animation-style-whimsy .canvas-control-item:hover {
+    transform: scale(1.2);
+}
+
+body.animation-style-whimsy .search-input-container input {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5), box-shadow 0.2s ease !important;
+}
+
+body.animation-style-whimsy .search-input-container input:focus {
+    transform: scale(1.02);
+}
+
+/* --- Whimsy Transitions (Bouncify Everything) --- */
+
+/* Tabs */
+body.animation-style-whimsy .workspace-tab-header,
+body.animation-style-whimsy .workspace-tab-header-inner {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s ease !important;
+}
+
+/* View Headers */
+body.animation-style-whimsy .view-header {
+    transition: box-shadow 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s ease !important;
+}
+
+/* Sidebar & Ribbon Icons */
+body.animation-style-whimsy .side-dock-ribbon-action,
+body.animation-style-whimsy .workspace-ribbon-collapse-btn,
+body.animation-style-whimsy .view-header-icon,
+body.animation-style-whimsy .modal-close-button {
+    transition: color 0.2s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+}
+
+/* Metadata Container */
+body.animation-style-whimsy .metadata-container {
+    transition: box-shadow 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2) !important;
+}
+
+/* File Explorer Items & Outline */
+body.animation-style-whimsy .nav-file-title,
+body.animation-style-whimsy .nav-folder-title,
+body.animation-style-whimsy .tree-item-self {
+    transition: background-color 0.2s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.2) !important;
+}
+
+body.animation-style-whimsy .nav-file-title:hover,
+body.animation-style-whimsy .nav-folder-title:hover,
+body.animation-style-whimsy .tree-item-self:hover {
+    transform: translateX(3px);
+}
+
+/* Toggles */
+body.animation-style-whimsy .checkbox-container {
+    transition: background-color 0.2s ease !important;
+}
+
+body.animation-style-whimsy .checkbox-container:after {
+    transition: transform 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6) !important;
+}
+
+/* Sliders */
+body.animation-style-whimsy input[type=range]::-webkit-slider-thumb {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+}
+
+body.animation-style-whimsy input[type=range]::-webkit-slider-thumb:active {
+    transform: scale(1.3);
+}
+
+/* Links */
+body.animation-style-whimsy a.internal-link,
+body.animation-style-whimsy a.external-link {
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+    display: inline-block;
+    /* Required for transform */
+}
+
+body.animation-style-whimsy a.internal-link:hover,
+body.animation-style-whimsy a.external-link:hover {
+    transform: scale(1.05);
+}
+
+/* Settings Left Panel (Vertical Nav) */
+body.animation-style-whimsy .vertical-tab-nav-item {
+    transition: background-color 0.2s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.4) !important;
+}
+
+body.animation-style-whimsy .vertical-tab-nav-item:hover {
+    transform: translateX(6px) scale(1.02);
+}
+
+/* Callouts (Obvious Hover) */
+body.animation-style-whimsy .callout {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.4), box-shadow 0.3s ease !important;
+}
+
+body.animation-style-whimsy .callout:hover {
+    transform: scale(1.02) translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+/* Blockquotes (Obvious Hover) */
+body.animation-style-whimsy .markdown-rendered blockquote {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.4), border-left-width 0.2s ease !important;
+}
+
+body.animation-style-whimsy .markdown-rendered blockquote:hover {
+    transform: translateX(5px) scale(1.01);
+    border-left-width: 6px;
+}
+
+/* Images (Obvious Hover) */
+body.animation-style-whimsy img {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.4) !important;
+}
+
+body.animation-style-whimsy img:hover {
+    transform: scale(1.03) rotate(1deg);
+}
+
+/* Tables (Obvious Hover) */
+body.animation-style-whimsy table {
+    transition: transform 0.3s ease !important;
+}
+
+body.animation-style-whimsy table:hover {
+    transform: scale(1.01);
+}
+
+/* Headers (Obvious Hover) */
+body.animation-style-whimsy h1,
+body.animation-style-whimsy h2,
+body.animation-style-whimsy h3,
+body.animation-style-whimsy h4,
+body.animation-style-whimsy h5,
+body.animation-style-whimsy h6 {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.4), letter-spacing 0.3s ease !important;
+    display: inline-block;
+    width: 100%;
+}
+
+body.animation-style-whimsy h1:hover,
+body.animation-style-whimsy h2:hover,
+body.animation-style-whimsy h3:hover,
+body.animation-style-whimsy h4:hover,
+body.animation-style-whimsy h5:hover,
+body.animation-style-whimsy h6:hover {
+    transform: translateX(10px);
+    letter-spacing: 0.05em;
+}
+
+/* --- Extended Whimsy Elements (New Animations) --- */
+
+/* Metadata Properties - Staggered Entrance */
+body.animation-style-whimsy:not(.disable-ui-animations) .metadata-property {
+    animation: whimsy-reveal-up 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5) backwards;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .metadata-property:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .metadata-property:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .metadata-property:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .metadata-property:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .metadata-property:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .metadata-property:nth-child(6) {
+    animation-delay: 0.3s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .metadata-property:nth-child(7) {
+    animation-delay: 0.35s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .metadata-property:nth-child(8) {
+    animation-delay: 0.4s;
+}
+
+/* Code Blocks - Hover Lift */
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered pre {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.4), box-shadow 0.3s ease !important;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered pre:hover {
+    transform: scale(1.01);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Tab New Button - Jiggle on hover */
+body.animation-style-whimsy:not(.disable-ui-animations) .workspace-tab-header-new-tab {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .workspace-tab-header-new-tab:hover {
+    animation: whimsy-jelly 0.5s ease-in-out;
+}
+
+/* Ribbon Items - Staggered Entrance */
+body.animation-style-whimsy:not(.disable-ui-animations) .side-dock-ribbon-action {
+    animation: whimsy-reveal-up 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.5) backwards;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .side-dock-ribbon-action:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .side-dock-ribbon-action:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .side-dock-ribbon-action:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .side-dock-ribbon-action:nth-child(4) {
+    animation-delay: 0.25s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .side-dock-ribbon-action:nth-child(5) {
+    animation-delay: 0.3s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .side-dock-ribbon-action:nth-child(6) {
+    animation-delay: 0.35s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .side-dock-ribbon-action:nth-child(7) {
+    animation-delay: 0.4s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .side-dock-ribbon-action:nth-child(8) {
+    animation-delay: 0.45s;
+}
+
+/* Error/Warning States - Wiggle */
+body.animation-style-whimsy:not(.disable-ui-animations) .has-error input,
+body.animation-style-whimsy:not(.disable-ui-animations) .is-error,
+body.animation-style-whimsy:not(.disable-ui-animations) .setting-item.is-invalid input {
+    animation: whimsy-wiggle 0.4s ease-in-out;
+}
+
+/* Input Focus - Pulse Glow */
+body.animation-style-whimsy:not(.disable-ui-animations) input:focus,
+body.animation-style-whimsy:not(.disable-ui-animations) textarea:focus {
+    animation: whimsy-pulse-soft 2s ease-in-out infinite;
+}
+
+/* Dropdown/Select Expansion */
+body.animation-style-whimsy:not(.disable-ui-animations) .dropdown {
+    animation: whimsy-slide-in-right 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5);
+}
+
+/* Warning Notices - Heartbeat */
+body.animation-style-whimsy:not(.disable-ui-animations) .notice.mod-warning {
+    animation: whimsy-heartbeat 1.5s ease-in-out infinite;
+}
+
+/* Rendered Headings - Staggered Reveal */
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered h1 {
+    animation: whimsy-reveal-up 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.3) backwards;
+    animation-delay: 0.1s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered h2 {
+    animation: whimsy-reveal-up 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.3) backwards;
+    animation-delay: 0.15s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered h3 {
+    animation: whimsy-reveal-up 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.3) backwards;
+    animation-delay: 0.2s;
+}
+
+/* Callouts - Slide Entrance */
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered .callout {
+    animation: whimsy-slide-in-right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.5) backwards;
+}
+
+/* Table Rows - Hover Slide */
+body.animation-style-whimsy:not(.disable-ui-animations) table tr {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.4), background-color 0.2s ease !important;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) table tr:hover {
+    transform: translateX(3px);
+}
+
+/* List Items - Staggered Bounce */
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered ul>li,
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered ol>li {
+    animation: whimsy-reveal-up 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.3) backwards;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered ul>li:nth-child(1),
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered ol>li:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered ul>li:nth-child(2),
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered ol>li:nth-child(2) {
+    animation-delay: 0.08s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered ul>li:nth-child(3),
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered ol>li:nth-child(3) {
+    animation-delay: 0.11s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered ul>li:nth-child(4),
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered ol>li:nth-child(4) {
+    animation-delay: 0.14s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered ul>li:nth-child(5),
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered ol>li:nth-child(5) {
+    animation-delay: 0.17s;
+}
+
+/* Settings Toggles - Jelly on Click */
+body.animation-style-whimsy:not(.disable-ui-animations) .checkbox-container:active {
+    animation: whimsy-jelly 0.4s ease-in-out;
+}
+
+/* Scrollbar Thumb - Squish on Hover */
+body.animation-style-whimsy:not(.disable-ui-animations) ::-webkit-scrollbar-thumb {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.5), background-color 0.2s ease !important;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) ::-webkit-scrollbar-thumb:hover {
+    transform: scaleX(1.2);
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) ::-webkit-scrollbar-thumb:active {
+    transform: scaleX(0.9);
+}
+
+/* Breadcrumbs - Float on Hover */
+body.animation-style-whimsy:not(.disable-ui-animations) .view-header-breadcrumb {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+    display: inline-block;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .view-header-breadcrumb:hover {
+    transform: translateY(-2px) scale(1.05);
+}
+
+/* Graph View Nodes - Pulse on Hover */
+body.animation-style-whimsy:not(.disable-ui-animations) .graph-view.color-fill-node:hover {
+    animation: whimsy-pulse-soft 1s ease-in-out;
+}
+
+/* Outline Items - Slide In */
+body.animation-style-whimsy:not(.disable-ui-animations) .outline-item {
+    animation: whimsy-reveal-up 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.4) backwards;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .outline-item:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .outline-item:nth-child(2) {
+    animation-delay: 0.08s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .outline-item:nth-child(3) {
+    animation-delay: 0.11s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .outline-item:nth-child(4) {
+    animation-delay: 0.14s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .outline-item:nth-child(5) {
+    animation-delay: 0.17s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .outline-item:nth-child(6) {
+    animation-delay: 0.2s;
+}
+
+/* Search Results - Staggered Slide */
+body.animation-style-whimsy:not(.disable-ui-animations) .search-result {
+    animation: whimsy-slide-in-right 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.4) backwards;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .search-result:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .search-result:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .search-result:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .search-result:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .search-result:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+/* Backlink Items - Entrance */
+body.animation-style-whimsy:not(.disable-ui-animations) .backlink-pane .search-result-file-title {
+    animation: whimsy-reveal-up 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.4) backwards;
+}
+
+/* Tab Header - Jelly on Active Switch */
+body.animation-style-whimsy:not(.disable-ui-animations) .workspace-tab-header.is-active {
+    animation: whimsy-jelly 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.5);
+}
+
+/* Modal Close Button - Spin on Hover */
+body.animation-style-whimsy:not(.disable-ui-animations) .modal-close-button:hover {
+    transform: rotate(90deg) scale(1.2);
+}
+
+/* Color Picker Swatches - Pop on Hover */
+body.animation-style-whimsy:not(.disable-ui-animations) .color-swatch {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .color-swatch:hover {
+    transform: scale(1.15) rotate(-5deg);
+}
+
+/* File Badge (Unread count, etc) - Bounce */
+body.animation-style-whimsy:not(.disable-ui-animations) .nav-file-tag {
+    animation: whimsy-reveal-up 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5) backwards;
+    animation-delay: 0.2s;
+}
+
+/* Embed Containers - Entrance */
+body.animation-style-whimsy:not(.disable-ui-animations) .markdown-embed {
+    animation: whimsy-slide-in-right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.4) backwards;
+}
+
+/* PDF Embed - Subtle Entrance */
+body.animation-style-whimsy:not(.disable-ui-animations) .pdf-embed {
+    animation: whimsy-reveal-up 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.3) backwards;
+}
+
+/* Suggestion Items - Staggered */
+body.animation-style-whimsy:not(.disable-ui-animations) .suggestion-item {
+    animation: whimsy-reveal-up 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.4) backwards;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .suggestion-item:nth-child(1) {
+    animation-delay: 0.02s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .suggestion-item:nth-child(2) {
+    animation-delay: 0.04s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .suggestion-item:nth-child(3) {
+    animation-delay: 0.06s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .suggestion-item:nth-child(4) {
+    animation-delay: 0.08s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .suggestion-item:nth-child(5) {
+    animation-delay: 0.1s;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .suggestion-item:nth-child(6) {
+    animation-delay: 0.12s;
+}
+
+/* Mermaid Diagrams - Entrance */
+body.animation-style-whimsy:not(.disable-ui-animations) .mermaid {
+    animation: whimsy-reveal-up 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.3) backwards;
+}
+
+/* Calendar Dates - Hover Pop */
+body.animation-style-whimsy:not(.disable-ui-animations) .day {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+}
+
+body.animation-style-whimsy:not(.disable-ui-animations) .day:hover {
+    transform: scale(1.15);
+}
+
 /* Modal Background Frost */
 body:not(.disable-modal-frost) .modal-bg {
     backdrop-filter: blur(3px);
@@ -5706,232 +6589,4 @@ body.show-header-on-hover.layout-card .view-header:hover {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15) !important;
     border: 1px solid rgba(255, 255, 255, 0.3) !important;
     border-left: 3px solid var(--blockquote-border-color) !important;
-}
-
-/* Paper Theme Variables */
-.paper-theme {
-    --accent-h: 210;
-    --accent-s: 15%;
-    --accent-l: 55%;
-}
-
-.theme-light.paper-theme {
-    --background-primary: #F3F1EC;
-    --background-primary-rgb: 243, 241, 236;
-    --background-secondary: #E5E3E0;
-    --setting-items-background: var(--background-secondary);
-    --background-secondary-rgb: 229, 227, 224;
-    --background-secondary-alt: #DBD9D6;
-
-    --text-normal: #656360;
-    --text-normal-rgb: 101, 99, 96;
-    --text-muted: #969491;
-    --text-faint: #C7C5C2;
-
-    --bold-color: #C96652;
-    --italic-color: #C96652;
-
-    --emphasis-color: #C96652;
-    --emphasis-color-light: #FF7E70;
-
-    --primary-color: #555555;
-    --primary-color-rgb: 85, 85, 85;
-    --primary-color-dark: #333333;
-    --interactive-accent: #555555;
-    --interactive-accent-hover: #333333;
-
-    --link-color: #C96652;
-    --link-color-hover: #C24032;
-    --link-unresolved-color: #FF7E70;
-
-    --blockquote-border-color: #C96652;
-    --checkbox-color: #C96652;
-    --text-accent: #C96652;
-    --divider-color: rgba(0, 0, 0, 0.08);
-    --text-selection: rgba(201, 102, 82, 0.15);
-
-    --scrollbar-thumb: rgba(0, 0, 0, 0.15);
-    --scrollbar-track: rgba(0, 0, 0, 0.03);
-
-    --code-background: #E8E7E3;
-    --code-normal: #1C1C1E;
-    --code-comment: #8E8E93;
-    --code-function: #555555;
-    --code-important: #C96652;
-    --code-keyword: #1C1C1E;
-    --code-property: #555555;
-    --code-punctuation: #8E8E93;
-    --code-string: #C96652;
-    --code-tag: #555555;
-    --code-value: #1C1C1E;
-
-    --heading-primary: #000000;
-    --heading-secondary: #1C1C1E;
-    --heading-tertiary: #333333;
-    --heading-quaternary: #444444;
-    --heading-quinary: #666666;
-    --heading-senary: #8E8E93;
-
-    --heading-primary-rgb: 0, 0, 0;
-    --heading-secondary-rgb: 28, 28, 30;
-    --heading-tertiary-rgb: 51, 51, 51;
-    --heading-quaternary-rgb: 68, 68, 68;
-    --heading-quinary-rgb: 102, 102, 102;
-    --heading-senary-rgb: 142, 142, 147;
-
-    --folder-1-color: var(--heading-primary);
-    --folder-1-color-rgb: var(--heading-primary-rgb);
-    --folder-2-color: var(--heading-secondary);
-    --folder-2-color-rgb: var(--heading-secondary-rgb);
-    --folder-3-color: var(--heading-tertiary);
-    --folder-3-color-rgb: var(--heading-tertiary-rgb);
-    --folder-4-color: var(--heading-quaternary);
-    --folder-4-color-rgb: var(--heading-quaternary-rgb);
-    --folder-5-color: var(--heading-quinary);
-    --folder-5-color-rgb: var(--heading-quinary-rgb);
-    --folder-6-color: var(--heading-senary);
-    --folder-6-color-rgb: var(--heading-senary-rgb);
-
-    --folder-color: rgba(var(--folder-1-color-rgb), var(--theme-folder-opacity));
-    --folder-text-color: var(--folder-1-color);
-
-    --callout-note: #555555;
-    --callout-note-rgb: 85, 85, 85;
-    --callout-info: #555555;
-    --callout-info-rgb: 85, 85, 85;
-    --callout-warning: #555555;
-    --callout-warning-rgb: 85, 85, 85;
-    --callout-faq: #555555;
-    --callout-faq-rgb: 85, 85, 85;
-    --callout-question: #555555;
-    --callout-question-rgb: 85, 85, 85;
-    --callout-success: #555555;
-    --callout-success-rgb: 85, 85, 85;
-    --callout-danger: #555555;
-    --callout-danger-rgb: 85, 85, 85;
-    --callout-example: #555555;
-    --callout-example-rgb: 85, 85, 85;
-    --callout-cite: #555555;
-    --callout-cite-rgb: 85, 85, 85;
-    --callout-video: #555555;
-    --callout-video-rgb: 85, 85, 85;
-    --callout-quote: #555555;
-    --callout-quote-rgb: 85, 85, 85;
-
-    --highlight-bg: rgba(201, 102, 82, 0.2);
-    --highlight-bg-rgb: 201, 102, 82;
-    --highlight-bg-dark: rgba(201, 102, 82, 0.3);
-
-    --tab-bg-inactive: transparent;
-    --tab-bg-inactive-hover: rgba(0, 0, 0, 0.05);
-}
-
-.theme-dark.paper-theme {
-    --background-primary: #1c1c1e;
-    --background-primary-rgb: 28, 28, 30;
-    --background-secondary: #2c2c2e;
-    --setting-items-background: var(--background-secondary);
-    --background-secondary-rgb: 44, 44, 46;
-    --background-secondary-alt: #3a3a3c;
-
-    --text-normal: #d1d1d6;
-    --text-normal-rgb: 209, 209, 214;
-    --text-muted: #8e8e93;
-    --text-faint: #636366;
-
-    --bold-color: #C96652;
-    --italic-color: #C96652;
-
-    --emphasis-color: #C96652;
-    --emphasis-color-light: #FF7E70;
-
-    --primary-color: #8E8E93;
-    --primary-color-rgb: 142, 142, 147;
-    --primary-color-dark: #636366;
-    --interactive-accent: #8E8E93;
-    --interactive-accent-hover: #636366;
-
-    --link-color: #C96652;
-    --link-color-hover: #FF7E70;
-    --link-unresolved-color: #FF7E70;
-
-    --blockquote-border-color: #C96652;
-    --checkbox-color: #C96652;
-    --text-accent: #C96652;
-    --divider-color: rgba(255, 255, 255, 0.1);
-    --text-selection: rgba(201, 102, 82, 0.15);
-
-    --scrollbar-thumb: rgba(255, 255, 255, 0.15);
-    --scrollbar-track: rgba(255, 255, 255, 0.02);
-
-    --code-background: #2c2c2e;
-    --code-normal: #d1d1d6;
-    --code-comment: #8e8e93;
-    --code-function: #8E8E93;
-    --code-important: #C96652;
-    --code-keyword: #d1d1d6;
-    --code-property: #b0b0b5;
-    --code-punctuation: #8e8e93;
-    --code-string: #C96652;
-    --code-tag: #8E8E93;
-    --code-value: #d1d1d6;
-
-    --heading-primary: #ffffff;
-    --heading-secondary: #e5e5ea;
-    --heading-tertiary: #d1d1d6;
-    --heading-quaternary: #98989d;
-    --heading-quinary: #8e8e93;
-    --heading-senary: #636366;
-
-    --heading-primary-rgb: 255, 255, 255;
-    --heading-secondary-rgb: 229, 229, 234;
-    --heading-tertiary-rgb: 209, 209, 214;
-    --heading-quaternary-rgb: 152, 152, 157;
-    --heading-quinary-rgb: 142, 142, 147;
-    --heading-senary-rgb: 99, 99, 102;
-
-    --folder-1-color: var(--heading-primary);
-    --folder-1-color-rgb: var(--heading-primary-rgb);
-    --folder-2-color: var(--heading-secondary);
-    --folder-2-color-rgb: var(--heading-secondary-rgb);
-    --folder-3-color: var(--heading-tertiary);
-    --folder-3-color-rgb: var(--heading-tertiary-rgb);
-    --folder-4-color: var(--heading-quaternary);
-    --folder-4-color-rgb: var(--heading-quaternary-rgb);
-    --folder-5-color: var(--heading-quinary);
-    --folder-5-color-rgb: var(--heading-quinary-rgb);
-    --folder-6-color: var(--heading-senary);
-    --folder-6-color-rgb: var(--heading-senary-rgb);
-
-    --folder-color: rgba(var(--folder-1-color-rgb), var(--theme-folder-opacity));
-    --folder-text-color: var(--folder-1-color);
-
-    --callout-note: #8e8e93;
-    --callout-note-rgb: 142, 142, 147;
-    --callout-info: #8e8e93;
-    --callout-info-rgb: 142, 142, 147;
-    --callout-warning: #8e8e93;
-    --callout-warning-rgb: 142, 142, 147;
-    --callout-faq: #8e8e93;
-    --callout-faq-rgb: 142, 142, 147;
-    --callout-question: #8e8e93;
-    --callout-question-rgb: 142, 142, 147;
-    --callout-success: #8e8e93;
-    --callout-success-rgb: 142, 142, 147;
-    --callout-danger: #8e8e93;
-    --callout-danger-rgb: 142, 142, 147;
-    --callout-example: #8e8e93;
-    --callout-example-rgb: 142, 142, 147;
-    --callout-cite: #8e8e93;
-    --callout-cite-rgb: 142, 142, 147;
-    --callout-video: #8e8e93;
-    --callout-video-rgb: 142, 142, 147;
-    --callout-quote: #8e8e93;
-    --callout-quote-rgb: 142, 142, 147;
-
-    --highlight-bg: rgba(201, 102, 82, 0.2);
-    --highlight-bg-rgb: 201, 102, 82;
-
-    --tab-bg-inactive: transparent;
-    --tab-bg-inactive-hover: rgba(255, 255, 255, 0.05);
 }
