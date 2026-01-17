@@ -324,6 +324,8 @@ settings:
     --layer-status-bar: 1000;
     --checklist-done-color: var(--emphasis-color);
     --checklist-done-decoration: line-through;
+    --transition-ui: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5);
 
     /* Shared mapping defaults - individual themes can override these */
     --folder-1-color: var(--heading-primary);
@@ -1982,10 +1984,13 @@ html {
 body:not(.is-mobile).layout-card .workspace-tab-header-container {
     background-color: var(--background-secondary-alt);
     height: 50px;
+    padding: 8px 5px 1px 5px;
+    display: flex;
     align-items: center;
 }
 
 body:not(.is-mobile).layout-card .workspace-tab-header-container-inner {
+    display: flex;
     align-items: center;
     height: 100%;
     margin: 0;
@@ -1996,6 +2001,7 @@ body:not(.is-mobile).layout-card .workspace-tab-header {
     background-color: rgba(var(--background-secondary-rgb), .3);
     border-radius: var(--r3) !important;
     height: 38px;
+    display: flex;
     transition: all 0.2s ease;
 }
 
@@ -2028,7 +2034,6 @@ body:not(.is-mobile).layout-card .workspace-tab-header.is-active .workspace-tab-
 body.layout-card .workspace-split.mod-left-split,
 body.layout-card .workspace-split.mod-right-split {
     background-color: var(--background-secondary-alt);
-
 }
 
 /* Unified fix for sidebar header clipping on macOS */
@@ -4488,7 +4493,7 @@ input[type="checkbox"] {
     border: 2px solid var(--emphasis-color);
     border-radius: 6px;
     background: transparent;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all var(--transition-ui);
 }
 
 /* Hover state */
@@ -4536,7 +4541,7 @@ input[type="checkbox"]:checked::after {
     border: 2px solid var(--emphasis-color);
     border-radius: 6px;
     background: transparent;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all var(--transition-ui);
 }
 
 .task-list-item-checkbox:hover {
@@ -5017,7 +5022,7 @@ body.animation-style-whimsy:not(.disable-ui-animations) .task-list-item-checkbox
 /* Buttons and Icons Hover */
 body.animation-style-whimsy button,
 body.animation-style-whimsy .clickable-icon {
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5);
+    transition: transform var(--transition-bounce);
 }
 
 body.animation-style-whimsy button:hover,
@@ -5032,13 +5037,13 @@ body.animation-style-whimsy .clickable-icon:active {
 
 /* --- Bouncy & Rotaty Buttons --- */
 body.animation-style-whimsy .workspace-tab-header-inner-close-button {
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5), opacity 0.2s ease, width 0.2s ease !important;
+    transition: transform var(--transition-bounce), opacity 0.2s ease, width 0.2s ease !important;
 }
 
 body.animation-style-whimsy .workspace-tab-header-inner-close-button:hover {
     transform: scale(1.15) rotate(90deg);
-    background-color: var(--background-modifier-error) !important;
-    color: var(--text-on-accent);
+    background-color: var(--primary-color) !important;
+    color: var(--background-primary) !important;
 }
 
 /* Sidebar Toggle Buttons (Left Rotates 180) */
@@ -5056,7 +5061,7 @@ body.animation-style-whimsy .workspace-ribbon-collapse-btn:hover {
 }
 
 body.animation-style-whimsy .collapse-icon {
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+    transition: transform var(--transition-bounce) !important;
 }
 
 body.animation-style-whimsy .collapse-icon:hover {
@@ -5064,7 +5069,7 @@ body.animation-style-whimsy .collapse-icon:hover {
 }
 
 body.animation-style-whimsy .status-bar-item {
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+    transition: transform var(--transition-bounce) !important;
 }
 
 body.animation-style-whimsy .status-bar-item:hover {
@@ -5073,7 +5078,7 @@ body.animation-style-whimsy .status-bar-item:hover {
 
 body.animation-style-whimsy .tag,
 body.animation-style-whimsy .multi-select-pill {
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+    transition: transform var(--transition-bounce) !important;
     display: inline-block;
 }
 
@@ -5083,7 +5088,7 @@ body.animation-style-whimsy .multi-select-pill:hover {
 }
 
 body.animation-style-whimsy .canvas-control-item {
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+    transition: transform var(--transition-bounce) !important;
 }
 
 body.animation-style-whimsy .canvas-control-item:hover {
@@ -5091,7 +5096,7 @@ body.animation-style-whimsy .canvas-control-item:hover {
 }
 
 body.animation-style-whimsy .search-input-container input {
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5), box-shadow 0.2s ease !important;
+    transition: transform var(--transition-bounce), box-shadow 0.2s ease !important;
 }
 
 body.animation-style-whimsy .search-input-container input:focus {
@@ -5242,7 +5247,7 @@ body.animation-style-whimsy h6:hover {
 
 /* Metadata Properties - Staggered Entrance */
 body.animation-style-whimsy:not(.disable-ui-animations) .metadata-property {
-    animation: whimsy-reveal-up 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5) backwards;
+    animation: whimsy-reveal-up var(--transition-bounce) backwards;
 }
 
 body.animation-style-whimsy:not(.disable-ui-animations) .metadata-property:nth-child(1) {
@@ -5289,7 +5294,7 @@ body.animation-style-whimsy:not(.disable-ui-animations) .markdown-rendered pre:h
 
 /* Tab New Button - Jiggle on hover */
 body.animation-style-whimsy:not(.disable-ui-animations) .workspace-tab-header-new-tab {
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+    transition: transform var(--transition-bounce) !important;
 }
 
 body.animation-style-whimsy:not(.disable-ui-animations) .workspace-tab-header-new-tab:hover {
@@ -5348,7 +5353,7 @@ body.animation-style-whimsy:not(.disable-ui-animations) textarea:focus {
 
 /* Dropdown/Select Expansion */
 body.animation-style-whimsy:not(.disable-ui-animations) .dropdown {
-    animation: whimsy-slide-in-right 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5);
+    animation: whimsy-slide-in-right var(--transition-bounce);
 }
 
 /* Warning Notices - Heartbeat */
@@ -5437,7 +5442,7 @@ body.animation-style-whimsy:not(.disable-ui-animations) ::-webkit-scrollbar-thum
 
 /* Breadcrumbs - Float on Hover */
 body.animation-style-whimsy:not(.disable-ui-animations) .view-header-breadcrumb {
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5) !important;
+    transition: transform var(--transition-bounce) !important;
     display: inline-block;
 }
 
@@ -5530,7 +5535,7 @@ body.animation-style-whimsy:not(.disable-ui-animations) .color-swatch:hover {
 
 /* File Badge (Unread count, etc) - Bounce */
 body.animation-style-whimsy:not(.disable-ui-animations) .nav-file-tag {
-    animation: whimsy-reveal-up 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.5) backwards;
+    animation: whimsy-reveal-up var(--transition-bounce) backwards;
     animation-delay: 0.2s;
 }
 
@@ -5812,6 +5817,7 @@ body:not(.is-mobile).layout-card .theme-dark .workspace-tab-header:not(.is-activ
 .theme-dark .view-header-icon {
     transition: color 0.2s ease, transform 0.2s ease;
 }
+
 
 .theme-dark .view-header-icon:hover {
     color: var(--primary-color);
