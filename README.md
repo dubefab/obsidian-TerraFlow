@@ -2,10 +2,6 @@
 
 A sophisticated Obsidian theme where warm earthy palettes meet flowing animations.
 
-![Downloads](https://img.shields.io/badge/downloads-3k+-blue)
-![Version](https://img.shields.io/badge/version-4.0.0-orange)
-![License](https://img.shields.io/badge/license-MIT-green)
-
 ---
 
 <img width="630" height="530" alt="Terraflow" src="https://github.com/user-attachments/assets/d67dc933-b08a-41d7-bc0c-3d31622e72c4" />
