@@ -4410,11 +4410,9 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
 }
 
 
-
-/* Highlight Styling */
+/* Highlight Styling - Shared Properties */
 .theme-light,
 .theme-dark {
-
     .markdown-rendered mark,
     span.cm-highlight,
     .markdown-preview-view mark,
@@ -4427,8 +4425,8 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
     }
 }
 
+/* Light Theme */
 .theme-light {
-
     .markdown-rendered mark,
     span.cm-highlight,
     .markdown-preview-view mark,
@@ -4437,12 +4435,16 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
         color: var(--highlight-bg-dark-color);
         box-shadow: var(--shadow-1);
         border-bottom: 2px solid var(--highlight-bg-dark);
-        font-weight: 500;
+        
+        &:hover {
+            box-shadow: var(--shadow-2);
+            filter: brightness(1.05);
+        }
     }
 }
 
+/* Dark Theme */
 .theme-dark {
-
     .markdown-rendered mark,
     span.cm-highlight,
     .markdown-preview-view mark,
@@ -4452,29 +4454,7 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
         box-shadow: var(--shadow-2);
         border-bottom: 2px solid rgba(var(--primary-color-rgb), .35);
         text-shadow: 0 1px 2px rgba(0, 0, 0, .4);
-        font-weight: 500;
-    }
-}
-
-.theme-light {
-
-    .markdown-rendered mark,
-    span.cm-highlight,
-    .markdown-preview-view mark,
-    .cm-s-obsidian span.cm-highlight {
-        &:hover {
-            box-shadow: var(--shadow-2);
-            filter: brightness(1.05);
-        }
-    }
-}
-
-.theme-dark {
-
-    .markdown-rendered mark,
-    span.cm-highlight,
-    .markdown-preview-view mark,
-    .cm-s-obsidian span.cm-highlight {
+        
         &:hover {
             background-color: var(--highlight-bg-dark-color);
             box-shadow: var(--shadow-3);
@@ -4482,6 +4462,8 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
         }
     }
 }
+
+
 
 /* Strikethrough Styling */
 :is(.markdown-rendered del, .cm-strikethrough) {
