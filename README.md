@@ -50,4 +50,95 @@ Deep ambers, earthy oranges, and muted olive greens inspired by falling leaves.
 
 Cool blues, frosted berries, and evergreen forest tones for crisp clarity.
 
-![https://img.shields.io/badge/%20-2d5a7a?style=flat-square&labelColor=2d5a7a](https://img.shields.io/badge/%20-2d5a7a?style=flat-square&labelColor=2d5a7
+![https://img.shields.io/badge/%20-2d5a7a?style=flat-square&labelColor=2d5a7a](https://img.shields.io/badge/%20-2d5a7a?style=flat-square&labelColor=2d5a7a)
+![https://img.shields.io/badge/%20-8b3a52?style=flat-square&labelColor=8b3a52](https://img.shields.io/badge/%20-8b3a52?style=flat-square&labelColor=8b3a52)
+![https://img.shields.io/badge/%20-3d5e4d?style=flat-square&labelColor=3d5e4d](https://img.shields.io/badge/%20-3d5e4d?style=flat-square&labelColor=3d5e4d)
+
+---
+
+### Iceberg
+
+Pale cyans and frosted whites for a clean, high-contrast interface.
+
+![https://img.shields.io/badge/%20-B0E0E6?style=flat-square&labelColor=B0E0E6](https://img.shields.io/badge/%20-B0E0E6?style=flat-square&labelColor=B0E0E6)
+![https://img.shields.io/badge/%20-A7D8E8?style=flat-square&labelColor=A7D8E8](https://img.shields.io/badge/%20-A7D8E8?style=flat-square&labelColor=A7D8E8)
+![https://img.shields.io/badge/%20-D3F0FF?style=flat-square&labelColor=D3F0FF](https://img.shields.io/badge/%20-D3F0FF?style=flat-square&labelColor=D3F0FF)
+
+---
+
+### Academia
+
+Muted olives, warm tans, and deep inks inspired by library stacks.
+
+![https://img.shields.io/badge/%20-6B6A4F?style=flat-square&labelColor=6B6A4F](https://img.shields.io/badge/%20-6B6A4F?style=flat-square&labelColor=6B6A4F)
+![https://img.shields.io/badge/%20-AF9B72?style=flat-square&labelColor=AF9B72](https://img.shields.io/badge/%20-AF9B72?style=flat-square&labelColor=AF9B72)
+![https://img.shields.io/badge/%20-D7C9A3?style=flat-square&labelColor=D7C9A3](https://img.shields.io/badge/%20-D7C9A3?style=flat-square&labelColor=D7C9A3)
+
+---
+
+### Twilight
+
+Dusky purples and soft blues tuned for late-night sessions.
+
+![https://img.shields.io/badge/%20-8878A8?style=flat-square&labelColor=8878A8](https://img.shields.io/badge/%20-8878A8?style=flat-square&labelColor=8878A8)
+![https://img.shields.io/badge/%20-7C88B8?style=flat-square&labelColor=7C88B8](https://img.shields.io/badge/%20-7C88B8?style=flat-square&labelColor=7C88B8)
+![https://img.shields.io/badge/%20-A890C8?style=flat-square&labelColor=A890C8](https://img.shields.io/badge/%20-A890C8?style=flat-square&labelColor=A890C8)
+
+---
+
+## Features
+
+- **Seven Seasonal Palettes** — Nature-inspired themes from frosted winter to vibrant summer
+- **Six-Color Heading Hierarchy** — Each theme uses distinct, readable colors for H1-H6
+- **Light & Dark Modes** — Carefully balanced variants for every palette
+- **Glass Panel Effects** — Subtle depth on blockquotes, callouts, and panels
+- **Smooth Animations** — Flowing transitions on interactive elements
+- **Enhanced Typography** — Refined headers, links, and body text with proper contrast
+- **Monochrome Mode** — Optional grayscale mode with single accent color
+- **Style Settings Support** — Full customization through the plugin
+
+---
+
+## Installation
+
+### Community Themes (Recommended)
+
+1. Open **Settings** → **Appearance** → **Themes**
+2. Click **Manage** and search for **TerraFlow**
+3. Click **Install**, then **Use**
+
+### Manual
+
+1. Download `theme.css` from this repository
+2. Place it in `.obsidian/themes/TerraFlow/`
+3. Enable in **Settings** → **Appearance** → **Themes**
+
+---
+
+## Customization
+
+The [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) plugin unlocks full theme customization:
+
+- Switch between seven seasonal palettes
+- Toggle light/dark mode per theme
+- Enable monochrome mode for distraction-free writing
+- Adjust folder colors, accent colors, and more
+
+Without Style Settings, TerraFlow defaults to the Autumn palette.
+
+---
+
+## Color Theory
+
+Each theme's heading hierarchy follows color theory principles:
+
+- **Proper contrast ratios** meeting WCAG AA standards (4.5:1 minimum)
+- **Visual weight progression** from H1 (most prominent) to H6
+- **Harmonious color relationships** within each palette
+- **Distinct hue variety** while maintaining thematic cohesion
+
+---
+
+## License
+
+MIT — use it, modify it, share it.
