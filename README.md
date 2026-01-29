@@ -4,7 +4,8 @@ A sophisticated Obsidian theme where nature's palette meets flowing animations. 
 
 ---
 
-<img width="630" height="530" alt="Terraflow" src="https://github.com/user-attachments/assets/d67dc933-b08a-41d7-bc0c-3d31622e72c4" />
+<img width="672" height="530" alt="TerraFlow" src="https://github.com/user-attachments/assets/38085d83-e46a-4f54-b150-6582b193085d" />
+
 
 ## Overview
 
