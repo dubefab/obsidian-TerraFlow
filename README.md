@@ -1,126 +1,53 @@
 # TerraFlow
 
-A sophisticated Obsidian theme where warm earthy palettes meet flowing animations.
+A sophisticated Obsidian theme where nature's palette meets flowing animations. Seven seasonal themes with distinct color hierarchies, smooth glass effects, and refined typography.
 
 ---
 
 <img width="630" height="530" alt="Terraflow" src="https://github.com/user-attachments/assets/d67dc933-b08a-41d7-bc0c-3d31622e72c4" />
 
-
 ## Overview
 
-TerraFlow brings nature's rhythm to your Obsidian vault. Seven seasonal palettes adapt to your workflow, each with light and dark variants. The theme emphasizes readability while maintaining a distinct visual identity through subtle animations and carefully chosen colors.
+TerraFlow brings nature's rhythm to your Obsidian vault through seven distinct seasonal palettes. Each theme features a carefully curated six-color heading hierarchy, complementary accent colors, and both light and dark variants. The theme balances readability with visual personality through subtle animations, glass panel effects, and color-theory-driven design.
 
 ---
 
 ## Seasonal Color Schemes
 
-TerraFlow includes seven distinct color palettes, each designed to evoke a different mood and atmosphere.
+Each palette is inspired by natural landscapes and designed with proper contrast ratios for optimal readability.
 
 ### Spring
 
-Fresh greens and soft pastels for a rejuvenating workspace.
+Fresh greens, coral blooms, and soft pastels for a rejuvenating workspace.
 
-![](https://img.shields.io/badge/%20-8FBC8F?style=flat-square&labelColor=8FBC8F)
-![](https://img.shields.io/badge/%20-87CEAB?style=flat-square&labelColor=87CEAB)
-![](https://img.shields.io/badge/%20-A8D5BA?style=flat-square&labelColor=A8D5BA)
+![https://img.shields.io/badge/%20-72a043?style=flat-square&labelColor=72a043](https://img.shields.io/badge/%20-72a043?style=flat-square&labelColor=72a043)
+![https://img.shields.io/badge/%20-a05a8b?style=flat-square&labelColor=a05a8b](https://img.shields.io/badge/%20-a05a8b?style=flat-square&labelColor=a05a8b)
+![https://img.shields.io/badge/%20-ff8b7c?style=flat-square&labelColor=ff8b7c](https://img.shields.io/badge/%20-ff8b7c?style=flat-square&labelColor=ff8b7c)
 
 ---
 
 ### Summer
 
-Sun-washed teal and golden tones with pink as a supporting accent, for bright, energetic days.
+Vibrant pinks, bright cyans, and golden warmth for energetic days.
 
-![](https://img.shields.io/badge/%20-0C7A93?style=flat-square&labelColor=0C7A93)
-![](https://img.shields.io/badge/%20-CC8500?style=flat-square&labelColor=CC8500)
-![](https://img.shields.io/badge/%20-D63384?style=flat-square&labelColor=D63384)
+![https://img.shields.io/badge/%20-ff6b9d?style=flat-square&labelColor=ff6b9d](https://img.shields.io/badge/%20-ff6b9d?style=flat-square&labelColor=ff6b9d)
+![https://img.shields.io/badge/%20-00c9b7?style=flat-square&labelColor=00c9b7](https://img.shields.io/badge/%20-00c9b7?style=flat-square&labelColor=00c9b7)
+![https://img.shields.io/badge/%20-ff9f43?style=flat-square&labelColor=ff9f43](https://img.shields.io/badge/%20-ff9f43?style=flat-square&labelColor=ff9f43)
 
 ---
 
 ### Autumn
 
-Deep ambers and muted greens inspired by falling leaves and cozy evenings.
+Deep ambers, earthy oranges, and muted olive greens inspired by falling leaves.
 
-![](https://img.shields.io/badge/%20-B56A2D?style=flat-square&labelColor=B56A2D)
-![](https://img.shields.io/badge/%20-8C5A2B?style=flat-square&labelColor=8C5A2B)
-![](https://img.shields.io/badge/%20-5A6B4B?style=flat-square&labelColor=5A6B4B)
+![https://img.shields.io/badge/%20-d97756?style=flat-square&labelColor=d97756](https://img.shields.io/badge/%20-d97756?style=flat-square&labelColor=d97756)
+![https://img.shields.io/badge/%20-b8692c?style=flat-square&labelColor=b8692c](https://img.shields.io/badge/%20-b8692c?style=flat-square&labelColor=b8692c)
+![https://img.shields.io/badge/%20-9a863c?style=flat-square&labelColor=9a863c](https://img.shields.io/badge/%20-9a863c?style=flat-square&labelColor=9a863c)
 
 ---
 
 ### Winter
 
-Cool blues and charcoal neutrals for a crisp, minimal writing environment.
+Cool blues, frosted berries, and evergreen forest tones for crisp clarity.
 
-![](https://img.shields.io/badge/%20-3A4A6B?style=flat-square&labelColor=3A4A6B)
-![](https://img.shields.io/badge/%20-4F6D8C?style=flat-square&labelColor=4F6D8C)
-![](https://img.shields.io/badge/%20-9BB3C8?style=flat-square&labelColor=9BB3C8)
-
----
-
-### Iceberg
-
-Pale cyans and frosted whites for a clean, high-contrast interface.
-
-![](https://img.shields.io/badge/%20-B0E0E6?style=flat-square&labelColor=B0E0E6)
-![](https://img.shields.io/badge/%20-A7D8E8?style=flat-square&labelColor=A7D8E8)
-![](https://img.shields.io/badge/%20-D3F0FF?style=flat-square&labelColor=D3F0FF)
-
----
-
-### Academia
-
-Muted olives, tans, and deep inks inspired by library stacks and worn notebooks.
-
-![](https://img.shields.io/badge/%20-6B6A4F?style=flat-square&labelColor=6B6A4F)
-![](https://img.shields.io/badge/%20-AF9B72?style=flat-square&labelColor=AF9B72)
-![](https://img.shields.io/badge/%20-D7C9A3?style=flat-square&labelColor=D7C9A3)
-
----
-
-### Twilight
-
-Dusky purples and soft blues tuned for late-night sessions.
-
-![](https://img.shields.io/badge/%20-8878A8?style=flat-square&labelColor=8878A8)
-![](https://img.shields.io/badge/%20-7C88B8?style=flat-square&labelColor=7C88B8)
-![](https://img.shields.io/badge/%20-A890C8?style=flat-square&labelColor=A890C8)
-
-
----
-
-## Features
-
-- **Seasonal Color Palettes** — Seven themes inspired by nature's cycles
-- **Light and Dark Modes** — Each palette includes both variants
-- **Glass Panel Effects** — Subtle depth on blockquotes and callouts
-- **Smooth Animations** — Flowing transitions on interactive elements
-- **Enhanced Typography** — Refined headers, links, and body text
-- **Style Settings Support** — Full customization through the plugin
-
----
-
-## Installation
-
-### Community Themes (Recommended)
-
-1. Open **Settings** → **Appearance** → **Themes**
-2. Click **Manage** and search for **TerraFlow**
-3. Click **Install**, then **Use**
-
-### Manual
-
-1. Download `theme.css` from this repository
-2. Place it in `.obsidian/themes/TerraFlow/`
-3. Enable in **Settings** → **Appearance** → **Themes**
-
----
-
-## Requirements
-
-The [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) plugin is required to access theme customization options. Without it, TerraFlow defaults to the Autumn palette.
-
----
-
-## License
-
-MIT — use it, modify it, share it.
+![https://img.shields.io/badge/%20-2d5a7a?style=flat-square&labelColor=2d5a7a](https://img.shields.io/badge/%20-2d5a7a?style=flat-square&labelColor=2d5a7
