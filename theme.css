@@ -5898,6 +5898,14 @@ body.animation-style-whimsy:not(.disable-ui-animations) .day:hover {
     transform: scale(1.15);
 }
 
+/* Disable input focus animation for Excalidraw only */
+body.animation-style-whimsy:not(.disable-ui-animations) .workspace-leaf-content[data-type="excalidraw"] input:focus,
+body.animation-style-whimsy:not(.disable-ui-animations) .workspace-leaf-content[data-type="excalidraw"] textarea:focus,
+body.animation-style-whimsy:not(.disable-ui-animations) div[class*="excalidraw"] input:focus,
+body.animation-style-whimsy:not(.disable-ui-animations) div[class*="excalidraw"] textarea:focus {
+    animation: none !important;
+}
+
 /* Modal Background Frost */
 body:not(.disable-modal-frost) .modal-bg {
     backdrop-filter: blur(3px);
@@ -7205,40 +7213,4 @@ body.show-header-on-hover.layout-card .view-header:hover {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15) !important;
     border: 1px solid rgba(255, 255, 255, 0.3) !important;
     border-left: 3px solid var(--blockquote-border-color) !important;
-}
-
-/* --- Plugin Compatibility: Excalidraw --- */
-/* 
-    Fix: Disable "Whimsy" bouncy animations inside Excalidraw.
-    Excalidraw's text editor uses dynamic textareas which were triggering the global 
-    input focus animations, causing text to "jump" and pulse during editing.
-*/
-
-/* Disable the infinite pulse animation on focus for all Excalidraw inputs */
-body.animation-style-whimsy .excalidraw-view input:focus,
-body.animation-style-whimsy .excalidraw-view textarea:focus,
-body.animation-style-whimsy .excalidraw input:focus,
-body.animation-style-whimsy .excalidraw textarea:focus,
-body.animation-style-whimsy .excalidraw-text-editor,
-body.animation-style-whimsy .excalidraw-input {
-    animation: none !important;
-    transform: none !important;
-    transition: none !important;
-}
-
-/* Prevent staggered reveal animations and theme transitions within Excalidraw */
-body.animation-style-whimsy .excalidraw-view *,
-body.animation-style-whimsy .excalidraw * {
-    animation-delay: 0s !important;
-    transition-duration: 0s !important;
-}
-
-/* Generic fix for any popovers/menus created by Excalidraw that might trigger jump-in animations */
-body.animation-style-whimsy .excalidraw-plugin .popover,
-body.animation-style-whimsy .excalidraw-plugin .menu,
-body.animation-style-whimsy .excalidraw-plugin .tooltip,
-body.animation-style-whimsy .excalidraw-plugin button,
-body.animation-style-whimsy .excalidraw-plugin .clickable-icon {
-    animation: none !important;
-    transition: none !important;
 }
