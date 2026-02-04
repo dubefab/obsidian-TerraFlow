@@ -144,6 +144,20 @@ settings:
                 label: Retro Wavy
                 value: link-style-wavy
     -
+        id: highlight-style-selector
+        title: Highlight Style
+        description: Choose a visual style for text highlights
+        type: class-select
+        allowEmpty: false
+        default: highlight-style-default
+        options:
+            -
+                label: Default
+                value: highlight-style-default
+            -
+                label: Glass
+                value: highlight-style-glass
+    -
         id: blockquote-style-selector
         title: Blockquote Style
         description: Choose a visual style for blockquotes in your notes
@@ -4038,14 +4052,14 @@ body.link-style-wavy [data-callout] :is(a, .internal-link, .external-link, .cm-u
     display: inline;
     background-color: rgba(var(--callout-color-rgb), .2);
     color: var(--callout-color);
-    border-inset-block-end: var(--border-thin) solid rgba(var(--callout-color-rgb), .3);
+    border-bottom: 2px solid var(--callout-color);
     box-shadow: 0 1px 2px rgba(var(--callout-color-rgb), .15);
 }
 
 .theme-dark :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight) {
     background-color: rgba(var(--callout-color-rgb), .25);
     color: hsl(from var(--callout-color) h s calc(l * 1.1));
-    border-inset-block-end: var(--border-thin) solid rgba(var(--callout-color-rgb), .4);
+    border-bottom: 2px solid var(--callout-color);
     box-shadow: 0 1px 2px rgba(var(--callout-color-rgb), .2);
     text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
 }
@@ -4059,11 +4073,11 @@ body.link-style-wavy [data-callout] :is(a, .internal-link, .external-link, .cm-u
     background-color: rgba(var(--callout-color-rgb), .35);
 }
 
-:is(.callout, .cm-callout) .callout-content :is(h1, h2, h3, h4, h5, h6) {
-    color: var(--callout-color);
-    background-color: transparent;
-    box-shadow: none;
-    background-image: none;
+:is(.callout, .cm-callout) .callout-content :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
+    color: var(--callout-color) !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    background-image: none !important;
     padding-block: .1em;
     padding-inline: .3em;
     border-radius: var(--r2);
@@ -4104,8 +4118,8 @@ body.link-style-wavy [data-callout] :is(a, .internal-link, .external-link, .cm-u
     font-size: .9em;
 }
 
-.theme-dark :is(.callout, .cm-callout) .callout-content :is(h1, h2, h3, h4, h5, h6) {
-    color: hsl(from var(--callout-color) h s calc(l * 1.4));
+.theme-dark :is(.callout, .cm-callout) .callout-content :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
+    color: hsl(from var(--callout-color) h s calc(l * 1.4)) !important;
 }
 
 .markdown-source-view.mod-cm6 .cm-callout .cm-content .cm-line :is(.cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
@@ -4192,7 +4206,7 @@ body.link-style-wavy [data-callout] :is(a, .internal-link, .external-link, .cm-u
 /* Modern Glass Style - Deep blur, floating effect */
 .callout-style-glass :is(.callout, .cm-callout) {
     backdrop-filter: blur(12px) saturate(180%) brightness(1.06) !important;
-    border-inline-start: 4px solid var(--callout-color) !important;
+    border-inline-start: none !important;
     border-radius: var(--r4) !important;
     box-shadow:
         0 6px 18px rgba(0, 0, 0, 0.12),
@@ -4418,15 +4432,66 @@ body.link-style-wavy [data-callout] :is(a, .internal-link, .external-link, .cm-u
     }
 }
 
+/* Highlight Style - Glass */
+.highlight-style-glass :is(
+    .markdown-rendered mark,
+    span.cm-highlight,
+    .markdown-preview-view mark,
+    .cm-s-obsidian span.cm-highlight
+) {
+    background-color: rgba(var(--highlight-bg-rgb, var(--primary-color-rgb)), 0.3);
+    color: var(--highlight-bg-dark-color);
+    border: 1px solid var(--glass-border);
+    border-bottom: 2px solid rgba(var(--highlight-bg-rgb, var(--primary-color-rgb)), 0.45);
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(6px) saturate(140%);
+    -webkit-backdrop-filter: blur(6px) saturate(140%);
+}
+
+.theme-dark.highlight-style-glass :is(
+    .markdown-rendered mark,
+    span.cm-highlight,
+    .markdown-preview-view mark,
+    .cm-s-obsidian span.cm-highlight
+) {
+    background-color: rgba(var(--highlight-bg-rgb, var(--primary-color-rgb)), 0.34);
+    color: var(--highlight-bg-light-color);
+    border-color: rgba(255, 255, 255, 0.12);
+    border-bottom-color: rgba(var(--highlight-bg-rgb, var(--primary-color-rgb)), 0.55);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.highlight-style-glass :is(
+    .markdown-rendered mark,
+    span.cm-highlight,
+    .markdown-preview-view mark,
+    .cm-s-obsidian span.cm-highlight
+):hover {
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    filter: brightness(1.08);
+}
+
 /* Strikethrough Styling */
 :is(.markdown-rendered del, .cm-strikethrough) {
-    text-decoration-color: var(--primary-color);
-    text-decoration-thickness: 2px;
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    background-position: left 60%;
+    animation: strike-draw 0.3s ease forwards;
 }
 
 .theme-dark :is(.markdown-rendered del, .cm-strikethrough) {
     color: var(--emphasis-color-light);
-    text-decoration-color: var(--emphasis-color-light);
+}
+
+@keyframes strike-draw {
+    from { background-size: 0% 2px; }
+    to { background-size: 100% 2px; }
 }
 
 /* Blockquote Styling */
