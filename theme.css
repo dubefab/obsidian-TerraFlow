@@ -274,6 +274,12 @@ settings:
         type: class-toggle
         default: false
     -
+        id: disable-glass-menus
+        title: Disable Glass Menus
+        description: Turn off glass effects for menus, popovers, and suggestions.
+        type: class-toggle
+        default: false
+    -
         id: disable-shadows
         title: Disable Box Shadows
         description: Remove all box-shadows and elevation styling for maximum speed and flat look.
@@ -6597,6 +6603,19 @@ body:not(.disable-scrollbars) * {
     box-shadow: var(--shadow-3), 0 4px 16px rgba(0, 0, 0, .4);
     backdrop-filter: blur(12px) saturate(140%);
     -webkit-backdrop-filter: blur(12px) saturate(140%);
+}
+
+/* Disable glass effects for menus/popovers/suggestions */
+body.disable-glass-menus :is(.popover, .prompt, .suggestion-container, .menu, .dropdown-menu, .modal) {
+    background-color: var(--background-primary) !important;
+    border-color: rgba(var(--primary-color-rgb), .12) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+body.theme-dark.disable-glass-menus :is(.popover, .prompt, .suggestion-container, .menu, .dropdown-menu, .modal) {
+    background-color: var(--background-secondary) !important;
+    border-color: rgba(var(--primary-color-rgb), .2) !important;
 }
 
 .menu-item {
