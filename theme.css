@@ -2303,6 +2303,10 @@ body.is-focused .workspace-tabs.mod-top {
     overflow: hidden;
 }
 
+.theme-light .vertical-tab-container {
+    background-color: var(--background-primary);
+}
+
 .vertical-tab-nav-item {
     padding-block: 12px;
     padding-inline: 10px;
@@ -2353,6 +2357,17 @@ body.is-focused .workspace-tabs.mod-top {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
     backdrop-filter: blur(10px) saturate(150%);
     -webkit-backdrop-filter: blur(10px) saturate(150%);
+}
+
+.theme-dark .vertical-tab-content {
+    border-color: transparent;
+}
+
+.theme-light .vertical-tab-content {
+    background-color: var(--background-primary);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 
 .setting-item:hover {
@@ -5926,6 +5941,10 @@ body:not(.disable-modal-frost) .modal-bg {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+.theme-light body:not(.disable-modal-frost) .modal-bg {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
 
@@ -6613,6 +6632,10 @@ body:not(.disable-scrollbars) * {
     background-color: rgba(0, 0, 0, .5);
 }
 
+.theme-light .modal-container {
+    background-color: rgba(0, 0, 0, .1);
+}
+
 .modal {
     background:
         linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.08) 0%, var(--glass-bg) 100%);
@@ -6625,6 +6648,25 @@ body:not(.disable-scrollbars) * {
     backdrop-filter: blur(12px) saturate(160%) brightness(1.03);
     -webkit-backdrop-filter: blur(12px) saturate(160%) brightness(1.03);
     overflow: hidden;
+}
+
+.theme-light .modal.mod-settings {
+    background: var(--background-primary);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.theme-light .modal {
+    background:
+        linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.06) 0%, rgba(var(--background-primary-rgb), 0.92) 100%);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow:
+        0 12px 36px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(8px) saturate(140%) brightness(1.06);
+    -webkit-backdrop-filter: blur(8px) saturate(140%) brightness(1.06);
 }
 
 .theme-dark .modal {
