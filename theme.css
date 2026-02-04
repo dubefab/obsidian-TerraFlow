@@ -452,22 +452,6 @@ settings:
     --heading-quaternary-rgb: 255, 170, 102;
     --heading-quinary-rgb: 138, 181, 132;
     --heading-senary-rgb: 132, 200, 255;
-    --folder-1-color: var(--heading-primary);
-    --folder-1-color-rgb: var(--heading-primary-rgb);
-    --folder-2-color: var(--heading-secondary);
-    --folder-2-color-rgb: var(--heading-secondary-rgb);
-    --folder-3-color: var(--heading-tertiary);
-    --folder-3-color-rgb: var(--heading-tertiary-rgb);
-    --folder-4-color: var(--heading-quaternary);
-    --folder-4-color-rgb: var(--heading-quaternary-rgb);
-    --folder-5-color: var(--heading-quinary);
-    --folder-5-color-rgb: var(--heading-quinary-rgb);
-    --folder-6-color: var(--heading-senary);
-    --folder-6-color-rgb: var(--heading-senary-rgb);
-    --folder-color: rgba(var(--folder-1-color-rgb), var(--theme-folder-opacity));
-    --folder-text-color: var(--folder-1-color);
-    --folder-accent-opacity: .6;
-    --folder-active-opacity: .8;
     --heading-text-multiplier: 1.15;
     --theme-text-multiplier: 1.0;
     --highlight-bg: #6a4e45;
@@ -526,7 +510,6 @@ settings:
     --folder-text-color: var(--folder-1-color);
     --folder-accent-opacity: .6;
     --folder-active-opacity: .8;
-
 }
 
 .theme-light.iceberg-theme {
@@ -723,7 +706,6 @@ settings:
     --folder-text-color: var(--folder-1-color);
     --folder-accent-opacity: .6;
     --folder-active-opacity: .8;
-
 }
 
 .theme-light.twilight-theme {
@@ -920,7 +902,6 @@ settings:
     --folder-text-color: var(--folder-1-color);
     --folder-accent-opacity: .6;
     --folder-active-opacity: .8;
-
 }
 
 .theme-light.autumn-theme {
@@ -1079,7 +1060,6 @@ settings:
     --callout-quote-rgb: 232, 220, 198;
     --callout-color: var(--heading-primary);
     --callout-color-rgb: var(--heading-primary-rgb);
-    --highlight-bg: #4a3d2e;
     --highlight-bg: #3a2f20;
     --highlight-bg-dark: #5a4430;
     --highlight-bg-dark-color: #5a4430;
@@ -1118,7 +1098,6 @@ settings:
     --folder-text-color: var(--folder-1-color);
     --folder-accent-opacity: .6;
     --folder-active-opacity: .8;
-
 }
 
 .theme-light.winter-theme {
@@ -1159,18 +1138,6 @@ settings:
     --code-string: #8b4a8b;
     --code-tag: #483d8b;
     --code-value: #008b8b;
-    --heading-primary: #2c5f7f;
-    --heading-primary-rgb: 44, 95, 127;
-    --heading-secondary: #4d7c9a;
-    --heading-secondary-rgb: 77, 124, 154;
-    --heading-tertiary: #5a6b8e;
-    --heading-tertiary-rgb: 90, 107, 142;
-    --heading-quaternary: #3d6b6b;
-    --heading-quaternary-rgb: 61, 107, 107;
-    --heading-quinary: #5b4d7c;
-    --heading-quinary-rgb: 91, 77, 124;
-    --heading-senary: #4d6b5a;
-    --heading-senary-rgb: 77, 107, 90;
     --heading-primary: #2d5a7a;
     --heading-primary-rgb: 45, 90, 122;
     --heading-secondary: #8b3a52;
@@ -1327,7 +1294,6 @@ settings:
     --folder-text-color: var(--folder-1-color);
     --folder-accent-opacity: .6;
     --folder-active-opacity: .8;
-
 }
 
 .theme-light.spring-theme {
@@ -1524,7 +1490,6 @@ settings:
     --folder-text-color: var(--folder-1-color);
     --folder-accent-opacity: .6;
     --folder-active-opacity: .8;
-
 }
 
 .theme-light.summer-theme {
@@ -1721,7 +1686,6 @@ settings:
     --folder-text-color: var(--folder-1-color);
     --folder-accent-opacity: .6;
     --folder-active-opacity: .8;
-
 }
 
 .theme-light.paper-theme {
@@ -2494,21 +2458,6 @@ body.is-focused .workspace-tabs.mod-top {
     transform: translateZ(0);
 }
 
-.theme-dark .markdown-preview-view h1,
-.theme-dark .markdown-preview-view h2,
-.theme-dark .markdown-preview-view h3,
-.theme-dark .markdown-preview-view h4,
-.theme-dark .markdown-preview-view h5,
-.theme-dark .markdown-preview-view h6,
-.theme-dark .markdown-reading-view h1,
-.theme-dark .markdown-reading-view h2,
-.theme-dark .markdown-reading-view h3,
-.theme-dark .markdown-reading-view h4,
-.theme-dark .markdown-reading-view h5,
-.theme-dark .markdown-reading-view h6,
-.theme-dark .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
-}
-
 .markdown-preview-view h1,
 .markdown-source-view.mod-cm6 .cm-line .cm-header-1 {
     background-color: rgba(var(--heading-primary-rgb), var(--heading-bg-opacity));
@@ -2623,11 +2572,6 @@ body.is-focused .workspace-tabs.mod-top {
 
 .markdown-source-view.mod-cm6 .cm-header-6 .cm-fold-indicator .collapse-indicator {
     inset-block-start: 0.33em !important;
-}
-
-/* Reveal arrow on hover */
-:is(.cm-line:hover, .cm-gutterElement:hover) .cm-fold-indicator .collapse-indicator {
-    opacity: 1 !important;
 }
 
 /* Text Appearance Toggles */
@@ -3995,11 +3939,6 @@ body.link-style-wavy [data-callout] :is(a, .internal-link, .external-link, .cm-u
 }
 
 
-body.link-style-wavy [data-callout] :is(a, .internal-link, .external-link, .cm-url):hover {
-    text-decoration-color: var(--callout-color) !important;
-}
-
-
 
 [data-callout] .is-unresolved {
     opacity: .75;
@@ -4386,7 +4325,7 @@ body.link-style-wavy [data-callout] :is(a, .internal-link, .external-link, .cm-u
     .cm-s-obsidian span.cm-highlight {
         padding: 6px 4px;
         border-radius: var(--r1);
-        -webkit-corner-smoothing: var(--squircle-main);
+        -electron-corner-smoothing: var(--squircle-main);
         display: inline;
         transition: background-color var(--transition-ui), transform var(--transition-ui);
     }
@@ -4497,7 +4436,7 @@ body.link-style-wavy [data-callout] :is(a, .internal-link, .external-link, .cm-u
 /* Blockquote Styling */
 :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
     border-radius: var(--r3);
-    electron-corner-smoothing: var(--squircle-main);
+    -electron-corner-smoothing: var(--squircle-main);
     border: none;
     overflow: hidden;
     padding-block: 5px;
@@ -4525,7 +4464,7 @@ body.link-style-wavy [data-callout] :is(a, .internal-link, .external-link, .cm-u
     box-shadow: var(--shadow-3);
     transform: translateY(-2px);
     border-radius: var(--r3);
-    electron-corner-smoothing: var(--squircle-main);
+    -electron-corner-smoothing: var(--squircle-main);
     border-block-end: var(--border-thin) solid rgba(var(--primary-color-rgb), .2);
 }
 
@@ -4788,9 +4727,6 @@ body.link-style-wavy [data-callout] :is(a, .internal-link, .external-link, .cm-u
     border-spacing: 0;
     position: relative;
     transition: box-shadow var(--transition-ui), transform var(--transition-ui);
-}
-
-.theme-dark :is(.markdown-rendered, .markdown-preview-view) table {
 }
 
 :is(.markdown-rendered, .markdown-preview-view) table th:first-child {
