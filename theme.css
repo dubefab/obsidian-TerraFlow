@@ -69,6 +69,18 @@ settings:
                 label: Card
                 value: layout-card
     -
+        id: depth-shadows
+        title: Depth & Shadows
+        description: Add realistic multi-layer shadows for visual depth and hierarchy
+        type: class-toggle
+        default: true
+    -
+        id: inline-code-accent
+        title: Accent Inline Code
+        description: Highlight inline code with gradient backgrounds and accent colors
+        type: class-toggle
+        default: false
+    -
         id: animation-style
         title: Animation Style
         description: Choose the animation personality for the interface
@@ -1868,7 +1880,7 @@ body.theme-dark.enable-monochrome {
 .theme-dark.enable-monochrome :is(.markdown-rendered, .markdown-preview-view) table th {
     background-color: #0f0f0f !important;
     color: #e8e8e8 !important;
-    border-inset-block-end: var(--border-thick) solid rgba(232, 232, 232, .2) !important;
+    border-block-end: var(--border-thick) solid rgba(232, 232, 232, .2) !important;
 }
 
 .theme-dark.enable-monochrome :is(.markdown-rendered, .markdown-preview-view) table thead tr {
@@ -1876,7 +1888,7 @@ body.theme-dark.enable-monochrome {
 }
 
 .theme-dark.enable-monochrome .markdown-rendered table tbody tr {
-    border-inset-block-end: var(--border-thin) solid rgba(232, 232, 232, .1);
+    border-block-end: var(--border-thin) solid rgba(232, 232, 232, .1);
 }
 
 .theme-dark.enable-monochrome :is(
@@ -1904,7 +1916,7 @@ body.theme-dark.enable-monochrome {
 }
 
 .theme-dark.enable-monochrome .setting-item {
-    border-inset-block-start: var(--border-thin) solid rgba(232, 232, 232, .1);
+    border-block-start: var(--border-thin) solid rgba(232, 232, 232, .1);
 }
 
 .theme-dark.enable-monochrome :is(
@@ -1985,7 +1997,7 @@ body.theme-dark.enable-monochrome {
 .theme-light.enable-monochrome :is(.markdown-rendered, .markdown-preview-view) table th {
     background-color: #e0e0e0 !important;
     color: #000000 !important;
-    border-inset-block-end: var(--border-thick) solid rgba(0, 0, 0, .2) !important;
+    border-block-end: var(--border-thick) solid rgba(0, 0, 0, .2) !important;
 }
 
 .theme-light.enable-monochrome :is(.markdown-rendered, .markdown-preview-view) table thead tr {
@@ -2062,6 +2074,7 @@ body:not(.is-mobile).layout-card .workspace-tab-header-container-inner {
     height: 100%;
     margin: 0;
     padding: 0 10px;
+    gap: 6px;
 }
 
 body:not(.is-mobile).layout-card .workspace-tab-header {
@@ -2072,13 +2085,34 @@ body:not(.is-mobile).layout-card .workspace-tab-header {
     transition: background-color var(--transition-ui), transform var(--transition-ui), box-shadow var(--transition-ui), border-radius var(--transition-ui);
 }
 
-body:not(.is-mobile).layout-card .workspace-tab-header.is-active {
-    background-color: var(--background-primary) !important;
-    border: none !important;
-    box-shadow: none !important;
+/* OPTION 3: Contrast boost (when depth shadows DISABLED) */
+body:not(.is-mobile):not(.depth-shadows).layout-card .workspace-tab-header {
+    background-color: rgba(var(--background-secondary-rgb), .2) !important;
 }
 
-body:not(.is-mobile).layout-card .workspace-tab-header:not(.is-active):hover {
+body:not(.is-mobile):not(.depth-shadows).layout-card .workspace-tab-header.is-active {
+    background-color: var(--background-primary) !important;
+    border: none !important;
+    box-shadow: 0 0 20px rgba(var(--primary-color-rgb), 0.15) !important;
+}
+
+body:not(.is-mobile):not(.depth-shadows).layout-card .workspace-tab-header:not(.is-active):hover {
+    background-color: rgba(var(--background-secondary-rgb), 0.4);
+}
+
+/* OPTION 1: Elevated active tab (when depth shadows ENABLED) */
+body:not(.is-mobile).depth-shadows.layout-card .workspace-tab-header {
+    background-color: rgba(var(--background-secondary-rgb), .3);
+}
+
+body:not(.is-mobile).depth-shadows.layout-card .workspace-tab-header.is-active {
+    background-color: var(--background-primary) !important;
+    border: none !important;
+    transform: translateY(-2px) !important;
+    box-shadow: var(--depth-2) !important;
+}
+
+body:not(.is-mobile).depth-shadows.layout-card .workspace-tab-header:not(.is-active):hover {
     transform: scale(1.02);
     background-color: rgba(var(--background-secondary-rgb), 0.5);
 }
@@ -2105,9 +2139,16 @@ body.mod-macos.is-hidden-frameless.layout-card .workspace-tab-header-container-i
     padding-inline-end: 5px;
 }
 
-/* Fix Windows Buttons to be Transparent */
-.mod-windows .titlebar-button {
+/* Fix Windows/Linux Buttons to be Transparent */
+.mod-windows .titlebar-button,
+.mod-linux .titlebar-button {
     background-color: transparent !important;
+    transition: background-color var(--transition-ui) !important;
+}
+
+.mod-windows .titlebar-button:hover,
+.mod-linux .titlebar-button:hover {
+    background-color: rgba(var(--background-modifier-hover-rgb), 0.5) !important;
 }
 
 body.is-focused .sidebar-toggle-button,
@@ -3173,7 +3214,7 @@ em,
     border-radius: 0;
     padding-block: 0;
     padding-inline: 0;
-    border-inset-block-end: none;
+    border-block-end: none;
     box-shadow: none;
     text-decoration: none;
     transform: none;
@@ -3184,7 +3225,7 @@ em,
 /* Common Link Reset */
 :is(.markdown-rendered a, .markdown-rendered .internal-link, .markdown-rendered .external-link, .markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-url:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-internal-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-external-link:not(.cm-formatting)) {
     text-decoration: none !important;
-    border-inset-block-end: none !important;
+    border-block-end: none !important;
     transition: color var(--transition-ui), background-color var(--transition-ui), border-color var(--transition-ui), box-shadow var(--transition-ui), transform var(--transition-ui), text-shadow var(--transition-ui);
 }
 
@@ -3274,12 +3315,12 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
 /* Unresolved Links Logic (Stays consistent across styles but adapts background) */
 :is(.markdown-rendered .internal-link.is-unresolved, .markdown-source-view.mod-cm6 .cm-hmd-internal-link.is-unresolved, .markdown-source-view.mod-cm6 .cm-hmd-internal-link.cm-hmd-unresolved) {
     opacity: 0.8;
-    border-inset-block-end: 1px dashed var(--callout-color, var(--primary-color)) !important;
+    border-block-end: 1px dashed var(--callout-color, var(--primary-color)) !important;
 }
 
 .markdown-source-view.mod-cm6 .cm-underline {
     text-decoration: none !important;
-    border-inset-block-end: none !important;
+    border-block-end: none !important;
 }
 
 .markdown-source-view.mod-cm6 .cm-line .cm-link,
@@ -3287,7 +3328,7 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
 .markdown-source-view.mod-cm6 .cm-line .cm-hmd-internal-link,
 .markdown-source-view.mod-cm6 .cm-line .cm-hmd-external-link {
     text-decoration: none !important;
-    border-inset-block-end: none !important;
+    border-block-end: none !important;
 }
 
 .markdown-source-view.mod-cm6 .cm-line .cm-link:hover,
@@ -3295,7 +3336,7 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
 .markdown-source-view.mod-cm6 .cm-line .cm-hmd-internal-link:hover,
 .markdown-source-view.mod-cm6 .cm-line .cm-hmd-external-link:hover {
     text-decoration: none !important;
-    border-inset-block-end: none !important;
+    border-block-end: none !important;
 }
 
 /* Unified Accent Glow for Link Hovers */
@@ -3310,17 +3351,39 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
 }
 
 /* Multi-select Pill Styling */
+.multi-select-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    border-radius: var(--radius-m) !important;
+    background-color: rgba(var(--primary-color-rgb), .15) !important;
+    padding: 2px 4px 2px 10px !important;
+    gap: 4px !important;
+    box-shadow: var(--shadow-1) !important;
+}
+
+.theme-dark .multi-select-pill {
+    background-color: rgba(var(--primary-color-rgb), .18) !important;
+}
+
 :is(.multi-select-pill-content span, .multi-select-pill-content) {
-    border-radius: var(--r1);
-    -electron-corner-smoothing: var(--squircle-btn);
-    background-color: rgba(var(--primary-color-rgb), .15);
+    border-radius: 0 !important;
+    background-color: transparent !important;
     color: var(--text-normal);
-    padding: 2px 8px;
+    padding: 0 !important;
     font-size: .85em;
     font-weight: var(--weight-medium);
     letter-spacing: -.01em;
-    box-shadow: var(--shadow-1);
-    transition: background-color var(--transition-ui), color var(--transition-ui);
+    box-shadow: none !important;
+    transition: color var(--transition-ui);
+}
+
+.multi-select-pill-remove {
+    opacity: 0.6 !important;
+    transition: opacity var(--transition-ui) !important;
+}
+
+.multi-select-pill-remove:hover {
+    opacity: 1 !important;
 }
 
 .theme-dark :is(.multi-select-pill-content span, .multi-select-pill-content) {
@@ -3651,7 +3714,7 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
     padding-block: 0;
     padding-inline: 0;
     background: transparent;
-    border-inset-block-end: none;
+    border-block-end: none;
     color: hsl(from var(--callout-color) h s calc(l * .7));
     text-shadow: 0 1px 2px rgba(var(--callout-color-rgb), .1);
 }
@@ -3768,7 +3831,7 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
     padding-inline: 3px;
-    border-inset-block-end: var(--border-thin) solid transparent;
+    border-block-end: var(--border-thin) solid transparent;
     transition: transform 0.18s cubic-bezier(.4, 0, .2, 1), opacity 0.15s cubic-bezier(.4, 0, .2, 1), background-color 0.18s, color 0.18s;
 }
 
@@ -3786,13 +3849,13 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
     padding-inline: 3px;
-    border-inset-block-end: var(--border-thin) solid transparent;
+    border-block-end: var(--border-thin) solid transparent;
     transition: transform 0.18s cubic-bezier(.4, 0, .2, 1), opacity 0.15s cubic-bezier(.4, 0, .2, 1), background-color 0.18s, color 0.18s;
 }
 
 :is(.callout, .cm-callout) .callout-title :is(a, .internal-link, .external-link, .cm-url):hover {
     background: rgba(var(--callout-color-rgb), .15) !important;
-    border-inset-block-end: var(--border-thin) solid currentColor !important;
+    border-block-end: var(--border-thin) solid currentColor !important;
 }
 
 :is(.callout, .cm-callout) .callout-content :is(a, .internal-link, .external-link, .cm-url) {
@@ -3802,7 +3865,7 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
     padding-inline: 3px;
-    border-inset-block-end: var(--border-thin) solid transparent;
+    border-block-end: var(--border-thin) solid transparent;
     transition: transform 0.18s cubic-bezier(.4, 0, .2, 1), opacity 0.15s cubic-bezier(.4, 0, .2, 1), background-color 0.18s, color 0.18s;
 }
 
@@ -4647,7 +4710,7 @@ body.link-style-wavy [data-callout] :is(a, .internal-link, .external-link, .cm-u
     padding-block: var(--s2);
     padding-inline: var(--s3);
     font-weight: var(--weight-semibold);
-    border-inset-block-end: var(--border-thin) solid var(--divider-color);
+    border-block-end: var(--border-thin) solid var(--divider-color);
 }
 
 .markdown-rendered table th strong {
@@ -4669,7 +4732,7 @@ body.link-style-wavy [data-callout] :is(a, .internal-link, .external-link, .cm-u
 :is(.markdown-rendered, .markdown-preview-view) table td {
     padding-block: var(--s2);
     padding-inline: var(--s3);
-    border-inset-block-start: var(--border-thin) solid var(--table-border);
+    border-block-start: var(--border-thin) solid var(--table-border);
 }
 
 .theme-light :is(.markdown-rendered, .markdown-preview-view) table tbody tr:nth-child(even) {
@@ -5843,7 +5906,7 @@ body:not(.disable-modal-frost) .modal-bg {
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
     padding: var(--s4);
-    margin-inset-block-end: var(--s4);
+    margin-block-end: var(--s4);
     border: none;
     position: relative;
     transition: box-shadow var(--transition-ui), transform var(--transition-ui);
@@ -5859,7 +5922,7 @@ body:not(.disable-modal-frost) .modal-bg {
 .metadata-container .metadata-properties-heading {
     font-weight: var(--weight-bold);
     color: var(--heading-primary);
-    margin-inset-block-end: var(--s3);
+    margin-block-end: var(--s3);
     font-size: 1.1em;
     letter-spacing: .02em;
     text-transform: uppercase;
@@ -5899,7 +5962,7 @@ body:not(.disable-modal-frost) .modal-bg {
     overflow: visible;
     -electron-corner-smoothing: var(--squircle-main);
     margin-inline-end: 0;
-    margin-inset-block-end: 0;
+    margin-block-end: 0;
     background-color: rgba(var(--background-secondary-rgb), 0.9);
     color: var(--text-muted);
     border: none;
@@ -5914,7 +5977,7 @@ body:not(.disable-modal-frost) .modal-bg {
 :is(.workspace-tab-header, .workspace-tab-header-inner)::after {
     transition: transform var(--transition-ui), background-color var(--transition-ui), box-shadow var(--transition-ui);
     border: none !important;
-    border-inset-inline-end: none !important;
+    border-inline-end: none !important;
     border-inline-start: none !important;
 }
 
@@ -5968,12 +6031,12 @@ body:not(.disable-modal-frost) .modal-bg {
 
 /* View Header Styling */
 .view-header {
-    border-inset-block-end: 1.5px solid var(--divider-color);
+    border-block-end: 1.5px solid var(--divider-color);
     background-color: rgba(var(--background-primary-rgb), .85);
     transition: box-shadow var(--transition-ui), transform var(--transition-ui), background-color var(--transition-ui);
     position: relative;
     z-index: 5;
-    margin-inset-block-end: -1px;
+    margin-block-end: -1px;
 }
 
 .view-header:hover {
@@ -5997,7 +6060,7 @@ body:not(.disable-modal-frost) .modal-bg {
 .view-content {
     position: relative;
     z-index: 1;
-    margin-inset-block-start: 0;
+    margin-block-start: 0;
 }
 
 .theme-dark .view-header-title,
@@ -6146,7 +6209,7 @@ body:not(.disable-status-bar) .status-bar:hover .status-bar-item button:hover {
 
 .workspace-leaf-content[data-type="outline"] .tree-item {
     position: relative;
-    margin-inset-block-end: var(--outline-item-spacing);
+    margin-block-end: var(--outline-item-spacing);
 }
 
 .workspace-leaf-content[data-type="outline"] .tree-item-icon {
@@ -6758,43 +6821,43 @@ body.layout-card {
     --card-radius: 20px;
 }
 
-/* Workspace leaf wrapper */
-body.layout-card .workspace-leaf {
+/* Workspace leaf wrapper (desktop only) */
+body:not(.is-mobile).layout-card .workspace-leaf {
     background-color: transparent !important;
     margin: 5px;
 }
 
-/* Leaf content - THE CARD */
-body.layout-card .workspace-leaf-content {
+/* Leaf content - THE CARD (desktop only) */
+body:not(.is-mobile).layout-card .workspace-leaf-content {
     background-color: var(--card-bg) !important;
     border-radius: var(--card-radius);
     transform: none !important;
 }
 
-/* Tab headers - transparent background */
-body.layout-card .workspace-tab-header-container {
+/* Tab headers - transparent background (desktop only) */
+body:not(.is-mobile).layout-card .workspace-tab-header-container {
     background-color: transparent !important;
 }
 
-/* Remove all borders from EVERYTHING */
-body.layout-card .workspace-leaf,
-body.layout-card .workspace-tab-header-container,
-body.layout-card .workspace-split,
-body.layout-card .workspace-leaf-resize-handle,
-body.layout-card .sidebar-left,
-body.layout-card .sidebar-right,
-body.layout-card .side-dock-plugin-panel,
-body.layout-card .side-dock-plugin-panel-inner {
+/* Remove all borders from EVERYTHING (desktop only) */
+body:not(.is-mobile).layout-card .workspace-leaf,
+body:not(.is-mobile).layout-card .workspace-tab-header-container,
+body:not(.is-mobile).layout-card .workspace-split,
+body:not(.is-mobile).layout-card .workspace-leaf-resize-handle,
+body:not(.is-mobile).layout-card .sidebar-left,
+body:not(.is-mobile).layout-card .sidebar-right,
+body:not(.is-mobile).layout-card .side-dock-plugin-panel,
+body:not(.is-mobile).layout-card .side-dock-plugin-panel-inner {
     border-inline-end: none !important;
     border-inline-start: none !important;
     border-block-start: none !important;
     border-block-end: none !important;
 }
 
-/* === MIDDLE PANEL FIX === */
-body.layout-card .workspace-split,
-body.layout-card .workspace-split.mod-vertical,
-body.layout-card .workspace-split.mod-horizontal {
+/* === MIDDLE PANEL FIX === (desktop only) */
+body:not(.is-mobile).layout-card .workspace-split,
+body:not(.is-mobile).layout-card .workspace-split.mod-vertical,
+body:not(.is-mobile).layout-card .workspace-split.mod-horizontal {
     background-color: var(--background-secondary) !important;
     border-radius: 0 !important;
     border: none !important;
@@ -6804,15 +6867,15 @@ body.layout-card .workspace-split.mod-horizontal {
 
 }
 
-body.layout-card .workspace-split:hover,
-body.layout-card .workspace-split:focus,
-body.layout-card .workspace-split:focus-within,
-body.layout-card .workspace-split.mod-vertical:hover,
-body.layout-card .workspace-split.mod-vertical:focus,
-body.layout-card .workspace-split.mod-vertical:focus-within,
-body.layout-card .workspace-split.mod-horizontal:hover,
-body.layout-card .workspace-split.mod-horizontal:focus,
-body.layout-card .workspace-split.mod-horizontal:focus-within {
+body:not(.is-mobile).layout-card .workspace-split:hover,
+body:not(.is-mobile).layout-card .workspace-split:focus,
+body:not(.is-mobile).layout-card .workspace-split:focus-within,
+body:not(.is-mobile).layout-card .workspace-split.mod-vertical:hover,
+body:not(.is-mobile).layout-card .workspace-split.mod-vertical:focus,
+body:not(.is-mobile).layout-card .workspace-split.mod-vertical:focus-within,
+body:not(.is-mobile).layout-card .workspace-split.mod-horizontal:hover,
+body:not(.is-mobile).layout-card .workspace-split.mod-horizontal:focus,
+body:not(.is-mobile).layout-card .workspace-split.mod-horizontal:focus-within {
     background-color: var(--background-secondary) !important;
     border-radius: 0 !important;
     border: none !important;
@@ -6821,44 +6884,47 @@ body.layout-card .workspace-split.mod-horizontal:focus-within {
     z-index: auto !important;
 }
 
-/* View header fixes */
-body.layout-card .view-header {
+/* View header fixes (desktop only) */
+body:not(.is-mobile).layout-card .view-header {
     border: none !important;
-    border-inset-block-end: none !important;
+    border-block-end: none !important;
     box-shadow: none !important;
     transition: none !important;
     transform: none !important;
 }
 
-/* Add bottom padding for card effect */
-body.layout-card .workspace-leaf-content {
-    margin-inset-block-end: 20px;
+/* Add bottom padding for card effect (desktop only) */
+body:not(.is-mobile).layout-card .workspace-leaf-content {
+    margin-block-end: 20px;
 }
 
-/* Tab header hover scale effect - sidebars only */
-body.layout-card .workspace-split.mod-left-split .workspace-tab-header-inner:hover,
-body.layout-card .workspace-split.mod-right-split .workspace-tab-header-inner:hover {
+/* Tab header hover scale effect - sidebars only (desktop only) */
+body:not(.is-mobile).layout-card .workspace-split.mod-left-split .workspace-tab-header-inner:hover,
+body:not(.is-mobile).layout-card .workspace-split.mod-right-split .workspace-tab-header-inner:hover {
     transform: scale(1.05) !important;
     transition: transform var(--transition-ui) !important;
 }
 
-body.layout-card .workspace-split.mod-left-split .workspace-tab-header-inner,
-body.layout-card .workspace-split.mod-right-split .workspace-tab-header-inner {
+body:not(.is-mobile).layout-card .workspace-split.mod-left-split .workspace-tab-header-inner,
+body:not(.is-mobile).layout-card .workspace-split.mod-right-split .workspace-tab-header-inner {
     transition: transform var(--transition-ui) !important;
 }
 
 /* Sidebar Pill Styles for Card Layout (Refined) */
 body:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container {
     background-color: transparent !important;
-    padding: 0 !important;
+    padding: 8px 5px 1px 5px !important;
     border: none !important;
+    height: 50px !important;
+    display: flex !important;
+    align-items: center !important;
 }
 
 body:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container .workspace-tab-header-container-inner {
     background-color: rgba(var(--primary-color-rgb), 0.08) !important;
     border-radius: var(--radius-pill) !important;
     padding: 1px 4px 1px !important;
-    margin: 12px auto !important;
+    margin: 0 auto !important;
     gap: 3px !important;
     height: 42px !important;
     width: fit-content !important;
@@ -6978,8 +7044,8 @@ body:not(.is-mobile).enable-floating-nav .nav-buttons-container:hover {
     overflow: visible;
     opacity: 1;
     gap: 4px;
-    margin-inset-block-start: 7px !important;
-    margin-inset-block-end: 5px !important;
+    margin-block-start: 7px !important;
+    margin-block-end: 5px !important;
 }
 
 body:not(.is-mobile).enable-floating-nav .nav-buttons-container>.clickable-icon {
@@ -7049,7 +7115,7 @@ body.layout-card .view-header :is(.view-actions, .view-header-nav-buttons) .clic
     border-radius: var(--radius-pill);
     transition: background-color var(--transition-ui), color var(--transition-ui);
     cursor: pointer;
-    margin-inset-block-end: 4px !important;
+    margin-block-end: 4px !important;
     border: none !important;
     box-shadow: none !important;
 }
@@ -7077,7 +7143,7 @@ body.layout-card .view-header :is(.view-actions, .view-header-nav-buttons) .clic
     border: none !important;
     border-radius: var(--r4) !important;
     padding: 10px !important;
-    margin-inset-block-start: 8px !important;
+    margin-block-start: 8px !important;
     box-shadow: none !important;
 }
 
@@ -7085,7 +7151,7 @@ body.layout-card .view-header :is(.view-actions, .view-header-nav-buttons) .clic
 body.layout-card .search-result {
     background-color: rgba(var(--primary-color-rgb), 0.04) !important;
     border-radius: var(--card-radius);
-    margin-inset-block-end: var(--s4);
+    margin-block-end: var(--s4);
     padding: var(--s3) !important;
     border: none;
     box-shadow: none !important;
@@ -7132,7 +7198,7 @@ body.layout-card .tag-container {
     background-color: var(--background-primary) !important;
     border: none;
     border-radius: var(--r4) !important;
-    margin-inset-block-end: 6px !important;
+    margin-block-end: 6px !important;
     padding: 6px 12px 6px 16px !important;
     transition: background-color var(--transition-ui), color var(--transition-ui), box-shadow var(--transition-ui), transform var(--transition-ui) !important;
     color: var(--text-normal) !important;
@@ -7161,14 +7227,14 @@ body.layout-card .tag-container {
 /* Nested Tags Spacing */
 .tag-container .tree-item-children {
     padding-inline-start: 16px !important;
-    margin-inset-block-start: 4px !important;
+    margin-block-start: 4px !important;
     border-inline-start: none !important;
 }
 
 /* Show Header on Hover */
 body.show-header-on-hover .view-header {
     background-color: transparent !important;
-    border-inset-block-end: none !important;
+    border-block-end: none !important;
     transition: background-color var(--transition-ui) !important;
 }
 
@@ -7193,13 +7259,13 @@ body.show-header-on-hover .view-header:hover>.clickable-icon {
 /* Only show border on hover if really needed, but removing background change */
 body.show-header-on-hover .view-header:hover {
     background-color: transparent !important;
-    border-inset-block-end: none !important;
+    border-block-end: none !important;
 }
 
 /* Fix for Card Layout if enabled */
 body.show-header-on-hover.layout-card .view-header:hover {
     background-color: transparent !important;
-    border-inset-block-end: none !important;
+    border-block-end: none !important;
 }
 
 /* Modern Glass Style - Frosted glass effect */
@@ -7207,7 +7273,7 @@ body.show-header-on-hover.layout-card .view-header:hover {
     background: linear-gradient(135deg, rgba(var(--background-secondary-rgb), 0.6), rgba(var(--background-secondary-rgb), 0.4)) !important;
     border: var(--border-thin) solid rgba(255, 255, 255, 0.2) !important;
     border-inline-start: var(--border-heavy) solid var(--blockquote-border-color) !important;
-    border-inset-block-end: none !important;
+    border-block-end: none !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, var(--opacity-subtle)) !important;
 }
 
@@ -7240,3 +7306,494 @@ body.show-header-on-hover.layout-card .view-header:hover {
         scroll-behavior: auto !important;
     }
 }
+
+/* ============================== */
+/*     MOBILE & iPAD FIXES        */
+/* ============================== */
+
+/* DISABLE CARD LAYOUT ON MOBILE - Just don't apply the card layout class effects */
+/* Mobile will automatically use default Obsidian styling since we're blocking card layout with :not(.is-mobile) */
+
+/* Just ensure basics work on mobile */
+body.is-mobile .workspace-leaf-content {
+    contain: none !important;
+    will-change: auto !important;
+}
+
+body.is-mobile .view-content,
+body.is-mobile .markdown-preview-view,
+body.is-mobile .markdown-source-view {
+    contain: none !important;
+    will-change: auto !important;
+}
+
+/* Remove transforms and containment that cause rendering issues on WebKit */
+body.is-mobile .view-content,
+body.is-mobile .workspace-leaf-content,
+body.is-mobile .markdown-preview-view,
+body.is-mobile .markdown-source-view {
+    contain: none !important;
+    will-change: auto !important;
+}
+
+/* Fix heading backgrounds wrapping poorly on narrow screens */
+body.is-mobile .heading-style-pill .cm-line:is(.HyperMD-header-1, .HyperMD-header-2, .HyperMD-header-3) .cm-formatting-header + span {
+    display: inline !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+}
+
+/* Remove hover effects on touch devices - they cause stuck states */
+@media (hover: none) and (pointer: coarse) {
+    /* Remove all translateY hover effects */
+    .metadata-container:hover,
+    .view-header:hover,
+    .workspace-tab-header:hover,
+    .nav-file:hover,
+    .nav-folder:hover,
+    .tree-item-self:hover {
+        transform: none !important;
+    }
+
+    /* Remove hover backgrounds on cards */
+    body.layout-card .workspace-leaf:hover {
+        box-shadow: none !important;
+    }
+
+    /* Simplify link hovers on touch */
+    .markdown-rendered a:hover,
+    .markdown-rendered .internal-link:hover {
+        transform: none !important;
+    }
+}
+
+/* Fix contain/will-change rendering bugs on mobile WebKit */
+body.is-mobile {
+    .view-content,
+    .workspace-leaf-content,
+    .markdown-reading-view,
+    .markdown-source-view.mod-cm6 {
+        contain: none !important;
+        will-change: auto !important;
+    }
+
+    /* Fix metadata container on mobile */
+    .metadata-container {
+        contain: none !important;
+        transform: none !important;
+    }
+
+    /* Fix inline title */
+    .inline-title {
+        contain: none !important;
+    }
+}
+
+/* Remove -electron-corner-smoothing on mobile (ignored on WebKit anyway) */
+body.is-mobile {
+    * {
+        -electron-corner-smoothing: unset !important;
+    }
+}
+
+/* Fix heading pill backgrounds on mobile - prevent multi-line wrapping issues */
+body.is-mobile.heading-style-pill {
+    .cm-line.HyperMD-header .cm-formatting-header + span,
+    .markdown-rendered :is(h1, h2, h3, h4, h5, h6) {
+        display: inline !important;
+        padding-inline: 0.5em !important;
+        padding-block: 0.25em !important;
+        box-decoration-break: clone !important;
+        -webkit-box-decoration-break: clone !important;
+    }
+}
+
+/* Fix properties/metadata card overflow on iPad */
+body.is-mobile .metadata-container,
+body.is-mobile.layout-card .metadata-container {
+    background: var(--background-secondary) !important;
+    background-color: var(--background-secondary) !important;
+    border: 1px solid var(--background-modifier-border) !important;
+    border-radius: var(--radius-m) !important;
+    overflow: visible !important;
+    box-shadow: var(--shadow-s) !important;
+    padding: 16px !important;
+}
+
+/* Simplify animations on mobile for better performance */
+body.is-mobile * {
+    transition-duration: 0.15s !important;
+}
+
+/* Fix tab scrolling on mobile */
+body.is-mobile .workspace-tab-header-container {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+/* Ensure readable font sizes on small screens */
+@media (max-width: 768px) {
+    body {
+        font-size: 16px !important;
+    }
+
+    .markdown-preview-view,
+    .markdown-source-view {
+        font-size: 1em !important;
+    }
+
+    /* Adjust heading sizes on mobile */
+    .markdown-rendered h1,
+    .cm-header-1 {
+        font-size: 1.8em !important;
+    }
+
+    .markdown-rendered h2,
+    .cm-header-2 {
+        font-size: 1.5em !important;
+    }
+
+    .markdown-rendered h3,
+    .cm-header-3 {
+        font-size: 1.3em !important;
+    }
+}
+
+/* Fix card layout specifically on iPad (wider screens but still touch) */
+@media (min-width: 768px) and (max-width: 1024px) and (hover: none) {
+    body.layout-card .workspace-leaf {
+        margin: 8px !important;
+    }
+}
+
+/* === CRITICAL MOBILE OVERRIDE: Force metadata background === */
+body.is-mobile .metadata-container {
+    background: hsl(var(--accent-h), 12%, 15%) !important;
+    background-color: hsl(var(--accent-h), 12%, 15%) !important;
+}
+
+.theme-light.is-mobile .metadata-container {
+    background: hsl(var(--accent-h), 15%, 92%) !important;
+    background-color: hsl(var(--accent-h), 15%, 92%) !important;
+}
+
+body.is-mobile .metadata-content,
+body.is-mobile .metadata-properties-heading {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* ============================== */
+/*   DEPTH-AWARE SHADOWS          */
+/* ============================== */
+
+/* Base depth system - 3 layers for realistic depth */
+body.depth-shadows {
+    --depth-1: 0 1px 2px rgba(0, 0, 0, 0.05),
+               0 2px 4px rgba(0, 0, 0, 0.03);
+    
+    --depth-2: 0 2px 4px rgba(0, 0, 0, 0.06),
+               0 4px 8px rgba(0, 0, 0, 0.04),
+               0 8px 16px rgba(0, 0, 0, 0.02);
+    
+    --depth-3: 0 4px 8px rgba(0, 0, 0, 0.08),
+               0 8px 16px rgba(0, 0, 0, 0.06),
+               0 16px 32px rgba(0, 0, 0, 0.04);
+    
+    --depth-4: 0 8px 16px rgba(0, 0, 0, 0.1),
+               0 16px 32px rgba(0, 0, 0, 0.08),
+               0 32px 64px rgba(0, 0, 0, 0.06);
+}
+
+body.depth-shadows.theme-dark {
+    --depth-1: 0 1px 2px rgba(0, 0, 0, 0.2),
+               0 2px 4px rgba(0, 0, 0, 0.15);
+    
+    --depth-2: 0 2px 4px rgba(0, 0, 0, 0.25),
+               0 4px 8px rgba(0, 0, 0, 0.2),
+               0 8px 16px rgba(0, 0, 0, 0.15);
+    
+    --depth-3: 0 4px 8px rgba(0, 0, 0, 0.3),
+               0 8px 16px rgba(0, 0, 0, 0.25),
+               0 16px 32px rgba(0, 0, 0, 0.2);
+    
+    --depth-4: 0 8px 16px rgba(0, 0, 0, 0.35),
+               0 16px 32px rgba(0, 0, 0, 0.3),
+               0 32px 64px rgba(0, 0, 0, 0.25);
+}
+
+/* Callouts - depth 2 with depth 3 on hover */
+body.depth-shadows .callout {
+    box-shadow: var(--depth-2) !important;
+    transition: box-shadow 0.3s var(--ease-bounce-sm), transform 0.3s var(--ease-bounce-sm) !important;
+}
+
+body.depth-shadows .callout:hover {
+    box-shadow: var(--depth-3) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Metadata/Properties - depth 2 */
+body.depth-shadows .metadata-container {
+    box-shadow: var(--depth-2) !important;
+    transition: box-shadow 0.3s var(--ease-bounce-sm), transform 0.3s var(--ease-bounce-sm) !important;
+}
+
+body.depth-shadows .metadata-container:hover {
+    box-shadow: var(--depth-3) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Canvas cards - depth 2 with depth 4 on hover */
+body.depth-shadows .canvas-card {
+    box-shadow: var(--depth-2) !important;
+    transition: box-shadow 0.3s var(--ease-bounce-sm), transform 0.3s var(--ease-bounce-sm) !important;
+}
+
+body.depth-shadows .canvas-card:hover {
+    box-shadow: var(--depth-4) !important;
+    transform: translateY(-3px) scale(1.01) !important;
+}
+
+/* Card layout leaves - depth 2 */
+body.depth-shadows:not(.is-mobile).layout-card .workspace-leaf-content {
+    box-shadow: var(--depth-2) !important;
+    transition: box-shadow 0.3s var(--ease-bounce-sm) !important;
+    overflow: hidden !important;
+}
+
+body.depth-shadows:not(.is-mobile).layout-card .workspace-leaf:hover .workspace-leaf-content {
+    box-shadow: var(--depth-3) !important;
+}
+
+/* Modals - depth 4 for prominence */
+body.depth-shadows .modal-container .modal {
+    box-shadow: var(--depth-4) !important;
+}
+
+/* Popovers - depth 3 */
+body.depth-shadows .popover {
+    box-shadow: var(--depth-3) !important;
+}
+
+/* Suggestions dropdown - depth 3 */
+body.depth-shadows .suggestion-container {
+    box-shadow: var(--depth-3) !important;
+}
+
+/* Menu - depth 3 */
+body.depth-shadows .menu {
+    box-shadow: var(--depth-3) !important;
+}
+
+/* Code blocks - subtle depth 1 */
+body.depth-shadows :is(.markdown-rendered pre, .markdown-preview-view pre, .markdown-source-view.mod-cm6 .HyperMD-codeblock) {
+    box-shadow: var(--depth-1) !important;
+    transition: box-shadow 0.3s ease !important;
+}
+
+body.depth-shadows :is(.markdown-rendered pre:hover, .markdown-preview-view pre:hover) {
+    box-shadow: var(--depth-2) !important;
+}
+
+/* Buttons - depth 1 with depth 2 on hover */
+body.depth-shadows .button, 
+body.depth-shadows button:not(.clickable-icon) {
+    box-shadow: var(--depth-1) !important;
+    transition: box-shadow 0.2s var(--ease-bounce-sm), transform 0.2s var(--ease-bounce-sm) !important;
+}
+
+body.depth-shadows .button:hover, 
+body.depth-shadows button:not(.clickable-icon):hover {
+    box-shadow: var(--depth-2) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Tags in properties - subtle depth */
+body.depth-shadows .multi-select-pill {
+    box-shadow: var(--depth-1) !important;
+    transition: box-shadow 0.2s ease, transform 0.2s ease !important;
+}
+
+body.depth-shadows .multi-select-pill:hover {
+    box-shadow: var(--depth-2) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* File tabs - depth 1 with depth 2 on active/hover */
+body.depth-shadows .workspace-tab-header {
+    box-shadow: var(--depth-1) !important;
+    transition: box-shadow 0.2s var(--ease-bounce-sm), transform 0.2s var(--ease-bounce-sm) !important;
+}
+
+body.depth-shadows .workspace-tab-header:hover {
+    box-shadow: var(--depth-2) !important;
+}
+
+body.depth-shadows .workspace-tab-header.is-active {
+    box-shadow: var(--depth-2) !important;
+}
+
+/* Sidebar tabs - NO individual shadows, only on the pill container */
+
+/* Icons - subtle depth on hover (ONLY when standalone, not in pills) */
+body.depth-shadows .clickable-icon:not(.workspace-tab-header-container *):not(.nav-buttons-container *) {
+    transition: box-shadow 0.2s ease, transform 0.2s ease !important;
+}
+
+body.depth-shadows .clickable-icon:not(.workspace-tab-header-container *):not(.nav-buttons-container *):hover {
+    box-shadow: var(--depth-1) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Sidebar nav items - depth on hover */
+body.depth-shadows .nav-file-title:hover,
+body.depth-shadows .nav-folder-title:hover {
+    box-shadow: var(--depth-1) !important;
+}
+
+/* Tab header pill container in sidebars */
+body.depth-shadows:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container-inner {
+    box-shadow: var(--depth-1) !important;
+    transition: box-shadow 0.2s var(--ease-bounce-sm), transform 0.2s var(--ease-bounce-sm) !important;
+}
+
+body.depth-shadows:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container-inner:hover {
+    box-shadow: var(--depth-2) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Nav buttons pill container */
+body.depth-shadows .nav-buttons-container {
+    box-shadow: var(--depth-1) !important;
+    transition: box-shadow 0.2s var(--ease-bounce-sm), transform 0.2s var(--ease-bounce-sm) !important;
+}
+
+body.depth-shadows .nav-buttons-container:hover {
+    box-shadow: var(--depth-2) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Vault selector - depth 1 */
+body.depth-shadows .workspace-sidedock-vault-profile {
+    box-shadow: var(--depth-1) !important;
+}
+
+body.depth-shadows .workspace-sidedock-vault-profile:hover {
+    box-shadow: var(--depth-2) !important;
+}
+
+/* ============================== */
+/*   INLINE CODE HIGHLIGHTS       */
+/* ============================== */
+
+/* Enhanced inline code with accent-colored backgrounds and subtle pulse */
+body.inline-code-accent :not(pre) > code {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--primary-color-rgb), 0.1),
+        rgba(var(--primary-color-rgb), 0.15)
+    ) !important;
+    border-left: 3px solid var(--primary-color) !important;
+    padding: 2px 6px 2px 8px !important;
+    border-radius: var(--radius-s) !important;
+    font-weight: var(--weight-medium) !important;
+    animation: code-pulse 3s ease infinite !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 1px 3px rgba(var(--primary-color-rgb), 0.1) !important;
+}
+
+body.inline-code-accent.theme-dark :not(pre) > code {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--primary-color-rgb), 0.15),
+        rgba(var(--primary-color-rgb), 0.2)
+    ) !important;
+    box-shadow: 0 1px 3px rgba(var(--primary-color-rgb), 0.15) !important;
+}
+
+body.inline-code-accent :not(pre) > code:hover {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--primary-color-rgb), 0.2),
+        rgba(var(--primary-color-rgb), 0.25)
+    ) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 2px 6px rgba(var(--primary-color-rgb), 0.2) !important;
+    animation: none !important;
+}
+
+@keyframes code-pulse {
+    0%, 100% { 
+        opacity: 1;
+        border-left-color: var(--primary-color);
+    }
+    50% { 
+        opacity: 0.95;
+        border-left-color: rgba(var(--primary-color-rgb), 0.7);
+    }
+}
+
+/* Gradient borders removed - not our style! */
+    border-top: 2px solid;
+    border-image: linear-gradient(
+        90deg, 
+        hsl(var(--accent-h), 70%, 60%), 
+        hsl(calc(var(--accent-h) + 30), 70%, 60%)
+    ) 1;
+}
+
+/* Modals get subtle gradient border */
+body.gradient-accent-borders .modal {
+    border-top: 3px solid;
+    border-image: linear-gradient(
+        90deg, 
+        hsl(var(--accent-h), 70%, 60%), 
+        hsl(calc(var(--accent-h) + 40), 70%, 60%)
+    ) 1;
+}
+
+/* Settings panels */
+body.gradient-accent-borders .vertical-tab-content-container {
+    border-left: 2px solid;
+    border-image: linear-gradient(
+        180deg, 
+        hsl(var(--accent-h), 60%, 60%), 
+        hsl(calc(var(--accent-h) + 20), 60%, 60%),
+        hsl(var(--accent-h), 60%, 60%)
+    ) 1;
+}
+
+/* Canvas cards */
+body.gradient-accent-borders .canvas-card:hover {
+    border: 2px solid;
+    border-image: linear-gradient(
+        135deg, 
+        hsl(var(--accent-h), 70%, 60%), 
+        hsl(calc(var(--accent-h) + 30), 70%, 60%)
+    ) 1;
+}
+
+/* Callouts get top gradient border */
+body.gradient-accent-borders .callout {
+    border-top: 2px solid;
+    border-image: linear-gradient(
+        90deg, 
+        var(--callout-color), 
+        hsl(from var(--callout-color) h s calc(l * 1.2))
+    ) 1 !important;
+}
+
+/* Active tab indicator */
+body.gradient-accent-borders .workspace-tab-header.is-active {
+    border-bottom: 3px solid;
+    border-image: linear-gradient(
+        90deg, 
+        transparent,
+        hsl(var(--accent-h), 70%, 60%),
+        transparent
+    ) 1;
+}
+
+/* Hue shift animation */
+/* Reverted - gradient borders weren't the vibe */
