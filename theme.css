@@ -7311,6 +7311,31 @@ body.show-header-on-hover.layout-card .view-header:hover {
 /*     MOBILE & iPAD FIXES        */
 /* ============================== */
 
+/* FIX iOS SCROLLING - Prevent jittery/bounce back behavior */
+body.is-mobile,
+body.is-mobile * {
+    -webkit-overflow-scrolling: touch !important;
+}
+
+body.is-mobile .workspace-leaf-content,
+body.is-mobile .markdown-preview-view,
+body.is-mobile .markdown-source-view,
+body.is-mobile .cm-scroller {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain !important;
+}
+
+body.is-mobile .cm-scroller {
+    height: 100% !important;
+}
+
+/* Prevent scroll jank from transforms */
+body.is-mobile * {
+    transform: none !important;
+    transition: none !important;
+}
+
 /* DISABLE CARD LAYOUT ON MOBILE - Just don't apply the card layout class effects */
 /* Mobile will automatically use default Obsidian styling since we're blocking card layout with :not(.is-mobile) */
 
