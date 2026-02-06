@@ -7822,3 +7822,157 @@ body.gradient-accent-borders .workspace-tab-header.is-active {
 
 /* Hue shift animation */
 /* Reverted - gradient borders weren't the vibe */
+
+/* ============================== */
+/*      RIBBON ENHANCEMENTS       */
+/* ============================== */
+
+/* Left sidebar ribbon */
+.workspace-ribbon.side-dock-ribbon.mod-left {
+    background-color: var(--background-secondary-alt);
+    border-right: 1px solid var(--background-modifier-border);
+    padding: 8px 4px;
+}
+
+/* When ribbon is disabled (via Obsidian settings), hide it completely */
+body.layout-card:not(.show-ribbon) .workspace-ribbon.side-dock-ribbon.mod-left {
+    display: none !important;
+}
+
+/* Ribbon actions container */
+.side-dock-ribbon-action {
+    margin: 4px 0;
+    transition: all var(--transition-ui);
+}
+
+/* Ribbon action buttons */
+.side-dock-ribbon-action .clickable-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-m);
+    transition: all var(--transition-ui);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--icon-color);
+}
+
+.side-dock-ribbon-action .clickable-icon:hover {
+    background-color: rgba(var(--primary-color-rgb), 0.1);
+    color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+/* Active ribbon button */
+.side-dock-ribbon-action.is-active .clickable-icon {
+    background-color: rgba(var(--primary-color-rgb), 0.15);
+    color: var(--primary-color);
+}
+
+/* Ribbon collapse button */
+.workspace-ribbon-collapse-btn {
+    margin-top: 8px;
+    padding: 4px;
+    opacity: 0.5;
+    transition: all var(--transition-ui);
+}
+
+.workspace-ribbon-collapse-btn:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+/* With depth shadows enabled */
+body.depth-shadows .side-dock-ribbon-action .clickable-icon:hover {
+    box-shadow: var(--depth-1);
+}
+
+body.depth-shadows .side-dock-ribbon-action.is-active .clickable-icon {
+    box-shadow: var(--depth-2);
+}
+
+/* Card layout specific - Pill container (applies whether sidebar is open or collapsed) */
+body.layout-card .workspace-ribbon.side-dock-ribbon.mod-left {
+    background-color: rgba(var(--primary-color-rgb), 0.08) !important;
+    border-radius: var(--radius-pill) !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 8px 6px !important;
+    margin: 12px 4px !important;
+    margin-top: 80px !important;
+    width: fit-content !important;
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: max-content !important;
+    gap: 4px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
+    overflow: visible !important;
+}
+
+/* Fix height consistency when sidebar is collapsed */
+body.layout-card .workspace-ribbon.side-dock-ribbon.mod-left.is-collapsed {
+    height: auto !important;
+    min-height: 0 !important;
+}
+
+/* macOS specific - more space for traffic lights */
+body.mod-macos.is-hidden-frameless.layout-card .workspace-ribbon.side-dock-ribbon.mod-left:not(.is-collapsed) {
+    margin-top: 90px !important;
+}
+
+/* When left sidebar is closed, ensure ribbon still looks the same */
+body.layout-card:not(.is-left-sidedock-open) .workspace-ribbon.side-dock-ribbon.mod-left:not(.is-collapsed) {
+    background-color: rgba(var(--primary-color-rgb), 0.08) !important;
+    border-radius: var(--radius-pill) !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Hide/fix :before pseudo-element in card layout */
+body.layout-card .workspace-ribbon.mod-left:before {
+    display: none !important;
+}
+
+body.layout-card .side-dock-ribbon-action {
+    margin: 0 !important;
+}
+
+body.layout-card .side-dock-ribbon-action .clickable-icon {
+    background-color: transparent !important;
+    border-radius: var(--r3) !important;
+}
+
+body.layout-card .side-dock-ribbon-action .clickable-icon:hover {
+    background-color: rgba(var(--background-secondary-rgb), 0.5) !important;
+}
+
+body.layout-card .side-dock-ribbon-action.is-active .clickable-icon {
+    background-color: var(--background-primary) !important;
+    border-radius: var(--r3) !important;
+}
+
+/* Collapse button in card layout */
+body.layout-card .workspace-ribbon-collapse-btn {
+    margin-top: 4px !important;
+}
+
+/* Depth shadows for ribbon pill - DISABLED for seamless look */
+body.depth-shadows.layout-card .workspace-ribbon.side-dock-ribbon.mod-left:not(.is-collapsed) {
+    box-shadow: none !important;
+}
+
+/* Ribbon autohide functionality when ribbon is disabled in Obsidian settings */
+/* When .show-ribbon is absent, hide the ribbon completely */
+body:not(.is-mobile).layout-card:not(.show-ribbon) .workspace-ribbon.side-dock-ribbon.mod-left {
+    display: none !important;
+}
+
+/* Fix ribbon container background to match theme in card layout */
+/* The issue was .workspace.is-left-sidedock-open having #F8F8FE background */
+body.layout-card .workspace.is-left-sidedock-open,
+body.layout-card .workspace {
+    background: var(--background-secondary) !important;
+}
