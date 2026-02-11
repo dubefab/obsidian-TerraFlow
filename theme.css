@@ -133,6 +133,20 @@ settings:
                 label: Vibrant Glow
                 value: heading-style-vibrant
     -
+        id: heading-alignment
+        title: Heading Alignment
+        description: Choose the alignment for headings
+        type: class-select
+        allowEmpty: false
+        default: heading-align-left
+        options:
+            -
+                label: Left
+                value: heading-align-left
+            -
+                label: Center
+                value: heading-align-center
+    -
         id: link-style-selector
         title: Link Style
         description: Choose a visual style for links in your notes
@@ -311,6 +325,19 @@ settings:
         type: class-toggle
         default: false
 
+    -
+        id: layout-heading
+        title: 📐 Layout & Spacing
+        type: heading
+        level: 2
+        collapsed: false
+    -
+        id: line-width
+        title: Line Width
+        description: Maximum width for editor and reading view content
+        type: variable-text
+        default: 64ch
+
 */
 
 /* ========================================= */
@@ -347,8 +374,9 @@ settings:
     --line-tight: 1.5;
     --line-normal: 1.6;
     --line-relaxed: 2.0;
-    --editor-max-width: 64ch;
-    --reading-max-width: 64ch;
+    --file-line-width: var(--line-width, 64ch);
+    --editor-max-width: var(--line-width, 64ch);
+    --reading-max-width: var(--line-width, 64ch);
     --folder-opacity: .15;
     --folder-opacity-dark: .12;
     --link-opacity-normal: .1;
@@ -2050,12 +2078,13 @@ html {
     transition: background-color 0.5s ease, color 0.5s ease;
 }
 
+body {
+    --file-line-width: var(--line-width, 64ch);
+}
+
 .markdown-source-view.mod-cm6 .cm-content,
 .markdown-source-view.mod-cm6 .cm-line {
     line-height: var(--line-normal);
-    --file-line-width: 64ch;
-    padding-inline-start: 2px;
-    padding-inline-end: 0px;
 }
 
 /* Card Layout: Floating Pill Tabs */
@@ -3160,6 +3189,28 @@ body.h6-uppercase :is(h6, .cm-header-6) {
     border-color: rgba(var(--heading-senary-rgb), 0.35);
 }
 
+/* Heading Alignment Options */
+/* Center-aligned headings - keep background width to content, center the element */
+body.heading-align-center :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-line) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
+    display: inline-flex !important;
+    margin-inline: auto;
+    width: auto;
+}
+
+/* Ensure the parent line container allows centering in edit mode */
+body.heading-align-center .markdown-source-view.mod-cm6 .cm-line:has([class*="cm-header-"]) {
+    display: flex;
+    justify-content: center;
+}
+
+/* Ensure reading view headings are centered */
+body.heading-align-center .markdown-preview-view {
+    & h1, & h2, & h3, & h4, & h5, & h6 {
+        display: inline-flex !important;
+        margin-inline: auto;
+    }
+}
+
 /* Inline Title */
 .inline-title {
     color: var(--primary-color);
@@ -3831,7 +3882,6 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
     padding-inline: 3px;
-    border-block-end: var(--border-thin) solid transparent;
     transition: transform 0.18s cubic-bezier(.4, 0, .2, 1), opacity 0.15s cubic-bezier(.4, 0, .2, 1), background-color 0.18s, color 0.18s;
 }
 
@@ -3839,7 +3889,6 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
 :is(.callout, .cm-callout) .internal-link:hover,
 :is(.callout, .cm-callout) .external-link:hover {
     background: rgba(var(--callout-color-rgb), .15) !important;
-    border-bottom: var(--border-thin) solid var(--callout-color) !important;
 }
 
 :is(.callout, .cm-callout) .callout-title :is(a, .internal-link, .external-link, .cm-url) {
@@ -3849,13 +3898,11 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
     padding-inline: 3px;
-    border-block-end: var(--border-thin) solid transparent;
     transition: transform 0.18s cubic-bezier(.4, 0, .2, 1), opacity 0.15s cubic-bezier(.4, 0, .2, 1), background-color 0.18s, color 0.18s;
 }
 
 :is(.callout, .cm-callout) .callout-title :is(a, .internal-link, .external-link, .cm-url):hover {
     background: rgba(var(--callout-color-rgb), .15) !important;
-    border-block-end: var(--border-thin) solid currentColor !important;
 }
 
 :is(.callout, .cm-callout) .callout-content :is(a, .internal-link, .external-link, .cm-url) {
@@ -3865,13 +3912,11 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
     padding-inline: 3px;
-    border-block-end: var(--border-thin) solid transparent;
     transition: transform 0.18s cubic-bezier(.4, 0, .2, 1), opacity 0.15s cubic-bezier(.4, 0, .2, 1), background-color 0.18s, color 0.18s;
 }
 
 :is(.callout, .cm-callout) .callout-content :is(a, .internal-link, .external-link, .cm-url):hover {
     background: rgba(var(--callout-color-rgb), .15) !important;
-    border-bottom: var(--border-thin) solid var(--callout-color) !important;
 }
 
 [data-callout] :is(a, .internal-link, .external-link, .cm-url) {
