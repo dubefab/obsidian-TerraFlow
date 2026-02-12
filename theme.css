@@ -2482,19 +2482,11 @@ body.is-focused .workspace-tabs.mod-top {
     opacity: 1 !important;
 }
 
-/* Live Preview - base styles */
-.markdown-source-view.mod-cm6 .cm-fold-indicator .collapse-indicator {
+/* Make fold indicator stretch full heading line height so child's 50% centers correctly */
+.markdown-source-view.mod-cm6 .cm-line:is(.HyperMD-header-1, .HyperMD-header-2, .HyperMD-header-3, .HyperMD-header-4, .HyperMD-header-5, .HyperMD-header-6) .cm-fold-indicator {
     position: absolute !important;
-    inset-inline-end: auto !important;
-    inset-inline-start: -0.4em !important;
-    width: 1em !important;
-    height: 1em !important;
-    padding-inline-end: 0 !important;
-    opacity: 0 !important;
-    transition: opacity var(--transition-ui) !important;
-    z-index: 10;
-    inset-block-start: 0.5em !important;
-    transform: translateY(-50%);
+    inset-block-start: 0 !important;
+    inset-block-end: 0 !important;
 }
 
 /* Reveal arrow on hover */
@@ -2502,30 +2494,6 @@ body.is-focused .workspace-tabs.mod-top {
     opacity: 1 !important;
 }
 
-/* Per-heading vertical positioning */
-.markdown-source-view.mod-cm6 .cm-header-1 .cm-fold-indicator .collapse-indicator {
-    inset-block-start: 0.7em !important;
-}
-
-.markdown-source-view.mod-cm6 .cm-header-2 .cm-fold-indicator .collapse-indicator {
-    inset-block-start: 0.5em !important;
-}
-
-.markdown-source-view.mod-cm6 .cm-header-3 .cm-fold-indicator .collapse-indicator {
-    inset-block-start: 0.45em !important;
-}
-
-.markdown-source-view.mod-cm6 .cm-header-4 .cm-fold-indicator .collapse-indicator {
-    inset-block-start: 0.4em !important;
-}
-
-.markdown-source-view.mod-cm6 .cm-header-5 .cm-fold-indicator .collapse-indicator {
-    inset-block-start: 0.35em !important;
-}
-
-.markdown-source-view.mod-cm6 .cm-header-6 .cm-fold-indicator .collapse-indicator {
-    inset-block-start: 0.33em !important;
-}
 
 /* Text Appearance Toggles */
 body.h1-uppercase :is(h1, .cm-header-1) {
