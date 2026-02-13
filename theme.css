@@ -197,6 +197,9 @@ settings:
             -
                 label: Modern Glass
                 value: blockquote-style-glass
+            -
+                label: Bold Dramatic
+                value: blockquote-style-bold
     -
         id: callout-style-selector
         title: Callout Style
@@ -7302,6 +7305,71 @@ body.show-header-on-hover.layout-card .view-header:hover {
     box-shadow: 0 6px 16px rgba(0, 0, 0, var(--opacity-divider)) !important;
     border: var(--border-thin) solid rgba(255, 255, 255, var(--opacity-light-overlay)) !important;
     border-inline-start: var(--border-heavy) solid var(--blockquote-border-color) !important;
+}
+
+/* ============================== */
+/*  Bold Dramatic Blockquote      */
+/* ============================== */
+
+/* Bold Dramatic - Light Mode */
+.blockquote-style-bold :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
+    background:
+        radial-gradient(ellipse at top left, rgba(var(--primary-color-rgb), 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(var(--primary-color-rgb), 0.15) 0%, transparent 50%),
+        linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.14) 0%, rgba(var(--background-secondary-rgb), 0.85) 100%) !important;
+    border: var(--border-heavy) solid var(--blockquote-border-color) !important;
+    border-inline-start: 6px solid var(--blockquote-border-color) !important;
+    border-radius: var(--r4) !important;
+    -electron-corner-smoothing: var(--squircle-main) !important;
+    box-shadow:
+        0 0 0 2px rgba(var(--primary-color-rgb), 0.12),
+        0 6px 20px rgba(0, 0, 0, var(--opacity-divider)),
+        inset 0 0 20px rgba(var(--primary-color-rgb), 0.05) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+/* Bold Dramatic - Double outline ring */
+.blockquote-style-bold :is(.markdown-preview-view blockquote, .markdown-rendered blockquote)::before {
+    content: '' !important;
+    position: absolute !important;
+    inset-block-start: -3px !important;
+    inset-inline-start: -3px !important;
+    inset-inline-end: -3px !important;
+    inset-block-end: -3px !important;
+    border: var(--border-thin) solid rgba(var(--primary-color-rgb), 0.18) !important;
+    border-radius: var(--r4) !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+}
+
+/* Bold Dramatic - Source view bar */
+.blockquote-style-bold .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote::before {
+    inline-size: 6px !important;
+    border-radius: var(--r4) 0 0 var(--r4) !important;
+}
+
+/* Bold Dramatic - Dark Mode */
+.theme-dark .blockquote-style-bold :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
+    background:
+        radial-gradient(ellipse at top left, rgba(var(--primary-color-rgb), 0.28) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(var(--primary-color-rgb), 0.2) 0%, transparent 50%),
+        linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.2) 0%, rgba(var(--background-secondary-rgb), 0.65) 100%) !important;
+    box-shadow:
+        0 0 0 2px rgba(var(--primary-color-rgb), 0.22),
+        0 6px 20px rgba(0, 0, 0, 0.35),
+        inset 0 0 20px rgba(var(--primary-color-rgb), 0.08) !important;
+}
+
+/* Bold Dramatic - Hover */
+.blockquote-style-bold :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote):hover {
+    border-width: 4px !important;
+    border-inline-start-width: 8px !important;
+    box-shadow:
+        0 0 0 3px rgba(var(--primary-color-rgb), 0.2),
+        0 8px 24px rgba(0, 0, 0, var(--opacity-overlay)),
+        inset 0 0 25px rgba(var(--primary-color-rgb), 0.08) !important;
+    transform: translateY(-2px) scale(1.01) !important;
 }
 
 /* ============================== */
