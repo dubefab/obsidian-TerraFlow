@@ -147,6 +147,12 @@ settings:
                 label: Center
                 value: heading-align-center
     -
+        id: heading-font
+        title: Heading Font
+        description: Enter the name of a font installed on your system to use for headings (leave as 'inherit' to use the default theme font)
+        type: variable-text
+        default: inherit
+    -
         id: link-style-selector
         title: Link Style
         description: Choose a visual style for links in your notes
@@ -399,6 +405,7 @@ settings:
     --heading-bg-opacity: .2;
     --heading-pad-y: 0.2em;
     --heading-pad-x: 0.5em;
+    --heading-font: inherit;
 
     /* Heading scale multipliers for calc() operations */
     --heading-scale-1: 1.25;
@@ -2370,6 +2377,28 @@ body.is-focused .workspace-tabs.mod-top {
 /* ========================================= */
 /*                 HEADINGS                  */
 /* ========================================= */
+
+/* Custom Heading Font */
+.markdown-preview-view h1,
+.markdown-preview-view h2,
+.markdown-preview-view h3,
+.markdown-preview-view h4,
+.markdown-preview-view h5,
+.markdown-preview-view h6,
+.markdown-reading-view h1,
+.markdown-reading-view h2,
+.markdown-reading-view h3,
+.markdown-reading-view h4,
+.markdown-reading-view h5,
+.markdown-reading-view h6,
+.cm-header-1,
+.cm-header-2,
+.cm-header-3,
+.cm-header-4,
+.cm-header-5,
+.cm-header-6 {
+    font-family: var(--heading-font);
+}
 
 /* Base heading styles (Preview and Source Mode) */
 .markdown-preview-view h1,
