@@ -7,7 +7,7 @@ settings:
         id: seasonal-heading
         title: 🍂 Seasonal Color Schemes
         type: heading
-        level: 3
+        level: 2
         collapsed: false
     -
         id: season-selector
@@ -47,13 +47,13 @@ settings:
         title: 🎨 Visual & Appearance
         type: heading
         level: 2
-        collapsed: false
+        collapsed: true
     -
-        id: enable-monochrome
-        title: Monochrome Mode
-        description: Desaturate the interface to grayscale
-        type: class-toggle
-        default: false
+        id: interface-heading
+        title: Interface
+        type: heading
+        level: 3
+        collapsed: true
     -
         id: layout-style
         title: Interface Layout
@@ -75,11 +75,17 @@ settings:
         type: class-toggle
         default: true
     -
-        id: inline-code-accent
-        title: Accent Inline Code
-        description: Highlight inline code with gradient backgrounds and accent colors
+        id: enable-monochrome
+        title: Monochrome Mode
+        description: Desaturate the interface to grayscale
         type: class-toggle
         default: false
+    -
+        id: animations-heading
+        title: Animations
+        type: heading
+        level: 3
+        collapsed: true
     -
         id: animation-style
         title: Animation Style
@@ -94,6 +100,12 @@ settings:
             -
                 label: Whimsy (Bouncy)
                 value: animation-style-whimsy
+    -
+        id: content-styles-heading
+        title: Content Styles
+        type: heading
+        level: 3
+        collapsed: true
     -
         id: heading-style-selector
         title: Heading Style
@@ -230,8 +242,14 @@ settings:
                 label: Bold Border
                 value: callout-style-bold
     -
+        id: inline-code-accent
+        title: Accent Inline Code
+        description: Highlight inline code with gradient backgrounds and accent colors
+        type: class-toggle
+        default: false
+    -
         id: text-appearance-heading
-        title: ✍️ Heading UPPERCASE
+        title: ✍️ Heading Uppercase
         description: Customize the typography case for individual heading levels
         type: heading
         level: 3
@@ -270,12 +288,12 @@ settings:
         id: ui-elements-heading
         title: 🖼️ UI Elements
         type: heading
-        level: 3
-        collapsed: false
+        level: 2
+        collapsed: true
     -
         id: enable-fancy-bullets
         title: Fancy Multilevel Bullet Styles
-        description: Toggle unique custom bullet shapes        
+        description: Toggle unique custom bullet shapes
         type: class-toggle
         default: false
     -
@@ -291,11 +309,30 @@ settings:
         type: class-toggle
         default: false
     -
+        id: layout-heading
+        title: 📐 Layout & Spacing
+        type: heading
+        level: 2
+        collapsed: true
+    -
+        id: line-width
+        title: Line Width
+        description: Maximum width for editor and reading view content
+        type: variable-text
+        default: 64ch
+    -
+        id: editor-line-height
+        title: Editor Line Height
+        description: Line height for editor text (e.g. 1.4, 1.6, 1.8)
+        type: variable-text
+        default: "1.6"
+
+    -
         id: performance-heading
         title: ⚡ Performance & Accessibility
         type: heading
         level: 2
-        collapsed: false
+        collapsed: true
     -
         id: disable-ui-animations
         title: Disable UI Animations
@@ -320,7 +357,6 @@ settings:
         description: Remove all box-shadows and elevation styling for maximum speed and flat look.
         type: class-toggle
         default: false
-
     -
         id: disable-scrollbars
         title: Disable Scrollbar Styling
@@ -333,19 +369,6 @@ settings:
         description: Disable the status bar style
         type: class-toggle
         default: false
-
-    -
-        id: layout-heading
-        title: 📐 Layout & Spacing
-        type: heading
-        level: 2
-        collapsed: false
-    -
-        id: line-width
-        title: Line Width
-        description: Maximum width for editor and reading view content
-        type: variable-text
-        default: 64ch
 
 */
 
@@ -381,7 +404,7 @@ settings:
     --weight-semibold: 600;
     --weight-bold: 700;
     --line-tight: 1.5;
-    --line-normal: 1.6;
+    --line-normal: var(--editor-line-height, 1.6);
     --line-relaxed: 2.0;
     --file-line-width: var(--line-width, 64ch);
     --editor-max-width: var(--line-width, 64ch);
@@ -2090,6 +2113,7 @@ html {
 
 body {
     --file-line-width: var(--line-width, 64ch);
+    --line-normal: var(--editor-line-height, 1.6);
 }
 
 .markdown-source-view.mod-cm6 .cm-content,
@@ -8085,4 +8109,25 @@ body:not(.is-mobile).layout-card:not(.show-ribbon) .workspace-ribbon.side-dock-r
 body.layout-card .workspace.is-left-sidedock-open,
 body.layout-card .workspace {
     background: var(--background-secondary) !important;
+}
+
+/* ========================================= */
+/*         STYLE SETTINGS PANEL UI          */
+/* ========================================= */
+
+/* Section container backgrounds for visual grouping */
+/* h2 level */
+.style-settings-heading[data-level="2"] + .style-settings-container {
+    background-color: rgba(var(--background-secondary-rgb), 0.55);
+    border-radius: var(--r1);
+    margin-bottom: 4px;
+    padding: 2px 0;
+}
+
+/* h3 level: deeper, nested inside h2 container */
+.style-settings-container > .style-settings-heading[data-level="3"] + .style-settings-container {
+    background-color: rgba(var(--background-secondary-rgb), 0.75);
+    border-radius: var(--r1);
+    margin: 2px 6px;
+    padding: 2px 0;
 }
