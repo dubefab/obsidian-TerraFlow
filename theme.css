@@ -2408,6 +2408,10 @@ body.is-focused .workspace-tabs.mod-top {
     background-blend-mode: overlay;
     transition: transform var(--transition-ui), box-shadow var(--transition-ui);
     margin: 0;
+}
+
+body:not(.is-mobile) :is(.markdown-preview-view, .markdown-reading-view) :is(h1, h2, h3, h4, h5, h6),
+body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
     transform: translateZ(0);
 }
 
@@ -6090,7 +6094,7 @@ body:not(.disable-modal-frost) .modal-bg {
 }
 
 /* Status Bar Styling - Only apply when toggle is OFF */
-body:not(.disable-status-bar) .status-bar {
+body:not(.is-mobile):not(.disable-status-bar) .status-bar {
     position: fixed;
     inset-inline-start: 50%;
     inset-block-end: 5px;
@@ -7347,38 +7351,38 @@ body.show-header-on-hover.layout-card .view-header:hover {
 /*     MOBILE & iPAD FIXES        */
 /* ============================== */
 
-/* FIX iOS SCROLLING - Prevent jittery/bounce back behavior */
-body.is-mobile .workspace-leaf-content,
-body.is-mobile .markdown-preview-view,
-body.is-mobile .markdown-source-view,
-body.is-mobile .cm-scroller {
-    overflow-y: auto !important;
-    overscroll-behavior-y: contain !important;
-}
+/* MOBILE SCROLLING: let Obsidian handle it natively.
+   Do NOT add overflow, overscroll-behavior, height, or -webkit-overflow-scrolling
+   overrides here — they fight iOS WebKit and cause oscillating scroll. */
 
-body.is-mobile .cm-scroller {
-    height: 100% !important;
-}
-
-/* DISABLE CARD LAYOUT ON MOBILE - Just don't apply the card layout class effects */
-/* Mobile will automatically use default Obsidian styling since we're blocking card layout with :not(.is-mobile) */
-
-/* Reset contain/will-change on mobile WebKit to prevent rendering bugs */
+/* Strip all theme `contain` / `will-change` hints on mobile — they break iOS scroll containment */
 body.is-mobile :is(
     .workspace-leaf-content,
     .view-content,
     .markdown-preview-view,
     .markdown-reading-view,
     .markdown-source-view,
-    .inline-title
+    .inline-title,
+    .nav-files-container,
+    .metadata-container,
+    .workspace-split,
+    .workspace-split.mod-left-split,
+    .workspace-split.mod-right-split,
+    .heading-style-glass :is(h1, h2, h3, h4, h5, h6)
 ) {
     contain: none !important;
     will-change: auto !important;
 }
 
 body.is-mobile .metadata-container {
-    contain: none !important;
     transform: none !important;
+}
+
+/* Status bar: let Obsidian's default layout handle it on mobile */
+body.is-mobile .status-bar {
+    position: relative;
+    inset: unset;
+    transform: none;
 }
 
 /* Fix heading backgrounds wrapping poorly on narrow screens */
@@ -7390,6 +7394,11 @@ body.is-mobile .heading-style-badge .cm-line:is(.HyperMD-header-1, .HyperMD-head
 
 /* Remove hover effects on touch devices - they cause stuck states */
 @media (hover: none) and (pointer: coarse) {
+    /* Catch-all: kill any hover-driven transform on touch (iOS fires phantom hovers during scroll) */
+    *:hover {
+        transform: none !important;
+    }
+
     /* Remove all translateY hover effects */
     .metadata-container:hover,
     .view-header:hover,
@@ -7441,11 +7450,6 @@ body.is-mobile.layout-card .metadata-container {
     overflow: visible !important;
     box-shadow: var(--shadow-s) !important;
     padding: 16px !important;
-}
-
-/* Simplify animations on mobile for better performance */
-body.is-mobile * {
-    transition-duration: 0.15s !important;
 }
 
 /* Fix tab scrolling on mobile */
