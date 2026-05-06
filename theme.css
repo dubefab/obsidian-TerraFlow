@@ -2390,6 +2390,51 @@ body.theme-dark.enable-monochrome {
 /*  (Bringhurst), hierarchy by weight only   */
 /* ========================================= */
 
+/* --- Shared neutralizations (same in light and dark) --- */
+body.focus-mode {
+    /* All callout types collapse to a single muted tone */
+    --callout-note: var(--text-muted);
+    --callout-note-rgb: var(--text-normal-rgb);
+    --callout-info: var(--text-muted);
+    --callout-info-rgb: var(--text-normal-rgb);
+    --callout-warning: var(--text-muted);
+    --callout-warning-rgb: var(--text-normal-rgb);
+    --callout-success: var(--text-muted);
+    --callout-success-rgb: var(--text-normal-rgb);
+    --callout-danger: var(--text-muted);
+    --callout-danger-rgb: var(--text-normal-rgb);
+    --callout-example: var(--text-muted);
+    --callout-example-rgb: var(--text-normal-rgb);
+    --callout-cite: var(--text-muted);
+    --callout-cite-rgb: var(--text-normal-rgb);
+    --callout-video: var(--text-muted);
+    --callout-video-rgb: var(--text-normal-rgb);
+    --callout-quote: var(--text-muted);
+    --callout-quote-rgb: var(--text-normal-rgb);
+
+    /* Syntax highlighting collapses to neutral hierarchy */
+    --code-normal: var(--text-normal);
+    --code-comment: var(--text-faint);
+    --code-function: var(--text-normal);
+    --code-important: var(--text-normal);
+    --code-keyword: var(--text-normal);
+    --code-property: var(--text-normal);
+    --code-punctuation: var(--text-muted);
+    --code-string: var(--text-muted);
+    --code-tag: var(--text-normal);
+    --code-value: var(--text-normal);
+
+    /* Force-bind seasonal accent chains to the focus-mode accent */
+    --primary-color: var(--interactive-accent);
+    --primary-color-dark: var(--interactive-accent-hover);
+    --emphasis-color: var(--interactive-accent);
+    --emphasis-color-light: var(--interactive-accent-hover);
+    --checkbox-color: var(--interactive-accent);
+    --blockquote-border-color: var(--text-muted);
+    --link-unresolved-color: var(--text-muted);
+    --folder-color: var(--text-muted);
+}
+
 /* --- Sepia palette: light --- */
 body.focus-mode.theme-light {
     --background-primary: #F6EFE0;
@@ -2413,6 +2458,33 @@ body.focus-mode.theme-light {
 
     --link-color: #5A6E4D;
     --link-color-hover: #4A5E3D;
+
+    /* Native Obsidian accent HSL — sage */
+    --accent-h: 94;
+    --accent-s: 16%;
+    --accent-l: 43%;
+    --primary-color-rgb: 107, 127, 92;
+
+    /* Code surface */
+    --code-background: var(--background-secondary);
+
+    /* Scrollbars + selection surfaces */
+    --scrollbar-thumb: rgba(58, 51, 41, 0.18);
+    --scrollbar-track: rgba(58, 51, 41, 0.05);
+
+    /* Highlights */
+    --highlight-bg: #E8DDB8;
+    --highlight-bg-rgb: 232, 221, 184;
+    --highlight-bg-dark: #D6C99C;
+    --highlight-bg-dark-color: #2D1F0E;
+
+    /* Tabs + surfaces */
+    --tab-bg-inactive: transparent;
+    --tab-bg-inactive-hover: rgba(58, 51, 41, 0.05);
+    --surface-accent: var(--background-secondary);
+    --surface-accent-rgb: 237, 229, 210;
+    --surface-dark: #36342E;
+    --surface-dark-rgb: 54, 52, 46;
 
     /* Collapse all heading levels to one neutral tone */
     --heading-primary: #2D2820;
@@ -2462,6 +2534,33 @@ body.focus-mode.theme-dark {
 
     --link-color: #BFB089;
     --link-color-hover: #D4C9A0;
+
+    /* Native Obsidian accent HSL — warm sand */
+    --accent-h: 46;
+    --accent-s: 21%;
+    --accent-l: 55%;
+    --primary-color-rgb: 163, 152, 115;
+
+    /* Code surface */
+    --code-background: var(--background-secondary);
+
+    /* Scrollbars + selection surfaces */
+    --scrollbar-thumb: rgba(216, 203, 179, 0.18);
+    --scrollbar-track: rgba(216, 203, 179, 0.05);
+
+    /* Highlights */
+    --highlight-bg: #4A4030;
+    --highlight-bg-rgb: 74, 64, 48;
+    --highlight-bg-dark: #5C5040;
+    --highlight-bg-dark-color: #E8DCC4;
+
+    /* Tabs + surfaces */
+    --tab-bg-inactive: transparent;
+    --tab-bg-inactive-hover: rgba(216, 203, 179, 0.05);
+    --surface-accent: var(--background-secondary);
+    --surface-accent-rgb: 42, 37, 32;
+    --surface-dark: #1A1612;
+    --surface-dark-rgb: 26, 22, 18;
 
     /* Collapse all heading levels to one warm tone */
     --heading-primary: #E8DCC4;
