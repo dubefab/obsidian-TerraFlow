@@ -488,9 +488,9 @@ settings:
     --shadow-3: 0 6px 18px rgba(0, 0, 0, var(--opacity-divider));
     --shadow-4: 0 4px 12px rgba(0, 0, 0, .12);
     --accent-glow: 0 0 12px rgba(var(--primary-color-rgb), .35);
-    --fast: 0.15s ease;
-    --normal: 0.25s ease;
-    --slow: 0.3s ease;
+    --fast: 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --normal: 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --slow: 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --bounce: 0.25s cubic-bezier(.34, 1.15, .64, 1);
     --weight-normal: 400;
     --weight-medium: 500;
@@ -538,9 +538,9 @@ settings:
     --layer-status-bar: 1000;
     --checklist-done-color: var(--emphasis-color);
     --checklist-done-decoration: line-through;
-    --transition-ui: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-ui: 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --transition-bounce: 0.3s var(--ease-bounce-md);
-    --transition-callout-link: transform 0.18s cubic-bezier(.4, 0, .2, 1), opacity 0.15s cubic-bezier(.4, 0, .2, 1), background-color 0.18s, color 0.18s;
+    --transition-callout-link: transform 0.18s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.18s, color 0.18s;
     --transition-depth: box-shadow 0.2s var(--ease-bounce-sm), transform 0.2s var(--ease-bounce-sm);
 
     /* ===== WHIMSY ANIMATION TOKENS ===== */
@@ -2723,7 +2723,7 @@ body.focus-mode.focus-mode-hide-sidebars .workspace-split.mod-right-split {
 
 /* Global Transitions */
 body {
-    transition: background-color 0.5s ease, color 0.5s ease;
+    transition: background-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .markdown-source-view.mod-cm6 .cm-content,
@@ -2854,6 +2854,10 @@ body.is-focused .workspace-tabs.mod-top {
 .workspace-leaf-content,
 .nav-files-container {
     contain: layout style;
+}
+
+.nav-files-container {
+    padding-inline: var(--s3) var(--s4) !important;
 }
 
 .vertical-tab-container {
@@ -2988,7 +2992,7 @@ body.is-focused .workspace-tabs.mod-top {
     background: transparent;
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-btn);
-    transition: opacity 0.15s cubic-bezier(.4, 0, .2, 1), background-color 0.18s, color 0.18s;
+    transition: opacity 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.18s, color 0.18s;
     border: none !important;
 }
 
@@ -3118,6 +3122,20 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
     background-color: rgba(var(--heading-senary-rgb), var(--heading-bg-opacity));
     color: hsl(from var(--heading-senary) h s calc(l * var(--heading-text-multiplier)));
     font-size: 1.05em;
+}
+
+/* Suppress <br> artifacts from trailing double-spaces in headings */
+.markdown-preview-view :is(h1, h2, h3, h4, h5, h6) > br {
+    display: none;
+}
+
+/* Suppress trailing-space/hard-break decoration spans in live preview */
+.markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"]:is(.cm-trailing-space-a, .cm-trailing-space-b, .cm-hmd-escape-backslash, .cm-hmd-escape-char) {
+    background: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background-image: none !important;
 }
 
 /* Heading Fold Indicator */
@@ -4119,7 +4137,7 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
 /* Fix: Normal collapse icon animation */
 .collapse-icon svg,
 .nav-folder-collapse-indicator svg {
-    transition: transform 0.3s ease-out;
+    transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 .nav-folder-title {
@@ -4246,10 +4264,6 @@ body.link-style-wavy :is(.markdown-rendered a, .markdown-rendered .internal-link
 
 .theme-dark .nav-file-title:is(:not(.is-active)):hover {
     background-color: rgba(255, 255, 255, var(--link-opacity-unresolved)) !important;
-}
-
-.nav-files-container {
-    padding-inline: var(--s3) var(--s4) !important;
 }
 
 .nav-folder .nav-folder-children .nav-folder {
@@ -4752,6 +4766,7 @@ body.link-style-wavy [data-callout] :is(a, .internal-link, .external-link, .cm-u
 /* Modern Glass Style - Deep blur, floating effect */
 .callout-style-glass :is(.callout, .cm-callout) {
     backdrop-filter: blur(12px) saturate(180%) brightness(1.06) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.06) !important;
     border-inline-start: none !important;
     border-radius: var(--r4) !important;
     box-shadow:
@@ -5448,7 +5463,7 @@ body.link-style-wavy [data-callout] :is(a, .internal-link, .external-link, .cm-u
 :is(input[type="checkbox"], .task-list-item-checkbox):checked {
     background: var(--emphasis-color);
     border-color: var(--emphasis-color);
-    animation: checkboxPop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    animation: checkboxPop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .task-list-item-checkbox:checked {
@@ -5464,7 +5479,7 @@ body.link-style-wavy [data-callout] :is(a, .internal-link, .external-link, .cm-u
     color: white;
     font-size: 14px;
     font-weight: bold;
-    animation: checkmarkAppear 0.2s 0.1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    animation: checkmarkAppear 0.22s 0.08s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 /* Unique bullet points per list level (un-ordered lists) */
@@ -5514,40 +5529,26 @@ body.enable-fancy-bullets {
 
 /* Animations */
 @keyframes checkboxPop {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.2);
-    }
-
-    100% {
-        transform: scale(1);
-    }
+    0%   { transform: scale(1); }
+    35%  { transform: scale(0.82); }
+    100% { transform: scale(1); }
 }
 
 @keyframes checkmarkAppear {
-    0% {
-        transform: translate(-50%, -50%) scale(0) rotate(-45deg);
-        opacity: 0;
-    }
-
-    100% {
-        transform: translate(-50%, -50%) scale(1) rotate(0deg);
-        opacity: 1;
-    }
+    0%   { transform: translate(-50%, -50%) scale(0);    opacity: 0; }
+    70%  { transform: translate(-50%, -50%) scale(1.18); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1);    opacity: 1; }
 }
 
 @keyframes menuPop {
     0% {
         opacity: 0;
-        transform: scale(0.98) translateY(6px);
+        transform: scale(0.97);
     }
 
     100% {
         opacity: 1;
-        transform: scale(1) translateY(0);
+        transform: scale(1);
     }
 }
 
@@ -5556,9 +5557,18 @@ body:not(.disable-ui-animations) .menu,
 body:not(.disable-ui-animations) .modal,
 body:not(.disable-ui-animations) .popover,
 body:not(.disable-ui-animations) .prompt,
-body:not(.disable-ui-animations) .suggestion-container,
+body:not(.disable-ui-animations) .suggestion-container {
+    animation: menuPop 0.22s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+
+/* Tooltips: Apple-style instant fade — no scale, just opacity */
 body:not(.disable-ui-animations) .tooltip {
-    animation: menuPop 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation: tooltipFade 0.12s ease-out forwards;
+}
+
+@keyframes tooltipFade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 /* ============================================================
@@ -5606,10 +5616,12 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) .modal {
     0% {
         opacity: 0;
         backdrop-filter: blur(0px);
+        -webkit-backdrop-filter: blur(0px);
     }
     100% {
         opacity: 1;
         backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
     }
 }
 
@@ -6536,6 +6548,7 @@ body.animation-style-whimsy:not(.disable-ui-animations) div[class*="excalidraw"]
 /* Modal Background Frost */
 body:not(.disable-modal-frost) .modal-bg {
     backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
     background-color: rgba(0, 0, 0, 0.4);
     will-change: opacity;
 }
@@ -6773,7 +6786,7 @@ body:not(.disable-modal-frost) .modal-bg {
     z-index: 1;
     display: flex;
     flex-direction: column;
-    transition: box-shadow var(--transition-ui), transform var(--transition-ui), background-color var(--transition-ui);
+    transition: width 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow var(--transition-ui), transform var(--transition-ui), background-color var(--transition-ui);
     will-change: transform, box-shadow;
     contain: layout;
 }
@@ -6840,10 +6853,10 @@ body:not(.is-mobile):not(.disable-status-bar) .status-bar {
     transform-origin: bottom center;
     transition:
         opacity var(--transition-ui),
-        transform 220ms cubic-bezier(.2, .8, .2, 1),
-        max-width 220ms cubic-bezier(.2, .8, .2, 1),
-        height 220ms cubic-bezier(.2, .8, .2, 1),
-        padding 220ms cubic-bezier(.2, .8, .2, 1),
+        transform 220ms cubic-bezier(0.32, 0.72, 0, 1),
+        max-width 220ms cubic-bezier(0.32, 0.72, 0, 1),
+        height 220ms cubic-bezier(0.32, 0.72, 0, 1),
+        padding 220ms cubic-bezier(0.32, 0.72, 0, 1),
         background-color var(--transition-ui),
         border-color var(--transition-ui),
         box-shadow var(--transition-ui);
@@ -7000,8 +7013,8 @@ body:not(.disable-status-bar) .status-bar:hover .status-bar-item button:hover {
 
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     background-color: transparent;
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
@@ -7011,6 +7024,7 @@ body:not(.disable-status-bar) .status-bar:hover .status-bar-item button:hover {
     background-color: var(--scrollbar-thumb);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    transition: background-color 0.18s ease-out;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -7206,6 +7220,7 @@ body:not(.disable-scrollbars) :is(
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-main);
     box-shadow: var(--shadow-3), 0 4px 16px rgba(0, 0, 0, .1);
+    overflow: hidden;
     padding: 4px;
     backdrop-filter: blur(10px) saturate(150%);
     -webkit-backdrop-filter: blur(10px) saturate(150%);
@@ -7380,9 +7395,8 @@ input[type='number'] {
     padding-inline-start: 25px;
 }
 
-/* Dropdown options/menu */
-.dropdown-menu,
-.menu {
+/* Dropdown options */
+.dropdown-menu {
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
     overflow: hidden;
@@ -7473,6 +7487,13 @@ input[type='number'] {
 
 .view-actions .clickable-icon:active {
     transform: scale(0.95);
+}
+
+/* Universal press feedback — Apple presses every interactive element */
+button:active,
+.clickable-icon:active,
+.mod-cta:active {
+    transform: scale(0.94);
 }
 
 /* Titlebar Buttons */
@@ -7729,7 +7750,7 @@ body:not(.is-mobile).enable-floating-nav .nav-buttons-container {
     padding-inline: 0;
     border-radius: var(--radius-pill);
     background-color: rgba(var(--primary-color-rgb), 0.4);
-    transition: width var(--slow) cubic-bezier(0.4, 0, 0.2, 1), height var(--slow) cubic-bezier(0.4, 0, 0.2, 1), background-color var(--slow) cubic-bezier(0.4, 0, 0.2, 1), box-shadow var(--slow) cubic-bezier(0.4, 0, 0.2, 1), opacity var(--slow) cubic-bezier(0.4, 0, 0.2, 1), gap var(--slow) cubic-bezier(0.4, 0, 0.2, 1), margin-block-start var(--slow) cubic-bezier(0.4, 0, 0.2, 1), margin-block-end var(--slow) cubic-bezier(0.4, 0, 0.2, 1);
+    transition: width 0.32s cubic-bezier(0.32, 0.72, 0, 1), height 0.32s cubic-bezier(0.32, 0.72, 0, 1), background-color var(--slow), box-shadow var(--slow), opacity var(--slow), gap 0.32s cubic-bezier(0.32, 0.72, 0, 1), margin-block-start var(--slow), margin-block-end var(--slow);
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -8104,10 +8125,6 @@ body.is-mobile :is(
     will-change: auto !important;
 }
 
-body.is-mobile .metadata-container {
-    transform: none !important;
-}
-
 /* Status bar: let Obsidian's default layout handle it on mobile */
 body.is-mobile .status-bar {
     position: relative;
@@ -8237,6 +8254,7 @@ body.is-mobile .workspace-tab-header-container {
 
 /* === CRITICAL MOBILE OVERRIDE: Force metadata background === */
 body.is-mobile .metadata-container {
+    transform: none !important;
     background: hsl(var(--accent-h), 12%, 15%) !important;
     background-color: hsl(var(--accent-h), 12%, 15%) !important;
 }
@@ -8370,7 +8388,7 @@ body.depth-shadows button:not(.clickable-icon):hover {
 /* Tags in properties - subtle depth */
 body.depth-shadows .multi-select-pill {
     box-shadow: var(--depth-1);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    transition: box-shadow var(--transition-ui), transform var(--transition-ui);
 }
 
 body.depth-shadows .multi-select-pill:hover {
@@ -8396,7 +8414,7 @@ body.depth-shadows .workspace-tab-header.is-active {
 
 /* Icons - subtle depth on hover (ONLY when standalone, not in pills) */
 body.depth-shadows .clickable-icon:not(.workspace-tab-header-container *):not(.nav-buttons-container *) {
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    transition: box-shadow var(--transition-ui), transform var(--transition-ui);
 }
 
 body.depth-shadows .clickable-icon:not(.workspace-tab-header-container *):not(.nav-buttons-container *):hover {
@@ -8491,7 +8509,7 @@ body.inline-code-accent :not(pre) > code {
     border-radius: var(--radius-s);
     font-weight: var(--weight-medium) !important;
     animation: code-pulse 3s ease infinite !important;
-    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    transition: background var(--transition-ui), transform var(--transition-ui), box-shadow var(--transition-ui);
     box-shadow: 0 1px 3px rgba(var(--primary-color-rgb), 0.1);
 }
 
