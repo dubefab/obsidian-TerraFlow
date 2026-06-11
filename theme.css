@@ -314,6 +314,101 @@ settings:
         type: variable-text
         default: inherit
     -
+        id: heading-tight-tracking
+        title: Tight Heading Tracking
+        description: Apply negative letter-spacing to H1/H2 for Apple-style optical display tightening
+        type: class-toggle
+        default: false
+    -
+        id: link-style-selector
+        title: Link Style
+        description: Choose a visual style for links in your notes
+        type: class-select
+        allowEmpty: false
+        default: link-style-default
+        options:
+            -
+                label: Default (Subtle Pill)
+                value: link-style-default
+            -
+                label: Plain (No Background)
+                value: link-style-plain
+            -
+                label: Underline Accent
+                value: link-style-underline
+            -
+                label: Neon Glow
+                value: link-style-glow
+    -
+        id: highlight-style-selector
+        title: Highlight Style
+        description: Choose a visual style for text highlights
+        type: class-select
+        allowEmpty: false
+        default: highlight-style-default
+        options:
+            -
+                label: Default
+                value: highlight-style-default
+            -
+                label: Glass
+                value: highlight-style-glass
+    -
+        id: blockquote-style-selector
+        title: Blockquote Style
+        description: Choose a visual style for blockquotes in your notes
+        type: class-select
+        allowEmpty: false
+        default: blockquote-style-default
+        options:
+            -
+                label: Default
+                value: blockquote-style-default
+            -
+                label: Modern Glass
+                value: blockquote-style-glass
+            -
+                label: Bold Dramatic
+                value: blockquote-style-bold
+    -
+        id: callout-style-selector
+        title: Callout Style
+        description: Choose a visual style for your callouts
+        type: class-select
+        allowEmpty: false
+        default: callout-style-default
+        options:
+            -
+                label: Default (Gradient)
+                value: callout-style-default
+            -
+                label: Vintage Paper
+                value: callout-style-vintage
+            -
+                label: Modern Glass
+                value: callout-style-glass
+            -
+                label: Bold Border
+                value: callout-style-bold
+    -
+        id: inline-code-accent
+        title: Accent Inline Code
+        description: Highlight inline code with gradient backgrounds and accent colors
+        type: class-toggle
+        default: false
+    -
+        id: tabular-numerics
+        title: Tabular Numerics
+        description: Use tabular (fixed-width) numerals in metadata, tables, and status bar for precise alignment
+        type: class-toggle
+        default: false
+    -
+        id: caret-accent
+        title: Accent Caret & Selection
+        description: Colour the cursor caret and text-selection with the accent colour (visionOS-style)
+        type: class-toggle
+        default: false
+    -
         id: heading-case-heading
         title: Heading Case
         description: Per-level text case — Title Case capitalizes the first letter of every word
@@ -416,101 +511,6 @@ settings:
             -
                 label: UPPERCASE
                 value: h6-case-upper
-    -
-        id: heading-tight-tracking
-        title: Tight Heading Tracking
-        description: Apply negative letter-spacing to H1/H2 for Apple-style optical display tightening
-        type: class-toggle
-        default: false
-    -
-        id: link-style-selector
-        title: Link Style
-        description: Choose a visual style for links in your notes
-        type: class-select
-        allowEmpty: false
-        default: link-style-default
-        options:
-            -
-                label: Default (Subtle Pill)
-                value: link-style-default
-            -
-                label: Plain (No Background)
-                value: link-style-plain
-            -
-                label: Underline Accent
-                value: link-style-underline
-            -
-                label: Neon Glow
-                value: link-style-glow
-    -
-        id: highlight-style-selector
-        title: Highlight Style
-        description: Choose a visual style for text highlights
-        type: class-select
-        allowEmpty: false
-        default: highlight-style-default
-        options:
-            -
-                label: Default
-                value: highlight-style-default
-            -
-                label: Glass
-                value: highlight-style-glass
-    -
-        id: blockquote-style-selector
-        title: Blockquote Style
-        description: Choose a visual style for blockquotes in your notes
-        type: class-select
-        allowEmpty: false
-        default: blockquote-style-default
-        options:
-            -
-                label: Default
-                value: blockquote-style-default
-            -
-                label: Modern Glass
-                value: blockquote-style-glass
-            -
-                label: Bold Dramatic
-                value: blockquote-style-bold
-    -
-        id: callout-style-selector
-        title: Callout Style
-        description: Choose a visual style for your callouts
-        type: class-select
-        allowEmpty: false
-        default: callout-style-default
-        options:
-            -
-                label: Default (Gradient)
-                value: callout-style-default
-            -
-                label: Vintage Paper
-                value: callout-style-vintage
-            -
-                label: Modern Glass
-                value: callout-style-glass
-            -
-                label: Bold Border
-                value: callout-style-bold
-    -
-        id: inline-code-accent
-        title: Accent Inline Code
-        description: Highlight inline code with gradient backgrounds and accent colors
-        type: class-toggle
-        default: false
-    -
-        id: tabular-numerics
-        title: Tabular Numerics
-        description: Use tabular (fixed-width) numerals in metadata, tables, and status bar for precise alignment
-        type: class-toggle
-        default: false
-    -
-        id: caret-accent
-        title: Accent Caret & Selection
-        description: Colour the cursor caret and text-selection with the accent colour (visionOS-style)
-        type: class-toggle
-        default: false
     -
         id: alt-checkboxes-heading
         title: Alternate Checkboxes
@@ -642,6 +642,12 @@ settings:
         type: variable-text
         default: "1.6"
     -
+        id: focus-grid
+        title: Focus Dot Grid
+        description: Faint Bauhaus-style 24px dot grid behind the editor — tactile, barely perceptible
+        type: class-toggle
+        default: false
+    -
         id: block-width-heading
         title: Block Width (cssclasses)
         description: "Add cssclasses to a note's properties: wide-page, full-page, wide-table, wide-image"
@@ -673,12 +679,6 @@ settings:
         description: Minimum card width in notes using the cards cssclass
         type: variable-text
         default: 180px
-    -
-        id: focus-grid
-        title: Focus Dot Grid
-        description: Faint Bauhaus-style 24px dot grid behind the editor — tactile, barely perceptible
-        type: class-toggle
-        default: false
 
     -
         id: performance-heading
