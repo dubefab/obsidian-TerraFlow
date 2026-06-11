@@ -6295,15 +6295,19 @@ body:not(.is-mobile):not(.disable-status-bar) .status-bar {
     flex-wrap: wrap;
     cursor: default;
     transform-origin: bottom center;
+    /* allow-keywords lets height morph 6px -> auto smoothly (Chromium 129+);
+       without it the height snaps while the width animates */
+    interpolate-size: allow-keywords;
     transition:
-        opacity var(--transition-ui),
-        transform var(--dur-quick) var(--ease-apple),
-        max-width var(--dur-quick) var(--ease-apple),
-        height var(--dur-quick) var(--ease-apple),
-        padding var(--dur-quick) var(--ease-apple),
-        background-color var(--transition-ui),
+        opacity var(--dur-modal) var(--ease-apple),
+        transform var(--dur-modal) cubic-bezier(.34, 1.2, .64, 1),
+        max-width var(--dur-modal) var(--ease-apple),
+        height var(--dur-modal) var(--ease-apple),
+        min-height var(--dur-modal) var(--ease-apple),
+        padding var(--dur-modal) var(--ease-apple),
+        background-color var(--dur-modal) var(--ease-apple),
         border-color var(--transition-ui),
-        box-shadow var(--transition-ui);
+        box-shadow var(--dur-modal) var(--ease-apple);
 }
 
 body:not(.disable-status-bar) .status-bar:not(:hover) {
@@ -6326,7 +6330,12 @@ body:not(.is-mobile):not(.disable-status-bar) .status-bar:not(:hover) {
 body:not(.disable-status-bar) .status-bar>.status-bar-item {
     opacity: 0;
     pointer-events: none;
-    transition: opacity var(--transition-ui);
+    transform: translateY(5px);
+    filter: blur(3px);
+    transition:
+        opacity var(--dur-quick) var(--ease-apple),
+        transform var(--dur-quick) var(--ease-apple),
+        filter var(--dur-quick) var(--ease-apple);
     white-space: normal;
     color: inherit;
     display: flex;
@@ -6334,10 +6343,20 @@ body:not(.disable-status-bar) .status-bar>.status-bar-item {
     margin: 2px 4px;
 }
 
+/* Items rise and de-blur once the pill is mostly open, with a gentle
+   stagger; no delay on the base rule so collapse fades instantly */
 body:not(.disable-status-bar) .status-bar:hover>.status-bar-item {
     opacity: 1;
+    transform: none;
+    filter: none;
     pointer-events: auto;
+    transition-delay: .1s;
 }
+
+body:not(.disable-status-bar) .status-bar:hover>.status-bar-item:nth-child(2) { transition-delay: .14s; }
+body:not(.disable-status-bar) .status-bar:hover>.status-bar-item:nth-child(3) { transition-delay: .18s; }
+body:not(.disable-status-bar) .status-bar:hover>.status-bar-item:nth-child(4) { transition-delay: .22s; }
+body:not(.disable-status-bar) .status-bar:hover>.status-bar-item:nth-child(n+5) { transition-delay: .26s; }
 
 body:not(.disable-status-bar) .status-bar:hover .status-bar-item .clickable-icon:hover,
 body:not(.disable-status-bar) .status-bar:hover .status-bar-item button:hover {
