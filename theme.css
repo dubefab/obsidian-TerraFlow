@@ -5647,16 +5647,47 @@ body:not(.disable-ui-animations):not(.disable-modal-frost) .modal-bg {
     animation: iosBackdropFade 0.28s var(--ease-apple) forwards;
 }
 
-/* iOS-style press feedback: quick scale-down on tap/click — feels tactile */
+/* iOS-style press feedback for full-width list rows: flat dip — a horizontal
+   liquid squash looks wrong on rows, so they keep the simple scale-down */
 body:not(.disable-ui-animations) :is(
     .menu-item,
     .suggestion-item,
-    .clickable-icon,
     .nav-file-title,
     .nav-folder-title
 ):active {
     transform: scale(0.97);
     transition: transform 80ms var(--ease-apple);
+}
+
+/* Liquid Glass press (theme-wide): quick squash flat-and-wide on press,
+   jelly rebound on release (droplet feel). Icons squash deeper than wide
+   buttons so text buttons don't balloon sideways. The transition list also
+   carries the common hover properties because this rule outranks the
+   per-area transition rules it replaces. */
+body:not(.disable-ui-animations) :is(button, .mod-cta, .clickable-icon) {
+    transition:
+        transform 0.4s var(--ease-bounce-md),
+        color var(--transition-ui),
+        background-color var(--transition-ui),
+        border-color var(--transition-ui),
+        box-shadow var(--transition-ui),
+        opacity var(--transition-ui);
+}
+
+body:not(.disable-ui-animations) :is(button, .mod-cta):active {
+    transform: scale(1.03, 0.94);
+    transition: transform 0.1s var(--ease-apple);
+}
+
+body:not(.disable-ui-animations) .clickable-icon:active {
+    transform: scale(1.08, 0.85);
+    transition: transform 0.1s var(--ease-apple);
+}
+
+/* Native Obsidian mirrors the right toggle icon with scale(-1, 1) —
+   keep the X flip while squashing or the icon flips during the press */
+body:not(.disable-ui-animations) .sidebar-toggle-button.mod-right .clickable-icon:active {
+    transform: scale(-1.08, 0.85);
 }
 
 /* ================================================= ==================================================
@@ -5890,20 +5921,26 @@ body.animation-style-whimsy .workspace-tab-header-inner-close-button:hover {
     color: var(--background-primary) !important;
 }
 
-/* Sidebar Toggle Buttons - Smart rotation based on side */
-body.animation-style-whimsy .sidebar-toggle-button.mod-left,
-body.animation-style-whimsy .sidebar-toggle-button.mod-right {
-    transition: transform 0.5s var(--ease-bounce-md);
+/* Sidebar Toggle Buttons - gentle tilt toward their panel.
+   Animate the inner icon only: transforming the container makes it
+   travel during the sidebar-collapse re-layout. */
+body.animation-style-whimsy .sidebar-toggle-button.mod-left .clickable-icon,
+body.animation-style-whimsy .sidebar-toggle-button.mod-right .clickable-icon {
+    transition: transform 0.3s var(--ease-bounce-sm);
 }
 
-/* Left sidebar rotates counter-clockwise (opening to the left) */
-body.animation-style-whimsy .sidebar-toggle-button.mod-left:hover {
-    transform: rotate(-180deg) scale(1.1);
+body.animation-style-whimsy .sidebar-toggle-button.mod-left:hover .clickable-icon {
+    transform: rotate(-12deg) scale(1.08);
 }
 
-/* Right sidebar rotates clockwise (opening to the right) */
-body.animation-style-whimsy .sidebar-toggle-button.mod-right:hover {
-    transform: rotate(180deg) scale(1.1);
+/* Right icon is natively mirrored with scale(-1, 1): keep the flip in every
+   transform here, and mirror the rotation so the tilt reads as +12° */
+body.animation-style-whimsy .sidebar-toggle-button.mod-right:hover .clickable-icon {
+    transform: scale(-1, 1) rotate(-12deg) scale(1.08);
+}
+
+body.animation-style-whimsy .sidebar-toggle-button.mod-right .clickable-icon:active {
+    transform: scale(-0.9, 0.9);
 }
 
 /* Ribbon collapse buttons have subtle rotation */
@@ -6231,7 +6268,9 @@ body:not(.disable-modal-frost) .modal-bg {
     z-index: 1;
     display: flex;
     flex-direction: column;
-    transition: box-shadow var(--transition-ui), transform var(--transition-ui), background-color var(--transition-ui);
+    /* No transform here: Obsidian animates sidebar collapse with its own
+       transforms — transitioning them desyncs the card from the native motion */
+    transition: box-shadow var(--transition-ui), background-color var(--transition-ui);
     contain: layout;
 }
 
@@ -6241,6 +6280,32 @@ body:not(.disable-modal-frost) .modal-bg {
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
     transform: none;
     z-index: 10;
+}
+
+/* Sidedock collapse/expand ghost fix: Obsidian slides the split open/closed
+   while the theme keeps its tab-header transparent, so the icon pill reads
+   as a ghost gliding across the header. `is-sidedock-collapsed` is set the
+   moment the slide starts — hide the header content instantly on collapse,
+   fade it back in only after the panel has landed on expand. */
+.workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container {
+    transition: opacity 0.18s var(--ease-apple) 0.1s;
+}
+
+.workspace-split:is(.mod-left-split, .mod-right-split).is-sidedock-collapsed .workspace-tab-header-container {
+    opacity: 0;
+    transition: none;
+}
+
+/* Obsidian re-parents the sidebar toggle between the sidedock header and the
+   root header on collapse/expand, leaving an animated CLONE behind
+   (updateFrameless → cloneNode). Natively both copies overlap as opaque
+   fixed top-right boxes; the theme repositions/untints them, exposing the
+   clone as a ghost square gliding across the header. While a sidedock is
+   open, any toggle still inside the root header is that leftover clone —
+   keep it invisible (visibility preserves the smooth width reflow). */
+body.mod-macos .workspace.is-right-sidedock-open .workspace-split.mod-root .sidebar-toggle-button.mod-right,
+body.mod-macos .workspace.is-left-sidedock-open .workspace-split.mod-root .sidebar-toggle-button.mod-left {
+    visibility: hidden;
 }
 
 .workspace-tabs .workspace-leaf {
