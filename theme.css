@@ -268,6 +268,18 @@ settings:
         description: Only show the view header (title and buttons) when hovering the top area
         type: class-toggle
         default: false
+    -
+        id: ambient-gradient
+        title: Ambient Accent Gradient
+        description: Wash the top of the workspace with a soft accent-color gradient that fades into the background
+        type: class-toggle
+        default: false
+    -
+        id: pill-tabs
+        title: Soft Pill Tabs
+        description: Restyle workspace tabs as quiet translucent pills instead of squared tab shapes
+        type: class-toggle
+        default: false
 
     -
         id: animations-heading
@@ -9230,4 +9242,80 @@ body.is-mobile :is(.wide-page, .full-page, .wide-table, .wide-image) {
 
 .bases-cards-label {
     color: var(--text-muted);
+}
+
+/* ============================================================
+   Ambient & Pill Options (opt-in via Style Settings)
+   1. Ambient Accent Gradient  — body.ambient-gradient
+   2. Soft Pill Tabs           — body.pill-tabs
+   ============================================================ */
+
+/* --- 1. Ambient Accent Gradient ----------------------------
+   Accent wash fading from the top of the viewport. Rendered as
+   a fixed, non-interactive overlay; z-index 20 sits above
+   workspace chrome but below popovers (30), modals (50),
+   menus (65). */
+body.ambient-gradient .app-container::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+    background: linear-gradient(to bottom,
+            rgba(var(--primary-color-rgb), 0.11) 0%,
+            rgba(var(--primary-color-rgb), 0.05) 22%,
+            transparent 48%);
+}
+
+.theme-light.ambient-gradient .app-container::after {
+    background: linear-gradient(to bottom,
+            rgba(var(--primary-color-rgb), 0.07) 0%,
+            rgba(var(--primary-color-rgb), 0.03) 22%,
+            transparent 48%);
+}
+
+/* --- 2. Soft Pill Tabs ---------------------------------------
+   Workspace tabs as quiet vibrancy pills: inactive tabs
+   transparent, active tab a translucent accent pill, no scale
+   transforms. The layout-card variants match the (0,5,1)
+   specificity of the layout-card tab rules near line 6320 so
+   the pill look wins. */
+body.pill-tabs .workspace-tab-header-container-inner {
+    gap: 3px;
+    align-items: center;
+}
+
+body.pill-tabs .workspace-tab-header,
+body:not(.is-mobile).pill-tabs.layout-card .workspace-tab-header {
+    border-radius: var(--radius-pill) !important;
+    -electron-corner-smoothing: 0;
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+body.pill-tabs .workspace-tab-header:not(.is-active),
+body:not(.is-mobile).pill-tabs.layout-card .workspace-tab-header:not(.is-active),
+body:not(.is-mobile).pill-tabs.layout-card.theme-dark .workspace-tab-header:not(.is-active) {
+    background-color: transparent !important;
+}
+
+body.pill-tabs .workspace-tab-header:hover,
+body.pill-tabs .workspace-tab-header.is-active:hover {
+    transform: none;
+}
+
+body.pill-tabs .workspace-tab-header:not(.is-active):hover,
+body:not(.is-mobile).pill-tabs.layout-card .workspace-tab-header:not(.is-active):hover,
+body:not(.is-mobile).pill-tabs.layout-card.theme-dark .workspace-tab-header:not(.is-active):hover {
+    background-color: rgba(var(--primary-color-rgb), 0.07) !important;
+}
+
+body.pill-tabs .workspace-tab-header.is-active,
+body:not(.is-mobile).pill-tabs.layout-card .workspace-tab-header.is-active,
+body:not(.is-mobile).pill-tabs.layout-card.theme-dark .workspace-tab-header.is-active {
+    transform: none;
+    background-color: rgba(var(--primary-color-rgb), 0.14) !important;
+    backdrop-filter: blur(8px) saturate(150%);
+    -webkit-backdrop-filter: blur(8px) saturate(150%);
+    box-shadow: inset 0 0 0 1px rgba(var(--primary-color-rgb), 0.18) !important;
 }
