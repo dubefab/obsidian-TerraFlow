@@ -5,10 +5,10 @@ id: seasonal-themes
 settings:
     -
         id: seasonal-heading
-        title: 🎨 Color Scheme
+        title: Color Scheme
         type: heading
         level: 2
-        collapsed: false
+        collapsed: true
     -
         id: season-selector
         title: Active Season
@@ -49,14 +49,14 @@ settings:
                 value: melange-theme
     -
         id: use-custom-accent
-        title: Custom Accent Colour
-        description: Enable to override the seasonal accent with the colour below
+        title: Custom Accent Color
+        description: Enable to override the seasonal accent with the color below
         type: class-toggle
         default: false
     -
         id: custom-accent
-        title: Accent Colour (when override is on)
-        description: The accent colour used when Custom Accent Override is enabled
+        title: Accent Color (when override is on)
+        description: The accent color used when Custom Accent Override is enabled
         type: variable-color
         default: "#5E7D6E"
         opacity: false
@@ -75,8 +75,8 @@ settings:
         default: false
     -
         id: heading-color-intensity
-        title: Heading Colour Intensity
-        description: Muted blends headings into the text colour (dark, barely noticeable); Vivid lifts them to full palette saturation (funky!)
+        title: Heading Color Intensity
+        description: Muted blends headings into the text color (dark, barely noticeable); Vivid lifts them to full palette saturation (funky!)
         type: class-select
         allowEmpty: false
         default: heading-color-default
@@ -93,7 +93,7 @@ settings:
     -
         id: tinted-body-text
         title: Season-Tinted Body Text
-        description: Blend the season's accent colour into body text so the palette shows through — verified readable in every season
+        description: Blend the season's accent color into body text so the palette shows through — verified readable in every season
         type: class-toggle
         default: false
     -
@@ -114,20 +114,20 @@ settings:
         default: false
     -
         id: custom-heading-colors-heading
-        title: Custom Heading Colours
-        description: Override the season's H1–H6 colours with your own
+        title: Custom Heading Colors
+        description: Override the season's H1–H6 colors with your own
         type: heading
         level: 3
         collapsed: true
     -
         id: custom-heading-colors
-        title: Enable Custom Heading Colours
-        description: Use the colours below instead of the season palette — composes with Heading Colour Intensity
+        title: Custom Heading Colors
+        description: Use the colors below instead of the season palette — composes with Heading Color Intensity
         type: class-toggle
         default: false
     -
         id: custom-h1
-        title: H1 Colour
+        title: H1 Color
         type: variable-color
         format: hex
         opacity: false
@@ -138,7 +138,7 @@ settings:
                 format: rgb-values
     -
         id: custom-h2
-        title: H2 Colour
+        title: H2 Color
         type: variable-color
         format: hex
         opacity: false
@@ -149,7 +149,7 @@ settings:
                 format: rgb-values
     -
         id: custom-h3
-        title: H3 Colour
+        title: H3 Color
         type: variable-color
         format: hex
         opacity: false
@@ -160,7 +160,7 @@ settings:
                 format: rgb-values
     -
         id: custom-h4
-        title: H4 Colour
+        title: H4 Color
         type: variable-color
         format: hex
         opacity: false
@@ -171,7 +171,7 @@ settings:
                 format: rgb-values
     -
         id: custom-h5
-        title: H5 Colour
+        title: H5 Color
         type: variable-color
         format: hex
         opacity: false
@@ -182,7 +182,7 @@ settings:
                 format: rgb-values
     -
         id: custom-h6
-        title: H6 Colour
+        title: H6 Color
         type: variable-color
         format: hex
         opacity: false
@@ -194,7 +194,7 @@ settings:
 
     -
         id: interface-heading
-        title: 🖥️ Interface
+        title: Interface
         type: heading
         level: 2
         collapsed: true
@@ -221,7 +221,7 @@ settings:
     -
         id: depth-warm
         title: Tinted Ambient Shadows
-        description: Tint shadows with the accent colour for a warm, Apple-style ambient elevation (requires Depth & Shadows)
+        description: Tint shadows with the accent color for a warm, Apple-style ambient elevation (requires Depth & Shadows)
         type: class-toggle
         default: false
     -
@@ -231,15 +231,47 @@ settings:
         type: class-toggle
         default: false
     -
-        id: system-fonts
-        title: System Font (San Francisco)
-        description: Use the native system font stack (SF Pro on Apple platforms) for text and interface
+        id: neutral-chrome
+        title: Neutral Chrome
+        description: Reserve the accent color for selection and active states — icon and button hovers wash gray instead of tinting, and the accent glow is removed
+        type: class-toggle
+        default: false
+    -
+        id: file-explorer-style
+        title: File Explorer Style
+        description: Folder presentation in the file browser
+        type: class-select
+        allowEmpty: false
+        default: explorer-style-rainbow
+        options:
+            -
+                label: Rainbow Cards (Default)
+                value: explorer-style-rainbow
+            -
+                label: Minimal
+                value: explorer-style-minimal
+            -
+                label: Finder
+                value: explorer-style-finder
+            -
+                label: Glass
+                value: explorer-style-glass
+    -
+        id: enable-floating-nav
+        title: Floating Nav Buttons
+        description: Transform sidebar navigation buttons into a floating pill that expands on hover
+        type: class-toggle
+        default: false
+    -
+        id: show-header-on-hover
+        title: Show View Header on Hover
+        description: Only show the view header (title and buttons) when hovering the top area
         type: class-toggle
         default: false
 
     -
         id: animations-heading
-        title: ✨ Animations
+        title: Animations
         type: heading
         level: 2
         collapsed: true
@@ -257,68 +289,19 @@ settings:
             -
                 label: Whimsy (Bouncy)
                 value: animation-style-whimsy
+    -
+        id: smooth-caret
+        title: Smooth Caret (iA Writer)
+        description: The text cursor glides between positions instead of jumping — satisfying, but turn off if it feels laggy while typing
+        type: class-toggle
+        default: false
 
     -
         id: content-styles-heading
-        title: ✍️ Editor & Content
+        title: Editor & Content
         type: heading
         level: 2
         collapsed: true
-    -
-        id: heading-style-selector
-        title: Heading Style
-        description: Choose a visual style for your headings
-        type: class-select
-        allowEmpty: false
-        default: heading-style-default
-        options:
-            -
-                label: Default (Background)
-                value: heading-style-default
-            -
-                label: Underline
-                value: heading-style-underline
-            -
-                label: Border Accent
-                value: heading-style-border
-            -
-                label: Minimal
-                value: heading-style-minimal
-            -
-                label: Gradient
-                value: heading-style-gradient
-            -
-                label: Glass (Frosted)
-                value: heading-style-glass
-            -
-                label: Badge (Pill)
-                value: heading-style-badge
-    -
-        id: heading-alignment
-        title: Heading Alignment
-        description: Choose the alignment for headings
-        type: class-select
-        allowEmpty: false
-        default: heading-align-left
-        options:
-            -
-                label: Left
-                value: heading-align-left
-            -
-                label: Center
-                value: heading-align-center
-    -
-        id: heading-font
-        title: Heading Font
-        description: Enter the name of a font installed on your system to use for headings (leave as 'inherit' to use the default theme font)
-        type: variable-text
-        default: inherit
-    -
-        id: heading-tight-tracking
-        title: Tight Heading Tracking
-        description: Apply negative letter-spacing to H1/H2 for Apple-style optical display tightening
-        type: class-toggle
-        default: false
     -
         id: link-style-selector
         title: Link Style
@@ -403,21 +386,89 @@ settings:
         type: class-toggle
         default: false
     -
+        id: tag-chips
+        title: Braun Tag Chips
+        description: Restyle inline tags as minimal uppercase chips — no background, hairline border, tight tracking
+        type: class-toggle
+        default: false
+    -
+        id: enable-fancy-bullets
+        title: Fancy Multilevel Bullet Styles
+        description: Unique custom bullet shapes per list nesting level
+        type: class-toggle
+        default: false
+    -
         id: caret-accent
         title: Accent Caret & Selection
-        description: Colour the cursor caret and text-selection with the accent colour (visionOS-style)
+        description: Color the cursor caret and text-selection with the accent color (visionOS-style)
         type: class-toggle
         default: false
     -
         id: heading-case-heading
-        title: Heading Case
-        description: Per-level text case — Title Case capitalizes the first letter of every word
+        title: Headings
+        description: Style, alignment, typography, and per-level text case
         type: heading
         level: 3
         collapsed: true
     -
+        id: heading-style-selector
+        title: Heading Style
+        description: Choose a visual style for your headings
+        type: class-select
+        allowEmpty: false
+        default: heading-style-default
+        options:
+            -
+                label: Default (Background)
+                value: heading-style-default
+            -
+                label: Underline
+                value: heading-style-underline
+            -
+                label: Border Accent
+                value: heading-style-border
+            -
+                label: Minimal
+                value: heading-style-minimal
+            -
+                label: Gradient
+                value: heading-style-gradient
+            -
+                label: Glass (Frosted)
+                value: heading-style-glass
+            -
+                label: Badge (Pill)
+                value: heading-style-badge
+    -
+        id: heading-alignment
+        title: Heading Alignment
+        description: Choose the alignment for headings
+        type: class-select
+        allowEmpty: false
+        default: heading-align-left
+        options:
+            -
+                label: Left
+                value: heading-align-left
+            -
+                label: Center
+                value: heading-align-center
+    -
+        id: heading-font
+        title: Heading Font
+        description: Enter the name of a font installed on your system to use for headings (leave as 'inherit' to use the default theme font)
+        type: variable-text
+        default: inherit
+    -
+        id: heading-tight-tracking
+        title: Tight Heading Tracking
+        description: Apply negative letter-spacing to H1/H2 for Apple-style optical display tightening
+        type: class-toggle
+        default: false
+    -
         id: h1-case
         title: H1 Case
+        description: Title Case capitalizes the first letter of every word
         type: class-select
         allowEmpty: false
         default: h1-case-normal
@@ -520,7 +571,7 @@ settings:
         collapsed: true
     -
         id: alt-checkboxes
-        title: Enable Alternate Checkboxes
+        title: Alternate Checkboxes
         description: Style extended task states with seasonal colors and glyphs in editor and reading mode
         type: class-toggle
         default: false
@@ -561,71 +612,8 @@ settings:
         default: false
 
     -
-        id: focus-mode-heading
-        title: 🔬 Deep Focus Mode
-        description: Science-backed single-switch mode — sepia/warm-dark palette, neutral headings, flattened chrome, 68ch measure. Overrides any active season palette.
-        type: heading
-        level: 2
-        collapsed: true
-    -
-        id: focus-mode
-        title: Enable Deep Focus Mode
-        description: Activates warm sepia (light) or warm dark (dark) palette, collapses heading colour hierarchy, kills decorative backgrounds and animations, and hides the ribbon and status bar. Overrides whatever season is active.
-        type: class-toggle
-        default: false
-    -
-        id: focus-mode-dim-paragraphs
-        title: Typewriter Dimming
-        description: Fade non-active lines to ~50% opacity in live-preview (iA Writer style). Reading mode dims all paragraphs until hovered.
-        type: class-toggle
-        default: false
-    -
-        id: focus-mode-hide-sidebars
-        title: Hide Sidebar Panels
-        description: Collapse the left and right sidebar content panels so only the editor canvas is visible.
-        type: class-toggle
-        default: false
-    -
-        id: focus-mode-keep-chrome
-        title: Keep Ribbon & Status Bar
-        description: Escape hatch — show ribbon and status bar even in Focus Mode. Palette and heading neutralisation remain active.
-        type: class-toggle
-        default: false
-
-    -
-        id: ui-elements-heading
-        title: 🖼️ UI Elements
-        type: heading
-        level: 2
-        collapsed: true
-    -
-        id: enable-fancy-bullets
-        title: Fancy Multilevel Bullet Styles
-        description: Toggle unique custom bullet shapes
-        type: class-toggle
-        default: false
-    -
-        id: tag-chips
-        title: Braun Tag Chips
-        description: Restyle inline tags as minimal uppercase chips — no background, hairline border, tight tracking
-        type: class-toggle
-        default: false
-    -
-        id: enable-floating-nav
-        title: Floating Nav Buttons
-        description: Transform sidebar navigation buttons into a floating pill that expands on hover.
-        type: class-toggle
-        default: false
-    -
-        id: show-header-on-hover
-        title: Show View Header on Hover
-        description: Only show the entire view header (title and buttons) when hovering over the top area.
-        type: class-toggle
-        default: false
-
-    -
         id: layout-heading
-        title: 📐 Layout & Spacing
+        title: Layout & Spacing
         type: heading
         level: 2
         collapsed: true
@@ -650,10 +638,15 @@ settings:
     -
         id: block-width-heading
         title: Block Width (cssclasses)
-        description: "Add cssclasses to a note's properties: wide-page, full-page, wide-table, wide-image"
         type: heading
         level: 3
         collapsed: true
+    -
+        id: block-width-info
+        title: Usage
+        type: info-text
+        markdown: true
+        description: "Add `cssclasses` to a note's properties: `wide-page`, `full-page`, `wide-table`, `wide-image`"
     -
         id: wide-block-width
         title: Wide Block Width
@@ -663,10 +656,15 @@ settings:
     -
         id: banners-cards-heading
         title: "Banners & Cards (cssclasses)"
-        description: "banner: mark an image ![[img|banner]] as a cover. cards: render Dataview tables as a card grid"
         type: heading
         level: 3
         collapsed: true
+    -
+        id: banners-cards-info
+        title: Usage
+        type: info-text
+        markdown: true
+        description: "`banner`: mark an image `![[img|banner]]` as a cover · `cards`: render Dataview tables as a card grid"
     -
         id: banner-height
         title: Banner Height
@@ -681,33 +679,64 @@ settings:
         default: 180px
 
     -
+        id: focus-mode-heading
+        title: Deep Focus Mode
+        type: heading
+        level: 2
+        collapsed: true
+    -
+        id: focus-mode
+        title: Deep Focus Mode
+        description: Warm sepia (light) or warm dark (dark) palette, neutral heading hierarchy, no decorative backgrounds or animations, ribbon and status bar hidden, 68ch measure
+        type: class-toggle
+        default: false
+    -
+        id: focus-mode-dim-paragraphs
+        title: Typewriter Dimming
+        description: Fade non-active lines to ~50% opacity in live-preview (iA Writer style). Reading mode dims all paragraphs until hovered.
+        type: class-toggle
+        default: false
+    -
+        id: focus-mode-hide-sidebars
+        title: Hide Sidebar Panels
+        description: Collapse the left and right sidebar content panels so only the editor canvas is visible
+        type: class-toggle
+        default: false
+    -
+        id: focus-mode-keep-chrome
+        title: Keep Ribbon & Status Bar
+        description: Escape hatch — show ribbon and status bar even in Focus Mode. Palette and heading neutralisation remain active.
+        type: class-toggle
+        default: false
+
+    -
         id: performance-heading
-        title: ⚡ Performance & Accessibility
+        title: Performance & Accessibility
         type: heading
         level: 2
         collapsed: true
     -
         id: disable-ui-animations
         title: Disable UI Animations
-        description: Turn off subtle pop-up animations for menus and modals (Enabled by default)
+        description: Turn off pop-up and press animations across the interface
         type: class-toggle
         default: false
     -
         id: disable-modal-frost
         title: Disable Modal Frost
-        description: Turn off frosted glass effect for modal backgrounds (Enabled by default)
+        description: Turn off frosted glass effect for modal backgrounds
         type: class-toggle
         default: false
     -
         id: disable-glass-menus
         title: Disable Glass Menus
-        description: Turn off glass effects for menus, popovers, and suggestions.
+        description: Turn off glass effects for menus, popovers, and suggestions
         type: class-toggle
         default: false
     -
         id: disable-shadows
         title: Disable Box Shadows
-        description: Remove all box-shadows and elevation styling for maximum speed and flat look.
+        description: Remove all box-shadows and elevation styling for maximum speed and a flat look
         type: class-toggle
         default: false
     -
@@ -3137,7 +3166,7 @@ body.focus-mode .metadata-container {
 
 body.focus-mode .metadata-container:hover {
     opacity: 1;
-    transition: opacity 0.15s ease !important;
+    transition: opacity 0.15s var(--ease-apple) !important;
 }
 
 body.focus-mode .metadata-container .metadata-property-key {
@@ -3159,7 +3188,7 @@ body.focus-mode.focus-mode-dim-paragraphs .markdown-preview-view p {
 
 body.focus-mode.focus-mode-dim-paragraphs .markdown-preview-view p:hover {
     opacity: 1;
-    transition: opacity 0.15s ease !important;
+    transition: opacity 0.15s var(--ease-apple) !important;
 }
 
 /* ---- Sub-toggle: Hide Sidebar Panels ---- */
@@ -3610,12 +3639,7 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
     opacity: 1 !important;
 }
 
-/* Make fold indicator stretch full heading line height so child's 50% centers correctly */
-.markdown-source-view.mod-cm6 .cm-line:is(.HyperMD-header-1, .HyperMD-header-2, .HyperMD-header-3, .HyperMD-header-4, .HyperMD-header-5, .HyperMD-header-6) .cm-fold-indicator {
-    position: absolute !important;
-    inset-block-start: 0 !important;
-    inset-block-end: 0 !important;
-}
+/* Heading fold chevron: keep NATIVE inline flow — absolute stretch centers on padding-top, lands too high; do not re-add */
 
 /* Reveal arrow on hover */
 :is(.cm-line:hover, .cm-gutterElement:hover) .cm-fold-indicator .collapse-indicator {
@@ -4232,9 +4256,7 @@ body.link-style-glow :is(.markdown-rendered a, .markdown-rendered .internal-link
     min-inline-size: 0 !important;
 }
 
-/* Springy chevrons: collapse arrows over-rotate a touch and settle.
-   Needs svg.svg-icon to tie native specificity (.collapse-icon svg.svg-icon,
-   100ms ease-in-out) — theme loads later, so the tie goes to us. */
+/* Springy chevrons (svg.svg-icon ties native specificity; later load wins) */
 :is(.collapse-icon, .nav-folder-collapse-indicator, .callout-fold) svg.svg-icon {
     transition: transform 0.3s var(--ease-bounce-sm);
 }
@@ -4363,6 +4385,99 @@ body.link-style-glow :is(.markdown-rendered a, .markdown-rendered .internal-link
 
 .theme-dark .nav-file-title:is(:not(.is-active)):hover {
     background-color: rgba(255, 255, 255, var(--link-opacity-unresolved)) !important;
+}
+
+/* ============================== */
+/*   FILE EXPLORER STYLES         */
+/* ============================== */
+/* Minimal/Finder override the Rainbow base; body:is(.theme-*) outranks nth-child rainbow rules */
+
+/* Both alternate styles: no tinted cards, no rainbow, no hover lift */
+body:is(.theme-light, .theme-dark):is(.explorer-style-minimal, .explorer-style-finder) .nav-files-container>div>.nav-folder {
+    --folder-color: transparent;
+    --folder-text-color: var(--text-normal);
+    --folder-heading-rgb: var(--primary-color-rgb);
+    background-color: transparent;
+    margin-block-end: 0;
+}
+
+body:is(.explorer-style-minimal, .explorer-style-finder) .nav-files-container>div>.nav-folder:hover {
+    transform: none;
+}
+
+/* …and calm neutral hovers instead of the white-overlay + brightness */
+body:is(.explorer-style-minimal, .explorer-style-finder) .nav-folder-title:hover,
+body:is(.explorer-style-minimal, .explorer-style-finder) .nav-file-title:is(:not(.is-active)):hover {
+    background-color: color-mix(in srgb, var(--text-normal) 7%, transparent) !important;
+    filter: none;
+}
+
+body:is(.explorer-style-minimal, .explorer-style-finder) .nav-folder .nav-folder-title:hover .nav-folder-title-content {
+    transform: none;
+}
+
+/* Minimal: quiet monochrome tree, no folder glyphs */
+body.explorer-style-minimal .nav-folder .nav-folder-title-content::before {
+    display: none;
+}
+
+body.explorer-style-minimal .nav-folder-title {
+    color: var(--text-muted);
+    font-weight: var(--weight-medium);
+}
+
+/* Finder: neutral labels, accent folder glyphs */
+body.explorer-style-finder .nav-folder .nav-folder-title-content::before {
+    background-color: var(--primary-color);
+    opacity: .85;
+}
+
+body.explorer-style-finder .nav-folder-title {
+    font-weight: var(--weight-normal);
+}
+
+/* Glass: frosted folder cards in each folder's hue (no backdrop-filter — one compositing pass per card) */
+body:is(.theme-light, .theme-dark).explorer-style-glass .nav-files-container>div>.nav-folder {
+    /* files inherit via --nav-item-color */
+    --folder-text-color: color-mix(in srgb, rgb(var(--folder-heading-rgb)) 55%, var(--text-normal));
+    /* hue-tinted hairline (white reads chalky) */
+    background-color: rgba(var(--folder-heading-rgb), .09);
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, 0) 55%);
+    border: var(--border-thin) solid rgba(var(--folder-heading-rgb), .25);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4), 0 4px 14px rgba(0, 0, 0, .05);
+    border-radius: var(--r3);
+    -electron-corner-smoothing: var(--squircle-soft);
+    padding: 4px;
+    margin-block-end: var(--s2);
+}
+
+body.theme-dark.explorer-style-glass .nav-files-container>div>.nav-folder {
+    background-color: rgba(var(--folder-heading-rgb), .12);
+    border-color: rgba(var(--folder-heading-rgb), .28);
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, .04), rgba(255, 255, 255, 0) 55%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 6px 18px rgba(0, 0, 0, .18);
+}
+
+/* Hover deepens the whole card */
+body.explorer-style-glass .nav-files-container>div>.nav-folder:hover {
+    background-color: rgba(var(--folder-heading-rgb), .15);
+}
+
+/* No surfaces on folder titles (depth-shadows hover painted the box); text = folder hue toward text-normal */
+body.explorer-style-glass .nav-files-container .nav-folder-title,
+body.explorer-style-glass .nav-files-container .nav-folder-title:hover {
+    background-color: transparent !important;
+    filter: none !important;
+    box-shadow: none !important;
+    color: color-mix(in srgb, rgb(var(--folder-heading-rgb)) 55%, var(--text-normal));
+}
+
+/* Active file: liquid-glass pill — tinted fill under a specular highlight */
+body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.is-active .nav-file-title-content {
+    background-color: rgba(var(--folder-heading-rgb), .22);
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, .25), rgba(255, 255, 255, 0) 60%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4), 0 2px 8px rgba(0, 0, 0, .1);
+    color: var(--text-normal);
 }
 
 .nav-folder .nav-folder-children .nav-folder {
@@ -5586,7 +5701,7 @@ body:not(.disable-ui-animations) .suggestion-container {
 
 /* Tooltips: Apple-style instant fade — no scale, just opacity */
 body:not(.disable-ui-animations) .tooltip {
-    animation: tooltipFade var(--dur-instant) ease-out forwards;
+    animation: tooltipFade var(--dur-instant) var(--ease-apple) forwards;
 }
 
 @keyframes tooltipFade {
@@ -5648,11 +5763,7 @@ body:not(.disable-ui-animations):not(.disable-modal-frost) .modal-bg {
     animation: iosBackdropFade 0.28s var(--ease-apple) forwards;
 }
 
-/* Rubber-band callout fold (default style): the title row squashes when the
-   callout folds and stretches back with a small overshoot on expand.
-   Transition (not animation) so it only fires on fold/unfold, never on
-   mount/scroll. Targets the title because hover-lift rules own .callout's
-   transform; whimsy mode has its own fold bounce. */
+/* Rubber-band callout fold: transition only (never fires on mount); title-only — hover-lift owns .callout */
 body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.callout, .cm-callout) .callout-title {
     transform-origin: top center;
     transition: transform 0.35s var(--ease-bounce-sm);
@@ -5662,8 +5773,7 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.callout, .cm-
     transform: scaleY(0.96);
 }
 
-/* iOS-style press feedback for full-width list rows: flat dip — a horizontal
-   liquid squash looks wrong on rows, so they keep the simple scale-down */
+/* List rows: flat press dip (liquid squash reads wrong on full-width rows) */
 body:not(.disable-ui-animations) :is(
     .menu-item,
     .suggestion-item,
@@ -5674,11 +5784,7 @@ body:not(.disable-ui-animations) :is(
     transition: transform 80ms var(--ease-apple);
 }
 
-/* Liquid Glass press (theme-wide): quick squash flat-and-wide on press,
-   jelly rebound on release (droplet feel). Icons squash deeper than wide
-   buttons so text buttons don't balloon sideways. The transition list also
-   carries the common hover properties because this rule outranks the
-   per-area transition rules it replaces. */
+/* Liquid Glass press: fast squash in, jelly rebound out; carries hover transitions (outranks per-area rules) */
 body:not(.disable-ui-animations) :is(button, .mod-cta, .clickable-icon) {
     transition:
         transform 0.4s var(--ease-bounce-md),
@@ -5699,8 +5805,7 @@ body:not(.disable-ui-animations) .clickable-icon:active {
     transition: transform 0.1s var(--ease-apple);
 }
 
-/* Native Obsidian mirrors the right toggle icon with scale(-1, 1) —
-   keep the X flip while squashing or the icon flips during the press */
+/* Keep native scale(-1,1) mirror of the right toggle icon while pressed */
 body:not(.disable-ui-animations) .sidebar-toggle-button.mod-right .clickable-icon:active {
     transform: scale(-1.08, 0.85);
 }
@@ -5936,9 +6041,7 @@ body.animation-style-whimsy .workspace-tab-header-inner-close-button:hover {
     color: var(--background-primary) !important;
 }
 
-/* Sidebar Toggle Buttons - gentle tilt toward their panel.
-   Animate the inner icon only: transforming the container makes it
-   travel during the sidebar-collapse re-layout. */
+/* Sidebar toggles: gentle tilt on inner icon only (container transforms travel during collapse) */
 body.animation-style-whimsy .sidebar-toggle-button.mod-left .clickable-icon,
 body.animation-style-whimsy .sidebar-toggle-button.mod-right .clickable-icon {
     transition: transform 0.3s var(--ease-bounce-sm);
@@ -5948,8 +6051,7 @@ body.animation-style-whimsy .sidebar-toggle-button.mod-left:hover .clickable-ico
     transform: rotate(-12deg) scale(1.08);
 }
 
-/* Right icon is natively mirrored with scale(-1, 1): keep the flip in every
-   transform here, and mirror the rotation so the tilt reads as +12° */
+/* Mirrored right icon: keep flip, mirror rotation so tilt reads +12° */
 body.animation-style-whimsy .sidebar-toggle-button.mod-right:hover .clickable-icon {
     transform: scale(-1, 1) rotate(-12deg) scale(1.08);
 }
@@ -6283,8 +6385,7 @@ body:not(.disable-modal-frost) .modal-bg {
     z-index: 1;
     display: flex;
     flex-direction: column;
-    /* No transform here: Obsidian animates sidebar collapse with its own
-       transforms — transitioning them desyncs the card from the native motion */
+    /* no transform: would re-time Obsidian's native collapse */
     transition: box-shadow var(--transition-ui), background-color var(--transition-ui);
     contain: layout;
 }
@@ -6297,11 +6398,7 @@ body:not(.disable-modal-frost) .modal-bg {
     z-index: 10;
 }
 
-/* Sidedock collapse/expand ghost fix: Obsidian slides the split open/closed
-   while the theme keeps its tab-header transparent, so the icon pill reads
-   as a ghost gliding across the header. `is-sidedock-collapsed` is set the
-   moment the slide starts — hide the header content instantly on collapse,
-   fade it back in only after the panel has landed on expand. */
+/* Sidedock ghost fix: hide header during slide (class lands at slide start), fade in after landing */
 .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container {
     transition:
         opacity 0.18s var(--ease-apple) 0.1s,
@@ -6313,8 +6410,7 @@ body:not(.disable-modal-frost) .modal-bg {
     transition: none;
 }
 
-/* Landing settle: icons drift in from the window edge with a small
-   overshoot as they fade, so the opening panel feels like it has mass */
+/* Landing settle: icons drift in from window edge as the panel lands */
 .workspace-split.mod-right-split.is-sidedock-collapsed .workspace-tab-header-container {
     transform: translateX(8px);
 }
@@ -6323,13 +6419,7 @@ body:not(.disable-modal-frost) .modal-bg {
     transform: translateX(-8px);
 }
 
-/* Obsidian re-parents the sidebar toggle between the sidedock header and the
-   root header on collapse/expand, leaving an animated CLONE behind
-   (updateFrameless → cloneNode). Natively both copies overlap as opaque
-   fixed top-right boxes; the theme repositions/untints them, exposing the
-   clone as a ghost square gliding across the header. While a sidedock is
-   open, any toggle still inside the root header is that leftover clone —
-   keep it invisible (visibility preserves the smooth width reflow). */
+/* Hide the animated toggle CLONE Obsidian leaves in mod-root on re-parent (updateFrameless → cloneNode) */
 body.mod-macos .workspace.is-right-sidedock-open .workspace-split.mod-root .sidebar-toggle-button.mod-right,
 body.mod-macos .workspace.is-left-sidedock-open .workspace-split.mod-root .sidebar-toggle-button.mod-left {
     visibility: hidden;
@@ -6579,19 +6669,26 @@ body:not(.disable-status-bar) .status-bar:hover .status-bar-item button:hover {
     background-color: var(--scrollbar-thumb);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    transition: background-color 0.18s ease-out;
+    transition: background-color 0.25s var(--ease-apple);
+}
+
+/* macOS overlay behavior: thumb hides while the pane is idle */
+:not(:hover)::-webkit-scrollbar-thumb {
+    background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background-color: var(--interactive-accent);
 }
 
+/* macOS scrollbars have no track */
 ::-webkit-scrollbar-track {
-    background-color: var(--scrollbar-track);
+    background-color: transparent;
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
 }
 
+/* macOS overlay scrollbars: visible only while the pane is hovered */
 body:not(.disable-scrollbars) :is(
     .markdown-preview-view,
     .markdown-source-view .cm-scroller,
@@ -6606,7 +6703,24 @@ body:not(.disable-scrollbars) :is(
     .backlink-pane
 ) {
     scrollbar-width: thin;
-    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    scrollbar-color: transparent transparent;
+    transition: scrollbar-color 0.25s var(--ease-apple);
+}
+
+body:not(.disable-scrollbars) :is(
+    .markdown-preview-view,
+    .markdown-source-view .cm-scroller,
+    .nav-files-container,
+    .workspace-leaf-content,
+    .modal-container,
+    .vertical-tab-content-container,
+    .suggestion-container,
+    .prompt-results,
+    .tag-container,
+    .workspace-leaf-content[data-type="outline"] .view-content,
+    .backlink-pane
+):hover {
+    scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
 /* Popover Styling */
@@ -6813,7 +6927,7 @@ body.theme-dark.disable-glass-menus :is(.popover, .prompt, .suggestion-container
     padding: var(--s2);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
-    cursor: pointer;
+    /* macOS menus keep the arrow cursor; pointer reads as web/Android */
     transition: background-color var(--fast);
     display: flex;
     align-items: center;
@@ -8175,7 +8289,8 @@ body.layout-card .workspace-ribbon.side-dock-ribbon.mod-left {
     border-radius: var(--radius-pill);
     border: none !important;
     box-shadow: none;
-    padding: 8px 6px !important;
+    /* must clear the pill's semicircular end caps */
+    padding: 14px 6px !important;
     margin: 12px 4px !important;
     margin-top: 80px !important;
     width: fit-content !important;
@@ -8259,21 +8374,64 @@ body.layout-card .workspace {
 /*         STYLE SETTINGS PANEL UI          */
 /* ========================================= */
 
-/* Section container backgrounds for visual grouping */
+/* iOS inset-grouped settings cards */
 /* h2 level */
 .style-settings-heading[data-level="2"] + .style-settings-container {
     background-color: rgba(var(--background-secondary-rgb), 0.55);
-    border-radius: var(--r1);
+    border-radius: var(--r2);
     margin-bottom: 4px;
-    padding: 2px 0;
+    padding: 4px 8px;
 }
 
 /* h3 level: deeper, nested inside h2 container */
 .style-settings-container > .style-settings-heading[data-level="3"] + .style-settings-container {
     background-color: rgba(var(--background-secondary-rgb), 0.75);
-    border-radius: var(--r1);
+    border-radius: var(--r2);
     margin: 2px 6px;
-    padding: 2px 0;
+    padding: 4px 8px;
+}
+
+.style-settings-container .setting-item {
+    border-radius: var(--r1);
+}
+
+/* Bring the plugin's native section chevron in-flow (!important beats its (0,4,0) gutter rule) */
+.style-settings-heading[data-level] .setting-item-name .style-settings-collapse-indicator {
+    margin-left: 0 !important;
+    margin-right: 8px;
+    color: var(--text-muted);
+    display: inline-flex;
+    align-items: center;
+    vertical-align: -1px;
+}
+
+.style-settings-heading[data-level] .setting-item-name .style-settings-collapse-indicator > svg {
+    height: 12px !important;
+    width: 12px !important;
+    transition: transform 0.3s var(--ease-bounce-sm);
+}
+
+.style-settings-heading:hover .style-settings-collapse-indicator {
+    color: var(--primary-color);
+}
+
+.style-settings-heading:hover {
+    background-color: color-mix(in srgb, var(--text-normal) 4%, transparent);
+    border-radius: var(--r1);
+}
+
+/* Neutral heading text; export/import icons quiet until row hover */
+.style-settings-heading .setting-item-name {
+    color: var(--text-normal) !important;
+}
+
+.style-settings-heading :is(.style-settings-export, .style-settings-import) {
+    opacity: 0.25;
+    transition: opacity var(--transition-ui);
+}
+
+.style-settings-heading:hover :is(.style-settings-export, .style-settings-import) {
+    opacity: 1;
 }
 
 /* ============================== */
@@ -8319,6 +8477,19 @@ body.low-contrast:not(.is-mobile).layout-card .workspace-tab-header:not(.is-acti
 body.low-contrast .workspace-ribbon {
     background-color: transparent;
     border-inline-end-color: transparent;
+}
+
+/* Blockquotes vanish on the unified surface: hairline outline + text-mixed fill */
+body.low-contrast.blockquote-style-default :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
+    background-color: color-mix(in srgb, var(--text-normal) 5%, transparent);
+    border-block: var(--border-thin) solid color-mix(in srgb, var(--text-normal) 14%, transparent);
+    border-inline-end: var(--border-thin) solid color-mix(in srgb, var(--text-normal) 14%, transparent);
+}
+
+/* Properties card: same treatment as blockquotes */
+body.low-contrast:not(.is-mobile) .metadata-container {
+    background-color: color-mix(in srgb, var(--text-normal) 5%, transparent);
+    border: var(--border-thin) solid color-mix(in srgb, var(--text-normal) 14%, transparent);
 }
 
 /* ============================== */
@@ -8378,14 +8549,29 @@ body.tinted-body-text.theme-light, body.tinted-body-text.theme-dark {
 }
 
 /* ============================== */
-/*   SYSTEM FONT (SAN FRANCISCO)  */
+/*   NEUTRAL CHROME (APPLE)       */
 /* ============================== */
-/* On body, not :root — Obsidian layers the user's own font choices
-   above --font-*-theme, so user-set fonts still win. */
-body.system-fonts {
-    --font-text-theme: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-    --font-interface-theme: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-    --font-monospace-theme: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+/* Accent only for active/selected; hovers wash gray */
+body.neutral-chrome {
+    /* all chrome glows route through this var */
+    --accent-glow: none;
+}
+
+body.neutral-chrome :is(
+    .side-dock-ribbon-action,
+    .side-dock-actions .clickable-icon,
+    .workspace-ribbon .clickable-icon,
+    .view-actions .clickable-icon,
+    .workspace-ribbon-collapse-btn,
+    .modal-close-button
+):hover {
+    color: var(--text-normal);
+    background-color: color-mix(in srgb, var(--text-normal) 7%, transparent);
+}
+
+body.neutral-chrome .side-dock-ribbon-action .clickable-icon:hover {
+    color: var(--text-normal);
+    background-color: color-mix(in srgb, var(--text-normal) 7%, transparent);
 }
 
 /* ============================== */
@@ -8502,6 +8688,12 @@ body.caret-accent .cm-editor.cm-focused .cm-selectionBackground {
 body.caret-accent .markdown-preview-view ::selection,
 body.caret-accent .markdown-rendered ::selection {
     background: rgba(var(--primary-color-rgb), 0.2) !important;
+}
+
+/* Smooth caret: transition CM's inline left/top; 80ms keeps typing snappy */
+body.smooth-caret .cm-editor .cm-cursor,
+body.smooth-caret .cm-editor .cm-cursor-primary {
+    transition: left 80ms var(--ease-apple), top 80ms var(--ease-apple);
 }
 
 /* ============================== */
