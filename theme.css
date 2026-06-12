@@ -4232,10 +4232,11 @@ body.link-style-glow :is(.markdown-rendered a, .markdown-rendered .internal-link
     min-inline-size: 0 !important;
 }
 
-/* Fix: Normal collapse icon animation */
-.collapse-icon svg,
-.nav-folder-collapse-indicator svg {
-    transition: transform 0.28s var(--ease-apple);
+/* Springy chevrons: collapse arrows over-rotate a touch and settle.
+   Needs svg.svg-icon to tie native specificity (.collapse-icon svg.svg-icon,
+   100ms ease-in-out) — theme loads later, so the tie goes to us. */
+:is(.collapse-icon, .nav-folder-collapse-indicator, .callout-fold) svg.svg-icon {
+    transition: transform 0.3s var(--ease-bounce-sm);
 }
 
 .nav-folder-title {
@@ -5647,6 +5648,20 @@ body:not(.disable-ui-animations):not(.disable-modal-frost) .modal-bg {
     animation: iosBackdropFade 0.28s var(--ease-apple) forwards;
 }
 
+/* Rubber-band callout fold (default style): the title row squashes when the
+   callout folds and stretches back with a small overshoot on expand.
+   Transition (not animation) so it only fires on fold/unfold, never on
+   mount/scroll. Targets the title because hover-lift rules own .callout's
+   transform; whimsy mode has its own fold bounce. */
+body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.callout, .cm-callout) .callout-title {
+    transform-origin: top center;
+    transition: transform 0.35s var(--ease-bounce-sm);
+}
+
+body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.callout, .cm-callout).is-collapsed .callout-title {
+    transform: scaleY(0.96);
+}
+
 /* iOS-style press feedback for full-width list rows: flat dip — a horizontal
    liquid squash looks wrong on rows, so they keep the simple scale-down */
 body:not(.disable-ui-animations) :is(
@@ -6288,12 +6303,24 @@ body:not(.disable-modal-frost) .modal-bg {
    moment the slide starts — hide the header content instantly on collapse,
    fade it back in only after the panel has landed on expand. */
 .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container {
-    transition: opacity 0.18s var(--ease-apple) 0.1s;
+    transition:
+        opacity 0.18s var(--ease-apple) 0.1s,
+        transform 0.35s var(--ease-bounce-sm) 0.1s;
 }
 
 .workspace-split:is(.mod-left-split, .mod-right-split).is-sidedock-collapsed .workspace-tab-header-container {
     opacity: 0;
     transition: none;
+}
+
+/* Landing settle: icons drift in from the window edge with a small
+   overshoot as they fade, so the opening panel feels like it has mass */
+.workspace-split.mod-right-split.is-sidedock-collapsed .workspace-tab-header-container {
+    transform: translateX(8px);
+}
+
+.workspace-split.mod-left-split.is-sidedock-collapsed .workspace-tab-header-container {
+    transform: translateX(-8px);
 }
 
 /* Obsidian re-parents the sidebar toggle between the sidedock header and the
