@@ -3087,8 +3087,6 @@ body.focus-mode :is(
     .markdown-source-view.mod-cm6 .cm-line .cm-header-6
 ) {
     background: transparent !important;
-    background-color: transparent !important;
-    background-image: none !important;
     border-color: transparent !important;
     box-shadow: none !important;
     text-shadow: none !important;
@@ -3136,7 +3134,6 @@ body.focus-mode :is(
     text-shadow: none !important;
     box-shadow: none !important;
     background: none !important;
-    background-color: transparent !important;
     text-decoration: underline !important;
     text-decoration-style: solid !important;
     text-decoration-color: var(--link-color) !important;
@@ -3622,7 +3619,6 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
     padding: 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
-    background-image: none !important;
 }
 
 /* Heading Fold Indicator */
@@ -3697,7 +3693,6 @@ body.h6-case-upper :is(h6, .cm-header-6) {
 .heading-style-underline .markdown-preview-view h6,
 .heading-style-underline .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
     background: transparent !important;
-    background-image: none !important;
     box-shadow: none;
     padding-block: .2em;
     padding-inline: 0;
@@ -3756,7 +3751,6 @@ body.h6-case-upper :is(h6, .cm-header-6) {
 .heading-style-border .markdown-preview-view h6,
 .heading-style-border .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
     background: transparent !important;
-    background-image: none !important;
     box-shadow: none;
     padding-block: .2em;
     padding-inline-start: .8em;
@@ -3768,37 +3762,35 @@ body.h6-case-upper :is(h6, .cm-header-6) {
 .heading-style-border .markdown-preview-view h1,
 .heading-style-border .markdown-source-view.mod-cm6 .cm-line .cm-header-1 {
     border-inline-start-color: var(--heading-primary);
-    border-left-width: 5px;
+    border-inline-start-width: 5px;
 }
 
 .heading-style-border .markdown-preview-view h2,
 .heading-style-border .markdown-source-view.mod-cm6 .cm-line .cm-header-2 {
     border-inline-start-color: var(--heading-secondary);
-    border-left-width: 4px;
 }
 
 .heading-style-border .markdown-preview-view h3,
 .heading-style-border .markdown-source-view.mod-cm6 .cm-line .cm-header-3 {
     border-inline-start-color: var(--heading-tertiary);
-    border-left-width: 4px;
 }
 
 .heading-style-border .markdown-preview-view h4,
 .heading-style-border .markdown-source-view.mod-cm6 .cm-line .cm-header-4 {
     border-inline-start-color: var(--heading-quaternary);
-    border-left-width: 3px;
+    border-inline-start-width: 3px;
 }
 
 .heading-style-border .markdown-preview-view h5,
 .heading-style-border .markdown-source-view.mod-cm6 .cm-line .cm-header-5 {
     border-inline-start-color: var(--heading-quinary);
-    border-left-width: 3px;
+    border-inline-start-width: 3px;
 }
 
 .heading-style-border .markdown-preview-view h6,
 .heading-style-border .markdown-source-view.mod-cm6 .cm-line .cm-header-6 {
     border-inline-start-color: var(--heading-senary);
-    border-left-width: 3px;
+    border-inline-start-width: 3px;
 }
 
 .heading-style-border :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-line) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6):hover {
@@ -3815,7 +3807,6 @@ body.h6-case-upper :is(h6, .cm-header-6) {
 .heading-style-minimal .markdown-preview-view h6,
 .heading-style-minimal .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
     background: transparent !important;
-    background-image: none !important;
     box-shadow: none;
     padding-block: .2em;
     padding-inline: 0;
@@ -3902,13 +3893,17 @@ body.h6-case-upper :is(h6, .cm-header-6) {
     max-inline-size: 100%;
     display: inline-block;
     line-height: 1.4;
+}
+
+/* GPU hints desktop-only — these break iOS scroll containment */
+body:not(.is-mobile) .heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
     will-change: transform;
     contain: layout style;
 }
 
-/* Apply backdrop-filter only if supported and performance mode not enabled */
+/* Backdrop-filter desktop-only — per-heading blur repaints on every scroll frame on iOS */
 @supports (backdrop-filter: blur(1px)) {
-    body:not(.disable-glass-menus) .heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
+    body:not(.is-mobile):not(.disable-glass-menus) .heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
         backdrop-filter: blur(8px) saturate(160%) brightness(1.03);
         -webkit-backdrop-filter: blur(8px) saturate(160%) brightness(1.03);
     }
@@ -4991,16 +4986,20 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
     filter: sepia(0.2) contrast(1.1) !important;
 }
 
-/* Modern Glass Style - Deep blur, floating effect */
+/* Modern Glass Style - structural properties apply on all devices */
 .callout-style-glass :is(.callout, .cm-callout) {
-    backdrop-filter: blur(12px) saturate(180%) brightness(1.06) !important;
-    -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.06) !important;
     border-inline-start: none !important;
     border-radius: var(--r4) !important;
+    position: relative;
+}
+
+/* GPU-expensive blur + multi-layer shadow desktop-only */
+body:not(.is-mobile) .callout-style-glass :is(.callout, .cm-callout) {
+    backdrop-filter: blur(12px) saturate(180%) brightness(1.06) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.06) !important;
     box-shadow:
         0 6px 18px rgba(0, 0, 0, 0.12),
         inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
-    position: relative;
 }
 
 .callout-style-glass .markdown-source-view.mod-cm6 .cm-callout {
@@ -5021,14 +5020,19 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
     pointer-events: none;
 }
 
+/* Dark glass callout: gradient background applies on all devices */
 .theme-dark .callout-style-glass :is(.callout, .cm-callout) {
     background:
         radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.3) 0%, transparent 62%),
         radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.22) 0%, transparent 62%),
         linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.26) 0%, rgba(var(--background-primary-rgb), 0.38) 100%) !important;
+    border-color: rgba(var(--callout-color-rgb), 0.35) !important;
+}
+
+/* Desktop-only: heavy blur + multi-layer shadow */
+body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) {
     backdrop-filter: blur(16px) saturate(160%) brightness(0.98) !important;
     -webkit-backdrop-filter: blur(16px) saturate(160%) brightness(0.98) !important;
-    border-color: rgba(var(--callout-color-rgb), 0.35) !important;
     box-shadow:
         0 8px 22px rgba(0, 0, 0, 0.35),
         inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
@@ -6775,7 +6779,6 @@ body:not(.disable-scrollbars) :is(
     box-shadow: var(--shadow-overlay);
     backdrop-filter: blur(12px) saturate(160%);
     -webkit-backdrop-filter: blur(12px) saturate(160%);
-    overflow: hidden;
 }
 
 .theme-light .prompt {
@@ -6797,6 +6800,9 @@ body:not(.disable-scrollbars) :is(
     background-color: var(--background-secondary);
     border-block-end: var(--border-thin) solid rgba(var(--primary-color-rgb), .1);
     padding: var(--s3);
+    /* Clip input background to prompt's top rounded corners (replaces overflow:hidden on parent) */
+    border-start-start-radius: var(--r4);
+    border-start-end-radius: var(--r4);
 }
 
 .prompt-input {
@@ -7784,11 +7790,19 @@ body.show-header-on-hover.layout-card .view-header:hover {
 /*     MOBILE & iPAD FIXES        */
 /* ============================== */
 
+/* Mobile CSS variable defaults — override once here, let the cascade do the rest */
+body.is-mobile {
+    --safe-area-inset-side: 16px;   /* fallback; Obsidian sets the real value on device */
+    --input-border-width-focus: 0;  /* prevents focus-ring flash on tap */
+}
+
 /* MOBILE SCROLLING: let Obsidian handle it natively.
    Do NOT add overflow, overscroll-behavior, height, or -webkit-overflow-scrolling
    overrides here — they fight iOS WebKit and cause oscillating scroll. */
 
-/* Strip all theme `contain` / `will-change` hints on mobile — they break iOS scroll containment */
+/* Strip `contain` / `will-change` hints on mobile — they break iOS scroll containment.
+   Glass heading hints are now gated to desktop at source; this covers workspace
+   containers where TerraFlow sets contain for card layout performance. */
 body.is-mobile :is(
     .workspace-leaf-content,
     .view-content,
@@ -7800,8 +7814,7 @@ body.is-mobile :is(
     .metadata-container,
     .workspace-split,
     .workspace-split.mod-left-split,
-    .workspace-split.mod-right-split,
-    .heading-style-glass :is(h1, h2, h3, h4, h5, h6)
+    .workspace-split.mod-right-split
 ) {
     contain: none !important;
     will-change: auto !important;
@@ -7899,39 +7912,55 @@ body.is-mobile .workspace-tab-header-container {
     overflow-x: auto !important;
 }
 
-/* Ensure readable font sizes on small screens */
-@media (max-width: 768px) {
-    body {
-        font-size: 16px !important;
-    }
-
-    .markdown-preview-view,
-    .markdown-source-view {
-        font-size: 1em !important;
-    }
-
-    /* Adjust heading sizes on mobile */
-    .markdown-rendered h1,
-    .cm-header-1 {
-        font-size: 1.8em !important;
-    }
-
-    .markdown-rendered h2,
-    .cm-header-2 {
-        font-size: 1.5em !important;
-    }
-
-    .markdown-rendered h3,
-    .cm-header-3 {
-        font-size: 1.3em !important;
-    }
+/* Readable font sizes on phone — use .is-mobile:not(.is-tablet) so iPad (which is
+   both .is-mobile AND .is-tablet) doesn't get phone-size fonts. The old
+   @media (max-width: 768px) block would fire on iPad portrait (768px wide), which was wrong. */
+body.is-mobile:not(.is-tablet) {
+    font-size: 16px;
 }
 
-/* Fix card layout specifically on iPad (wider screens but still touch) */
-@media (min-width: 768px) and (max-width: 1024px) and (hover: none) {
-    body.layout-card .workspace-leaf {
-        margin: 8px !important;
-    }
+body.is-mobile:not(.is-tablet) .markdown-preview-view,
+body.is-mobile:not(.is-tablet) .markdown-source-view {
+    font-size: 1em;
+}
+
+body.is-mobile:not(.is-tablet) .markdown-rendered h1,
+body.is-mobile:not(.is-tablet) .cm-header-1 {
+    font-size: 1.8em;
+}
+
+body.is-mobile:not(.is-tablet) .markdown-rendered h2,
+body.is-mobile:not(.is-tablet) .cm-header-2 {
+    font-size: 1.5em;
+}
+
+body.is-mobile:not(.is-tablet) .markdown-rendered h3,
+body.is-mobile:not(.is-tablet) .cm-header-3 {
+    font-size: 1.3em;
+}
+
+/* iPad-specific card margins — use Obsidian's .is-tablet class rather than a
+   viewport-width media query (more reliable, not fooled by split-screen sizes) */
+body.is-tablet.layout-card .workspace-leaf {
+    margin: 8px !important;
+}
+
+/* Strip elevated card effect from .mod-raised on mobile — prevents any
+   backdrop-filter on workspace widgets from janking scroll */
+body.is-mobile .mod-raised {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+
+/* Honour prefers-reduced-motion on mobile: kill transitions on all overlay elements */
+body.reduce-motion.is-mobile .mobile-tab-switcher,
+body.reduce-motion.is-mobile .menu,
+body.reduce-motion.is-mobile .suggestion-container,
+body.reduce-motion.is-mobile .prompt,
+body.reduce-motion.is-mobile .modal,
+body.reduce-motion.is-mobile .modal-bg {
+    transition: none !important;
 }
 
 /* === CRITICAL MOBILE OVERRIDE: Force metadata background === */
@@ -7949,7 +7978,6 @@ body.is-mobile .metadata-container {
 body.is-mobile .metadata-content,
 body.is-mobile .metadata-properties-heading {
     background: transparent !important;
-    background-color: transparent !important;
 }
 
 /* ============================== */
@@ -9255,7 +9283,9 @@ body.is-mobile :is(.wide-page, .full-page, .wide-table, .wide-image) {
    a fixed, non-interactive overlay; z-index 20 sits above
    workspace chrome but below popovers (30), modals (50),
    menus (65). */
-body.ambient-gradient .app-container::after {
+/* Fixed full-viewport overlay creates a compositing overlap on every scroll frame —
+   desktop-only so mobile scroll is unaffected */
+body:not(.is-mobile).ambient-gradient .app-container::after {
     content: '';
     position: fixed;
     inset: 0;
@@ -9267,7 +9297,7 @@ body.ambient-gradient .app-container::after {
             transparent 48%);
 }
 
-.theme-light.ambient-gradient .app-container::after {
+body:not(.is-mobile).theme-light.ambient-gradient .app-container::after {
     background: linear-gradient(to bottom,
             rgba(var(--primary-color-rgb), 0.07) 0%,
             rgba(var(--primary-color-rgb), 0.03) 22%,
@@ -9310,7 +9340,7 @@ body:not(.is-mobile).pill-tabs.layout-card.theme-dark .workspace-tab-header:not(
     background-color: rgba(var(--primary-color-rgb), 0.07) !important;
 }
 
-body.pill-tabs .workspace-tab-header.is-active,
+body:not(.is-mobile).pill-tabs .workspace-tab-header.is-active,
 body:not(.is-mobile).pill-tabs.layout-card .workspace-tab-header.is-active,
 body:not(.is-mobile).pill-tabs.layout-card.theme-dark .workspace-tab-header.is-active {
     transform: none;
