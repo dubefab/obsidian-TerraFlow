@@ -416,6 +416,12 @@ settings:
         type: class-toggle
         default: false
     -
+        id: caret-no-blink
+        title: Static Caret (No Blink)
+        description: Keeps the cursor steady instead of blinking — easier on the eyes during long writing sessions
+        type: class-toggle
+        default: false
+    -
         id: heading-case-heading
         title: Headings
         description: Style, alignment, typography, and per-level text case
@@ -771,6 +777,9 @@ settings:
 /* ========================================= */
 
 :root {
+    /* Enable height: 0 → auto transitions everywhere (Chrome 129+).
+       No effect unless an element also has a height transition — safe to set globally. */
+    interpolate-size: allow-keywords;
     --s1: 4px;
     --s2: 8px;
     --s3: 12px;
@@ -846,9 +855,9 @@ settings:
     --dur-modal: 0.34s;
     --dur-sheet: 0.42s;
     --transition-ui: 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    --transition-bounce: 0.3s var(--ease-bounce-md);
+    --transition-bounce: 0.3s var(--ease-spring-md);
     --transition-callout-link: transform 0.18s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.18s, color 0.18s;
-    --transition-depth: box-shadow 0.2s var(--ease-bounce-sm), transform 0.2s var(--ease-bounce-sm);
+    --transition-depth: box-shadow 0.2s var(--ease-spring-sm), transform 0.2s var(--ease-spring-sm);
 
     /* ===== WHIMSY ANIMATION TOKENS ===== */
 
@@ -858,6 +867,11 @@ settings:
     --ease-bounce-lg: cubic-bezier(0.175, 0.885, 0.32, 1.8);
     --ease-bounce-xl: cubic-bezier(0.175, 0.885, 0.32, 2.2);
     --ease-overshoot: cubic-bezier(0.68, -0.3, 0.32, 1.3);
+    /* True spring curves via linear() — multi-point easing Chrome 113+.
+       More physically accurate than cubic-bezier: actual oscillation before settle. */
+    --ease-spring-sm: linear(0, 0.6 10%, 1.06 22%, 1.03 32%, 0.99 45%, 1.01 55%, 1);
+    --ease-spring-md: linear(0, 0.55 8%, 1.14 22%, 1.02 36%, 0.97 50%, 1.02 63%, 0.99 78%, 1);
+    --ease-spring-xl: linear(0, 0.5 7%, 1.2 20%, 0.88 34%, 1.12 46%, 0.96 58%, 1.04 70%, 0.99 83%, 1);
 
     /* Animation Durations */
     --whimsy-micro: 0.15s;   /* Checkboxes, tiny elements */
@@ -3349,6 +3363,7 @@ body.is-focused .workspace-tabs.mod-top {
     background-color: var(--background-primary);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     overflow: hidden;
 }
 
@@ -3366,6 +3381,7 @@ body.is-focused .workspace-tabs.mod-top {
 .vertical-tab-nav-item:hover {
     background: rgba(var(--primary-color-rgb), .12);
     -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: superellipse(1.5);
     transform: translateY(-2px);
 }
 
@@ -3403,6 +3419,7 @@ body.is-focused .workspace-tabs.mod-top {
     border: var(--border-thin) solid var(--glass-border);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
@@ -3422,6 +3439,7 @@ body.is-focused .workspace-tabs.mod-top {
     background-color: rgba(var(--primary-color-rgb), .05);
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: superellipse(1.5);
     border: none !important;
     transform: none !important;
 }
@@ -3444,6 +3462,7 @@ body.is-focused .workspace-tabs.mod-top {
     outline-offset: calc(var(--border-thick) * -1);
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: superellipse(1.5);
 }
 
 .vertical-tab-nav-item:focus:not(:focus-visible) {
@@ -3462,6 +3481,7 @@ body.is-focused .workspace-tabs.mod-top {
 .vertical-tab-header {
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: superellipse(1.5);
     background: rgba(var(--primary-color-rgb), .05);
     padding-block: 8px;
     padding-inline: 12px;
@@ -3476,6 +3496,7 @@ body.is-focused .workspace-tabs.mod-top {
     background: transparent;
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: superellipse(1.5);
     transition: opacity 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.18s, color 0.18s;
     border: none !important;
 }
@@ -3516,6 +3537,13 @@ body.is-focused .workspace-tabs.mod-top {
     font-family: var(--heading-font);
 }
 
+/* Trim font-metric dead-space above cap-height and below baseline (reading view only —
+   skipping .cm-header-* to avoid layout recalc on every keystroke in the editor) */
+.markdown-preview-view :is(h1, h2, h3, h4, h5, h6),
+.markdown-reading-view :is(h1, h2, h3, h4, h5, h6) {
+    text-box: trim-both cap alphabetic;
+}
+
 /* Base heading styles (Preview and Source Mode) */
 .markdown-preview-view h1,
 .markdown-preview-view h2,
@@ -3536,6 +3564,7 @@ body.is-focused .workspace-tabs.mod-top {
     line-height: var(--line-tight);
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     position: relative;
     font-weight: var(--weight-semibold);
     letter-spacing: -.01em;
@@ -4238,6 +4267,7 @@ body.link-style-glow :is(.markdown-rendered a, .markdown-rendered .internal-link
     --nav-collapse-icon-color: var(--folder-text-color);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     margin-block-end: var(--s1);
     position: relative;
     transition: transform var(--transition-ui), background-color var(--transition-ui);
@@ -4265,7 +4295,7 @@ body.link-style-glow :is(.markdown-rendered a, .markdown-rendered .internal-link
 
 /* Springy chevrons (svg.svg-icon ties native specificity; later load wins) */
 :is(.collapse-icon, .nav-folder-collapse-indicator, .callout-fold) svg.svg-icon {
-    transition: transform 0.3s var(--ease-bounce-sm);
+    transition: transform 0.3s var(--ease-spring-sm);
 }
 
 .nav-folder-title {
@@ -4454,6 +4484,7 @@ body:is(.theme-light, .theme-dark).explorer-style-glass .nav-files-container>div
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4), 0 4px 14px rgba(0, 0, 0, .05);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-soft);
+    corner-shape: superellipse(3);
     padding: 4px;
     margin-block-end: var(--s2);
 }
@@ -4509,6 +4540,7 @@ body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.i
     padding-inline: var(--s3);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     border: none;
     font-weight: var(--weight-semibold);
 }
@@ -4523,6 +4555,7 @@ body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.i
     inline-size: 3px;
     border-radius: 0 var(--r1) var(--r1) 0;
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     opacity: .8;
     z-index: 2;
 }
@@ -4549,6 +4582,7 @@ body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.i
     background-color: rgba(var(--primary-color-rgb), .15) !important;
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
 }
 
 .nav-file-title.is-selected .nav-file-title-content {
@@ -4566,6 +4600,7 @@ body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.i
     inline-size: 3px;
     border-radius: 0 var(--r1) var(--r1) 0;
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     background-color: var(--primary-color);
     opacity: .7;
 }
@@ -4581,6 +4616,7 @@ body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.i
             rgba(var(--callout-color-rgb), .03) 100%);
     border-radius: var(--r4) var(--r1) var(--r4) var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     border: none;
     border-inline-start: var(--border-heavy) solid var(--callout-color);
 }
@@ -4632,6 +4668,7 @@ body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.i
     padding: .5em;
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     flex-shrink: 0;
     color: var(--callout-color);
 }
@@ -4641,6 +4678,15 @@ body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.i
     padding-inline: 0;
     font-size: .95em;
     line-height: var(--line-normal);
+}
+
+/* Fade-in callout content on expand using @starting-style (Chrome 117+).
+   Only fires when the element first appears or exits display:none — no-op otherwise. */
+body:not(.disable-ui-animations):not(.animation-style-whimsy) .callout:not(.is-collapsed) .callout-content {
+    transition: opacity 0.2s var(--ease-apple);
+    @starting-style {
+        opacity: 0;
+    }
 }
 
 .markdown-source-view.mod-cm6 .cm-embed-block.cm-callout {
@@ -4736,6 +4782,7 @@ body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.i
     text-decoration: none;
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     padding-inline: 3px;
     transition: var(--transition-callout-link);
 }
@@ -4752,6 +4799,7 @@ body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.i
     text-decoration: none;
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     padding-inline: 3px;
     transition: var(--transition-callout-link);
 }
@@ -4766,6 +4814,7 @@ body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.i
     text-decoration: none;
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     padding-inline: 3px;
     transition: var(--transition-callout-link);
 }
@@ -4832,6 +4881,7 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
     padding: 3px 4px;
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     display: inline;
     background-color: rgba(var(--callout-color-rgb), .2);
     color: var(--callout-color);
@@ -4865,6 +4915,7 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
     padding-inline: .3em;
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     font-weight: var(--weight-semibold);
     letter-spacing: -.01em;
     margin-block: .5em;
@@ -5112,6 +5163,7 @@ body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) 
         padding: 6px 4px;
         border-radius: var(--r1);
         -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
         display: inline;
         transition: background-color var(--transition-ui), transform var(--transition-ui);
     }
@@ -5221,6 +5273,7 @@ body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) 
 :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     border: none;
     overflow: hidden;
     padding-block: 5px;
@@ -5249,6 +5302,7 @@ body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) 
     transform: translateY(-2px);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     border-block-end: var(--border-thin) solid rgba(var(--primary-color-rgb), .2);
 }
 
@@ -5287,6 +5341,7 @@ body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) 
     padding-inline: 6px;
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: superellipse(1.5);
     font-size: 0.9em;
     font-family: var(--font-monospace);
     border: var(--border-thin) solid rgba(var(--primary-color-rgb), .1);
@@ -5309,6 +5364,7 @@ body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) 
     background-image: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .1));
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     padding: var(--s3);
     margin-block: var(--s3);
     margin-inline: 0;
@@ -5338,6 +5394,7 @@ body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) 
     background-image: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .1));
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     border: var(--border-thick) solid rgba(var(--primary-color-rgb), .15);
     box-shadow: var(--shadow-2), inset 0 2px 6px rgba(0, 0, 0, .1);
     margin-block: var(--s3);
@@ -5468,6 +5525,7 @@ body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) 
     border: var(--border-thin) solid rgba(var(--primary-color-rgb), .15);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: superellipse(1.5);
     padding-block: 4px;
     padding-inline: 8px;
     font-size: 0.75em;
@@ -5491,6 +5549,7 @@ body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) 
 :is(.markdown-rendered img, .markdown-source-view.mod-cm6 .cm-content img) {
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     max-inline-size: 100%;
 }
 
@@ -5499,6 +5558,7 @@ body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) 
 .markdown-preview-view table {
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     overflow: hidden;
     border-collapse: separate;
     border-spacing: 0;
@@ -5715,6 +5775,19 @@ body:not(.disable-ui-animations) .suggestion-container {
     animation: menuPop var(--dur-quick) var(--ease-apple) forwards;
 }
 
+/* Menu items cascade in with a stagger using sibling-index() (Chrome 136+).
+   opacity+translateY runs on the compositor — zero layout/paint cost. */
+@keyframes menuItemSlide {
+    from { opacity: 0; transform: translateY(5px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+body:not(.disable-ui-animations) .menu .menu-item,
+body:not(.disable-ui-animations) .suggestion-container .suggestion-item {
+    animation: menuItemSlide var(--dur-quick) var(--ease-apple) both;
+    animation-delay: calc(sibling-index() * 12ms);
+}
+
 /* Tooltips: Apple-style instant fade — no scale, just opacity */
 body:not(.disable-ui-animations) .tooltip {
     animation: tooltipFade var(--dur-instant) var(--ease-apple) forwards;
@@ -5782,7 +5855,7 @@ body:not(.disable-ui-animations):not(.disable-modal-frost) .modal-bg {
 /* Rubber-band callout fold: transition only (never fires on mount); title-only — hover-lift owns .callout */
 body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.callout, .cm-callout) .callout-title {
     transform-origin: top center;
-    transition: transform 0.35s var(--ease-bounce-sm);
+    transition: transform 0.35s var(--ease-spring-sm);
 }
 
 body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.callout, .cm-callout).is-collapsed .callout-title {
@@ -5803,7 +5876,7 @@ body:not(.disable-ui-animations) :is(
 /* Liquid Glass press: fast squash in, jelly rebound out; carries hover transitions (outranks per-area rules) */
 body:not(.disable-ui-animations) :is(button, .mod-cta, .clickable-icon) {
     transition:
-        transform 0.4s var(--ease-bounce-md),
+        transform 0.4s var(--ease-spring-md),
         color var(--transition-ui),
         background-color var(--transition-ui),
         border-color var(--transition-ui),
@@ -5891,7 +5964,7 @@ body:not(.disable-ui-animations) .sidebar-toggle-button.mod-right .clickable-ico
 /* Modals */
 body.animation-style-whimsy:not(.disable-ui-animations) .modal-container {
     transform-origin: center;
-    animation: whimsy-modal-open var(--whimsy-fast) var(--ease-bounce-lg) !important;
+    animation: whimsy-modal-open var(--whimsy-fast) var(--ease-spring-md) !important;
 }
 
 body.animation-style-whimsy:not(.disable-ui-animations) .modal {
@@ -5908,29 +5981,29 @@ body.animation-style-whimsy:not(.disable-ui-animations) .metadata-container:not(
 }
 
 body.animation-style-whimsy:not(.disable-ui-animations) .metadata-container.is-collapsed {
-    animation: whimsy-collapse-bounce var(--whimsy-normal) var(--ease-bounce-xl) forwards;
+    animation: whimsy-collapse-bounce var(--whimsy-normal) var(--ease-spring-xl) forwards;
 }
 
 /* Notices */
 body.animation-style-whimsy:not(.disable-ui-animations) .notice-container {
-    animation: whimsy-notice-in var(--whimsy-normal) var(--ease-bounce-xl) !important;
+    animation: whimsy-notice-in var(--whimsy-normal) var(--ease-spring-xl) !important;
     transform-origin: top center;
 }
 
 /* Callouts */
 body.animation-style-whimsy:not(.disable-ui-animations) .callout:not(.is-collapsed) {
-    animation: whimsy-settle-bounce var(--whimsy-normal) var(--ease-bounce-xl) !important;
+    animation: whimsy-settle-bounce var(--whimsy-normal) var(--ease-spring-xl) !important;
     transform-origin: top center;
 }
 
 body.animation-style-whimsy:not(.disable-ui-animations) .callout.is-collapsed {
-    animation: whimsy-collapse-bounce var(--whimsy-normal) var(--ease-bounce-xl) forwards !important;
+    animation: whimsy-collapse-bounce var(--whimsy-normal) var(--ease-spring-xl) forwards !important;
     transform-origin: top center;
 }
 
 /* Callout Icons - Bouncy Entrance */
 body.animation-style-whimsy:not(.disable-ui-animations) .callout .callout-icon {
-    animation: whimsy-callout-icon-bounce var(--whimsy-normal) var(--ease-bounce-sm) forwards;
+    animation: whimsy-callout-icon-bounce var(--whimsy-normal) var(--ease-spring-sm) forwards;
     transform-origin: center center;
 }
 
@@ -6021,13 +6094,13 @@ body.animation-style-whimsy:not(.disable-ui-animations) .popover,
 body.animation-style-whimsy:not(.disable-ui-animations) .prompt,
 body.animation-style-whimsy:not(.disable-ui-animations) .suggestion-container,
 body.animation-style-whimsy:not(.disable-ui-animations) .tooltip {
-    animation: whimsy-modal-open var(--whimsy-fast) var(--ease-bounce-lg) !important;
+    animation: whimsy-modal-open var(--whimsy-fast) var(--ease-spring-md) !important;
 }
 
 /* Checkboxes */
 body.animation-style-whimsy:not(.disable-ui-animations) input[type="checkbox"]:checked,
 body.animation-style-whimsy:not(.disable-ui-animations) .task-list-item-checkbox:checked {
-    animation: whimsy-checkbox-pop var(--whimsy-micro) var(--ease-bounce-md) !important;
+    animation: whimsy-checkbox-pop var(--whimsy-micro) var(--ease-spring-md) !important;
 }
 
 /* Buttons and Icons Hover */
@@ -6060,7 +6133,7 @@ body.animation-style-whimsy .workspace-tab-header-inner-close-button:hover {
 /* Sidebar toggles: gentle tilt on inner icon only (container transforms travel during collapse) */
 body.animation-style-whimsy .sidebar-toggle-button.mod-left .clickable-icon,
 body.animation-style-whimsy .sidebar-toggle-button.mod-right .clickable-icon {
-    transition: transform 0.3s var(--ease-bounce-sm);
+    transition: transform 0.3s var(--ease-spring-sm);
 }
 
 body.animation-style-whimsy .sidebar-toggle-button.mod-left:hover .clickable-icon {
@@ -6123,7 +6196,7 @@ body.animation-style-whimsy .side-dock-ribbon-action,
 body.animation-style-whimsy .workspace-ribbon-collapse-btn,
 body.animation-style-whimsy .view-header-icon,
 body.animation-style-whimsy .modal-close-button {
-    transition: color var(--transition-ui), transform 0.4s var(--ease-bounce-md);
+    transition: color var(--transition-ui), transform 0.4s var(--ease-spring-md);
 }
 
 /* Toggles */
@@ -6137,7 +6210,7 @@ body.animation-style-whimsy .checkbox-container:after {
 
 /* Sliders */
 body.animation-style-whimsy input[type=range]::-webkit-slider-thumb {
-    transition: transform 0.2s var(--ease-bounce-md);
+    transition: transform 0.2s var(--ease-spring-md);
 }
 
 body.animation-style-whimsy input[type=range]::-webkit-slider-thumb:active {
@@ -6195,6 +6268,7 @@ body:not(.disable-modal-frost) .modal-bg {
     color: inherit !important;
     border-radius: 3px;
     -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: superellipse(1.5);
     box-shadow: 0 0 0 1px rgba(var(--primary-color-rgb), .2);
     outline: none !important;
     padding: 0 1px !important;
@@ -6212,6 +6286,7 @@ body:not(.disable-modal-frost) .modal-bg {
     background-color: rgba(var(--background-secondary-rgb), .7);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     padding: var(--s4);
     margin-block-end: var(--s4);
     border: none;
@@ -6268,6 +6343,7 @@ body:not(.disable-modal-frost) .modal-bg {
     border-radius: var(--r3) var(--r3) 0 0;
     overflow: visible;
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     margin-inline-end: 0;
     margin-block-end: 0;
     background-color: rgba(var(--background-secondary-rgb), 0.9);
@@ -6395,6 +6471,7 @@ body:not(.disable-modal-frost) .modal-bg {
     background-color: var(--glass-bg);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-soft);
+    corner-shape: superellipse(3);
     border: var(--border-thin) solid var(--glass-border);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     position: relative;
@@ -6418,7 +6495,7 @@ body:not(.disable-modal-frost) .modal-bg {
 .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container {
     transition:
         opacity 0.18s var(--ease-apple) 0.1s,
-        transform 0.35s var(--ease-bounce-sm) 0.1s;
+        transform 0.35s var(--ease-spring-sm) 0.1s;
 }
 
 .workspace-split:is(.mod-left-split, .mod-right-split).is-sidedock-collapsed .workspace-tab-header-container {
@@ -6479,6 +6556,7 @@ body:not(.is-mobile):not(.disable-status-bar) .status-bar {
     padding-inline: var(--s3);
     border-radius: var(--r4);
     -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: superellipse(1.5);
     background-color: var(--background-secondary);
     border: var(--border-thin) solid var(--divider-color);
     box-shadow: var(--shadow-1);
@@ -6561,6 +6639,7 @@ body:not(.disable-status-bar) .status-bar:hover .status-bar-item button:hover {
     background-color: rgba(var(--primary-color-rgb), .1);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: superellipse(1.5);
     color: var(--text-normal);
 }
 
@@ -6590,6 +6669,7 @@ body:not(.disable-status-bar) .status-bar:hover .status-bar-item button:hover {
     position: relative;
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-soft);
+    corner-shape: superellipse(3);
     min-height: 24px;
     height: auto !important;
     padding: var(--s1) var(--s2);
@@ -6679,12 +6759,14 @@ body:not(.disable-status-bar) .status-bar:hover .status-bar-item button:hover {
     background-color: transparent;
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
 }
 
 ::-webkit-scrollbar-thumb {
     background-color: var(--scrollbar-thumb);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     transition: background-color 0.25s var(--ease-apple);
 }
 
@@ -6702,6 +6784,7 @@ body:not(.disable-status-bar) .status-bar:hover .status-bar-item button:hover {
     background-color: transparent;
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
 }
 
 /* macOS overlay scrollbars: visible only while the pane is hovered */
@@ -6745,6 +6828,7 @@ body:not(.disable-scrollbars) :is(
     border: var(--border-thin) solid var(--glass-border);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     box-shadow: var(--shadow-overlay);
     backdrop-filter: blur(10px) saturate(150%);
     -webkit-backdrop-filter: blur(10px) saturate(150%);
@@ -6776,6 +6860,7 @@ body:not(.disable-scrollbars) :is(
     border: var(--border-thin) solid var(--glass-border);
     border-radius: var(--r4);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     box-shadow: var(--shadow-overlay);
     backdrop-filter: blur(12px) saturate(160%);
     -webkit-backdrop-filter: blur(12px) saturate(160%);
@@ -6810,6 +6895,7 @@ body:not(.disable-scrollbars) :is(
     border: var(--border-thin) solid rgba(var(--primary-color-rgb), .12);
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: superellipse(1.5);
     padding-block: var(--s2);
     padding-inline: var(--s3);
     color: var(--text-normal);
@@ -6835,6 +6921,7 @@ body:not(.disable-scrollbars) :is(
     border: var(--border-thin) solid var(--glass-border);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     box-shadow: var(--shadow-overlay);
     backdrop-filter: blur(10px) saturate(150%);
     -webkit-backdrop-filter: blur(10px) saturate(150%);
@@ -6860,6 +6947,7 @@ body:not(.disable-scrollbars) :is(
     padding: var(--s2);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: superellipse(1.5);
     margin: 2px var(--s1);
     cursor: pointer;
     transition: background-color var(--fast), transform var(--fast);
@@ -6888,6 +6976,7 @@ body:not(.disable-scrollbars) :is(
     border: var(--border-thin) solid rgba(var(--primary-color-rgb), .15);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: superellipse(1.5);
     padding-block: 2px;
     padding-inline: 6px;
     font-size: 0.75em;
@@ -6906,6 +6995,7 @@ body:not(.disable-scrollbars) :is(
     border: var(--border-thin) solid var(--glass-border);
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     box-shadow: var(--shadow-overlay);
     overflow: hidden;
     padding: 4px;
@@ -6945,6 +7035,7 @@ body.theme-dark.disable-glass-menus :is(.popover, .prompt, .suggestion-container
     padding: var(--s2);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: superellipse(1.5);
     /* macOS menus keep the arrow cursor; pointer reads as web/Android */
     transition: background-color var(--fast);
     display: flex;
@@ -6984,6 +7075,7 @@ body.theme-dark.disable-glass-menus :is(.popover, .prompt, .suggestion-container
     border: var(--border-thin) solid var(--glass-border);
     border-radius: var(--r4);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     box-shadow:
         0 12px 36px rgba(0, 0, 0, 0.25),
         inset 0 1px 0 rgba(255, 255, 255, 0.4);
@@ -7074,6 +7166,7 @@ input[type='password'],
 input[type='number'] {
     border-radius: var(--r4);
     -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: superellipse(1.5);
 }
 
 .search-input-container input {
@@ -7086,6 +7179,7 @@ input[type='number'] {
 .dropdown-menu {
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     overflow: hidden;
 }
 
@@ -7118,6 +7212,7 @@ input[type='number'] {
     color: var(--text-muted);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: superellipse(1.5);
     padding: var(--s1);
     margin-block: 2px;
     margin-inline: 0;
@@ -7161,6 +7256,7 @@ input[type='number'] {
     color: var(--text-muted);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: superellipse(1.5);
     padding: 4px;
     transition: color var(--transition-ui), background-color var(--transition-ui), transform var(--transition-ui);
 }
@@ -8022,7 +8118,7 @@ body.depth-shadows.theme-dark {
 /* Callouts, Metadata, Canvas cards - depth 2 base */
 body.depth-shadows :is(.callout, .metadata-container, .canvas-card) {
     box-shadow: var(--depth-2);
-    transition: box-shadow 0.3s var(--ease-bounce-sm), transform 0.3s var(--ease-bounce-sm);
+    transition: box-shadow 0.3s var(--ease-spring-sm), transform 0.3s var(--ease-spring-sm);
 }
 
 body.depth-shadows .callout:hover {
@@ -8044,7 +8140,7 @@ body.depth-shadows .canvas-card:hover {
 /* Card layout leaves - depth 2 */
 body.depth-shadows:not(.is-mobile).layout-card .workspace-leaf-content {
     box-shadow: var(--depth-2);
-    transition: box-shadow 0.3s var(--ease-bounce-sm);
+    transition: box-shadow 0.3s var(--ease-spring-sm);
     overflow: hidden !important;
 }
 
@@ -8448,7 +8544,7 @@ body.layout-card .workspace {
 .style-settings-heading[data-level] .setting-item-name .style-settings-collapse-indicator > svg {
     height: 12px !important;
     width: 12px !important;
-    transition: transform 0.3s var(--ease-bounce-sm);
+    transition: transform 0.3s var(--ease-spring-sm);
 }
 
 .style-settings-heading:hover .style-settings-collapse-indicator {
@@ -8710,7 +8806,10 @@ body.tabular-numerics .nav-folder-title {
 /*   ACCENT CARET & SELECTION     */
 /* ============================== */
 
-/* Accent caret */
+/* Accent caret — 3px always, covers both CM6 cursor div and native caret */
+body.caret-accent {
+    --caret-color: var(--interactive-accent);
+}
 body.caret-accent .cm-editor .cm-cursor,
 body.caret-accent .cm-editor .cm-cursor-primary {
     border-left-color: var(--interactive-accent) !important;
@@ -8728,6 +8827,11 @@ body.caret-accent .cm-editor.cm-focused .cm-selectionBackground {
 body.caret-accent .markdown-preview-view ::selection,
 body.caret-accent .markdown-rendered ::selection {
     background: rgba(var(--primary-color-rgb), 0.2) !important;
+}
+
+/* No-blink caret (caret-animation ships in Chrome 139 / Electron 29+) */
+body.caret-no-blink .cm-editor .cm-content {
+    caret-animation: manual;
 }
 
 /* Smooth caret: transition CM's inline left/top; 80ms keeps typing snappy */
@@ -9172,6 +9276,7 @@ body.is-mobile :is(.wide-page, .full-page, .wide-table, .wide-image) {
     object-fit: cover;
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
 }
 
 :is(.markdown-preview-view.banner.banner-fade, .markdown-source-view.mod-cm6.banner.banner-fade) img[alt="banner"] {
@@ -9210,6 +9315,7 @@ body.is-mobile :is(.wide-page, .full-page, .wide-table, .wide-image) {
     border: var(--border-thin) solid var(--divider-color);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     box-shadow: var(--shadow-1);
     padding: var(--s2);
     overflow: hidden;
@@ -9242,6 +9348,7 @@ body.is-mobile :is(.wide-page, .full-page, .wide-table, .wide-image) {
     object-fit: cover;
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
 }
 
 /* ============================== */
@@ -9259,6 +9366,7 @@ body.is-mobile :is(.wide-page, .full-page, .wide-table, .wide-image) {
 .bases-cards-item {
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
     background-color: var(--background-secondary);
     box-shadow: var(--shadow-1);
     transition: box-shadow var(--transition-ui);
