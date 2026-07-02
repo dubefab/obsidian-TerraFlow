@@ -355,6 +355,15 @@ settings:
         level: 2
         collapsed: true
     -
+        id: font-normal
+        title: Body Text Weight
+        description: Font weight for body text (Obsidian default is 400)
+        type: variable-number-slider
+        default: 400
+        min: 300
+        max: 600
+        step: 50
+    -
         id: tf-luminous
         title: Luminous Details
         description: Horizontal rules become glowing seasonal gradient hairlines and images get a gentle hover lift with an accent-tinted shadow
@@ -939,6 +948,17 @@ settings:
     --ease-spring-sm: linear(0, 0.6 10%, 1.06 22%, 1.03 32%, 0.99 45%, 1.01 55%, 1);
     --ease-spring-md: linear(0, 0.55 8%, 1.14 22%, 1.02 36%, 0.97 50%, 1.02 63%, 0.99 78%, 1);
     --ease-spring-xl: linear(0, 0.5 7%, 1.2 20%, 0.88 34%, 1.12 46%, 0.96 58%, 1.04 70%, 0.99 83%, 1);
+    /* Soft landing: overshoots once mid-way, then spends the last ~40%
+       drifting to rest — no hard stop at the end of travel */
+    --ease-spring-soft: linear(0, 0.55 14%, 0.95 30%, 1.06 45%, 1.01 62%, 0.999 80%, 1);
+
+    /* Rebound tokens (sidebar slide-in, folder settle) — subtle here;
+       body.animation-style-whimsy overrides them to full bounce */
+    --rebound-ease: var(--ease-spring-soft);
+    --rebound-dur: 0.45s;
+    --rebound-dur-lg: 0.65s;
+    --rebound-slide: 18px;
+    --rebound-scale-y: 0.97;
 
     /* Animation Durations */
     --whimsy-micro: 0.15s;   /* Checkboxes, tiny elements */
@@ -985,8 +1005,14 @@ body {
     --file-line-width: var(--line-width, 64ch);
     --editor-max-width: var(--line-width, 64ch);
     --reading-max-width: var(--line-width, 64ch);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Body Text Weight — Obsidian hardcodes font-weight: 400 on body and only
+   routes --font-normal to links/callout titles/bold-calc, so plain note
+   text needs an explicit hook for the Style Settings slider. */
+.markdown-source-view,
+.markdown-preview-view {
+    font-weight: var(--font-normal);
 }
 
 /* ========================================= */
@@ -6114,25 +6140,65 @@ body.enable-fancy-bullets {
     100% { transform: translate(-50%, -50%) scale(1);    opacity: 1; }
 }
 
+/* Matter-style unfurl: the menu grows from the cursor corner and resolves
+   from a soft blur instead of popping in at center */
 @keyframes menuPop {
     0% {
         opacity: 0;
-        transform: scale(0.97);
+        transform: scale(0.9);
+        filter: blur(6px);
     }
 
     100% {
         opacity: 1;
         transform: scale(1);
+        filter: blur(0);
     }
 }
 
-/* Apply animation to menus, modals, and popovers */
-body:not(.disable-ui-animations) .menu,
-body:not(.disable-ui-animations) .modal,
+/* Apply animation to menus (modals use macosSheetDrop below) */
+body:not(.disable-ui-animations) .menu {
+    transform-origin: top left;
+    animation: menuPop 0.25s var(--ease-apple) forwards;
+}
+
+/* Palette, suggestions, and page-preview popovers: rise with a soft
+   overshoot and resolve from a blur, settling sharp by the overshoot
+   point (whimsy replaces this with its bigger spring) */
+@keyframes tf-pop-settle {
+    0%   { opacity: 0; transform: scale(0.96) translateY(6px); filter: blur(6px); }
+    70%  { opacity: 1; transform: scale(1.004) translateY(-1px); filter: blur(0); }
+    100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+}
+
 body:not(.disable-ui-animations) .popover,
-body:not(.disable-ui-animations) .prompt,
 body:not(.disable-ui-animations) .suggestion-container {
-    animation: menuPop var(--dur-quick) var(--ease-apple) forwards;
+    animation: tf-pop-settle var(--dur-modal) var(--ease-apple) forwards;
+}
+
+/* Command palette / quick switcher: Spotlight-style — drops from above,
+   resolves from a blur, dips 2px past rest, and the results ripple in.
+   Ripple is fast + capped so retyping doesn't shimmer. */
+@keyframes tf-palette-drop {
+    0%   { opacity: 0; transform: translateY(-16px) scale(0.98); filter: blur(8px); }
+    65%  { opacity: 1; transform: translateY(2px) scale(1); filter: blur(0); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+body:not(.disable-ui-animations) .prompt {
+    animation: tf-palette-drop var(--dur-modal) var(--ease-apple) forwards;
+}
+
+body:not(.disable-ui-animations) .prompt .suggestion-item {
+    animation: menuItemSlide 0.12s var(--ease-apple) both;
+    animation-delay: min(calc(sibling-index() * 6ms), 60ms);
+}
+
+/* Anchored popups grow from their attachment corner like the cursor menus;
+   the centered palette keeps its default center origin */
+body:not(.disable-ui-animations) .popover,
+body:not(.disable-ui-animations) .suggestion-container {
+    transform-origin: top left;
 }
 
 /* Menu items cascade in with a stagger using sibling-index() (Chrome 136+).
@@ -6146,6 +6212,29 @@ body:not(.disable-ui-animations) .menu .menu-item,
 body:not(.disable-ui-animations) .suggestion-container .suggestion-item {
     animation: menuItemSlide var(--dur-quick) var(--ease-apple) both;
     animation-delay: calc(sibling-index() * 12ms);
+}
+
+/* Matter-style theme crossfade: light/dark and seasonal switches blend on
+   one clock instead of snapping. Large containers only — elements with
+   their own transitions or hover backgrounds (view-header, workspace
+   splits, metadata-container) are deliberately excluded so pointer
+   feedback stays instant. */
+body:not(.disable-ui-animations),
+body:not(.disable-ui-animations) :is(
+    .workspace,
+    .workspace-tabs,
+    .workspace-leaf-content,
+    .markdown-source-view,
+    .markdown-preview-view,
+    .nav-files-container,
+    .workspace-ribbon,
+    .workspace-tab-header-container,
+    .status-bar
+) {
+    transition:
+        background-color 0.35s var(--ease-apple),
+        color 0.35s var(--ease-apple),
+        border-color 0.35s var(--ease-apple);
 }
 
 /* Tooltips: Apple-style instant fade — no scale, just opacity */
@@ -6179,23 +6268,38 @@ body.is-phone:not(.disable-ui-animations) .menu {
     transform-origin: bottom center;
 }
 
-/* iOS-style modal "zoom-in" with a touch of overshoot */
-@keyframes iosModalZoom {
+/* macOS-sheet modal entrance: drops from above, dips 2px past its resting
+   point, then eases back — Settings and all dialogs */
+@keyframes macosSheetDrop {
     0% {
         opacity: 0;
-        transform: scale(0.94);
+        transform: translateY(-28px) scale(0.98);
     }
     60% {
-        transform: scale(1.005);
+        opacity: 1;
+        transform: translateY(2px) scale(1);
     }
     100% {
         opacity: 1;
-        transform: scale(1);
+        transform: translateY(0) scale(1);
     }
 }
 
 body:not(.disable-ui-animations):not(.animation-style-whimsy) .modal {
-    animation: iosModalZoom var(--dur-modal) var(--ease-apple) forwards;
+    animation: macosSheetDrop var(--dur-sheet) var(--ease-apple) forwards;
+}
+
+/* Settings: after the sheet lands, nav items ripple in (per header group,
+   capped so 40 plugin tabs don't take a second) and the content pane
+   drops in a beat later */
+body:not(.disable-ui-animations) .modal.mod-settings .vertical-tab-nav-item {
+    animation: menuItemSlide 0.25s var(--ease-apple) both;
+    animation-delay: min(calc(sibling-index() * 14ms), 220ms);
+}
+
+body:not(.disable-ui-animations) .modal.mod-settings .vertical-tab-content {
+    animation: tf-drop-in 0.4s var(--ease-spring-soft) both;
+    animation-delay: 80ms;
 }
 
 /* iOS-style backdrop blur fade-in for modal background */
@@ -6220,6 +6324,51 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.callout, .cm-
 
 body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.callout, .cm-callout).is-collapsed .callout-title {
     transform: scaleY(0.96);
+}
+
+/* Sidebar rubberband: Obsidian JS-animates the split's width, so the spring
+   goes on the contents instead — they slide in with overshoot when the
+   sidedock expands. Collapse has no visible counterpart (width hits 0 first). */
+@keyframes tf-sidedock-in-left {
+    from { transform: translateX(calc(-1 * var(--rebound-slide))); opacity: 0.5; }
+    to   { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes tf-sidedock-in-right {
+    from { transform: translateX(var(--rebound-slide)); opacity: 0.5; }
+    to   { transform: translateX(0); opacity: 1; }
+}
+
+body:not(.is-mobile):not(.disable-ui-animations) .workspace-split.mod-left-split:not(.is-sidedock-collapsed) .workspace-tabs {
+    animation: tf-sidedock-in-left var(--rebound-dur-lg) var(--rebound-ease);
+}
+
+body:not(.is-mobile):not(.disable-ui-animations) .workspace-split.mod-right-split:not(.is-sidedock-collapsed) .workspace-tabs {
+    animation: tf-sidedock-in-right var(--rebound-dur-lg) var(--rebound-ease);
+}
+
+/* Properties panel: drops in from above with a soft spring landing
+   (whimsy has its own settle-bounce for this) */
+@keyframes tf-drop-in {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+body:not(.disable-ui-animations):not(.animation-style-whimsy) .metadata-container:not(.is-collapsed) .metadata-content {
+    animation: tf-drop-in var(--rebound-dur) var(--ease-spring-soft);
+}
+
+/* Folder expand settle: children scale down from the fold point and spring
+   to rest (spring easing supplies the overshoot). mod-root excluded so the
+   whole file list doesn't bounce on vault load. */
+@keyframes tf-settle-y {
+    from { transform: scaleY(var(--rebound-scale-y)); opacity: 0.7; }
+    to   { transform: scaleY(1); opacity: 1; }
+}
+
+body:not(.disable-ui-animations) .nav-folder:not(.mod-root):not(.is-collapsed) > .nav-folder-children {
+    transform-origin: top center;
+    animation: tf-settle-y var(--rebound-dur) var(--rebound-ease);
 }
 
 /* List rows: flat press dip (liquid squash reads wrong on full-width rows) */
@@ -6320,6 +6469,15 @@ body:not(.disable-ui-animations) .sidebar-toggle-button.mod-right .clickable-ico
 }
 
 /* --- Application Rules --- */
+
+/* Rebound tokens: full-strength springs in whimsy */
+body.animation-style-whimsy {
+    --rebound-ease: var(--ease-spring-xl);
+    --rebound-dur: 0.5s;
+    --rebound-dur-lg: 0.6s;
+    --rebound-slide: 22px;
+    --rebound-scale-y: 0.9;
+}
 
 /* Modals */
 body.animation-style-whimsy:not(.disable-ui-animations) .modal-container {
