@@ -47,6 +47,9 @@ settings:
             -
                 label: 🏜️ Melange
                 value: melange-theme
+            -
+                label: 🌆 Tokyo Night
+                value: tokyo-theme
     -
         id: use-custom-accent
         title: Custom Accent Color
@@ -515,6 +518,9 @@ settings:
             -
                 label: Glass (Frosted)
                 value: heading-style-glass
+            -
+                label: Liquid Glass
+                value: heading-style-liquid
             -
                 label: Badge (Pill)
                 value: heading-style-badge
@@ -996,7 +1002,8 @@ body {
 .theme-light.spring-theme, .theme-dark.spring-theme,
 .theme-light.summer-theme, .theme-dark.summer-theme,
 .theme-light.paper-theme, .theme-dark.paper-theme,
-.theme-light.melange-theme, .theme-dark.melange-theme {
+.theme-light.melange-theme, .theme-dark.melange-theme,
+.theme-light.tokyo-theme, .theme-dark.tokyo-theme {
     --setting-items-background: var(--background-secondary);
 }
 
@@ -2649,6 +2656,186 @@ body {
     --tab-bg-inactive-hover: rgba(41, 37, 34, .25);
 }
 
+/* --- Tokyo Night Theme --- */
+/* Faithful to the Bear "Tokyo Night" / "Tokyo Night Light" themes:
+   dark = Storm base, green accent, all-blue headings;
+   light = neutral gray, wine accent, orange links, all-teal headings */
+.tokyo-theme {
+    --accent-h: 89;
+    --accent-s: 51%;
+    --accent-l: 61%;
+}
+
+.theme-light.tokyo-theme {
+    --accent-h: 351;
+    --accent-s: 31%;
+    --accent-l: 40%;
+    --background-primary: #eaeaed;
+    --background-primary-rgb: 234, 234, 237;
+    --background-secondary: #e3e3e9;
+    --background-secondary-rgb: 227, 227, 233;
+    --background-secondary-alt: #d4d4da;
+    --text-normal: #343b58;
+    --text-normal-rgb: 52, 59, 88;
+    --text-muted: #6c6f85;
+    --text-faint: #7c7f93;
+    --emphasis-color: #2c3252;
+    --emphasis-color-light: #343b58;
+    --primary-color: #84464f;
+    --primary-color-rgb: 132, 70, 79;
+    --primary-color-dark: #6d3941;
+    --interactive-accent: var(--primary-color);
+    --interactive-accent-hover: var(--primary-color-dark);
+    --link-color: #a35021;
+    --link-color-hover: #83401a;
+    --link-unresolved-color: var(--link-color);
+    --blockquote-border-color: var(--primary-color);
+    --checkbox-color: #96979f;
+    --text-accent: var(--primary-color-dark);
+    --divider-color: #d7d7dd88;
+    --text-selection: #d2dfe8;
+    --scrollbar-thumb: rgba(124, 141, 160, .45);
+    --scrollbar-track: rgba(234, 234, 237, .2);
+    --code-background: #e3e3e9;
+    --code-normal: var(--text-normal);
+    --code-comment: #9699a3;
+    --code-function: #166775;
+    --code-important: #b4640e;
+    --code-keyword: #a56eef;
+    --code-property: #166775;
+    --code-punctuation: #6c6f85;
+    --code-string: #587539;
+    --code-tag: #b4640e;
+    --code-value: #8f5e15;
+    /* Per-level ramp from the Bear Tokyo Night Light palette: teal title,
+       purple/blue from the sidebar accents (darkened for contrast on the
+       gray bg), then green, sea-teal, and lavender slate */
+    --heading-primary: #045d77;
+    --heading-secondary: #7e4dd2;
+    --heading-tertiary: #3a6fc4;
+    --heading-quaternary: #587539;
+    --heading-quinary: #2e8a90;
+    --heading-senary: #565f89;
+    --heading-primary-rgb: 4, 93, 119;
+    --heading-secondary-rgb: 126, 77, 210;
+    --heading-tertiary-rgb: 58, 111, 196;
+    --heading-quaternary-rgb: 88, 117, 57;
+    --heading-quinary-rgb: 46, 138, 144;
+    --heading-senary-rgb: 86, 95, 137;
+    --callout-note: #4d8de8;
+    --callout-note-rgb: 77, 141, 232;
+    --callout-info: #166775;
+    --callout-info-rgb: 22, 103, 117;
+    --callout-warning: #b4640e;
+    --callout-warning-rgb: 180, 100, 14;
+    --callout-success: #587539;
+    --callout-success-rgb: 88, 117, 57;
+    --callout-danger: #84464f;
+    --callout-danger-rgb: 132, 70, 79;
+    --callout-example: #a35021;
+    --callout-example-rgb: 163, 80, 33;
+    --callout-cite: #a56eef;
+    --callout-cite-rgb: 165, 110, 239;
+    --callout-video: #3eb4bb;
+    --callout-video-rgb: 62, 180, 187;
+    --callout-quote: #7c7f93;
+    --callout-quote-rgb: 124, 127, 147;
+    --highlight-bg: #b8d4d2;
+    --highlight-bg-rgb: 184, 212, 210;
+    --highlight-bg-dark: #a3c6c3;
+    --highlight-bg-dark-color: #131f1e;
+    --surface-accent: #d4d4da;
+    --surface-accent-rgb: 212, 212, 218;
+    --surface-dark: #343b58;
+    --surface-dark-rgb: 52, 59, 88;
+    --tab-bg-inactive: rgba(234, 234, 237, .08);
+    --tab-bg-inactive-hover: rgba(234, 234, 237, .12);
+}
+
+.theme-dark.tokyo-theme {
+    --background-primary: #24283b;
+    --background-primary-rgb: 36, 40, 59;
+    --background-secondary: #16161f;
+    --background-secondary-rgb: 22, 22, 31;
+    --background-secondary-alt: #292e47;
+    --text-normal: #9aa5ce;
+    --text-normal-rgb: 154, 165, 206;
+    --text-muted: #646e9d;
+    --text-faint: #414868;
+    --emphasis-color: #c0caf5;
+    --emphasis-color-light: #d5dbf8;
+    --primary-color: #9ece6a;
+    --primary-color-rgb: 158, 206, 106;
+    --primary-color-dark: #7fb04c;
+    --interactive-accent: var(--primary-color);
+    --interactive-accent-hover: var(--primary-color-dark);
+    --link-color: #bb9af7;
+    --link-color-hover: #9d7cd8;
+    --link-unresolved-color: var(--link-color);
+    --blockquote-border-color: #414868;
+    --checkbox-color: #e0af68;
+    --text-accent: var(--primary-color-dark);
+    --divider-color: #1a1c2888;
+    --text-selection: #4b538a;
+    --scrollbar-thumb: rgba(96, 105, 163, .35);
+    --scrollbar-track: rgba(36, 40, 59, .2);
+    --code-background: #292e47;
+    --code-normal: #c0caf5;
+    --code-comment: #565f89;
+    --code-function: #7aa2f7;
+    --code-important: #ff9e64;
+    --code-keyword: #bb9af7;
+    --code-property: #2ac3de;
+    --code-punctuation: #646e9d;
+    --code-string: #9ece6a;
+    --code-tag: #f7768e;
+    --code-value: #ff9e64;
+    /* Per-level ramp from the Bear Tokyo Night palette — all cool:
+       blue, purple, cyan, teal, sky, soft lavender */
+    --heading-primary: #7aa2f7;
+    --heading-secondary: #bb9af7;
+    --heading-tertiary: #2ac3de;
+    --heading-quaternary: #73daca;
+    --heading-quinary: #7dcfff;
+    --heading-senary: #c0caf5;
+    --heading-primary-rgb: 122, 162, 247;
+    --heading-secondary-rgb: 187, 154, 247;
+    --heading-tertiary-rgb: 42, 195, 222;
+    --heading-quaternary-rgb: 115, 218, 202;
+    --heading-quinary-rgb: 125, 207, 255;
+    --heading-senary-rgb: 192, 202, 245;
+    --callout-note: #7aa2f7;
+    --callout-note-rgb: 122, 162, 247;
+    --callout-info: #7dcfff;
+    --callout-info-rgb: 125, 207, 255;
+    --callout-warning: #e0af68;
+    --callout-warning-rgb: 224, 175, 104;
+    --callout-success: #9ece6a;
+    --callout-success-rgb: 158, 206, 106;
+    --callout-danger: #f7768e;
+    --callout-danger-rgb: 247, 118, 142;
+    --callout-example: #ff9e64;
+    --callout-example-rgb: 255, 158, 100;
+    --callout-cite: #bb9af7;
+    --callout-cite-rgb: 187, 154, 247;
+    --callout-video: #2ac3de;
+    --callout-video-rgb: 42, 195, 222;
+    --callout-quote: #565f89;
+    --callout-quote-rgb: 86, 95, 137;
+    /* Bear default highlighter: slate blue block with bright text */
+    --highlight-bg: #43476b;
+    --highlight-bg-rgb: 67, 71, 107;
+    --highlight-bg-dark: #545a8c;
+    --highlight-bg-dark-color: #545a8c;
+    --highlight-bg-light-color: #c0caf5;
+    --surface-accent: #292e47;
+    --surface-accent-rgb: 41, 46, 71;
+    --surface-dark: #16161f;
+    --surface-dark-rgb: 22, 22, 31;
+    --tab-bg-inactive: rgba(36, 40, 59, .15);
+    --tab-bg-inactive-hover: rgba(36, 40, 59, .25);
+}
+
 /* Paper Theme Specific Table Overrides for Readability */
 .theme-dark.paper-theme .markdown-rendered table th,
 .theme-dark.paper-theme .markdown-preview-view table th {
@@ -3661,6 +3848,8 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
 .markdown-source-view.mod-cm6 .cm-line .cm-header-1 {
     --scale: var(--heading-scale-1);
     --scale-x: var(--heading-scale-x-1);
+    --h-rgb: var(--heading-primary-rgb);
+    --h-color: var(--heading-primary);
     background-color: rgba(var(--heading-primary-rgb), var(--heading-bg-opacity));
     color: hsl(from var(--heading-primary) h s calc(l * var(--heading-text-multiplier)));
     font-size: 1.8em;
@@ -3671,6 +3860,8 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
 .markdown-source-view.mod-cm6 .cm-line .cm-header-2 {
     --scale: var(--heading-scale-2);
     --scale-x: var(--heading-scale-x-2);
+    --h-rgb: var(--heading-secondary-rgb);
+    --h-color: var(--heading-secondary);
     background-color: rgba(var(--heading-secondary-rgb), var(--heading-bg-opacity));
     color: hsl(from var(--heading-secondary) h s calc(l * var(--heading-text-multiplier)));
     font-size: 1.4em;
@@ -3681,6 +3872,8 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
 .markdown-source-view.mod-cm6 .cm-line .cm-header-3 {
     --scale: var(--heading-scale-3);
     --scale-x: var(--heading-scale-x-3);
+    --h-rgb: var(--heading-tertiary-rgb);
+    --h-color: var(--heading-tertiary);
     background-color: rgba(var(--heading-tertiary-rgb), var(--heading-bg-opacity));
     color: hsl(from var(--heading-tertiary) h s calc(l * var(--heading-text-multiplier)));
     font-size: 1.35em;
@@ -3691,6 +3884,8 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
 .markdown-source-view.mod-cm6 .cm-line .cm-header-4 {
     --scale: var(--heading-scale-4);
     --scale-x: var(--heading-scale-x-4);
+    --h-rgb: var(--heading-quaternary-rgb);
+    --h-color: var(--heading-quaternary);
     background-color: rgba(var(--heading-quaternary-rgb), var(--heading-bg-opacity));
     color: hsl(from var(--heading-quaternary) h s calc(l * var(--heading-text-multiplier)));
     font-size: 1.15em;
@@ -3700,6 +3895,8 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
 .markdown-source-view.mod-cm6 .cm-line .cm-header-5 {
     --scale: var(--heading-scale-5);
     --scale-x: var(--heading-scale-x-5);
+    --h-rgb: var(--heading-quinary-rgb);
+    --h-color: var(--heading-quinary);
     background-color: rgba(var(--heading-quinary-rgb), var(--heading-bg-opacity));
     color: hsl(from var(--heading-quinary) h s calc(l * var(--heading-text-multiplier)));
     font-size: 1.1em;
@@ -3709,6 +3906,8 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
 .markdown-source-view.mod-cm6 .cm-line .cm-header-6 {
     --scale: var(--heading-scale-6);
     --scale-x: var(--heading-scale-x-6);
+    --h-rgb: var(--heading-senary-rgb);
+    --h-color: var(--heading-senary);
     background-color: rgba(var(--heading-senary-rgb), var(--heading-bg-opacity));
     color: hsl(from var(--heading-senary) h s calc(l * var(--heading-text-multiplier)));
     font-size: 1.05em;
@@ -4088,6 +4287,91 @@ body:not(.is-mobile) .heading-style-glass :is(.markdown-preview-view, .markdown-
     background-color: rgba(var(--heading-senary-rgb), 0.3) !important;
     color: hsl(from var(--heading-senary) h s 90%) !important;
     border-color: rgba(var(--heading-senary-rgb), 0.35);
+}
+
+/* Liquid Glass Style — same material as Liquid Glass callouts/blockquotes:
+   per-level tint (--h-rgb/--h-color set in the base heading rules) under
+   specular inset rims, refraction blur, and a hover sheen sweep */
+.heading-style-liquid :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
+    border-radius: var(--r3);
+    border: none;
+    position: relative;
+    background:
+        radial-gradient(ellipse at top left,
+            rgba(var(--h-rgb), .26) 0%,
+            transparent 60%),
+        linear-gradient(160deg,
+            rgba(255, 255, 255, .18) 0%,
+            rgba(var(--h-rgb), .12) 45%,
+            rgba(var(--background-primary-rgb), .3) 100%) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .5),
+        inset 0 0 0 1px rgba(255, 255, 255, .12),
+        0 8px 24px rgba(0, 0, 0, .12);
+    color: hsl(from var(--h-color) h s 28%);
+    transition: box-shadow var(--transition-ui), filter var(--transition-ui);
+    width: fit-content;
+    max-inline-size: 100%;
+    display: inline-block;
+    line-height: 1.4;
+    padding: calc(var(--heading-pad-y) * var(--scale)) calc(var(--heading-pad-x) * var(--scale-x));
+}
+
+.theme-dark.heading-style-liquid :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
+    background:
+        radial-gradient(ellipse at top left,
+            rgba(var(--h-rgb), .34) 0%,
+            transparent 60%),
+        linear-gradient(160deg,
+            rgba(255, 255, 255, .07) 0%,
+            rgba(var(--h-rgb), .18) 45%,
+            rgba(var(--background-primary-rgb), .4) 100%) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .22),
+        inset 0 0 0 1px rgba(255, 255, 255, .08),
+        0 10px 28px rgba(0, 0, 0, .3);
+    color: hsl(from var(--h-color) h s 90%);
+}
+
+/* GPU-expensive refraction blur desktop-only (same gating as Glass headings) */
+@supports (backdrop-filter: blur(1px)) {
+    body:not(.is-mobile):not(.disable-glass-menus) .heading-style-liquid :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
+        backdrop-filter: blur(18px) saturate(190%);
+        -webkit-backdrop-filter: blur(18px) saturate(190%);
+    }
+}
+
+/* Specular sheen: background-position sweep inside the pseudo-element, so no
+   overflow clipping is needed (headings must keep overflow visible for the
+   collapse chevron); snaps back invisibly on leave like the callout sheen */
+.heading-style-liquid :is(.markdown-preview-view, .markdown-reading-view) :is(h1, h2, h3, h4, h5, h6)::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(115deg,
+            transparent 32%,
+            rgba(255, 255, 255, .14) 46%,
+            rgba(255, 255, 255, .26) 50%,
+            rgba(255, 255, 255, .14) 54%,
+            transparent 68%);
+    background-size: 250% 100%;
+    background-position: 175% 0;
+    background-repeat: no-repeat;
+    pointer-events: none;
+}
+
+body:not(.is-mobile):not(.terraflow-quiet) .heading-style-liquid :is(.markdown-preview-view, .markdown-reading-view) :is(h1, h2, h3, h4, h5, h6):hover::after {
+    background-position: -75% 0;
+    transition: background-position 0.9s var(--ease-apple);
+}
+
+.heading-style-liquid :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6):hover {
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .55),
+        inset 0 0 0 1px rgba(255, 255, 255, .16),
+        0 10px 28px rgba(0, 0, 0, .18);
+    filter: brightness(1.04);
 }
 
 /* Heading Alignment Options */
