@@ -282,6 +282,43 @@ settings:
         default: false
 
     -
+        id: liquid-glass-heading
+        title: Liquid Glass
+        type: heading
+        level: 2
+        collapsed: true
+    -
+        id: tf-liquid-tags
+        title: Liquid Tags
+        description: Tags become gel chips with a specular rim, seasonal tint, and a squashy press
+        type: class-toggle
+        default: false
+    -
+        id: tf-liquid-properties
+        title: Liquid Properties Panel
+        description: The frontmatter/properties block becomes a floating frosted card with a specular edge
+        type: class-toggle
+        default: false
+    -
+        id: tf-liquid-tables
+        title: Liquid Tables
+        description: Whole tables become liquid glass with a distinct seasonal-accent header row that sticks while rows scroll beneath it (reading mode)
+        type: class-toggle
+        default: false
+    -
+        id: tf-liquid-statusbar
+        title: Liquid Status Bar
+        description: The expanded status pill gets true glass material — refraction blur and a specular rim
+        type: class-toggle
+        default: false
+    -
+        id: tf-liquid-prompt
+        title: Liquid Command Palette
+        description: Deeper refraction on the palette and a liquid gradient on the selected row
+        type: class-toggle
+        default: false
+
+    -
         id: animations-heading
         title: Animations
         type: heading
@@ -314,6 +351,24 @@ settings:
         type: heading
         level: 2
         collapsed: true
+    -
+        id: tf-luminous
+        title: Luminous Details
+        description: Horizontal rules become glowing seasonal gradient hairlines and images get a gentle hover lift with an accent-tinted shadow
+        type: class-toggle
+        default: false
+    -
+        id: tf-embed-cards
+        title: Elegant Embed Cards
+        description: Note embeds and transclusions become soft accent-edged cards with a hover lift and a link icon that appears on hover
+        type: class-toggle
+        default: false
+    -
+        id: tf-aurora-title
+        title: Aurora Note Title
+        description: The inline note title shimmers with a slow-drifting gradient of the season's heading colors
+        type: class-toggle
+        default: false
     -
         id: link-style-selector
         title: Link Style
@@ -365,6 +420,9 @@ settings:
             -
                 label: Bold Dramatic
                 value: blockquote-style-bold
+            -
+                label: Liquid Glass
+                value: blockquote-style-liquid
     -
         id: callout-style-selector
         title: Callout Style
@@ -385,6 +443,9 @@ settings:
             -
                 label: Bold Border
                 value: callout-style-bold
+            -
+                label: Liquid Glass
+                value: callout-style-liquid
     -
         id: inline-code-accent
         title: Accent Inline Code
@@ -802,9 +863,9 @@ settings:
     --shadow-overlay: 0 10px 40px rgba(0, 0, 0, 0.16);
     --shadow-overlay-dark: 0 12px 48px rgba(0, 0, 0, 0.45);
     --accent-glow: 0 0 12px rgba(var(--primary-color-rgb), .35);
-    --fast: 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    --normal: 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    --slow: 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --fast: 0.15s cubic-bezier(0.32, 0.72, 0, 1);
+    --normal: 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+    --slow: 0.32s cubic-bezier(0.32, 0.72, 0, 1);
     --bounce: 0.25s cubic-bezier(.34, 1.15, .64, 1);
     --weight-normal: 400;
     --weight-medium: 500;
@@ -854,9 +915,9 @@ settings:
     --dur-quick: 0.22s;
     --dur-modal: 0.34s;
     --dur-sheet: 0.42s;
-    --transition-ui: 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-ui: 0.22s cubic-bezier(0.32, 0.72, 0, 1);
     --transition-bounce: 0.3s var(--ease-spring-md);
-    --transition-callout-link: transform 0.18s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.18s, color 0.18s;
+    --transition-callout-link: transform 0.18s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.15s cubic-bezier(0.32, 0.72, 0, 1), background-color 0.18s, color 0.18s;
     --transition-depth: box-shadow 0.2s var(--ease-spring-sm), transform 0.2s var(--ease-spring-sm);
 
     /* ===== WHIMSY ANIMATION TOKENS ===== */
@@ -918,6 +979,8 @@ body {
     --file-line-width: var(--line-width, 64ch);
     --editor-max-width: var(--line-width, 64ch);
     --reading-max-width: var(--line-width, 64ch);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* ========================================= */
@@ -3222,7 +3285,7 @@ body.focus-mode.focus-mode-hide-sidebars .workspace-split.mod-right-split {
 
 /* Global Transitions */
 body {
-    transition: background-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: background-color 0.3s cubic-bezier(0.32, 0.72, 0, 1), color 0.3s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 .markdown-source-view.mod-cm6 .cm-content,
@@ -3497,7 +3560,7 @@ body.is-focused .workspace-tabs.mod-top {
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-btn);
     corner-shape: superellipse(1.5);
-    transition: opacity 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.18s, color 0.18s;
+    transition: opacity 0.15s cubic-bezier(0.32, 0.72, 0, 1), background-color 0.18s, color 0.18s;
     border: none !important;
 }
 
@@ -3509,6 +3572,20 @@ body.is-focused .workspace-tabs.mod-top {
     background: rgba(var(--primary-color-rgb), .15);
     border-inline-start: none !important;
     font-weight: var(--weight-medium);
+}
+
+/* ========================================= */
+/*          TEXT WRAP (ORPHAN CONTROL)       */
+/* ========================================= */
+
+/* Prevent orphaned words on body copy in reading view */
+:is(.markdown-preview-view, .markdown-reading-view) :is(p, li, blockquote, figcaption) {
+    text-wrap: pretty;
+}
+
+/* Same in live preview — targets paragraph and list lines, skips code blocks */
+.markdown-source-view.mod-cm6 .cm-line:not(.HyperMD-codeblock):not(.HyperMD-codeblock-begin):not(.HyperMD-codeblock-end) {
+    text-wrap: pretty;
 }
 
 /* ========================================= */
@@ -4155,7 +4232,7 @@ body.link-style-underline :is(.markdown-rendered a, .markdown-rendered .internal
 body.link-style-glow :is(.markdown-rendered a, .markdown-rendered .internal-link, .markdown-rendered .external-link, .markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-url:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-internal-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-external-link:not(.cm-formatting)) {
     color: var(--link-color);
     background: rgba(var(--primary-color-rgb), .08);
-    border-radius: 8px;
+    border-radius: var(--radius-m);
     padding-block: 5px;
     padding-inline: 6px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -4185,11 +4262,7 @@ body.link-style-glow :is(.markdown-rendered a, .markdown-rendered .internal-link
 .markdown-source-view.mod-cm6 .cm-line .cm-link,
 .markdown-source-view.mod-cm6 .cm-line .cm-url,
 .markdown-source-view.mod-cm6 .cm-line .cm-hmd-internal-link,
-.markdown-source-view.mod-cm6 .cm-line .cm-hmd-external-link {
-    text-decoration: none !important;
-    border-block-end: none !important;
-}
-
+.markdown-source-view.mod-cm6 .cm-line .cm-hmd-external-link,
 .markdown-source-view.mod-cm6 .cm-line .cm-link:hover,
 .markdown-source-view.mod-cm6 .cm-line .cm-url:hover,
 .markdown-source-view.mod-cm6 .cm-line .cm-hmd-internal-link:hover,
@@ -5594,8 +5667,11 @@ body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) 
     border-block-end: var(--border-thin) solid var(--divider-color);
 }
 
-.markdown-rendered table th strong {
+/* Headers already sit at semibold on an inverted background, so bold needs
+   both the color guard and a weight jump past --weight-bold to read at all */
+:is(.markdown-rendered, .markdown-preview-view, .markdown-source-view.mod-cm6 .cm-table-widget) table th strong {
     color: inherit;
+    font-weight: 800;
 }
 
 .theme-light :is(.markdown-rendered, .markdown-preview-view) table tr:nth-child(n) th {
@@ -5890,13 +5966,13 @@ body:not(.disable-ui-animations) :is(button, .mod-cta):active {
 }
 
 body:not(.disable-ui-animations) .clickable-icon:active {
-    transform: scale(1.08, 0.85);
+    transform: scale(1.06, 0.9);
     transition: transform 0.1s var(--ease-apple);
 }
 
 /* Keep native scale(-1,1) mirror of the right toggle icon while pressed */
 body:not(.disable-ui-animations) .sidebar-toggle-button.mod-right .clickable-icon:active {
-    transform: scale(-1.08, 0.85);
+    transform: scale(-1.06, 0.9);
 }
 
 /* ================================================= ==================================================
@@ -9456,4 +9532,486 @@ body:not(.is-mobile).pill-tabs.layout-card.theme-dark .workspace-tab-header.is-a
     backdrop-filter: blur(8px) saturate(150%);
     -webkit-backdrop-filter: blur(8px) saturate(150%);
     box-shadow: inset 0 0 0 1px rgba(var(--primary-color-rgb), 0.18) !important;
+}
+
+/* ============================== */
+/*   LUMINOUS DETAILS (opt-in)    */
+/* ============================== */
+
+/* Horizontal rules: seasonal gradient hairline with a soft center glow */
+body.tf-luminous :is(.markdown-rendered, .markdown-preview-view, .markdown-source-view.mod-cm6) hr {
+    border: none;
+    height: 2px;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(var(--primary-color-rgb), 0.4) 18%,
+            rgba(var(--primary-color-rgb), 0.85) 50%,
+            rgba(var(--primary-color-rgb), 0.4) 82%,
+            transparent 100%);
+    box-shadow: 0 0 14px rgba(var(--primary-color-rgb), 0.35);
+}
+
+/* Quiet mode: keep the gradient, drop the glow */
+body.tf-luminous.terraflow-quiet :is(.markdown-rendered, .markdown-preview-view, .markdown-source-view.mod-cm6) hr {
+    box-shadow: none;
+}
+
+/* Images: gentle lift with an accent-tinted shadow bloom (desktop pointer only;
+   touch devices are covered by the global hover kill-switch) */
+body.tf-luminous:not(.is-mobile):not(.terraflow-quiet) :is(.markdown-rendered img, .markdown-source-view.mod-cm6 .cm-content img) {
+    transition: transform var(--transition-ui), box-shadow var(--transition-ui);
+}
+
+body.tf-luminous:not(.is-mobile):not(.terraflow-quiet) :is(.markdown-rendered img, .markdown-source-view.mod-cm6 .cm-content img):hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow:
+        0 12px 32px rgba(0, 0, 0, 0.16),
+        0 0 18px rgba(var(--primary-color-rgb), 0.15);
+}
+
+/* ============================== */
+/*   ELEGANT EMBED CARDS (opt-in) */
+/* ============================== */
+
+/* Transclusions as soft accent-edged cards, matching the callout design language */
+body.tf-embed-cards .markdown-embed {
+    background:
+        radial-gradient(ellipse at top right,
+            rgba(var(--primary-color-rgb), .08) 0%,
+            transparent 65%),
+        rgba(var(--background-secondary-rgb), .35);
+    border: var(--border-thin) solid rgba(var(--primary-color-rgb), .12);
+    border-inline-start: var(--border-heavy) solid rgba(var(--primary-color-rgb), .55);
+    border-radius: var(--r1) var(--r3) var(--r3) var(--r1);
+    -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
+    padding: var(--s2) var(--s3);
+    transition: box-shadow var(--transition-ui), transform var(--transition-ui), border-color var(--transition-ui);
+}
+
+body.tf-embed-cards:not(.is-mobile):not(.terraflow-quiet) .markdown-embed:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-2);
+    border-color: rgba(var(--primary-color-rgb), .25);
+    border-inline-start-color: var(--primary-color);
+}
+
+body.tf-embed-cards .markdown-embed-title {
+    color: var(--text-muted);
+    font-size: 0.85em;
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.02em;
+}
+
+/* Open-link icon: revealed on hover (desktop only — stays visible on touch) */
+body.tf-embed-cards:not(.is-mobile) .markdown-embed .markdown-embed-link {
+    opacity: 0;
+    transition: opacity var(--transition-ui);
+}
+
+body.tf-embed-cards:not(.is-mobile) .markdown-embed:hover .markdown-embed-link {
+    opacity: 1;
+}
+
+/* ============================== */
+/*   AURORA NOTE TITLE (opt-in)   */
+/* ============================== */
+
+/* Inline title wears a gradient of the season's heading colors */
+body.tf-aurora-title .inline-title {
+    background-image: linear-gradient(100deg,
+            var(--primary-color) 0%,
+            var(--heading-secondary) 35%,
+            var(--heading-tertiary, var(--primary-color)) 65%,
+            var(--primary-color) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Slow drift — quiet mode keeps the gradient but stops the motion;
+   focus mode and prefers-reduced-motion already zero animation durations */
+body.tf-aurora-title:not(.terraflow-quiet) .inline-title {
+    animation: tf-aurora-drift 14s ease-in-out infinite;
+}
+
+@keyframes tf-aurora-drift {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* ============================== */
+/*   LIQUID GLASS CALLOUT STYLE   */
+/* ============================== */
+
+/* Structural properties on all devices; !important mirrors the other callout styles */
+.callout-style-liquid :is(.callout, .cm-callout) {
+    border: none !important;
+    border-inline-start: none !important;
+    border-radius: var(--r4) !important;
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at top left,
+            rgba(var(--callout-color-rgb), .22) 0%,
+            transparent 60%),
+        linear-gradient(160deg,
+            rgba(255, 255, 255, .18) 0%,
+            rgba(var(--callout-color-rgb), .1) 45%,
+            rgba(var(--background-primary-rgb), .3) 100%) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .5),
+        inset 0 0 0 1px rgba(255, 255, 255, .12),
+        0 8px 24px rgba(0, 0, 0, .12) !important;
+}
+
+.theme-dark .callout-style-liquid :is(.callout, .cm-callout) {
+    background:
+        radial-gradient(ellipse at top left,
+            rgba(var(--callout-color-rgb), .3) 0%,
+            transparent 60%),
+        linear-gradient(160deg,
+            rgba(255, 255, 255, .07) 0%,
+            rgba(var(--callout-color-rgb), .16) 45%,
+            rgba(var(--background-primary-rgb), .4) 100%) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .22),
+        inset 0 0 0 1px rgba(255, 255, 255, .08),
+        0 10px 28px rgba(0, 0, 0, .3) !important;
+}
+
+/* GPU-expensive refraction blur desktop-only (same gating as Modern Glass) */
+body:not(.is-mobile) .callout-style-liquid :is(.callout, .cm-callout) {
+    backdrop-filter: blur(18px) saturate(190%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(190%) !important;
+}
+
+.callout-style-liquid .markdown-source-view.mod-cm6 .cm-callout {
+    border: none !important;
+    outline: none !important;
+}
+
+/* Specular sheen: sweeps across on hover, snaps back invisibly on leave */
+.callout-style-liquid .callout::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg,
+            transparent 32%,
+            rgba(255, 255, 255, .14) 46%,
+            rgba(255, 255, 255, .26) 50%,
+            rgba(255, 255, 255, .14) 54%,
+            transparent 68%);
+    transform: translateX(-130%);
+    pointer-events: none;
+}
+
+body:not(.is-mobile):not(.terraflow-quiet) .callout-style-liquid .callout:hover::after {
+    transform: translateX(130%);
+    transition: transform 0.9s var(--ease-apple);
+}
+
+/* ============================== */
+/*   LIQUID GLASS BLOCKQUOTE      */
+/* ============================== */
+
+/* Shared material: seasonal tint + specular insets (mirrors Liquid Glass callouts) */
+.blockquote-style-liquid :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
+    background:
+        radial-gradient(ellipse at top left,
+            rgba(var(--primary-color-rgb), .14) 0%,
+            transparent 60%),
+        linear-gradient(160deg,
+            rgba(255, 255, 255, .16) 0%,
+            rgba(var(--background-secondary-rgb), .35) 100%) !important;
+    border: none !important;
+    border-inline-start: var(--border-heavy) solid rgba(var(--primary-color-rgb), .65) !important;
+}
+
+.theme-dark .blockquote-style-liquid :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
+    background:
+        radial-gradient(ellipse at top left,
+            rgba(var(--primary-color-rgb), .2) 0%,
+            transparent 60%),
+        linear-gradient(160deg,
+            rgba(255, 255, 255, .06) 0%,
+            rgba(var(--background-secondary-rgb), .3) 100%) !important;
+}
+
+/* Block-level extras: radius, shadow, refraction, sheen (reading mode block only) */
+.blockquote-style-liquid :is(.markdown-preview-view blockquote, .markdown-rendered blockquote) {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--r2) var(--r3) var(--r3) var(--r2);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .4),
+        inset 0 0 0 1px rgba(255, 255, 255, .1),
+        0 6px 18px rgba(0, 0, 0, .1);
+}
+
+body:not(.is-mobile) .blockquote-style-liquid :is(.markdown-preview-view blockquote, .markdown-rendered blockquote) {
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+}
+
+.blockquote-style-liquid :is(.markdown-preview-view blockquote, .markdown-rendered blockquote)::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg,
+            transparent 32%,
+            rgba(255, 255, 255, .12) 46%,
+            rgba(255, 255, 255, .22) 50%,
+            rgba(255, 255, 255, .12) 54%,
+            transparent 68%);
+    transform: translateX(-130%);
+    pointer-events: none;
+}
+
+body:not(.is-mobile):not(.terraflow-quiet) .blockquote-style-liquid :is(.markdown-preview-view blockquote, .markdown-rendered blockquote):hover::after {
+    transform: translateX(130%);
+    transition: transform 0.9s var(--ease-apple);
+}
+
+/* ============================== */
+/*   LIQUID TAGS                  */
+/* ============================== */
+
+body.tf-liquid-tags :is(.markdown-rendered, .markdown-preview-view) a.tag {
+    background:
+        linear-gradient(160deg,
+            rgba(255, 255, 255, .22) 0%,
+            rgba(var(--primary-color-rgb), .16) 100%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .45),
+        inset 0 0 0 1px rgba(255, 255, 255, .12),
+        0 2px 6px rgba(0, 0, 0, .08);
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 0.15em 0.7em;
+    color: var(--primary-color);
+    transition: transform var(--transition-ui), box-shadow var(--transition-ui);
+}
+
+body.tf-liquid-tags:not(.is-mobile):not(.terraflow-quiet) :is(.markdown-rendered, .markdown-preview-view) a.tag:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .5),
+        inset 0 0 0 1px rgba(255, 255, 255, .16),
+        0 4px 12px rgba(var(--primary-color-rgb), .25);
+}
+
+/* Gel press, same language as buttons */
+body.tf-liquid-tags :is(.markdown-rendered, .markdown-preview-view) a.tag:active {
+    transform: scale(1.03, 0.94);
+    transition: transform 0.1s var(--ease-apple);
+}
+
+/* Live-preview hashtag halves share one continuous chip */
+body.tf-liquid-tags .cm-line :is(.cm-hashtag-begin, .cm-hashtag-end) {
+    background: linear-gradient(160deg,
+            rgba(255, 255, 255, .22) 0%,
+            rgba(var(--primary-color-rgb), .16) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45);
+    color: var(--primary-color);
+}
+
+body.tf-liquid-tags .cm-line .cm-hashtag-begin {
+    border-start-start-radius: var(--radius-pill);
+    border-end-start-radius: var(--radius-pill);
+    padding-inline-start: 0.5em;
+}
+
+body.tf-liquid-tags .cm-line .cm-hashtag-end {
+    border-start-end-radius: var(--radius-pill);
+    border-end-end-radius: var(--radius-pill);
+    padding-inline-end: 0.6em;
+}
+
+/* ============================== */
+/*   LIQUID PROPERTIES PANEL      */
+/* ============================== */
+
+body.tf-liquid-properties .metadata-container {
+    background:
+        radial-gradient(ellipse at top left,
+            rgba(var(--primary-color-rgb), .1) 0%,
+            transparent 60%),
+        linear-gradient(160deg,
+            rgba(255, 255, 255, .16) 0%,
+            rgba(var(--background-secondary-rgb), .4) 100%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .4),
+        inset 0 0 0 1px rgba(255, 255, 255, .1),
+        0 6px 18px rgba(0, 0, 0, .1);
+}
+
+body.theme-dark.tf-liquid-properties .metadata-container {
+    background:
+        radial-gradient(ellipse at top left,
+            rgba(var(--primary-color-rgb), .14) 0%,
+            transparent 60%),
+        linear-gradient(160deg,
+            rgba(255, 255, 255, .05) 0%,
+            rgba(var(--background-secondary-rgb), .35) 100%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .16),
+        inset 0 0 0 1px rgba(255, 255, 255, .07),
+        0 8px 22px rgba(0, 0, 0, .28);
+}
+
+body.tf-liquid-properties:not(.is-mobile) .metadata-container {
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+}
+
+/* Hover keeps the existing lift; deepen the drop shadow only */
+body.tf-liquid-properties:not(.is-mobile):not(.terraflow-quiet) .metadata-container:hover {
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .4),
+        inset 0 0 0 1px rgba(255, 255, 255, .12),
+        0 12px 30px rgba(0, 0, 0, .16);
+}
+
+/* ============================== */
+/*   LIQUID TABLES                */
+/* ============================== */
+
+/* Whole table becomes liquid material; overflow releases so headers can stick
+   (background and shadow follow the table's own border-radius; corner rounding
+   also lives on the cells, so nothing clips wrong) */
+body.tf-liquid-tables :is(.markdown-rendered, .markdown-preview-view) table {
+    overflow: visible;
+    background:
+        radial-gradient(ellipse at top left,
+            rgba(var(--primary-color-rgb), .08) 0%,
+            transparent 55%),
+        linear-gradient(160deg,
+            rgba(255, 255, 255, .14) 0%,
+            rgba(var(--background-secondary-rgb), .35) 100%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .35),
+        inset 0 0 0 1px rgba(255, 255, 255, .1),
+        0 6px 18px rgba(0, 0, 0, .1);
+}
+
+body.theme-dark.tf-liquid-tables :is(.markdown-rendered, .markdown-preview-view) table {
+    background:
+        radial-gradient(ellipse at top left,
+            rgba(var(--primary-color-rgb), .12) 0%,
+            transparent 55%),
+        linear-gradient(160deg,
+            rgba(255, 255, 255, .05) 0%,
+            rgba(var(--background-secondary-rgb), .3) 100%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .14),
+        inset 0 0 0 1px rgba(255, 255, 255, .06),
+        0 8px 22px rgba(0, 0, 0, .26);
+}
+
+body.tf-liquid-tables:not(.is-mobile) :is(.markdown-rendered, .markdown-preview-view) table {
+    backdrop-filter: blur(10px) saturate(170%);
+    -webkit-backdrop-filter: blur(10px) saturate(170%);
+}
+
+/* Header row: distinct seasonal-accent glass, sticky over the scrolling rows */
+body.tf-liquid-tables:is(.theme-light, .theme-dark) :is(.markdown-rendered, .markdown-preview-view) table tr:nth-child(n) th {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 2;
+    filter: none;
+    background-color: rgba(var(--background-secondary-rgb), .8);
+    background-image: linear-gradient(160deg,
+            rgba(var(--primary-color-rgb), .28) 0%,
+            rgba(var(--primary-color-rgb), .14) 100%);
+    color: var(--text-normal);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .35),
+        inset 0 -1px 0 rgba(var(--primary-color-rgb), .4);
+}
+
+body.tf-liquid-tables:is(.theme-light, .theme-dark):not(.is-mobile) :is(.markdown-rendered, .markdown-preview-view) table tr:nth-child(n) th {
+    backdrop-filter: blur(10px) saturate(170%);
+    -webkit-backdrop-filter: blur(10px) saturate(170%);
+}
+
+/* Editor tables: same material, no sticky (CM6 scroll model doesn't suit it) */
+body.tf-liquid-tables .markdown-source-view.mod-cm6 .cm-table-widget table {
+    background:
+        radial-gradient(ellipse at top left,
+            rgba(var(--primary-color-rgb), .08) 0%,
+            transparent 55%),
+        linear-gradient(160deg,
+            rgba(255, 255, 255, .14) 0%,
+            rgba(var(--background-secondary-rgb), .35) 100%);
+    border-radius: var(--r3);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .35),
+        inset 0 0 0 1px rgba(255, 255, 255, .1),
+        0 6px 18px rgba(0, 0, 0, .1);
+}
+
+body.tf-liquid-tables:is(.theme-light, .theme-dark) .markdown-source-view.mod-cm6 .cm-table-widget table th {
+    filter: none;
+    background-color: rgba(var(--background-secondary-rgb), .8);
+    background-image: linear-gradient(160deg,
+            rgba(var(--primary-color-rgb), .28) 0%,
+            rgba(var(--primary-color-rgb), .14) 100%);
+    color: var(--text-normal);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .35),
+        inset 0 -1px 0 rgba(var(--primary-color-rgb), .4);
+}
+
+/* ============================== */
+/*   LIQUID STATUS BAR            */
+/* ============================== */
+
+/* Upgrade the expanded Dynamic Island pill to true glass material */
+body.tf-liquid-statusbar:not(.is-mobile):not(.disable-status-bar) .status-bar:hover {
+    background-color: rgba(var(--background-secondary-rgb), .55);
+    border-color: transparent;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .35),
+        inset 0 0 0 1px rgba(255, 255, 255, .1),
+        0 8px 24px rgba(0, 0, 0, .18);
+}
+
+/* ============================== */
+/*   LIQUID COMMAND PALETTE       */
+/* ============================== */
+
+body.tf-liquid-prompt .prompt {
+    backdrop-filter: blur(24px) saturate(190%);
+    -webkit-backdrop-filter: blur(24px) saturate(190%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .4),
+        inset 0 0 0 1px rgba(255, 255, 255, .12),
+        var(--shadow-overlay);
+}
+
+body.theme-dark.tf-liquid-prompt .prompt {
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .18),
+        inset 0 0 0 1px rgba(255, 255, 255, .08),
+        var(--shadow-overlay-dark);
+}
+
+body.tf-liquid-prompt .suggestion-item.is-selected {
+    background:
+        linear-gradient(160deg,
+            rgba(var(--primary-color-rgb), .24) 0%,
+            rgba(var(--primary-color-rgb), .12) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25);
 }
