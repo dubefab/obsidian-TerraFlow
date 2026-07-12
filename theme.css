@@ -278,6 +278,12 @@ settings:
         type: class-toggle
         default: false
     -
+        id: scroll-edge-fade
+        title: Scroll Edge Dissolve
+        description: Note content melts softly into the chrome at the top and bottom of the scroll area instead of clipping hard
+        type: class-toggle
+        default: false
+    -
         id: pill-tabs
         title: Soft Pill Tabs
         description: Restyle workspace tabs as quiet translucent pills instead of squared tab shapes
@@ -290,6 +296,16 @@ settings:
         type: heading
         level: 2
         collapsed: true
+    -
+        id: tf-glass-tint
+        title: Glass Tint
+        description: How solid the glass material is across menus, popovers, panels and modals — lower is clearer, higher is more tinted
+        type: variable-number-slider
+        default: 65
+        min: 35
+        max: 90
+        step: 5
+        format: "%"
     -
         id: tf-liquid-tags
         title: Liquid Tags
@@ -347,6 +363,18 @@ settings:
         description: The text cursor glides between positions instead of jumping — satisfying, but turn off if it feels laggy while typing
         type: class-toggle
         default: false
+    -
+        id: scroll-progress
+        title: Reading Progress Bar
+        description: A hairline accent bar under the note header that fills as you scroll through the note
+        type: class-toggle
+        default: false
+    -
+        id: scroll-reveal
+        title: Rise Into View
+        description: Callouts, tables, images and code blocks gently fade and rise as they scroll into view (reading mode)
+        type: class-toggle
+        default: false
 
     -
         id: content-styles-heading
@@ -363,6 +391,12 @@ settings:
         min: 300
         max: 600
         step: 50
+    -
+        id: optical-text-trim
+        title: Optical Text Centering
+        description: Trim the font's invisible leading in short labels (tag chips, tab titles, callout titles) so text centers on its letterforms, not its line box
+        type: class-toggle
+        default: true
     -
         id: tf-luminous
         title: Luminous Details
@@ -937,12 +971,9 @@ settings:
 
     /* ===== WHIMSY ANIMATION TOKENS ===== */
 
-    /* Easing Curves - Bounce Intensities */
-    --ease-bounce-sm: cubic-bezier(0.175, 0.885, 0.32, 1.2);
-    --ease-bounce-md: cubic-bezier(0.175, 0.885, 0.32, 1.5);
-    --ease-bounce-lg: cubic-bezier(0.175, 0.885, 0.32, 1.8);
-    --ease-bounce-xl: cubic-bezier(0.175, 0.885, 0.32, 2.2);
-    --ease-overshoot: cubic-bezier(0.68, -0.3, 0.32, 1.3);
+    /* Anticipation dip → overshoot → settle as a true linear() spring
+       (replaces the old cubic-bezier bounce family) */
+    --ease-overshoot: linear(0, -0.04 12%, 0.45 36%, 1.09 62%, 0.98 80%, 1.005 91%, 1);
     /* True spring curves via linear() — multi-point easing Chrome 113+.
        More physically accurate than cubic-bezier: actual oscillation before settle. */
     --ease-spring-sm: linear(0, 0.6 10%, 1.06 22%, 1.03 32%, 0.99 45%, 1.01 55%, 1);
@@ -992,8 +1023,8 @@ settings:
     --height-button-sm: 32px;
     --height-input: 38px;
 
-    /* Glass Surface Tokens */
-    --glass-bg: rgba(var(--background-secondary-rgb), 0.6);
+    /* Glass Surface Tokens (--glass-bg lives on body below — its alpha
+       rides the Glass Tint slider, which Style Settings injects on body) */
     --glass-border: rgba(255, 255, 255, 0.2);
 }
 
@@ -1005,6 +1036,7 @@ body {
     --file-line-width: var(--line-width, 64ch);
     --editor-max-width: var(--line-width, 64ch);
     --reading-max-width: var(--line-width, 64ch);
+    --glass-bg: rgba(var(--background-secondary-rgb), var(--tf-glass-tint, 65%));
 }
 
 /* Body Text Weight — Obsidian hardcodes font-weight: 400 on body and only
@@ -6211,7 +6243,7 @@ body:not(.disable-ui-animations) .suggestion-container {
 body:not(.disable-ui-animations) .menu .menu-item,
 body:not(.disable-ui-animations) .suggestion-container .suggestion-item {
     animation: menuItemSlide var(--dur-quick) var(--ease-apple) both;
-    animation-delay: calc(sibling-index() * 12ms);
+    animation-delay: min(calc(sibling-index() * 12ms), 120ms);
 }
 
 /* Matter-style theme crossfade: light/dark and seasonal switches blend on
@@ -7079,14 +7111,13 @@ body:not(.is-mobile):not(.disable-status-bar) .status-bar {
     border: var(--border-thin) solid var(--divider-color);
     box-shadow: var(--shadow-1);
     color: var(--text-muted);
-    text-wrap: balance;
-    white-space: normal;
-    word-wrap: break-word;
+    /* Single row always: wrapping while max-width/height animate makes items
+       reflow every frame and height:auto re-resolve — the reveal jumbles */
+    white-space: nowrap;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
     cursor: default;
     transform-origin: bottom center;
     /* allow-keywords lets height morph 6px -> auto smoothly (Chromium 129+);
@@ -7130,7 +7161,6 @@ body:not(.disable-status-bar) .status-bar>.status-bar-item {
         opacity var(--dur-quick) var(--ease-apple),
         transform var(--dur-quick) var(--ease-apple),
         filter var(--dur-quick) var(--ease-apple);
-    white-space: normal;
     color: inherit;
     display: flex;
     align-items: center;
@@ -7469,6 +7499,12 @@ body:not(.disable-scrollbars) :is(
     margin: 2px var(--s1);
     cursor: pointer;
     transition: background-color var(--fast), transform var(--fast);
+}
+
+/* Concentric with the 16px prompt shell: items are inset 4px, so
+   16 − 4 = 12. Plain 12px suggestion popups keep the 6px default. */
+.prompt .suggestion-item {
+    border-radius: var(--r3);
 }
 
 .suggestion-item:hover {
@@ -8056,6 +8092,9 @@ body:not(.is-mobile).enable-floating-nav .nav-buttons-container {
     transition: width 0.32s var(--ease-apple), height 0.32s var(--ease-apple), background-color var(--slow), box-shadow var(--slow), opacity var(--slow);
     overflow: hidden;
     display: flex;
+    /* Obsidian's own .nav-buttons-container sets flex-wrap: wrap — while the
+       width animates, the last icon wraps to a second row below the pill */
+    flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
     gap: 0;
@@ -8070,7 +8109,9 @@ body:not(.is-mobile).enable-floating-nav .nav-buttons-container:hover {
     height: var(--height-input);
     background-color: var(--background-secondary-alt);
     box-shadow: var(--shadow-2);
-    overflow: visible;
+    /* keep overflow hidden: anything outside the pill mid-animation must clip;
+       side padding gives the edge icons room for their scale(1.1) hover */
+    padding-inline: 4px;
     opacity: 1;
     gap: 4px;
     margin-block-start: 7px !important;
@@ -10456,4 +10497,154 @@ body.tf-liquid-prompt .suggestion-item.is-selected {
             rgba(var(--primary-color-rgb), .24) 0%,
             rgba(var(--primary-color-rgb), .12) 100%);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25);
+}
+
+/* ============================== */
+/*   SCROLL EDGE DISSOLVE         */
+/* ============================== */
+
+/* Note content melts into the chrome at the top and bottom of the
+   scroller instead of hard-clipping (Apple Notes style). The mask must
+   sit on the scroll container itself — on an inner element it would
+   scroll away with the content. Direct-child chains keep it off nested
+   editors (table cells, canvas cards). Trade-off: the custom scrollbar
+   fades with the content at both ends. */
+body.scroll-edge-fade .workspace-leaf-content[data-type="markdown"] .markdown-source-view.mod-cm6 > .cm-editor > .cm-scroller,
+body.scroll-edge-fade .workspace-leaf-content[data-type="markdown"] .markdown-reading-view > .markdown-preview-view {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 28px, black calc(100% - 28px), transparent);
+    mask-image: linear-gradient(to bottom, transparent, black 28px, black calc(100% - 28px), transparent);
+}
+
+/* ============================== */
+/*   SCROLL-DRIVEN ANIMATIONS     */
+/* ============================== */
+
+/* Reading Progress Bar + Rise Into View, driven by animation-timeline.
+   @supports-gated: without timeline support the pseudo-elements and
+   animations don't exist at all. Deep Focus / Disable UI Animations are
+   excluded with :not() guards because the global animation-duration
+   kill-switches can't stop scroll-driven animations — duration is
+   ignored once an animation has a timeline. */
+
+@supports (animation-timeline: scroll()) {
+
+    /* --- Reading Progress Bar --- */
+    /* The bar lives on the view header — outside the scroller — so the
+       Scroll Edge Dissolve mask can't clip it. Live preview and reading
+       mode get distinct timeline names: the hidden mode's scroller has
+       an inactive timeline, which leaves its bar at the un-animated
+       base state of scaleX(0). Notes too short to scroll also produce
+       an inactive timeline, so no bar appears. */
+    body.scroll-progress:not(.focus-mode):not(.disable-ui-animations) .workspace-leaf-content[data-type="markdown"] {
+        timeline-scope: --tf-scroll-lp, --tf-scroll-rv;
+    }
+
+    body.scroll-progress:not(.focus-mode):not(.disable-ui-animations) .workspace-leaf-content[data-type="markdown"] .markdown-source-view.mod-cm6 > .cm-editor > .cm-scroller {
+        scroll-timeline: --tf-scroll-lp block;
+    }
+
+    body.scroll-progress:not(.focus-mode):not(.disable-ui-animations) .workspace-leaf-content[data-type="markdown"] .markdown-reading-view > .markdown-preview-view {
+        scroll-timeline: --tf-scroll-rv block;
+    }
+
+    body.scroll-progress:not(.focus-mode):not(.disable-ui-animations) .workspace-leaf-content[data-type="markdown"] .view-header::before,
+    body.scroll-progress:not(.focus-mode):not(.disable-ui-animations) .workspace-leaf-content[data-type="markdown"] .view-header::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -1.5px; /* overlays the header's 1.5px border-block-end as it fills */
+        width: 100%;
+        height: 2px;
+        pointer-events: none;
+        z-index: 6;
+        background-color: rgba(var(--primary-color-rgb), 0.65);
+        transform: scaleX(0);
+        transform-origin: left center;
+        animation: tf-scroll-progress linear both;
+    }
+
+    body.scroll-progress:not(.focus-mode):not(.disable-ui-animations) .workspace-leaf-content[data-type="markdown"] .view-header::before {
+        animation-timeline: --tf-scroll-lp;
+    }
+
+    body.scroll-progress:not(.focus-mode):not(.disable-ui-animations) .workspace-leaf-content[data-type="markdown"] .view-header::after {
+        animation-timeline: --tf-scroll-rv;
+    }
+
+    /* --- Rise Into View (reading mode) --- */
+    /* Animates the section wrapper div, not the block itself, so hover
+       lifts and sticky liquid-table headers on the inner element aren't
+       frozen by the animation's fill. Ends on transform: none so no
+       containing block lingers after entry. Blocks already in view when
+       a note opens are past their entry range and render settled — no
+       load flicker. */
+    @media (prefers-reduced-motion: no-preference) {
+        body.scroll-reveal:not(.focus-mode):not(.disable-ui-animations) .markdown-reading-view .markdown-preview-sizer > div:has(> :is(.callout, table, pre, blockquote), .image-embed) {
+            animation: tf-rise-in linear both;
+            animation-timeline: view();
+            animation-range: entry 5% entry 45%;
+        }
+    }
+}
+
+@keyframes tf-scroll-progress {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@keyframes tf-rise-in {
+    from {
+        opacity: 0.5;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ============================== */
+/*   OPTICAL TEXT CENTERING       */
+/* ============================== */
+
+/* text-box: trim-both cuts the font's invisible leading above cap height
+   and below the baseline, so short labels center on their letterforms
+   instead of their line box (Chromium 133+; inert where unsupported).
+   Applies to block containers only — Obsidian's flex-based buttons and
+   status-bar items are unaffected by design. */
+body.optical-text-trim :is(.callout-title-inner, .workspace-tab-header-inner-title) {
+    text-box: trim-both cap alphabetic;
+}
+
+/* Tag chips need a block container for the trim to bite; inline-block
+   also prevents a chip breaking across lines */
+body.optical-text-trim :is(.markdown-rendered, .markdown-preview-view) a.tag {
+    display: inline-block;
+    text-box: trim-both cap alphabetic;
+}
+
+/* ============================== */
+/*   DARK ELEVATION LAYERS        */
+/* ============================== */
+
+/* Dark surfaces separate poorly through shadow alone — dark-on-dark
+   shadows carry almost no contrast. Overlay a translucent white lift
+   that rises with stacking order (menus → popovers → palette), creating
+   separation without adding color. Rides the Depth & Shadows toggle. */
+body.depth-shadows.theme-dark :is(.menu, .tooltip) {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03));
+}
+
+body.depth-shadows.theme-dark :is(.popover, .suggestion-container) {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.045));
+}
+
+body.depth-shadows.theme-dark .prompt {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06));
 }
