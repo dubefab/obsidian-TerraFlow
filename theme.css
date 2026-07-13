@@ -2716,18 +2716,19 @@ body {
 
 /* --- Tokyo Night Theme --- */
 /* Faithful to the Bear "Tokyo Night" / "Tokyo Night Light" themes:
-   dark = Storm base, green accent, all-blue headings;
-   light = neutral gray, wine accent, orange links, all-teal headings */
+   dark = Storm base, blue accent (Bear bold/header blue), all-blue headings;
+   light = neutral gray, teal accent (Bear bold/header teal), orange links,
+   all-teal headings */
 .tokyo-theme {
-    --accent-h: 89;
-    --accent-s: 51%;
-    --accent-l: 61%;
+    --accent-h: 221;
+    --accent-s: 89%;
+    --accent-l: 72%;
 }
 
 .theme-light.tokyo-theme {
-    --accent-h: 351;
-    --accent-s: 31%;
-    --accent-l: 40%;
+    --accent-h: 194;
+    --accent-s: 94%;
+    --accent-l: 24%;
     --background-primary: #eaeaed;
     --background-primary-rgb: 234, 234, 237;
     --background-secondary: #e3e3e9;
@@ -2739,9 +2740,9 @@ body {
     --text-faint: #7c7f93;
     --emphasis-color: #2c3252;
     --emphasis-color-light: #343b58;
-    --primary-color: #84464f;
-    --primary-color-rgb: 132, 70, 79;
-    --primary-color-dark: #6d3941;
+    --primary-color: #045d77;
+    --primary-color-rgb: 4, 93, 119;
+    --primary-color-dark: #034d62;
     --interactive-accent: var(--primary-color);
     --interactive-accent-hover: var(--primary-color-dark);
     --link-color: #a35021;
@@ -2822,9 +2823,9 @@ body {
     --text-faint: #414868;
     --emphasis-color: #c0caf5;
     --emphasis-color-light: #d5dbf8;
-    --primary-color: #9ece6a;
-    --primary-color-rgb: 158, 206, 106;
-    --primary-color-dark: #7fb04c;
+    --primary-color: #7aa2f7;
+    --primary-color-rgb: 122, 162, 247;
+    --primary-color-dark: #6586cc;
     --interactive-accent: var(--primary-color);
     --interactive-accent-hover: var(--primary-color-dark);
     --link-color: #bb9af7;
