@@ -10619,8 +10619,15 @@ body.scroll-edge-fade .workspace-leaf-content[data-type="markdown"] .markdown-re
    instead of their line box (Chromium 133+; inert where unsupported).
    Applies to block containers only — Obsidian's flex-based buttons and
    status-bar items are unaffected by design. */
-body.optical-text-trim :is(.callout-title-inner, .workspace-tab-header-inner-title) {
+body.optical-text-trim .callout-title-inner {
     text-box: trim-both cap alphabetic;
+}
+
+/* Tab titles ellipsize via overflow:hidden, which clips ink outside the
+   trimmed box — an alphabetic under-edge cuts descenders (p, g, y).
+   Trim only down to the font's descent edge here. */
+body.optical-text-trim .workspace-tab-header-inner-title {
+    text-box: trim-both cap text;
 }
 
 /* Tag chips need a block container for the trim to bite; inline-block
