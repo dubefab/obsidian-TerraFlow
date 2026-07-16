@@ -8583,6 +8583,15 @@ body:not(.is-mobile).ribbon-autohide .workspace-ribbon.mod-left {
         background-color 0.35s var(--ease-apple);
 }
 
+/* With the ribbon out of flow, macOS traffic-light clearance comes up
+   short: native --frame-left-space is calc(80px - var(--ribbon-width)),
+   which assumes the ribbon still occupies its width at the left edge.
+   Reserve the full 80px so the top-left tab header (and the sidebar
+   collapse icon when the left sidebar is collapsed) clears the lights. */
+body:not(.is-mobile).ribbon-autohide.mod-macos {
+    --frame-left-space: 80px;
+}
+
 /* Invisible 10px hot strip pinned to the screen edge — position: fixed
    on the pseudo keeps it hit-testable while the ribbon is off-screen,
    independent of the ribbon's own geometry */
