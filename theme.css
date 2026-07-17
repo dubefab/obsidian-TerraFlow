@@ -759,8 +759,8 @@ settings:
         default: 64ch
     -
         id: editor-line-height
-        title: Editor Line Height
-        description: Line height for editor text (e.g. 1.4, 1.6, 1.8)
+        title: Line Height
+        description: Line height for editor and reading view text (e.g. 1.4, 1.6, 1.8)
         type: variable-text
         default: "1.6"
     -
@@ -1042,6 +1042,9 @@ settings:
    and Obsidian's own --file-line-width default is body-scoped. */
 body {
     --line-normal: var(--editor-line-height, 1.6);
+    /* Route reading mode through the same value so both modes read identically:
+       --line-height-normal drives .markdown-preview-view line-height. */
+    --line-height-normal: var(--line-normal);
     --file-line-width: var(--line-width, 64ch);
     --editor-max-width: var(--line-width, 64ch);
     --reading-max-width: var(--line-width, 64ch);
@@ -3843,14 +3846,6 @@ body.is-focused .workspace-tabs.mod-top {
     text-wrap: pretty;
 }
 
-/* Balance multi-line headings and titles so no line is left near-empty
-   (reading view only — live-preview headings are inline spans, balance is a no-op there) */
-:is(.markdown-preview-view, .markdown-reading-view) :is(h1, h2, h3, h4, h5, h6),
-.inline-title,
-.callout-title-inner {
-    text-wrap: balance;
-}
-
 /* ========================================= */
 /*                 HEADINGS                  */
 /* ========================================= */
@@ -3875,13 +3870,6 @@ body.is-focused .workspace-tabs.mod-top {
 .cm-header-5,
 .cm-header-6 {
     font-family: var(--heading-font);
-}
-
-/* Trim font-metric dead-space above cap-height and below baseline (reading view only —
-   skipping .cm-header-* to avoid layout recalc on every keystroke in the editor) */
-.markdown-preview-view :is(h1, h2, h3, h4, h5, h6),
-.markdown-reading-view :is(h1, h2, h3, h4, h5, h6) {
-    text-box: trim-both cap alphabetic;
 }
 
 /* Base heading styles (Preview and Source Mode) */
@@ -8935,15 +8923,15 @@ body.is-mobile .metadata-properties-heading {
 body.depth-shadows {
     --depth-1: 0 1px 2px rgba(0, 0, 0, 0.05),
                0 2px 4px rgba(0, 0, 0, 0.03);
-    
+
     --depth-2: 0 2px 4px rgba(0, 0, 0, 0.06),
                0 4px 8px rgba(0, 0, 0, 0.04),
                0 8px 16px rgba(0, 0, 0, 0.02);
-    
+
     --depth-3: 0 4px 8px rgba(0, 0, 0, 0.08),
                0 8px 16px rgba(0, 0, 0, 0.06),
                0 16px 32px rgba(0, 0, 0, 0.04);
-    
+
     --depth-4: 0 8px 16px rgba(0, 0, 0, 0.1),
                0 16px 32px rgba(0, 0, 0, 0.08),
                0 32px 64px rgba(0, 0, 0, 0.06);
@@ -8952,15 +8940,15 @@ body.depth-shadows {
 body.depth-shadows.theme-dark {
     --depth-1: 0 1px 2px rgba(0, 0, 0, 0.2),
                0 2px 4px rgba(0, 0, 0, 0.15);
-    
+
     --depth-2: 0 2px 4px rgba(0, 0, 0, 0.25),
                0 4px 8px rgba(0, 0, 0, 0.2),
                0 8px 16px rgba(0, 0, 0, 0.15);
-    
+
     --depth-3: 0 4px 8px rgba(0, 0, 0, 0.3),
                0 8px 16px rgba(0, 0, 0, 0.25),
                0 16px 32px rgba(0, 0, 0, 0.2);
-    
+
     --depth-4: 0 8px 16px rgba(0, 0, 0, 0.35),
                0 16px 32px rgba(0, 0, 0, 0.3),
                0 32px 64px rgba(0, 0, 0, 0.25);
@@ -9030,13 +9018,13 @@ body.depth-shadows :is(.markdown-rendered pre:hover, .markdown-preview-view pre:
 }
 
 /* Buttons - depth 1 with depth 2 on hover */
-body.depth-shadows .button, 
+body.depth-shadows .button,
 body.depth-shadows button:not(.clickable-icon) {
     box-shadow: var(--depth-1);
     transition: var(--transition-depth);
 }
 
-body.depth-shadows .button:hover, 
+body.depth-shadows .button:hover,
 body.depth-shadows button:not(.clickable-icon):hover {
     box-shadow: var(--depth-2);
     transform: translateY(-1px) !important;
@@ -9191,11 +9179,11 @@ body.inline-code-accent :not(pre) > code:hover {
 }
 
 @keyframes code-pulse {
-    0%, 100% { 
+    0%, 100% {
         opacity: 1;
         border-left-color: var(--primary-color);
     }
-    50% { 
+    50% {
         opacity: 0.95;
         border-left-color: rgba(var(--primary-color-rgb), 0.7);
     }
