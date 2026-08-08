@@ -228,6 +228,12 @@ settings:
         type: class-toggle
         default: false
     -
+        id: tf-luminance-depth
+        title: Luminance Depth (No Shadows)
+        description: Callouts, modals, popovers, and cards read as elevated through a stepped surface tint instead of a drop shadow — pairs well with Disable Box Shadows for elevation that survives a flat look
+        type: class-toggle
+        default: false
+    -
         id: terraflow-quiet
         title: Quiet Mode (Rams Reduction)
         description: Soften hover lifts, mute accent backgrounds, remove link glow — a calmer, less expressive interface
@@ -404,6 +410,12 @@ settings:
         type: class-toggle
         default: true
     -
+        id: tf-balanced-headings
+        title: Balanced Headings & Titles
+        description: Wrap headings, titles, callout titles, and tooltips onto evenly-balanced lines instead of leaving a short ragged last line
+        type: class-toggle
+        default: false
+    -
         id: tf-luminous
         title: Luminous Details
         description: Horizontal rules become glowing seasonal gradient hairlines and images get a gentle hover lift with an accent-tinted shadow
@@ -455,6 +467,9 @@ settings:
             -
                 label: Glass
                 value: highlight-style-glass
+            -
+                label: Marker
+                value: highlight-style-marker
     -
         id: blockquote-style-selector
         title: Blockquote Style
@@ -519,7 +534,7 @@ settings:
     -
         id: enable-fancy-bullets
         title: Fancy Multilevel Bullet Styles
-        description: Unique custom bullet shapes per list nesting level
+        description: Unique custom bullet shapes per list nesting level, and muted tabular numerals for ordered lists
         type: class-toggle
         default: false
     -
@@ -3846,6 +3861,13 @@ body.is-focused .workspace-tabs.mod-top {
     text-wrap: pretty;
 }
 
+/* Balanced Headings & Titles: short display strings get an even line break
+   instead of a ragged last line. Headings, titles, callout titles, tooltips. */
+body.tf-balanced-headings :is(h1, h2, h3, h4, h5, h6, .inline-title, .callout-title,
+    .modal-title, .workspace-tab-header-inner-title, .setting-item-name, .tooltip) {
+    text-wrap: balance;
+}
+
 /* ========================================= */
 /*                 HEADINGS                  */
 /* ========================================= */
@@ -5671,6 +5693,79 @@ body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) 
     filter: brightness(1.08);
 }
 
+/* Highlight Style - Marker: a translucent band sitting on the baseline
+   instead of a filled pill — reads as an annotation swipe, not a UI chip.
+   box-decoration-break keeps the band unbroken where a highlight wraps. */
+.highlight-style-marker :is(
+    .markdown-rendered mark,
+    span.cm-highlight,
+    .markdown-preview-view mark,
+    .cm-s-obsidian span.cm-highlight
+) {
+    background-color: transparent;
+    background-image: linear-gradient(transparent 55%, rgba(var(--highlight-bg-rgb, var(--primary-color-rgb)), .45) 55%);
+    background-repeat: no-repeat;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    color: var(--text-normal);
+    padding: 0 2px;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+.theme-dark.highlight-style-marker :is(
+    .markdown-rendered mark,
+    span.cm-highlight,
+    .markdown-preview-view mark,
+    .cm-s-obsidian span.cm-highlight
+) {
+    background-image: linear-gradient(transparent 55%, rgba(var(--highlight-bg-rgb, var(--primary-color-rgb)), .55) 55%);
+    color: var(--text-normal);
+    text-shadow: none;
+}
+
+.highlight-style-marker :is(
+    .markdown-rendered mark,
+    span.cm-highlight,
+    .markdown-preview-view mark,
+    .cm-s-obsidian span.cm-highlight
+):hover {
+    background-image: linear-gradient(transparent 45%, rgba(var(--highlight-bg-rgb, var(--primary-color-rgb)), .55) 45%);
+    filter: none;
+}
+
+/* Marker inside callouts: the callout-aware highlight rule above (scoped to
+   .callout .callout-content) outranks a plain .highlight-style-marker
+   selector on specificity alone, so it was winning outright and Marker had
+   no visible effect there. Pinned with !important; keeps the per-callout
+   accent colour, swaps the pill for the same gradient band. */
+.highlight-style-marker :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight) {
+    background-color: transparent !important;
+    background-image: linear-gradient(transparent 55%, rgba(var(--callout-color-rgb), .45) 55%) !important;
+    background-repeat: no-repeat !important;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    color: var(--callout-color) !important;
+    padding: 0 2px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+.theme-dark.highlight-style-marker :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight) {
+    background-image: linear-gradient(transparent 55%, rgba(var(--callout-color-rgb), .55) 55%) !important;
+    color: hsl(from var(--callout-color) h s calc(l * 1.1)) !important;
+    text-shadow: none !important;
+}
+
+.highlight-style-marker :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight):hover {
+    background-image: linear-gradient(transparent 45%, rgba(var(--callout-color-rgb), .55) 45%) !important;
+    transform: none !important;
+}
+
 /* Strikethrough Styling */
 :is(.markdown-rendered del, .cm-strikethrough) {
     text-decoration: none;
@@ -6210,6 +6305,17 @@ body.enable-fancy-bullets {
         border-block-end: 5px solid transparent;
         border-inline-start: 8px solid;
         border-inline-end: 0px solid;
+    }
+
+    /* Ordered lists keep native numerals — just quiet them down.
+       Obsidian renders real <ol><li> markers in both reading view and live
+       preview (unlike bullets, which are faked via .list-bullet spans), so
+       one rule on the native ::marker covers both. */
+    ol > li::marker {
+        color: var(--text-muted);
+        font-variant-numeric: tabular-nums;
+        font-size: .9em;
+        font-weight: var(--weight-medium);
     }
 }
 
@@ -9136,6 +9242,65 @@ body.depth-shadows.depth-warm.theme-dark {
     --depth-4: 0 8px 16px rgba(var(--primary-color-rgb), 0.24),
                0 16px 32px rgba(var(--primary-color-rgb), 0.18),
                0 32px 64px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================== */
+/*   LUMINANCE DEPTH (NO SHADOWS) */
+/* ============================== */
+
+/* Stepped surface tints instead of drop shadows: elevation reads through
+   luminance, not shadow. Independent of the depth-shadows box-shadow system
+   above — this only ever adds a background-color underneath each surface's
+   existing gradient/tint, so nothing here removes what depth-shadows or the
+   default look already paint. Scoped to the handful of surfaces that read
+   as "elevated" in the luminance sense (cards, overlays); hover-only chrome
+   like buttons and tabs is left to its existing hover background. */
+body.tf-luminance-depth {
+    --elevate-1: color-mix(in srgb, var(--primary-color) 3%, var(--background-primary));
+    --elevate-2: color-mix(in srgb, var(--primary-color) 6%, var(--background-primary));
+    --elevate-3: color-mix(in srgb, var(--primary-color) 10%, var(--background-primary));
+    --elevate-4: color-mix(in srgb, var(--primary-color) 15%, var(--background-primary));
+}
+
+/* Dark mode elevates toward white, not toward the accent — a darker tint
+   would read as recessed, the opposite of the intended hierarchy */
+body.tf-luminance-depth.theme-dark {
+    --elevate-1: color-mix(in srgb, white 4%, var(--background-primary));
+    --elevate-2: color-mix(in srgb, white 8%, var(--background-primary));
+    --elevate-3: color-mix(in srgb, white 13%, var(--background-primary));
+    --elevate-4: color-mix(in srgb, white 19%, var(--background-primary));
+}
+
+body.tf-luminance-depth :is(.callout, .metadata-container, .canvas-card) {
+    background-color: var(--elevate-2);
+}
+
+body.tf-luminance-depth :is(.callout, .metadata-container):hover {
+    background-color: var(--elevate-3);
+}
+
+body.tf-luminance-depth .canvas-card:hover {
+    background-color: var(--elevate-4);
+}
+
+body.tf-luminance-depth:not(.is-mobile).layout-card .workspace-leaf-content {
+    background-color: var(--elevate-2) !important;
+}
+
+body.tf-luminance-depth:not(.is-mobile).layout-card .workspace-leaf:hover .workspace-leaf-content {
+    background-color: var(--elevate-3) !important;
+}
+
+body.tf-luminance-depth .modal-container .modal {
+    background-color: var(--elevate-4);
+}
+
+body.tf-luminance-depth :is(.popover, .suggestion-container, .menu) {
+    background-color: var(--elevate-3);
+}
+
+body.tf-luminance-depth :is(.markdown-rendered pre, .markdown-preview-view pre, .markdown-source-view.mod-cm6 .HyperMD-codeblock) {
+    background-color: var(--elevate-1);
 }
 
 /* ============================== */
