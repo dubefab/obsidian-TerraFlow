@@ -1967,7 +1967,7 @@ body {
     --code-punctuation: rgba(61, 26, 46, .7);
     --code-string: #0c7a93;
     --code-tag: #0a6b5d;
-    --code-value: indigo;
+    --code-value: #4b0082;
     --heading-primary: #ff6b9d;
     --heading-secondary: #00b2a2;
     --heading-tertiary: #fc7b00;
@@ -2792,7 +2792,7 @@ body {
 /* Paper Theme Specific Table Overrides for Readability */
 .theme-dark.paper-theme .markdown-rendered table th,
 .theme-dark.paper-theme .markdown-preview-view table th {
-    color: #191919 !important;
+    color: var(--background-primary) !important;
 }
 
 /* Monochrome Mode Toggle - Grayscale Text, Single Accent */
@@ -3395,11 +3395,6 @@ body.focus-mode.focus-mode-hide-sidebars .workspace-split.mod-right-split {
     display: none !important;
 }
 
-/* Global Transitions */
-body {
-    transition: background-color 0.3s cubic-bezier(0.32, 0.72, 0, 1), color 0.3s cubic-bezier(0.32, 0.72, 0, 1);
-}
-
 .markdown-source-view.mod-cm6 .cm-content,
 .markdown-source-view.mod-cm6 .cm-line {
     line-height: var(--line-normal);
@@ -3838,6 +3833,22 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
     font-size: 1.05em;
 }
 
+/* Live-preview heading font-size, applied at the LINE level rather than the
+   .cm-header-N span: Obsidian's own core CSS forces the span's font-size to
+   `inherit !important` (so any span-level rule here is dead regardless of
+   !important or specificity), while the .cm-line itself gets its size from
+   Obsidian's own un-important `.HyperMD-header-N { font-size: var(--h1-size) }`.
+   Overriding the line directly beats that cleanly with no !important needed,
+   and the span then just inherits the corrected line size as Obsidian's own
+   rule already intends. (Confirmed live: span-level !important alone
+   double-scaled headings, compounding on top of the line's own --hN-size.) */
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-1 { font-size: 1.8em; }
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-2 { font-size: 1.4em; }
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-3 { font-size: 1.35em; }
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-4 { font-size: 1.15em; }
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-5 { font-size: 1.1em; }
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-6 { font-size: 1.05em; }
+
 /* Suppress <br> artifacts from trailing double-spaces in headings */
 .markdown-preview-view :is(h1, h2, h3, h4, h5, h6) > br {
     display: none;
@@ -3859,22 +3870,27 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
     overflow: visible !important;
 }
 
-/* Reading mode */
+/* Reading mode. !important dropped -- verified via CSSOM that Obsidian's own
+   core rules for this element (.markdown-preview-view .collapse-indicator,
+   .markdown-preview-view .heading-collapse-indicator) carry no !important and
+   no inline style is applied to the element at rest; our selector ties or
+   beats them on specificity and loads after app.css, so it already wins.
+   Tested live: fold/unfold click and hover-reveal still both work. */
 .markdown-rendered .heading-collapse-indicator {
-    position: absolute !important;
-    inset-inline-start: -1px !important;
-    height: 100% !important;
-    display: flex !important;
-    align-items: center !important;
-    inset-block-start: 50% !important;
-    transform: translateY(-50%) !important;
-    opacity: 0 !important;
+    position: absolute;
+    inset-inline-start: -1px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
     transition: opacity var(--transition-ui);
     z-index: 10;
 }
 
 .markdown-rendered :is(h1, h2, h3, h4, h5, h6):hover .heading-collapse-indicator {
-    opacity: 1 !important;
+    opacity: 1;
 }
 
 /* Heading fold chevron: keep NATIVE inline flow — absolute stretch centers on padding-top, lands too high; do not re-add */
@@ -3922,7 +3938,7 @@ body.h6-case-upper :is(h6, .cm-header-6) {
 .heading-style-underline .markdown-preview-view h5,
 .heading-style-underline .markdown-preview-view h6,
 .heading-style-underline .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
-    background: transparent !important;
+    background: transparent;
     box-shadow: none;
     padding-block: .2em;
     padding-inline: 0;
@@ -3980,7 +3996,7 @@ body.h6-case-upper :is(h6, .cm-header-6) {
 .heading-style-border .markdown-preview-view h5,
 .heading-style-border .markdown-preview-view h6,
 .heading-style-border .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
-    background: transparent !important;
+    background: transparent;
     box-shadow: none;
     padding-block: .2em;
     padding-inline-start: .8em;
@@ -4036,7 +4052,7 @@ body.h6-case-upper :is(h6, .cm-header-6) {
 .heading-style-minimal .markdown-preview-view h5,
 .heading-style-minimal .markdown-preview-view h6,
 .heading-style-minimal .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
-    background: transparent !important;
+    background: transparent;
     box-shadow: none;
     padding-block: .2em;
     padding-inline: 0;
@@ -4056,38 +4072,38 @@ body.h6-case-upper :is(h6, .cm-header-6) {
 .heading-style-gradient .markdown-preview-view h5,
 .heading-style-gradient .markdown-preview-view h6,
 .heading-style-gradient .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
-    background-image: linear-gradient(135deg, currentColor 0%, currentColor 100%) !important;
+    background-image: linear-gradient(135deg, currentColor 0%, currentColor 100%);
     background-blend-mode: normal;
 }
 
 .heading-style-gradient .markdown-preview-view h1,
 .heading-style-gradient .markdown-source-view.mod-cm6 .cm-line .cm-header-1 {
-    background: linear-gradient(135deg, rgba(var(--heading-primary-rgb), 0.4), rgba(var(--heading-primary-rgb), 0.2)) !important;
+    background: linear-gradient(135deg, rgba(var(--heading-primary-rgb), 0.4), rgba(var(--heading-primary-rgb), 0.2));
 }
 
 .heading-style-gradient .markdown-preview-view h2,
 .heading-style-gradient .markdown-source-view.mod-cm6 .cm-line .cm-header-2 {
-    background: linear-gradient(135deg, rgba(var(--heading-secondary-rgb), 0.4), rgba(var(--heading-secondary-rgb), 0.2)) !important;
+    background: linear-gradient(135deg, rgba(var(--heading-secondary-rgb), 0.4), rgba(var(--heading-secondary-rgb), 0.2));
 }
 
 .heading-style-gradient .markdown-preview-view h3,
 .heading-style-gradient .markdown-source-view.mod-cm6 .cm-line .cm-header-3 {
-    background: linear-gradient(135deg, rgba(var(--heading-tertiary-rgb), 0.4), rgba(var(--heading-tertiary-rgb), 0.2)) !important;
+    background: linear-gradient(135deg, rgba(var(--heading-tertiary-rgb), 0.4), rgba(var(--heading-tertiary-rgb), 0.2));
 }
 
 .heading-style-gradient .markdown-preview-view h4,
 .heading-style-gradient .markdown-source-view.mod-cm6 .cm-line .cm-header-4 {
-    background: linear-gradient(135deg, rgba(var(--heading-quaternary-rgb), 0.4), rgba(var(--heading-quaternary-rgb), 0.2)) !important;
+    background: linear-gradient(135deg, rgba(var(--heading-quaternary-rgb), 0.4), rgba(var(--heading-quaternary-rgb), 0.2));
 }
 
 .heading-style-gradient .markdown-preview-view h5,
 .heading-style-gradient .markdown-source-view.mod-cm6 .cm-line .cm-header-5 {
-    background: linear-gradient(135deg, rgba(var(--heading-quinary-rgb), 0.4), rgba(var(--heading-quinary-rgb), 0.2)) !important;
+    background: linear-gradient(135deg, rgba(var(--heading-quinary-rgb), 0.4), rgba(var(--heading-quinary-rgb), 0.2));
 }
 
 .heading-style-gradient .markdown-preview-view h6,
 .heading-style-gradient .markdown-source-view.mod-cm6 .cm-line .cm-header-6 {
-    background: linear-gradient(135deg, rgba(var(--heading-senary-rgb), 0.4), rgba(var(--heading-senary-rgb), 0.2)) !important;
+    background: linear-gradient(135deg, rgba(var(--heading-senary-rgb), 0.4), rgba(var(--heading-senary-rgb), 0.2));
 }
 
 /* Badge (Pill) Style */
@@ -4100,8 +4116,8 @@ body.h6-case-upper :is(h6, .cm-header-6) {
 .heading-style-badge .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
     border-radius: 999px;
     padding: .3em .8em;
-    background-image: none !important;
-    -electron-corner-smoothing: 0% !important;
+    background-image: none;
+    -electron-corner-smoothing: 0%;
 }
 
 .heading-style-badge :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-line) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6):hover {
@@ -4126,14 +4142,14 @@ body.h6-case-upper :is(h6, .cm-header-6) {
 }
 
 /* GPU hints desktop-only — these break iOS scroll containment */
-body:not(.is-mobile) .heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
+body:not(.is-mobile).heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
     will-change: transform;
     contain: layout style;
 }
 
 /* Backdrop-filter desktop-only — per-heading blur repaints on every scroll frame on iOS */
 @supports (backdrop-filter: blur(1px)) {
-    body:not(.is-mobile):not(.disable-glass-menus) .heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
+    body:not(.is-mobile):not(.disable-glass-menus).heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
         backdrop-filter: blur(8px) saturate(160%) brightness(1.03);
         -webkit-backdrop-filter: blur(8px) saturate(160%) brightness(1.03);
     }
@@ -4156,61 +4172,79 @@ body:not(.is-mobile) .heading-style-glass :is(.markdown-preview-view, .markdown-
     filter: brightness(1.05);
 }
 
-/* Light Mode */
-.theme-light.heading-style-glass :is(h1, .cm-header-1) {
-    background-color: rgba(var(--heading-primary-rgb), 0.28) !important;
-    color: hsl(from var(--heading-primary) h s 28%) !important;
+/* Light Mode
+   No !important: each rule spells out the same ancestor :is() the structural
+   Glass rule above uses (:is(.markdown-preview-view, .markdown-source-view.mod-cm6
+   .cm-content)), applied to a bare h1/.cm-header-1 instead of a collapsed
+   :is(h1, .cm-header-1) — the collapse is what dropped specificity below both
+   the structural rule and the base per-level heading rule, which is why this
+   used to need !important to win at all. */
+.theme-light.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) h1,
+.theme-light.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) .cm-header-1 {
+    background-color: rgba(var(--heading-primary-rgb), 0.28);
+    color: hsl(from var(--heading-primary) h s 28%);
 }
-.theme-light.heading-style-glass :is(h2, .cm-header-2) {
-    background-color: rgba(var(--heading-secondary-rgb), 0.28) !important;
-    color: hsl(from var(--heading-secondary) h s 28%) !important;
+.theme-light.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) h2,
+.theme-light.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) .cm-header-2 {
+    background-color: rgba(var(--heading-secondary-rgb), 0.28);
+    color: hsl(from var(--heading-secondary) h s 28%);
 }
-.theme-light.heading-style-glass :is(h3, .cm-header-3) {
-    background-color: rgba(var(--heading-tertiary-rgb), 0.28) !important;
-    color: hsl(from var(--heading-tertiary) h s 28%) !important;
+.theme-light.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) h3,
+.theme-light.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) .cm-header-3 {
+    background-color: rgba(var(--heading-tertiary-rgb), 0.28);
+    color: hsl(from var(--heading-tertiary) h s 28%);
 }
-.theme-light.heading-style-glass :is(h4, .cm-header-4) {
-    background-color: rgba(var(--heading-quaternary-rgb), 0.28) !important;
-    color: hsl(from var(--heading-quaternary) h s 28%) !important;
+.theme-light.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) h4,
+.theme-light.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) .cm-header-4 {
+    background-color: rgba(var(--heading-quaternary-rgb), 0.28);
+    color: hsl(from var(--heading-quaternary) h s 28%);
 }
-.theme-light.heading-style-glass :is(h5, .cm-header-5) {
-    background-color: rgba(var(--heading-quinary-rgb), 0.28) !important;
-    color: hsl(from var(--heading-quinary) h s 28%) !important;
+.theme-light.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) h5,
+.theme-light.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) .cm-header-5 {
+    background-color: rgba(var(--heading-quinary-rgb), 0.28);
+    color: hsl(from var(--heading-quinary) h s 28%);
 }
-.theme-light.heading-style-glass :is(h6, .cm-header-6) {
-    background-color: rgba(var(--heading-senary-rgb), 0.28) !important;
-    color: hsl(from var(--heading-senary) h s 28%) !important;
+.theme-light.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) h6,
+.theme-light.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) .cm-header-6 {
+    background-color: rgba(var(--heading-senary-rgb), 0.28);
+    color: hsl(from var(--heading-senary) h s 28%);
 }
 
 /* Dark Mode */
-.theme-dark.heading-style-glass :is(h1, .cm-header-1) {
-    background-color: rgba(var(--heading-primary-rgb), 0.3) !important;
-    color: hsl(from var(--heading-primary) h s 90%) !important;
+.theme-dark.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) h1,
+.theme-dark.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) .cm-header-1 {
+    background-color: rgba(var(--heading-primary-rgb), 0.3);
+    color: hsl(from var(--heading-primary) h s 90%);
     border-color: rgba(var(--heading-primary-rgb), 0.35);
 }
-.theme-dark.heading-style-glass :is(h2, .cm-header-2) {
-    background-color: rgba(var(--heading-secondary-rgb), 0.3) !important;
-    color: hsl(from var(--heading-secondary) h s 90%) !important;
+.theme-dark.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) h2,
+.theme-dark.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) .cm-header-2 {
+    background-color: rgba(var(--heading-secondary-rgb), 0.3);
+    color: hsl(from var(--heading-secondary) h s 90%);
     border-color: rgba(var(--heading-secondary-rgb), 0.35);
 }
-.theme-dark.heading-style-glass :is(h3, .cm-header-3) {
-    background-color: rgba(var(--heading-tertiary-rgb), 0.3) !important;
-    color: hsl(from var(--heading-tertiary) h s 90%) !important;
+.theme-dark.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) h3,
+.theme-dark.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) .cm-header-3 {
+    background-color: rgba(var(--heading-tertiary-rgb), 0.3);
+    color: hsl(from var(--heading-tertiary) h s 90%);
     border-color: rgba(var(--heading-tertiary-rgb), 0.35);
 }
-.theme-dark.heading-style-glass :is(h4, .cm-header-4) {
-    background-color: rgba(var(--heading-quaternary-rgb), 0.3) !important;
-    color: hsl(from var(--heading-quaternary) h s 90%) !important;
+.theme-dark.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) h4,
+.theme-dark.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) .cm-header-4 {
+    background-color: rgba(var(--heading-quaternary-rgb), 0.3);
+    color: hsl(from var(--heading-quaternary) h s 90%);
     border-color: rgba(var(--heading-quaternary-rgb), 0.35);
 }
-.theme-dark.heading-style-glass :is(h5, .cm-header-5) {
-    background-color: rgba(var(--heading-quinary-rgb), 0.3) !important;
-    color: hsl(from var(--heading-quinary) h s 90%) !important;
+.theme-dark.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) h5,
+.theme-dark.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) .cm-header-5 {
+    background-color: rgba(var(--heading-quinary-rgb), 0.3);
+    color: hsl(from var(--heading-quinary) h s 90%);
     border-color: rgba(var(--heading-quinary-rgb), 0.35);
 }
-.theme-dark.heading-style-glass :is(h6, .cm-header-6) {
-    background-color: rgba(var(--heading-senary-rgb), 0.3) !important;
-    color: hsl(from var(--heading-senary) h s 90%) !important;
+.theme-dark.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) h6,
+.theme-dark.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) .cm-header-6 {
+    background-color: rgba(var(--heading-senary-rgb), 0.3);
+    color: hsl(from var(--heading-senary) h s 90%);
     border-color: rgba(var(--heading-senary-rgb), 0.35);
 }
 
@@ -4228,7 +4262,7 @@ body:not(.is-mobile) .heading-style-glass :is(.markdown-preview-view, .markdown-
         linear-gradient(160deg,
             rgba(255, 255, 255, .18) 0%,
             rgba(var(--h-rgb), .12) 45%,
-            rgba(var(--background-primary-rgb), .3) 100%) !important;
+            rgba(var(--background-primary-rgb), .3) 100%);
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, .5),
         inset 0 0 0 1px rgba(255, 255, 255, .12),
@@ -4250,7 +4284,7 @@ body:not(.is-mobile) .heading-style-glass :is(.markdown-preview-view, .markdown-
         linear-gradient(160deg,
             rgba(255, 255, 255, .07) 0%,
             rgba(var(--h-rgb), .18) 45%,
-            rgba(var(--background-primary-rgb), .4) 100%) !important;
+            rgba(var(--background-primary-rgb), .4) 100%);
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, .22),
         inset 0 0 0 1px rgba(255, 255, 255, .08),
@@ -4260,7 +4294,7 @@ body:not(.is-mobile) .heading-style-glass :is(.markdown-preview-view, .markdown-
 
 /* GPU-expensive refraction blur desktop-only (same gating as Glass headings) */
 @supports (backdrop-filter: blur(1px)) {
-    body:not(.is-mobile):not(.disable-glass-menus) .heading-style-liquid :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
+    body:not(.is-mobile):not(.disable-glass-menus).heading-style-liquid :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
         backdrop-filter: blur(18px) saturate(190%);
         -webkit-backdrop-filter: blur(18px) saturate(190%);
     }
@@ -4286,7 +4320,7 @@ body:not(.is-mobile) .heading-style-glass :is(.markdown-preview-view, .markdown-
     pointer-events: none;
 }
 
-body:not(.is-mobile):not(.terraflow-quiet) .heading-style-liquid :is(.markdown-preview-view, .markdown-reading-view) :is(h1, h2, h3, h4, h5, h6):hover::after {
+body:not(.is-mobile):not(.terraflow-quiet).heading-style-liquid :is(.markdown-preview-view, .markdown-reading-view) :is(h1, h2, h3, h4, h5, h6):hover::after {
     background-position: -75% 0;
     transition: background-position 0.9s var(--ease-apple);
 }
@@ -4383,78 +4417,94 @@ em,
 
 /* === Link Styles Feature === */
 
-/* Common Link Reset */
+/* Common Link Reset, plus every Link Style variant nested under it via native
+   CSS nesting (&) — avoids repeating this selector list 9 times over. Each
+   variant expands to exactly the same flat selector the old duplicated rules
+   used (e.g. "body.link-style-default &" === the old
+   "body.link-style-default :is(...)"), so specificity and cascade order are
+   unchanged from before this consolidation. */
 :is(.markdown-rendered a, .markdown-rendered .internal-link, .markdown-rendered .external-link, .markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-url:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-internal-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-external-link:not(.cm-formatting)) {
     text-decoration: none !important;
     border-block-end: none !important;
     transition: color var(--transition-ui), background-color var(--transition-ui), border-color var(--transition-ui), box-shadow var(--transition-ui), transform var(--transition-ui), text-shadow var(--transition-ui);
+
+    /* 1. Default Style (Subtle Pill) */
+    body.link-style-default & {
+        color: var(--link-color);
+        background: rgba(var(--primary-color-rgb), .08);
+        border-radius: var(--r1);
+        padding-block: 0;
+        padding-inline: 4px;
+    }
+
+    body.link-style-default &:hover {
+        background: rgba(var(--primary-color-rgb), .12);
+        color: var(--link-color-hover);
+    }
+
+    /* 2. Plain Style (Obsidian Default-ish) */
+    body.link-style-plain & {
+        color: var(--link-color);
+        background: transparent !important;
+        padding-block: 0;
+        padding-inline: 0;
+    }
+
+    body.link-style-plain &:hover {
+        color: var(--link-color-hover);
+        text-decoration: underline !important;
+    }
+
+    /* 3. Underline Accent Style */
+    body.link-style-underline & {
+        color: var(--link-color);
+        background: transparent !important;
+        padding-block: 0;
+        padding-inline: 1px;
+        border-bottom: 1.5px solid var(--callout-color, rgba(var(--primary-color-rgb), 0.2)) !important;
+    }
+
+    body.link-style-underline &:hover {
+        color: var(--link-color-hover);
+        background: rgba(var(--primary-color-rgb), 0.04) !important;
+    }
+
+    /* 4. Neon Glow Style */
+    body.link-style-glow & {
+        color: var(--link-color);
+        background: rgba(var(--primary-color-rgb), .08);
+        border-radius: var(--radius-m);
+        padding-block: 5px;
+        padding-inline: 6px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        margin-block: 0;
+        margin-inline: 1px;
+    }
+
+    body.link-style-glow &:hover {
+        color: var(--link-color-hover);
+        background: rgba(var(--callout-color-rgb, var(--primary-color-rgb)), .2);
+        text-shadow: 0 0 12px rgba(var(--callout-color-rgb, var(--primary-color-rgb)), 0.6);
+        box-shadow: 0 4px 15px rgba(var(--callout-color-rgb, var(--primary-color-rgb)), 0.2);
+        transform: translateY(-1px) scale(1.03);
+    }
 }
 
-/* 1. Default Style (Subtle Pill) */
-body.link-style-default :is(.markdown-rendered a, .markdown-rendered .internal-link, .markdown-rendered .external-link, .markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-url:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-internal-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-external-link:not(.cm-formatting)) {
-    color: var(--link-color);
-    background: rgba(var(--primary-color-rgb), .08);
-    border-radius: var(--r1);
-    padding-block: 0;
-    padding-inline: 4px;
-}
-
+/* Default style: links directly inside paragraphs/list items get a lighter
+   pill than the general case above — kept separate, different selector shape */
 body.link-style-default :is(p, li)>:is(a, .internal-link, .external-link, .cm-link:not(.cm-formatting), .cm-url:not(.cm-formatting), .cm-hmd-internal-link:not(.cm-formatting), .cm-hmd-external-link:not(.cm-formatting)) {
+    /* padding !important: this narrower selector's specificity is still lower
+       than the general Default-style rule above, whose :is() list is inflated
+       by its live-preview branches — without it, this rule silently never won.
+       background is deliberately left non-!important: making it !important
+       too would make it wrongly outrank the callout-content link rule's own
+       !important background for a link that's inside both a callout and a
+       paragraph (the normal case), overriding the callout's tint with this
+       generic one. Its background staying an inert no-op outside callouts is
+       the pre-existing behavior, not something this fix should change. */
     background: rgba(var(--primary-color-rgb), .05);
     padding-block: 0;
-    padding-inline: 3px;
-}
-
-body.link-style-default :is(.markdown-rendered a, .markdown-rendered .internal-link, .markdown-rendered .external-link, .markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-url:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-internal-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-external-link:not(.cm-formatting)):hover {
-    background: rgba(var(--primary-color-rgb), .12);
-    color: var(--link-color-hover);
-}
-
-/* 2. Plain Style (Obsidian Default-ish) */
-body.link-style-plain :is(.markdown-rendered a, .markdown-rendered .internal-link, .markdown-rendered .external-link, .markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-url:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-internal-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-external-link:not(.cm-formatting)) {
-    color: var(--link-color);
-    background: transparent !important;
-    padding-block: 0;
-    padding-inline: 0;
-}
-
-body.link-style-plain :is(.markdown-rendered a, .markdown-rendered .internal-link, .markdown-rendered .external-link, .markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-url:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-internal-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-external-link:not(.cm-formatting)):hover {
-    color: var(--link-color-hover);
-    text-decoration: underline !important;
-}
-
-/* 3. Underline Accent Style */
-body.link-style-underline :is(.markdown-rendered a, .markdown-rendered .internal-link, .markdown-rendered .external-link, .markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-url:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-internal-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-external-link:not(.cm-formatting)) {
-    color: var(--link-color);
-    background: transparent !important;
-    padding-block: 0;
-    padding-inline: 1px;
-    border-bottom: 1.5px solid var(--callout-color, rgba(var(--primary-color-rgb), 0.2)) !important;
-}
-
-body.link-style-underline :is(.markdown-rendered a, .markdown-rendered .internal-link, .markdown-rendered .external-link, .markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-url:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-internal-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-external-link:not(.cm-formatting)):hover {
-    color: var(--link-color-hover);
-    background: rgba(var(--primary-color-rgb), 0.04) !important;
-}
-
-/* 4. Neon Glow Style */
-body.link-style-glow :is(.markdown-rendered a, .markdown-rendered .internal-link, .markdown-rendered .external-link, .markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-url:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-internal-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-external-link:not(.cm-formatting)) {
-    color: var(--link-color);
-    background: rgba(var(--primary-color-rgb), .08);
-    border-radius: var(--radius-m);
-    padding-block: 5px;
-    padding-inline: 6px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    margin-block: 0;
-    margin-inline: 1px;
-}
-
-body.link-style-glow :is(.markdown-rendered a, .markdown-rendered .internal-link, .markdown-rendered .external-link, .markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-url:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-internal-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-external-link:not(.cm-formatting)):hover {
-    color: var(--link-color-hover);
-    background: rgba(var(--callout-color-rgb, var(--primary-color-rgb)), .2);
-    text-shadow: 0 0 12px rgba(var(--callout-color-rgb, var(--primary-color-rgb)), 0.6);
-    box-shadow: 0 4px 15px rgba(var(--callout-color-rgb, var(--primary-color-rgb)), 0.2);
-    transform: translateY(-1px) scale(1.03);
+    padding-inline: 3px !important;
 }
 
 /* Unresolved Links Logic (Stays consistent across styles but adapts background) */
@@ -5056,53 +5106,62 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) .callout:not(.is-c
     color: hsl(from var(--callout-color) h s calc(l * 1.2));
 }
 
-:is(.callout, .cm-callout) a,
-:is(.callout, .cm-callout) .internal-link,
-:is(.callout, .cm-callout) .external-link {
-    color: var(--callout-color) !important;
-    background: rgba(var(--callout-color-rgb), .08) !important;
-    text-decoration: none;
-    border-radius: var(--r1);
-    -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
-    padding-inline: 3px;
-    transition: var(--transition-callout-link);
-}
+/* Callout link colors, consolidated under one shared ancestor via native CSS
+   nesting (&) — was 6 separate rules each repeating ":is(.callout, .cm-callout)".
+   Each declaration block kept exactly as it was (not merged, even where two
+   blocks look identical) so no cascade/specificity behavior changes.
+   padding-inline needs !important like its color/background siblings here —
+   without it, body.link-style-default's higher-specificity rule silently won
+   instead, leaving callout links at the wrong (4px, not 3px) padding. */
+:is(.callout, .cm-callout) {
+    & a,
+    & .internal-link,
+    & .external-link {
+        color: var(--callout-color) !important;
+        background: rgba(var(--callout-color-rgb), .08) !important;
+        text-decoration: none;
+        border-radius: var(--r1);
+        -electron-corner-smoothing: var(--squircle-main);
+        corner-shape: squircle;
+        padding-inline: 3px !important;
+        transition: var(--transition-callout-link);
+    }
 
-:is(.callout, .cm-callout) a:hover,
-:is(.callout, .cm-callout) .internal-link:hover,
-:is(.callout, .cm-callout) .external-link:hover {
-    background: rgba(var(--callout-color-rgb), .15) !important;
-}
+    & a:hover,
+    & .internal-link:hover,
+    & .external-link:hover {
+        background: rgba(var(--callout-color-rgb), .15) !important;
+    }
 
-:is(.callout, .cm-callout) .callout-title :is(a, .internal-link, .external-link, .cm-url) {
-    color: inherit !important;
-    background: rgba(var(--callout-color-rgb), .08) !important;
-    text-decoration: none;
-    border-radius: var(--r1);
-    -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
-    padding-inline: 3px;
-    transition: var(--transition-callout-link);
-}
+    & .callout-title :is(a, .internal-link, .external-link, .cm-url) {
+        color: inherit !important;
+        background: rgba(var(--callout-color-rgb), .08) !important;
+        text-decoration: none;
+        border-radius: var(--r1);
+        -electron-corner-smoothing: var(--squircle-main);
+        corner-shape: squircle;
+        padding-inline: 3px !important;
+        transition: var(--transition-callout-link);
+    }
 
-:is(.callout, .cm-callout) .callout-title :is(a, .internal-link, .external-link, .cm-url):hover {
-    background: rgba(var(--callout-color-rgb), .15) !important;
-}
+    & .callout-title :is(a, .internal-link, .external-link, .cm-url):hover {
+        background: rgba(var(--callout-color-rgb), .15) !important;
+    }
 
-:is(.callout, .cm-callout) .callout-content :is(a, .internal-link, .external-link, .cm-url) {
-    color: var(--callout-color) !important;
-    background: rgba(var(--callout-color-rgb), .08) !important;
-    text-decoration: none;
-    border-radius: var(--r1);
-    -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
-    padding-inline: 3px;
-    transition: var(--transition-callout-link);
-}
+    & .callout-content :is(a, .internal-link, .external-link, .cm-url) {
+        color: var(--callout-color) !important;
+        background: rgba(var(--callout-color-rgb), .08) !important;
+        text-decoration: none;
+        border-radius: var(--r1);
+        -electron-corner-smoothing: var(--squircle-main);
+        corner-shape: squircle;
+        padding-inline: 3px !important;
+        transition: var(--transition-callout-link);
+    }
 
-:is(.callout, .cm-callout) .callout-content :is(a, .internal-link, .external-link, .cm-url):hover {
-    background: rgba(var(--callout-color-rgb), .15) !important;
+    & .callout-content :is(a, .internal-link, .external-link, .cm-url):hover {
+        background: rgba(var(--callout-color-rgb), .15) !important;
+    }
 }
 
 [data-callout] :is(a, .internal-link, .external-link, .cm-url) {
@@ -5261,15 +5320,15 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
         linear-gradient(135deg,
             rgba(var(--callout-color-rgb), 0.15) 0%,
             rgba(var(--background-secondary-rgb), 0.95) 50%,
-            rgba(var(--background-secondary-rgb), 0.9) 100%) !important;
-    border: var(--border-thick) solid rgba(var(--callout-color-rgb), 0.25) !important;
-    border-inline-start: 5px solid var(--callout-color) !important;
+            rgba(var(--background-secondary-rgb), 0.9) 100%);
+    border: var(--border-thick) solid rgba(var(--callout-color-rgb), 0.25);
+    border-inline-start: 5px solid var(--callout-color);
     border-radius: 4px 12px 12px 4px;
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, var(--opacity-light-overlay)),
         inset 0 -1px 0 rgba(0, 0, 0, var(--opacity-subtle)),
         0 2px 8px rgba(0, 0, 0, var(--opacity-divider)),
-        0 1px 3px rgba(0, 0, 0, var(--opacity-subtle)) !important;
+        0 1px 3px rgba(0, 0, 0, var(--opacity-subtle));
     position: relative;
     overflow: hidden;
 }
@@ -5298,12 +5357,12 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
         linear-gradient(135deg,
             rgba(var(--callout-color-rgb), 0.2) 0%,
             rgba(var(--background-secondary-rgb), 0.85) 50%,
-            rgba(var(--background-secondary-rgb), 0.8) 100%) !important;
+            rgba(var(--background-secondary-rgb), 0.8) 100%);
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.1),
         inset 0 -1px 0 rgba(0, 0, 0, var(--opacity-overlay)),
         0 2px 8px rgba(0, 0, 0, 0.3),
-        0 1px 3px rgba(0, 0, 0, var(--opacity-overlay)) !important;
+        0 1px 3px rgba(0, 0, 0, var(--opacity-overlay));
 }
 
 .callout-style-vintage .callout:hover {
@@ -5311,33 +5370,33 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
         inset 0 1px 0 rgba(255, 255, 255, 0.35),
         inset 0 -1px 0 rgba(0, 0, 0, var(--opacity-active)),
         0 4px 12px rgba(0, 0, 0, var(--opacity-overlay)),
-        0 2px 6px rgba(0, 0, 0, var(--opacity-divider)) !important;
-    border-inline-start-width: 6px !important;
+        0 2px 6px rgba(0, 0, 0, var(--opacity-divider));
+    border-inline-start-width: 6px;
 }
 
 .callout-style-vintage .callout .callout-icon {
-    filter: sepia(0.2) contrast(1.1) !important;
+    filter: sepia(0.2) contrast(1.1);
 }
 
 /* Modern Glass Style - structural properties apply on all devices */
 .callout-style-glass :is(.callout, .cm-callout) {
-    border-inline-start: none !important;
-    border-radius: var(--r4) !important;
+    border-inline-start: none;
+    border-radius: var(--r4);
     position: relative;
 }
 
 /* GPU-expensive blur + multi-layer shadow desktop-only */
-body:not(.is-mobile) .callout-style-glass :is(.callout, .cm-callout) {
-    backdrop-filter: blur(12px) saturate(180%) brightness(1.06) !important;
-    -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.06) !important;
+body:not(.is-mobile).callout-style-glass :is(.callout, .cm-callout) {
+    backdrop-filter: blur(12px) saturate(180%) brightness(1.06);
+    -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.06);
     box-shadow:
         0 6px 18px rgba(0, 0, 0, 0.12),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .callout-style-glass .markdown-source-view.mod-cm6 .cm-callout {
-    border: none !important;
-    outline: none !important;
+    border: none;
+    outline: none;
 }
 
 .callout-style-glass .callout::after {
@@ -5349,7 +5408,7 @@ body:not(.is-mobile) .callout-style-glass :is(.callout, .cm-callout) {
     background: linear-gradient(135deg,
             rgba(255, 255, 255, 0.12) 0%,
             transparent 55%);
-    border-radius: var(--r4) !important;
+    border-radius: var(--r4);
     pointer-events: none;
 }
 
@@ -5358,25 +5417,25 @@ body:not(.is-mobile) .callout-style-glass :is(.callout, .cm-callout) {
     background:
         radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.3) 0%, transparent 62%),
         radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.22) 0%, transparent 62%),
-        linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.26) 0%, rgba(var(--background-primary-rgb), 0.38) 100%) !important;
-    border-color: rgba(var(--callout-color-rgb), 0.35) !important;
+        linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.26) 0%, rgba(var(--background-primary-rgb), 0.38) 100%);
+    border-color: rgba(var(--callout-color-rgb), 0.35);
 }
 
 /* Desktop-only: heavy blur + multi-layer shadow */
-body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) {
-    backdrop-filter: blur(16px) saturate(160%) brightness(0.98) !important;
-    -webkit-backdrop-filter: blur(16px) saturate(160%) brightness(0.98) !important;
+body:not(.is-mobile).theme-dark.callout-style-glass :is(.callout, .cm-callout) {
+    backdrop-filter: blur(16px) saturate(160%) brightness(0.98);
+    -webkit-backdrop-filter: blur(16px) saturate(160%) brightness(0.98);
     box-shadow:
         0 8px 22px rgba(0, 0, 0, 0.35),
-        inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
 .callout-style-glass .callout:hover {
-    transform: translateY(-3px) !important;
+    transform: translateY(-3px);
     box-shadow:
         0 12px 40px rgba(0, 0, 0, var(--opacity-divider)),
         inset 0 1px 0 rgba(255, 255, 255, 0.4),
-        inset 0 -1px 0 rgba(0, 0, 0, var(--opacity-hover)) !important;
+        inset 0 -1px 0 rgba(0, 0, 0, var(--opacity-hover));
 }
 
 /* Bold Border Style - Strong, confident, impactful */
@@ -5384,14 +5443,14 @@ body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) 
     background:
         radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.25) 0%, transparent 50%),
         radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.2) 0%, transparent 50%),
-        linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.18) 0%, rgba(var(--background-secondary-rgb), 0.9) 100%) !important;
-    border: var(--border-heavy) solid var(--callout-color) !important;
-    border-inline-start: 6px solid var(--callout-color) !important;
+        linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.18) 0%, rgba(var(--background-secondary-rgb), 0.9) 100%);
+    border: var(--border-heavy) solid var(--callout-color);
+    border-inline-start: 6px solid var(--callout-color);
     border-radius: var(--r4);
     box-shadow:
         0 0 0 2px rgba(var(--callout-color-rgb), 0.15),
         0 6px 20px rgba(0, 0, 0, var(--opacity-divider)),
-        inset 0 0 20px rgba(var(--callout-color-rgb), 0.05) !important;
+        inset 0 0 20px rgba(var(--callout-color-rgb), 0.05);
     position: relative;
 }
 
@@ -5412,26 +5471,26 @@ body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) 
     background:
         radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.3) 0%, transparent 50%),
         radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.25) 0%, transparent 50%),
-        linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.22) 0%, rgba(var(--background-secondary-rgb), 0.7) 100%) !important;
+        linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.22) 0%, rgba(var(--background-secondary-rgb), 0.7) 100%);
     box-shadow:
         0 0 0 2px rgba(var(--callout-color-rgb), 0.25),
         0 6px 20px rgba(0, 0, 0, 0.3),
-        inset 0 0 20px rgba(var(--callout-color-rgb), 0.08) !important;
+        inset 0 0 20px rgba(var(--callout-color-rgb), 0.08);
 }
 
 .callout-style-bold .callout:hover {
-    border-width: 4px !important;
-    border-left-width: 8px !important;
+    border-width: 4px;
+    border-left-width: 8px;
     box-shadow:
         0 0 0 3px rgba(var(--callout-color-rgb), 0.2),
         0 8px 24px rgba(0, 0, 0, var(--opacity-overlay)),
-        inset 0 0 25px rgba(var(--callout-color-rgb), 0.08) !important;
-    transform: translateY(-2px) scale(1.01) !important;
+        inset 0 0 25px rgba(var(--callout-color-rgb), 0.08);
+    transform: translateY(-2px) scale(1.01);
 }
 
 .callout-style-bold .callout .callout-title {
-    font-weight: var(--weight-bold) !important;
-    letter-spacing: 0.02em !important;
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.02em;
 }
 
 /* Highlight Styling - Shared Properties */
@@ -5575,34 +5634,33 @@ body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) 
     filter: none;
 }
 
-/* Marker inside callouts: the callout-aware highlight rule above (scoped to
-   .callout .callout-content) outranks a plain .highlight-style-marker
-   selector on specificity alone, so it was winning outright and Marker had
-   no visible effect there. Pinned with !important; keeps the per-callout
-   accent colour, swaps the pill for the same gradient band. */
+/* Marker inside callouts: adding .highlight-style-marker gives this selector
+   1-2 more classes than the callout-aware highlight rule above, so it always
+   wins on specificity alone -- verified by direct comparison: (0,6,1) here
+   vs (0,5,1) there (dark: (0,7,1) vs (0,6,1)). No !important needed. */
 .highlight-style-marker :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight) {
-    background-color: transparent !important;
-    background-image: linear-gradient(transparent 55%, rgba(var(--callout-color-rgb), .45) 55%) !important;
-    background-repeat: no-repeat !important;
+    background-color: transparent;
+    background-image: linear-gradient(transparent 55%, rgba(var(--callout-color-rgb), .45) 55%);
+    background-repeat: no-repeat;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
-    color: var(--callout-color) !important;
-    padding: 0 2px !important;
-    border: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
+    color: var(--callout-color);
+    padding: 0 2px;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    text-shadow: none;
 }
 
 .theme-dark.highlight-style-marker :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight) {
-    background-image: linear-gradient(transparent 55%, rgba(var(--callout-color-rgb), .55) 55%) !important;
-    color: hsl(from var(--callout-color) h s calc(l * 1.1)) !important;
-    text-shadow: none !important;
+    background-image: linear-gradient(transparent 55%, rgba(var(--callout-color-rgb), .55) 55%);
+    color: hsl(from var(--callout-color) h s calc(l * 1.1));
+    text-shadow: none;
 }
 
 .highlight-style-marker :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight):hover {
-    background-image: linear-gradient(transparent 45%, rgba(var(--callout-color-rgb), .55) 45%) !important;
-    transform: none !important;
+    background-image: linear-gradient(transparent 45%, rgba(var(--callout-color-rgb), .55) 45%);
+    transform: none;
 }
 
 /* Strikethrough Styling */
@@ -5746,17 +5804,20 @@ body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) 
     transition: box-shadow var(--transition-ui), transform var(--transition-ui);
 }
 
-:is(.markdown-rendered pre, .markdown-preview-view pre):hover {
-    box-shadow: var(--shadow-3);
-    transform: translateY(-2px);
-    border-color: rgba(var(--primary-color-rgb), .15);
-}
-
 .theme-dark :is(.markdown-rendered pre, .markdown-preview-view pre) {
     background-color: var(--background-secondary-alt);
     background-image: linear-gradient(rgba(0, 0, 0, .35), rgba(0, 0, 0, .35));
     border-color: rgba(var(--primary-color-rgb), .3);
     box-shadow: var(--shadow-3), inset 0 2px 8px rgba(0, 0, 0, .25);
+}
+
+/* Same specificity as .theme-dark above (0,2,1) — must come after it so hover
+   wins the tie in dark theme too, not just light (was reversed: dark's
+   resting border-color/box-shadow silently beat the hover state). */
+:is(.markdown-rendered pre, .markdown-preview-view pre):hover {
+    box-shadow: var(--shadow-3);
+    transform: translateY(-2px);
+    border-color: rgba(var(--primary-color-rgb), .15);
 }
 
 /* Source Mode Code Block Container */
@@ -5969,85 +6030,92 @@ body:not(.is-mobile).theme-dark .callout-style-glass :is(.callout, .cm-callout) 
     transition: box-shadow var(--transition-ui), transform var(--transition-ui);
 }
 
-:is(.markdown-rendered, .markdown-preview-view) table th:first-child {
-    border-top-left-radius: var(--r3);
-}
-
-:is(.markdown-rendered, .markdown-preview-view) table th:last-child {
-    border-top-right-radius: var(--r3);
-}
-
-:is(.markdown-rendered, .markdown-preview-view) table tr:last-child td:first-child {
-    border-bottom-left-radius: var(--r3);
-}
-
-:is(.markdown-rendered, .markdown-preview-view) table tr:last-child td:last-child {
-    border-bottom-right-radius: var(--r3);
-}
-
-:is(.markdown-rendered, .markdown-preview-view) table :is(td, th) {
-    border-width: 0 1px 1px 0;
-}
-
-:is(.markdown-rendered, .markdown-preview-view) table th {
-    background-color: var(--emphasis-color);
-    padding-block: var(--s2);
-    padding-inline: var(--s3);
-    font-weight: var(--weight-semibold);
-    border-block-end: var(--border-thin) solid var(--divider-color);
-}
-
 /* Headers already sit at semibold on an inverted background, so bold needs
-   both the color guard and a weight jump past --weight-bold to read at all */
+   both the color guard and a weight jump past --weight-bold to read at all.
+   Kept separate from the nested block below — this one has a third :is()
+   alternative (the live-preview table widget) the others don't share. */
 :is(.markdown-rendered, .markdown-preview-view, .markdown-source-view.mod-cm6 .cm-table-widget) table th strong {
     color: inherit;
     font-weight: 800;
 }
 
-.theme-light :is(.markdown-rendered, .markdown-preview-view) table tr:nth-child(n) th {
-    background-color: var(--emphasis-color);
-    filter: brightness(.9);
-    color: var(--background-primary);
-}
+/* Table row/cell rules, consolidated under one shared ancestor via native CSS
+   nesting (&) — was 16 separate rules each repeating
+   ":is(.markdown-rendered, .markdown-preview-view) table". */
+:is(.markdown-rendered, .markdown-preview-view) table {
+    & th:first-child {
+        border-top-left-radius: var(--r3);
+    }
 
-.theme-dark :is(.markdown-rendered, .markdown-preview-view) table tr:nth-child(n) th {
-    background-color: var(--emphasis-color);
-    filter: brightness(.9);
-    color: var(--text-normal);
-}
+    & th:last-child {
+        border-top-right-radius: var(--r3);
+    }
 
-:is(.markdown-rendered, .markdown-preview-view) table td {
-    padding-block: var(--s2);
-    padding-inline: var(--s3);
-    border-block-start: var(--border-thin) solid var(--divider-color);
-}
+    & tr:last-child td:first-child {
+        border-bottom-left-radius: var(--r3);
+    }
 
-.theme-light :is(.markdown-rendered, .markdown-preview-view) table tbody tr:nth-child(even) {
-    background-color: rgba(0, 0, 0, .03);
-}
+    & tr:last-child td:last-child {
+        border-bottom-right-radius: var(--r3);
+    }
 
-.theme-light :is(.markdown-rendered, .markdown-preview-view) table tbody tr:nth-child(odd) {
-    background-color: transparent;
-}
+    & :is(td, th) {
+        border-width: 0 1px 1px 0;
+    }
 
-.theme-dark :is(.markdown-rendered, .markdown-preview-view) table tbody tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, .03);
-}
+    & th {
+        background-color: var(--emphasis-color);
+        padding-block: var(--s2);
+        padding-inline: var(--s3);
+        font-weight: var(--weight-semibold);
+        border-block-end: var(--border-thin) solid var(--divider-color);
+    }
 
-.theme-dark :is(.markdown-rendered, .markdown-preview-view) table tbody tr:nth-child(odd) {
-    background-color: transparent;
-}
+    .theme-light & tr:nth-child(n) th {
+        background-color: var(--emphasis-color);
+        filter: brightness(.9);
+        color: var(--background-primary);
+    }
 
-:is(.markdown-rendered, .markdown-preview-view) table tbody tr:hover {
-    background-color: rgba(var(--primary-color-rgb), .05);
-}
+    .theme-dark & tr:nth-child(n) th {
+        background-color: var(--emphasis-color);
+        filter: brightness(.9);
+        color: var(--text-normal);
+    }
 
-.theme-dark :is(.markdown-rendered, .markdown-preview-view) table tbody tr:hover {
-    background-color: rgba(var(--primary-color-rgb), .08);
-}
+    & td {
+        padding-block: var(--s2);
+        padding-inline: var(--s3);
+        border-block-start: var(--border-thin) solid var(--divider-color);
+    }
 
-:is(.markdown-rendered, .markdown-preview-view) table:hover {
-    box-shadow: var(--shadow-2);
+    .theme-light & tbody tr:nth-child(even) {
+        background-color: rgba(0, 0, 0, .03);
+    }
+
+    .theme-light & tbody tr:nth-child(odd) {
+        background-color: transparent;
+    }
+
+    .theme-dark & tbody tr:nth-child(even) {
+        background-color: rgba(255, 255, 255, .03);
+    }
+
+    .theme-dark & tbody tr:nth-child(odd) {
+        background-color: transparent;
+    }
+
+    & tbody tr:hover {
+        background-color: rgba(var(--primary-color-rgb), .05);
+    }
+
+    .theme-dark & tbody tr:hover {
+        background-color: rgba(var(--primary-color-rgb), .08);
+    }
+
+    &:hover {
+        box-shadow: var(--shadow-2);
+    }
 }
 
 /* Checkbox styling */
@@ -8548,25 +8616,25 @@ body:not(.is-mobile).ribbon-autohide .workspace-ribbon.mod-left:is(:hover, :focu
 
 /* Modern Glass Style - Frosted glass effect */
 .blockquote-style-glass :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
-    background: linear-gradient(135deg, rgba(var(--background-secondary-rgb), 0.6), rgba(var(--background-secondary-rgb), 0.4)) !important;
-    border: var(--border-thin) solid rgba(255, 255, 255, 0.2) !important;
-    border-inline-start: var(--border-heavy) solid var(--blockquote-border-color) !important;
-    border-block-end: none !important;
+    background: linear-gradient(135deg, rgba(var(--background-secondary-rgb), 0.6), rgba(var(--background-secondary-rgb), 0.4));
+    border: var(--border-thin) solid rgba(255, 255, 255, 0.2);
+    border-inline-start: var(--border-heavy) solid var(--blockquote-border-color);
+    border-block-end: none;
     box-shadow: 0 4px 12px rgba(0, 0, 0, var(--opacity-subtle));
 }
 
 .theme-dark .blockquote-style-glass :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
-    background: linear-gradient(135deg, rgba(var(--background-secondary-rgb), 0.38), rgba(var(--background-secondary-rgb), 0.22)) !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
+    background: linear-gradient(135deg, rgba(var(--background-secondary-rgb), 0.38), rgba(var(--background-secondary-rgb), 0.22));
+    border-color: rgba(255, 255, 255, 0.2);
     box-shadow:
         0 8px 20px rgba(0, 0, 0, 0.45),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .blockquote-style-glass :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote):hover {
     box-shadow: 0 6px 16px rgba(0, 0, 0, var(--opacity-divider));
-    border: var(--border-thin) solid rgba(255, 255, 255, var(--opacity-light-overlay)) !important;
-    border-inline-start: var(--border-heavy) solid var(--blockquote-border-color) !important;
+    border: var(--border-thin) solid rgba(255, 255, 255, var(--opacity-light-overlay));
+    border-inline-start: var(--border-heavy) solid var(--blockquote-border-color);
 }
 
 /* ============================== */
@@ -8578,36 +8646,36 @@ body:not(.is-mobile).ribbon-autohide .workspace-ribbon.mod-left:is(:hover, :focu
     background:
         radial-gradient(ellipse at top left, rgba(var(--primary-color-rgb), 0.2) 0%, transparent 50%),
         radial-gradient(ellipse at bottom right, rgba(var(--primary-color-rgb), 0.15) 0%, transparent 50%),
-        linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.14) 0%, rgba(var(--background-secondary-rgb), 0.85) 100%) !important;
-    border: var(--border-heavy) solid var(--blockquote-border-color) !important;
-    border-inline-start: 6px solid var(--blockquote-border-color) !important;
+        linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.14) 0%, rgba(var(--background-secondary-rgb), 0.85) 100%);
+    border: var(--border-heavy) solid var(--blockquote-border-color);
+    border-inline-start: 6px solid var(--blockquote-border-color);
     border-radius: var(--r4);
-    -electron-corner-smoothing: var(--squircle-main) !important;
+    -electron-corner-smoothing: var(--squircle-main);
     box-shadow:
         0 0 0 2px rgba(var(--primary-color-rgb), 0.12),
         0 6px 20px rgba(0, 0, 0, var(--opacity-divider)),
-        inset 0 0 20px rgba(var(--primary-color-rgb), 0.05) !important;
-    position: relative !important;
-    overflow: hidden !important;
+        inset 0 0 20px rgba(var(--primary-color-rgb), 0.05);
+    position: relative;
+    overflow: hidden;
 }
 
 /* Bold Dramatic - Double outline ring */
 .blockquote-style-bold :is(.markdown-preview-view blockquote, .markdown-rendered blockquote)::before {
-    content: '' !important;
-    position: absolute !important;
-    inset-block-start: -3px !important;
-    inset-inline-start: -3px !important;
-    inset-inline-end: -3px !important;
-    inset-block-end: -3px !important;
-    border: var(--border-thin) solid rgba(var(--primary-color-rgb), 0.18) !important;
+    content: '';
+    position: absolute;
+    inset-block-start: -3px;
+    inset-inline-start: -3px;
+    inset-inline-end: -3px;
+    inset-block-end: -3px;
+    border: var(--border-thin) solid rgba(var(--primary-color-rgb), 0.18);
     border-radius: var(--r4);
-    pointer-events: none !important;
-    z-index: -1 !important;
+    pointer-events: none;
+    z-index: -1;
 }
 
 /* Bold Dramatic - Source view bar */
 .blockquote-style-bold .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote::before {
-    inline-size: 6px !important;
+    inline-size: 6px;
     border-radius: var(--r4) 0 0 var(--r4);
 }
 
@@ -8616,22 +8684,22 @@ body:not(.is-mobile).ribbon-autohide .workspace-ribbon.mod-left:is(:hover, :focu
     background:
         radial-gradient(ellipse at top left, rgba(var(--primary-color-rgb), 0.28) 0%, transparent 50%),
         radial-gradient(ellipse at bottom right, rgba(var(--primary-color-rgb), 0.2) 0%, transparent 50%),
-        linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.2) 0%, rgba(var(--background-secondary-rgb), 0.65) 100%) !important;
+        linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.2) 0%, rgba(var(--background-secondary-rgb), 0.65) 100%);
     box-shadow:
         0 0 0 2px rgba(var(--primary-color-rgb), 0.22),
         0 6px 20px rgba(0, 0, 0, 0.35),
-        inset 0 0 20px rgba(var(--primary-color-rgb), 0.08) !important;
+        inset 0 0 20px rgba(var(--primary-color-rgb), 0.08);
 }
 
 /* Bold Dramatic - Hover */
 .blockquote-style-bold :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote):hover {
-    border-width: 4px !important;
-    border-inline-start-width: 8px !important;
+    border-width: 4px;
+    border-inline-start-width: 8px;
     box-shadow:
         0 0 0 3px rgba(var(--primary-color-rgb), 0.2),
         0 8px 24px rgba(0, 0, 0, var(--opacity-overlay)),
-        inset 0 0 25px rgba(var(--primary-color-rgb), 0.08) !important;
-    transform: translateY(-2px) scale(1.01) !important;
+        inset 0 0 25px rgba(var(--primary-color-rgb), 0.08);
+    transform: translateY(-2px) scale(1.01);
 }
 
 /* ============================== */
@@ -8802,6 +8870,14 @@ body.is-mobile:not(.is-tablet) .cm-header-3 {
     font-size: 1.3em;
 }
 
+/* Mobile line-level override (see the desktop .cm-line.HyperMD-header-N block
+   above for why this targets the line, not the .cm-header-N span). Needs
+   (0,6,1) here to unambiguously beat the desktop line rule's (0,4,0) --
+   this always applies on phones regardless of source order. */
+body.is-mobile:not(.is-tablet) .markdown-source-view.mod-cm6 .cm-line.HyperMD-header-1 { font-size: 1.8em; }
+body.is-mobile:not(.is-tablet) .markdown-source-view.mod-cm6 .cm-line.HyperMD-header-2 { font-size: 1.5em; }
+body.is-mobile:not(.is-tablet) .markdown-source-view.mod-cm6 .cm-line.HyperMD-header-3 { font-size: 1.3em; }
+
 /* iPad-specific card margins — use Obsidian's .is-tablet class rather than a
    viewport-width media query (more reliable, not fooled by split-screen sizes) */
 body.is-tablet.layout-card .workspace-leaf {
@@ -8826,16 +8902,13 @@ body.reduce-motion.is-mobile .modal-bg {
     transition: none !important;
 }
 
-/* === CRITICAL MOBILE OVERRIDE: Force metadata background === */
+/* Mobile metadata card: match the active season/mode's own surface color
+   instead of a hardcoded hsl() formula, which used to ignore Monochrome,
+   Paper, and Focus Mode's tuned --background-secondary values. */
 body.is-mobile .metadata-container {
     transform: none !important;
-    background: hsl(var(--accent-h), 12%, 15%) !important;
-    background-color: hsl(var(--accent-h), 12%, 15%) !important;
-}
-
-.theme-light.is-mobile .metadata-container {
-    background: hsl(var(--accent-h), 15%, 92%) !important;
-    background-color: hsl(var(--accent-h), 15%, 92%) !important;
+    background: var(--background-secondary) !important;
+    background-color: var(--background-secondary) !important;
 }
 
 body.is-mobile .metadata-content,
@@ -9121,7 +9194,13 @@ body.tf-luminance-depth :is(.popover, .suggestion-container, .menu) {
     background-color: var(--elevate-3);
 }
 
-body.tf-luminance-depth :is(.markdown-rendered pre, .markdown-preview-view pre, .markdown-source-view.mod-cm6 .HyperMD-codeblock) {
+/* Live-preview branch spelled out to .cm-line.HyperMD-codeblock (matching the
+   dark-theme codeblock rule's own ancestor chain) so this ties it on
+   specificity instead of losing outright — was silently inert on live-preview
+   codeblocks in dark theme (.markdown-source-view.mod-cm6 .HyperMD-codeblock
+   alone is 1 class lighter than .theme-dark .markdown-source-view.mod-cm6
+   .cm-line.HyperMD-codeblock, so dark always won). */
+body.tf-luminance-depth :is(.markdown-rendered pre, .markdown-preview-view pre, .markdown-source-view.mod-cm6 .cm-line.HyperMD-codeblock) {
     background-color: var(--elevate-1);
 }
 
@@ -9383,8 +9462,6 @@ body:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon.mod-left:is(:
 }
 
 /* Fix ribbon container background to match theme in card layout */
-/* The issue was .workspace.is-left-sidedock-open having #F8F8FE background */
-body.layout-card .workspace.is-left-sidedock-open,
 body.layout-card .workspace {
     background: var(--background-secondary) !important;
 }
@@ -9641,23 +9718,28 @@ body.terraflow-quiet :is(
 /*   TIGHT HEADING TRACKING       */
 /* ============================== */
 
+/* Live-preview branch spelled out to the full .markdown-source-view.mod-cm6
+   .cm-line .cm-header-N chain (matching the base per-level heading rule's own
+   ancestor chain) instead of a bare .cm-header-N class — a bare class is 3
+   classes lighter than the base rule's chain, so it silently lost and never
+   applied in live preview. Reading mode was unaffected (already won there). */
 body.heading-tight-tracking :is(
     .markdown-rendered h1, .markdown-preview-view h1,
-    .cm-header-1, .inline-title
+    .markdown-source-view.mod-cm6 .cm-line .cm-header-1, .inline-title
 ) {
     letter-spacing: var(--tracking-tight);
 }
 
 body.heading-tight-tracking :is(
     .markdown-rendered h2, .markdown-preview-view h2,
-    .cm-header-2
+    .markdown-source-view.mod-cm6 .cm-line .cm-header-2
 ) {
     letter-spacing: var(--tracking-tight);
 }
 
 body.heading-tight-tracking :is(
     .markdown-rendered h3, .markdown-preview-view h3,
-    .cm-header-3
+    .markdown-source-view.mod-cm6 .cm-line .cm-header-3
 ) {
     letter-spacing: var(--tracking-snug);
 }
@@ -10458,9 +10540,9 @@ body.tf-aurora-title:not(.terraflow-quiet) .inline-title {
 
 /* Structural properties on all devices; !important mirrors the other callout styles */
 .callout-style-liquid :is(.callout, .cm-callout) {
-    border: none !important;
-    border-inline-start: none !important;
-    border-radius: var(--r4) !important;
+    border: none;
+    border-inline-start: none;
+    border-radius: var(--r4);
     position: relative;
     overflow: hidden;
     background:
@@ -10470,11 +10552,11 @@ body.tf-aurora-title:not(.terraflow-quiet) .inline-title {
         linear-gradient(160deg,
             rgba(255, 255, 255, .18) 0%,
             rgba(var(--callout-color-rgb), .1) 45%,
-            rgba(var(--background-primary-rgb), .3) 100%) !important;
+            rgba(var(--background-primary-rgb), .3) 100%);
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, .5),
         inset 0 0 0 1px rgba(255, 255, 255, .12),
-        0 8px 24px rgba(0, 0, 0, .12) !important;
+        0 8px 24px rgba(0, 0, 0, .12);
 }
 
 .theme-dark .callout-style-liquid :is(.callout, .cm-callout) {
@@ -10485,22 +10567,22 @@ body.tf-aurora-title:not(.terraflow-quiet) .inline-title {
         linear-gradient(160deg,
             rgba(255, 255, 255, .07) 0%,
             rgba(var(--callout-color-rgb), .16) 45%,
-            rgba(var(--background-primary-rgb), .4) 100%) !important;
+            rgba(var(--background-primary-rgb), .4) 100%);
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, .22),
         inset 0 0 0 1px rgba(255, 255, 255, .08),
-        0 10px 28px rgba(0, 0, 0, .3) !important;
+        0 10px 28px rgba(0, 0, 0, .3);
 }
 
 /* GPU-expensive refraction blur desktop-only (same gating as Modern Glass) */
-body:not(.is-mobile) .callout-style-liquid :is(.callout, .cm-callout) {
-    backdrop-filter: blur(18px) saturate(190%) !important;
-    -webkit-backdrop-filter: blur(18px) saturate(190%) !important;
+body:not(.is-mobile).callout-style-liquid :is(.callout, .cm-callout) {
+    backdrop-filter: blur(18px) saturate(190%);
+    -webkit-backdrop-filter: blur(18px) saturate(190%);
 }
 
 .callout-style-liquid .markdown-source-view.mod-cm6 .cm-callout {
-    border: none !important;
-    outline: none !important;
+    border: none;
+    outline: none;
 }
 
 /* Specular sheen: sweeps across on hover, snaps back invisibly on leave */
@@ -10518,7 +10600,7 @@ body:not(.is-mobile) .callout-style-liquid :is(.callout, .cm-callout) {
     pointer-events: none;
 }
 
-body:not(.is-mobile):not(.terraflow-quiet) .callout-style-liquid .callout:hover::after {
+body:not(.is-mobile):not(.terraflow-quiet).callout-style-liquid .callout:hover::after {
     transform: translateX(130%);
     transition: transform 0.9s var(--ease-apple);
 }
@@ -10535,9 +10617,9 @@ body:not(.is-mobile):not(.terraflow-quiet) .callout-style-liquid .callout:hover:
             transparent 60%),
         linear-gradient(160deg,
             rgba(255, 255, 255, .16) 0%,
-            rgba(var(--background-secondary-rgb), .35) 100%) !important;
-    border: none !important;
-    border-inline-start: var(--border-heavy) solid rgba(var(--primary-color-rgb), .65) !important;
+            rgba(var(--background-secondary-rgb), .35) 100%);
+    border: none;
+    border-inline-start: var(--border-heavy) solid rgba(var(--primary-color-rgb), .65);
 }
 
 .theme-dark .blockquote-style-liquid :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
@@ -10547,7 +10629,7 @@ body:not(.is-mobile):not(.terraflow-quiet) .callout-style-liquid .callout:hover:
             transparent 60%),
         linear-gradient(160deg,
             rgba(255, 255, 255, .06) 0%,
-            rgba(var(--background-secondary-rgb), .3) 100%) !important;
+            rgba(var(--background-secondary-rgb), .3) 100%);
 }
 
 /* Block-level extras: radius, shadow, refraction, sheen (reading mode block only) */
@@ -10561,7 +10643,7 @@ body:not(.is-mobile):not(.terraflow-quiet) .callout-style-liquid .callout:hover:
         0 6px 18px rgba(0, 0, 0, .1);
 }
 
-body:not(.is-mobile) .blockquote-style-liquid :is(.markdown-preview-view blockquote, .markdown-rendered blockquote) {
+body:not(.is-mobile).blockquote-style-liquid :is(.markdown-preview-view blockquote, .markdown-rendered blockquote) {
     backdrop-filter: blur(14px) saturate(180%);
     -webkit-backdrop-filter: blur(14px) saturate(180%);
 }
@@ -10580,7 +10662,7 @@ body:not(.is-mobile) .blockquote-style-liquid :is(.markdown-preview-view blockqu
     pointer-events: none;
 }
 
-body:not(.is-mobile):not(.terraflow-quiet) .blockquote-style-liquid :is(.markdown-preview-view blockquote, .markdown-rendered blockquote):hover::after {
+body:not(.is-mobile):not(.terraflow-quiet).blockquote-style-liquid :is(.markdown-preview-view blockquote, .markdown-rendered blockquote):hover::after {
     transform: translateX(130%);
     transition: transform 0.9s var(--ease-apple);
 }
