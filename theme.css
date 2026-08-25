@@ -434,6 +434,12 @@ settings:
         type: class-toggle
         default: false
     -
+        id: tf-season-mermaid
+        title: Season-Colored Diagrams
+        description: Color Mermaid diagrams from the active season's palette instead of Obsidian's default dark-mode invert filter
+        type: class-toggle
+        default: true
+    -
         id: link-style-selector
         title: Link Style
         description: Choose a visual style for links in your notes
@@ -1088,6 +1094,60 @@ body {
 .theme-light.melange-theme, .theme-dark.melange-theme,
 .theme-light.tokyo-theme, .theme-dark.tokyo-theme {
     --setting-items-background: var(--background-secondary);
+}
+
+/* --- Shared: Base Color Ramp --- */
+/* Obsidian's own .theme-light/.theme-dark rules (app.css) hardcode generic
+   --color-red/green/... and a --color-base-00..100 grayscale ramp. Nothing
+   in this file overrode them, so graph view, canvas, Bases, and any plugin
+   that reads the base palette rendered in stock Obsidian hues inside every
+   season. Map the ramp onto each season's own --callout-* colors (already
+   defined per-season with -rgb twins) instead of hand-authoring 8 colors x
+   11 seasons x 2 modes. Two classes here always outrank app.css's one. */
+.academia-theme,
+.theme-light.iceberg-theme, .theme-dark.iceberg-theme,
+.theme-light.twilight-theme, .theme-dark.twilight-theme,
+.theme-light.autumn-theme, .theme-dark.autumn-theme,
+.theme-light.winter-theme, .theme-dark.winter-theme,
+.theme-light.spring-theme, .theme-dark.spring-theme,
+.theme-light.summer-theme, .theme-dark.summer-theme,
+.theme-light.paper-theme, .theme-dark.paper-theme,
+.theme-light.calm-focus-theme, .theme-dark.calm-focus-theme,
+.theme-light.melange-theme, .theme-dark.melange-theme,
+.theme-light.tokyo-theme, .theme-dark.tokyo-theme {
+    --color-red: var(--callout-danger);
+    --color-red-rgb: var(--callout-danger-rgb);
+    --color-orange: var(--callout-warning);
+    --color-orange-rgb: var(--callout-warning-rgb);
+    --color-yellow: var(--callout-info);
+    --color-yellow-rgb: var(--callout-info-rgb);
+    --color-green: var(--callout-success);
+    --color-green-rgb: var(--callout-success-rgb);
+    --color-cyan: var(--callout-example);
+    --color-cyan-rgb: var(--callout-example-rgb);
+    --color-blue: var(--callout-note);
+    --color-blue-rgb: var(--callout-note-rgb);
+    --color-purple: var(--callout-cite);
+    --color-purple-rgb: var(--callout-cite-rgb);
+    --color-pink: var(--callout-quote);
+    --color-pink-rgb: var(--callout-quote-rgb);
+
+    /* Grayscale ramp: N% text-normal mixed into background-primary.
+       base-00 = pure background, base-100 = pure text, monotonic in
+       between — reproduces Obsidian's own base-00..text-normal intent
+       without hand-picking hex per season. */
+    --color-base-00: var(--background-primary);
+    --color-base-05: color-mix(in srgb, var(--text-normal) 5%, var(--background-primary));
+    --color-base-10: color-mix(in srgb, var(--text-normal) 10%, var(--background-primary));
+    --color-base-20: color-mix(in srgb, var(--text-normal) 20%, var(--background-primary));
+    --color-base-25: color-mix(in srgb, var(--text-normal) 25%, var(--background-primary));
+    --color-base-30: color-mix(in srgb, var(--text-normal) 30%, var(--background-primary));
+    --color-base-35: color-mix(in srgb, var(--text-normal) 35%, var(--background-primary));
+    --color-base-40: color-mix(in srgb, var(--text-normal) 40%, var(--background-primary));
+    --color-base-50: color-mix(in srgb, var(--text-normal) 50%, var(--background-primary));
+    --color-base-60: color-mix(in srgb, var(--text-normal) 60%, var(--background-primary));
+    --color-base-70: color-mix(in srgb, var(--text-normal) 70%, var(--background-primary));
+    --color-base-100: var(--text-normal);
 }
 
 /* --- Academia Theme --- */
@@ -3525,6 +3585,14 @@ body.is-focused .workspace-tabs.mod-top {
     contain: layout style;
 }
 
+/* Per-row containment: the container-level rule above stops the whole
+   tree from causing reflow outside itself, but a hover/repaint on one
+   row can still dirty its siblings within the tree in a large vault.
+   Bounding each row separately keeps that repaint local to the row. */
+.tree-item-self {
+    contain: layout paint;
+}
+
 .nav-files-container {
     padding-inline: var(--s3) var(--s4) !important;
 }
@@ -4423,7 +4491,7 @@ em,
    used (e.g. "body.link-style-default &" === the old
    "body.link-style-default :is(...)"), so specificity and cascade order are
    unchanged from before this consolidation. */
-:is(.markdown-rendered a, .markdown-rendered .internal-link, .markdown-rendered .external-link, .markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-url:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-internal-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-external-link:not(.cm-formatting)) {
+:is(.markdown-rendered a:not(.footnote-link), .markdown-rendered .internal-link, .markdown-rendered .external-link, .markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-url:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-internal-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-external-link:not(.cm-formatting)) {
     text-decoration: none !important;
     border-block-end: none !important;
     transition: color var(--transition-ui), background-color var(--transition-ui), border-color var(--transition-ui), box-shadow var(--transition-ui), transform var(--transition-ui), text-shadow var(--transition-ui);
@@ -8402,6 +8470,7 @@ body.layout-card .view-header :is(.view-actions, .view-header-nav-buttons) .clic
 }
 
 .search-result-file-match {
+    contain: layout paint;
     padding: 6px 12px !important;
     margin: 2px 0 !important;
     border-radius: var(--radius-pill);
@@ -9828,10 +9897,65 @@ body.focus-grid.theme-dark .cm-editor {
     background-size: 24px 24px;
 }
 
-/* Suppress in reduced-motion / print */
+/* Suppress in reduced-motion / print, plus a real print/PDF-export
+   stylesheet — previously this was the only print rule in the theme.
+   Deliberately uses flat print-safe colors instead of season tokens:
+   the point of this block is to render for paper regardless of which
+   season or mode is active on screen, the same way every other theme's
+   print output ignores its own screen palette. */
 @media print {
     body.focus-grid .cm-editor {
         background-image: none;
+    }
+
+    body, :is(.markdown-preview-view, .markdown-rendered) {
+        background-color: #ffffff !important;
+        color: #1a1a1a !important;
+    }
+
+    /* Defensive: Obsidian's PDF export renders the document view alone,
+       but a raw window print (if ever reachable) would include the app
+       shell — hide it so that path degrades safely too. */
+    :is(.workspace-ribbon, .workspace-tab-header-container, .titlebar, .status-bar, .workspace-sidedock-vault-profile, .view-header, .workspace-sidedock) {
+        display: none !important;
+    }
+
+    /* None of these render reliably on paper and some print engines turn
+       a box-shadow into a gray smear */
+    * {
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        text-shadow: none !important;
+        animation: none !important;
+        transition: none !important;
+    }
+
+    /* Un-wrap the on-screen reading-width cap — use the full printable
+       page width instead */
+    :is(.markdown-preview-sizer, .cm-sizer) {
+        max-width: 100% !important;
+    }
+
+    /* Callouts and code blocks lose their season background tint against
+       a forced-white page; give them a flat border so structure survives
+       in ink */
+    .callout {
+        border: 1px solid #999999 !important;
+        background-color: #f5f5f5 !important;
+    }
+
+    :is(.markdown-rendered pre, .HyperMD-codeblock) {
+        border: 1px solid #cccccc !important;
+        background-color: #f7f7f7 !important;
+    }
+
+    table :is(td, th) {
+        border-color: #cccccc !important;
+    }
+
+    @page {
+        margin: 2cm;
     }
 }
 
@@ -10107,6 +10231,106 @@ body.alt-checkboxes :is(
     border-color: var(--callout-danger) !important;
 }
 
+/* [t] time */
+body.alt-checkboxes :is(
+    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="t"],
+    .markdown-rendered li.task-list-item[data-task="t"]
+) .task-list-item-checkbox:checked {
+    --task-glyph: "t";
+    background: var(--callout-info) !important;
+    border-color: var(--callout-info) !important;
+}
+
+/* [n] note */
+body.alt-checkboxes :is(
+    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="n"],
+    .markdown-rendered li.task-list-item[data-task="n"]
+) .task-list-item-checkbox:checked {
+    --task-glyph: "n";
+    background: var(--callout-cite) !important;
+    border-color: var(--callout-cite) !important;
+}
+
+/* [l] location */
+body.alt-checkboxes :is(
+    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="l"],
+    .markdown-rendered li.task-list-item[data-task="l"]
+) .task-list-item-checkbox:checked {
+    --task-glyph: "l";
+    background: var(--callout-example) !important;
+    border-color: var(--callout-example) !important;
+}
+
+/* [w] win */
+body.alt-checkboxes :is(
+    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="w"],
+    .markdown-rendered li.task-list-item[data-task="w"]
+) .task-list-item-checkbox:checked {
+    --task-glyph: "w";
+    background: var(--callout-success) !important;
+    border-color: var(--callout-success) !important;
+}
+
+/* [B] brainstorm */
+body.alt-checkboxes :is(
+    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="B"],
+    .markdown-rendered li.task-list-item[data-task="B"]
+) .task-list-item-checkbox:checked {
+    --task-glyph: "B";
+    background: var(--callout-warning) !important;
+    border-color: var(--callout-warning) !important;
+}
+
+/* [L] love */
+body.alt-checkboxes :is(
+    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="L"],
+    .markdown-rendered li.task-list-item[data-task="L"]
+) .task-list-item-checkbox:checked {
+    --task-glyph: "♥";
+    background: var(--callout-danger) !important;
+    border-color: var(--callout-danger) !important;
+}
+
+/* [+] add */
+body.alt-checkboxes :is(
+    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="+"],
+    .markdown-rendered li.task-list-item[data-task="+"]
+) .task-list-item-checkbox:checked {
+    --task-glyph: "+";
+    background: var(--callout-success) !important;
+    border-color: var(--callout-success) !important;
+}
+
+/* [A] alarm */
+body.alt-checkboxes :is(
+    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="A"],
+    .markdown-rendered li.task-list-item[data-task="A"]
+) .task-list-item-checkbox:checked {
+    --task-glyph: "A";
+    background: var(--callout-danger) !important;
+    border-color: var(--callout-danger) !important;
+}
+
+/* [R] review */
+body.alt-checkboxes :is(
+    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="R"],
+    .markdown-rendered li.task-list-item[data-task="R"]
+) .task-list-item-checkbox:checked {
+    --task-glyph: "R";
+    background: var(--callout-warning) !important;
+    border-color: var(--callout-warning) !important;
+}
+
+/* [P] phone */
+body.alt-checkboxes :is(
+    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="P"],
+    .markdown-rendered li.task-list-item[data-task="P"]
+) .task-list-item-checkbox:checked {
+    --task-glyph: "P";
+    background: var(--callout-cite) !important;
+    border-color: var(--callout-cite) !important;
+}
+
 /* ============================== */
 /*   ENHANCED TABLES              */
 /* ============================== */
@@ -10156,56 +10380,151 @@ body.table-style-relaxed :is(.markdown-rendered, .markdown-preview-view, .markdo
 }
 
 /* ============================== */
+/*   TABLE HELPERS (CSSCLASSES)   */
+/* ============================== */
+/* Per-note cssclasses matching the Minimal/Baseline/Cupertino vocabulary,
+   scoped like the existing wide-table/cards classes above rather than as
+   Style Settings body toggles. Reading mode and the live-preview table
+   widget both covered, per project convention. */
+
+:is(.markdown-preview-view.table-nowrap, .markdown-source-view.mod-cm6.table-nowrap) :is(table, .cm-table-widget table) :is(td, th) {
+    white-space: nowrap;
+}
+
+:is(.markdown-preview-view.table-wrap, .markdown-source-view.mod-cm6.table-wrap) :is(table, .cm-table-widget table) :is(td, th) {
+    white-space: normal;
+    text-wrap: wrap;
+}
+
+:is(.markdown-preview-view.table-center, .markdown-source-view.mod-cm6.table-center) :is(table, .cm-table-widget table) {
+    margin-inline: auto;
+}
+
+:is(.markdown-preview-view.table-center, .markdown-source-view.mod-cm6.table-center) :is(table, .cm-table-widget table) :is(td, th) {
+    text-align: center;
+}
+
+/* Row numbers: a counter column via ::before on the first cell of each
+   body row — no extra markup, and skips the header row entirely. */
+:is(.markdown-preview-view.table-numbers, .markdown-source-view.mod-cm6.table-numbers) :is(table, .cm-table-widget table) tbody {
+    counter-reset: tf-table-row;
+}
+
+:is(.markdown-preview-view.table-numbers, .markdown-source-view.mod-cm6.table-numbers) :is(table, .cm-table-widget table) tbody tr {
+    counter-increment: tf-table-row;
+}
+
+:is(.markdown-preview-view.table-numbers, .markdown-source-view.mod-cm6.table-numbers) :is(table, .cm-table-widget table) tbody tr td:first-child::before {
+    content: counter(tf-table-row) ".";
+    color: var(--text-faint);
+    margin-inline-end: var(--s1);
+    font-variant-numeric: tabular-nums;
+}
+
+:is(.markdown-preview-view.table-small, .markdown-source-view.mod-cm6.table-small) :is(table, .cm-table-widget table) {
+    font-size: 0.88em;
+}
+
+:is(.markdown-preview-view.table-tiny, .markdown-source-view.mod-cm6.table-tiny) :is(table, .cm-table-widget table) {
+    font-size: 0.76em;
+}
+
+:is(.markdown-preview-view.table-tiny, .markdown-source-view.mod-cm6.table-tiny) :is(table, .cm-table-widget table) :is(td, th) {
+    padding-block: var(--s1);
+    padding-inline: var(--s2);
+}
+
+/* Border density — the theme's default grid is right+bottom only
+   (border-width: 0 1px 1px 0, set above); these three widen or narrow it
+   per note without touching the global default. */
+:is(.markdown-preview-view.table-lines, .markdown-source-view.mod-cm6.table-lines) :is(table, .cm-table-widget table) :is(td, th) {
+    border-width: 1px;
+}
+
+:is(.markdown-preview-view.row-lines, .markdown-source-view.mod-cm6.row-lines) :is(table, .cm-table-widget table) :is(td, th) {
+    border-width: 1px 0;
+}
+
+:is(.markdown-preview-view.col-lines, .markdown-source-view.mod-cm6.col-lines) :is(table, .cm-table-widget table) :is(td, th) {
+    border-width: 0 1px;
+}
+
+/* row-alt re-asserts the theme's default row striping — meaningful on a
+   note where the vault-wide table-plain-rows toggle is on but this one
+   table should stripe anyway. col-alt is new: alternating column tint,
+   which nothing upstream provides. */
+.theme-light :is(.markdown-preview-view.row-alt, .markdown-source-view.mod-cm6.row-alt) :is(table, .cm-table-widget table) tbody tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, .03);
+}
+
+.theme-dark :is(.markdown-preview-view.row-alt, .markdown-source-view.mod-cm6.row-alt) :is(table, .cm-table-widget table) tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, .03);
+}
+
+.theme-light :is(.markdown-preview-view.col-alt, .markdown-source-view.mod-cm6.col-alt) :is(table, .cm-table-widget table) tr > :is(td, th):nth-child(even) {
+    background-color: rgba(0, 0, 0, .03);
+}
+
+.theme-dark :is(.markdown-preview-view.col-alt, .markdown-source-view.mod-cm6.col-alt) :is(table, .cm-table-widget table) tr > :is(td, th):nth-child(even) {
+    background-color: rgba(255, 255, 255, .03);
+}
+
+/* ============================== */
 /*   BLOCK WIDTH (CSSCLASSES)     */
 /* ============================== */
 /* Per-note cssclasses: wide-page, full-page, wide-table, wide-image.
    Inspired by Baseline (github.com/aaaaalexis/obsidian-baseline).
    --wide-block-width is set by Style Settings on body; consumed with a
-   110ch fallback only — never defined in this file. */
+   110ch fallback only — never defined in this file.
+
+   `wide`/`max`/`table-wide`/`table-100`/`table-max`/`img-wide`/`img-100`/
+   `img-max` are aliases for the same four names, added so notes written
+   for Minimal/Baseline/Cupertino render correctly without renaming their
+   cssclasses. Both spellings keep working. */
 
 /* Whole-document widening — rides the existing --file-line-width pipeline */
-.markdown-preview-view.wide-page, .markdown-source-view.wide-page {
+:is(.markdown-preview-view, .markdown-source-view):is(.wide-page, .wide) {
     --file-line-width: min(100ch, 92%);
 }
 
-.markdown-preview-view.full-page, .markdown-source-view.full-page {
+:is(.markdown-preview-view, .markdown-source-view):is(.full-page, .max) {
     --file-line-width: 96%;
 }
 
 /* Element-level widening, reading mode: widen the sizer, re-cap every block
    at the normal measure, exempt table/image blocks up to --wide-block-width */
-.markdown-preview-view:is(.wide-table, .wide-image) .markdown-preview-sizer {
+.markdown-preview-view:is(.wide-table, .table-wide, .table-100, .table-max, .wide-image, .img-wide, .img-100, .img-max) .markdown-preview-sizer {
     max-width: 100%;
 }
 
-.markdown-preview-view:is(.wide-table, .wide-image) .markdown-preview-sizer > div:not(.markdown-preview-pusher) {
+.markdown-preview-view:is(.wide-table, .table-wide, .table-100, .table-max, .wide-image, .img-wide, .img-100, .img-max) .markdown-preview-sizer > div:not(.markdown-preview-pusher) {
     max-width: var(--file-line-width);
     margin-inline: auto;
 }
 
-.markdown-preview-view.wide-table .markdown-preview-sizer > div:has(> table),
-.markdown-preview-view.wide-image .markdown-preview-sizer > div:has(img) {
+.markdown-preview-view:is(.wide-table, .table-wide, .table-100, .table-max) .markdown-preview-sizer > div:has(> table),
+.markdown-preview-view:is(.wide-image, .img-wide, .img-100, .img-max) .markdown-preview-sizer > div:has(img) {
     max-width: min(100%, var(--wide-block-width, 110ch));
 }
 
 /* Element-level widening, live preview: widen cm-sizer, cap lines, exempt widgets */
-.markdown-source-view.mod-cm6:is(.wide-table, .wide-image) .cm-sizer {
+.markdown-source-view.mod-cm6:is(.wide-table, .table-wide, .table-100, .table-max, .wide-image, .img-wide, .img-100, .img-max) .cm-sizer {
     max-width: 100%;
 }
 
-.markdown-source-view.mod-cm6:is(.wide-table, .wide-image) :is(.cm-line, .inline-title, .metadata-container, .embedded-backlinks) {
+.markdown-source-view.mod-cm6:is(.wide-table, .table-wide, .table-100, .table-max, .wide-image, .img-wide, .img-100, .img-max) :is(.cm-line, .inline-title, .metadata-container, .embedded-backlinks) {
     max-width: var(--file-line-width);
     margin-inline: auto;
 }
 
-.markdown-source-view.mod-cm6.wide-table .cm-content > .cm-embed-block.cm-table-widget,
-.markdown-source-view.mod-cm6.wide-image .cm-content > .cm-embed-block:has(img) {
+.markdown-source-view.mod-cm6:is(.wide-table, .table-wide, .table-100, .table-max) .cm-content > .cm-embed-block.cm-table-widget,
+.markdown-source-view.mod-cm6:is(.wide-image, .img-wide, .img-100, .img-max) .cm-content > .cm-embed-block:has(img) {
     max-width: min(100%, var(--wide-block-width, 110ch));
     margin-inline: auto;
 }
 
 /* Mobile: neutralize widening — small screens are already full-bleed */
-body.is-mobile :is(.wide-page, .full-page, .wide-table, .wide-image) {
+body.is-mobile :is(.wide-page, .wide, .full-page, .max, .wide-table, .table-wide, .table-100, .table-max, .wide-image, .img-wide, .img-100, .img-max) {
     --wide-block-width: 100%;
 }
 
@@ -10221,6 +10540,72 @@ body.is-mobile :is(.wide-page, .full-page, .wide-table, .wide-image) {
         --primary-color: oklch(from rgb(var(--primary-color-rgb)) l calc(c * 1.18) h);
         --emphasis-color: oklch(from rgb(var(--primary-color-rgb)) l calc(c * 1.18) h);
     }
+}
+
+/* ============================== */
+/*   IMAGE FILTERS                */
+/* ============================== */
+/* Minimal/Baseline/Cupertino convention: append a #tag to the embed or
+   image path (![[photo.jpg#invert]], ![circle](photo.jpg#circle)) — the
+   fragment survives into the rendered <img src>, so it's a plain
+   attribute-selector match. Static per-image filters, no scroll/hover
+   cost. #invert/#invertW only flip in the mode where the image actually
+   needs it (a dark photo inverted in dark mode goes negative for no
+   reason otherwise). */
+.theme-dark img[src$="#invert"] {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+.theme-light img[src$="#invertW"] {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+img[src$="#circle"] {
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+img[src$="#outline"] {
+    outline: var(--border-thin) solid var(--divider-color);
+    outline-offset: -1px;
+}
+
+/* Flattens a white-background logo/icon into the surrounding surface
+   instead of showing its own box */
+.theme-light img[src$="#blend"] {
+    mix-blend-mode: multiply;
+}
+
+.theme-dark img[src$="#blend"] {
+    mix-blend-mode: screen;
+}
+
+/* Small inline UI-style icon rather than a full block image */
+img[src$="#interface"] {
+    display: inline-block;
+    vertical-align: text-bottom;
+    max-height: 1.4em;
+    width: auto;
+    border-radius: var(--r1);
+}
+
+/* ============================== */
+/*   IMAGE GRID (CSSCLASS)        */
+/* ============================== */
+/* Add `img-grid` to a note's cssclasses; consecutive image-only paragraphs
+   flow side by side and wrap, instead of each stacking on its own line.
+   Reading mode only — live preview keeps images on separate cm-lines by
+   design, so there is no equivalent DOM shape to target there. */
+.markdown-preview-view.img-grid p:has(> img:only-child) {
+    display: inline-block;
+    vertical-align: top;
+    margin-inline-end: var(--s2);
+}
+
+.markdown-preview-view.img-grid p:has(> img:only-child) img {
+    display: block;
+    max-width: 100%;
 }
 
 /* ============================== */
@@ -10250,6 +10635,55 @@ body.is-mobile :is(.wide-page, .full-page, .wide-table, .wide-image) {
 .markdown-source-view.mod-cm6.banner .image-embed[alt="banner"] .image-resize-handle,
 .markdown-source-view.mod-cm6.banner .image-embed[alt="banner"] .image-resize-corner {
     display: none !important;
+}
+
+/* Vertical crop position, 5% steps — tag the banner ![[img.jpg|banner]]
+   and add yN to the note's cssclasses (y0 = top of the image, y100 =
+   bottom). Obsidian doesn't expose plugin-style banner-y frontmatter
+   without the Banners plugin, so this rides the same cssclass mechanism
+   as the rest of this block. */
+:is(.markdown-preview-view.banner.y0, .markdown-source-view.mod-cm6.banner.y0) img[alt="banner"] { object-position: center 0%; }
+:is(.markdown-preview-view.banner.y5, .markdown-source-view.mod-cm6.banner.y5) img[alt="banner"] { object-position: center 5%; }
+:is(.markdown-preview-view.banner.y10, .markdown-source-view.mod-cm6.banner.y10) img[alt="banner"] { object-position: center 10%; }
+:is(.markdown-preview-view.banner.y15, .markdown-source-view.mod-cm6.banner.y15) img[alt="banner"] { object-position: center 15%; }
+:is(.markdown-preview-view.banner.y20, .markdown-source-view.mod-cm6.banner.y20) img[alt="banner"] { object-position: center 20%; }
+:is(.markdown-preview-view.banner.y25, .markdown-source-view.mod-cm6.banner.y25) img[alt="banner"] { object-position: center 25%; }
+:is(.markdown-preview-view.banner.y30, .markdown-source-view.mod-cm6.banner.y30) img[alt="banner"] { object-position: center 30%; }
+:is(.markdown-preview-view.banner.y35, .markdown-source-view.mod-cm6.banner.y35) img[alt="banner"] { object-position: center 35%; }
+:is(.markdown-preview-view.banner.y40, .markdown-source-view.mod-cm6.banner.y40) img[alt="banner"] { object-position: center 40%; }
+:is(.markdown-preview-view.banner.y45, .markdown-source-view.mod-cm6.banner.y45) img[alt="banner"] { object-position: center 45%; }
+:is(.markdown-preview-view.banner.y50, .markdown-source-view.mod-cm6.banner.y50) img[alt="banner"] { object-position: center 50%; }
+:is(.markdown-preview-view.banner.y55, .markdown-source-view.mod-cm6.banner.y55) img[alt="banner"] { object-position: center 55%; }
+:is(.markdown-preview-view.banner.y60, .markdown-source-view.mod-cm6.banner.y60) img[alt="banner"] { object-position: center 60%; }
+:is(.markdown-preview-view.banner.y65, .markdown-source-view.mod-cm6.banner.y65) img[alt="banner"] { object-position: center 65%; }
+:is(.markdown-preview-view.banner.y70, .markdown-source-view.mod-cm6.banner.y70) img[alt="banner"] { object-position: center 70%; }
+:is(.markdown-preview-view.banner.y75, .markdown-source-view.mod-cm6.banner.y75) img[alt="banner"] { object-position: center 75%; }
+:is(.markdown-preview-view.banner.y80, .markdown-source-view.mod-cm6.banner.y80) img[alt="banner"] { object-position: center 80%; }
+:is(.markdown-preview-view.banner.y85, .markdown-source-view.mod-cm6.banner.y85) img[alt="banner"] { object-position: center 85%; }
+:is(.markdown-preview-view.banner.y90, .markdown-source-view.mod-cm6.banner.y90) img[alt="banner"] { object-position: center 90%; }
+:is(.markdown-preview-view.banner.y95, .markdown-source-view.mod-cm6.banner.y95) img[alt="banner"] { object-position: center 95%; }
+:is(.markdown-preview-view.banner.y100, .markdown-source-view.mod-cm6.banner.y100) img[alt="banner"] { object-position: center 100%; }
+
+/* banner-icon: a second image tagged ![[icon.png|banner-icon]], rendered
+   as a circular avatar overlapping the banner's bottom-left corner — the
+   same alt-tag mechanism as the banner image itself, not a plugin
+   integration. banner-title pulls the inline title up to sit adjacent to
+   it instead of at its normal top margin. */
+:is(.markdown-preview-view.banner, .markdown-source-view.mod-cm6.banner) img[alt="banner-icon"] {
+    display: block;
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--background-primary);
+    margin-block-start: -32px;
+    margin-inline-start: var(--s4);
+    position: relative;
+    z-index: 1;
+}
+
+:is(.markdown-preview-view.banner.banner-title, .markdown-source-view.mod-cm6.banner.banner-title) .inline-title {
+    margin-block-start: 0;
 }
 
 /* ============================== */
@@ -10312,6 +10746,49 @@ body.is-mobile :is(.wide-page, .full-page, .wide-table, .wide-image) {
     corner-shape: squircle;
 }
 
+/* Column count and aspect ratio — Minimal/Baseline/Cupertino vocabulary.
+   Dataview-cards only: Bases' own card view (.bases-cards-item, styled
+   below) positions cards with JS-computed absolute coordinates rather
+   than CSS grid, so a column count or ratio class has nothing to attach
+   to there. */
+:is(.markdown-preview-view.cards.cards-cols-1, .markdown-source-view.mod-cm6.cards.cards-cols-1) table.dataview.table-view-table tbody { grid-template-columns: repeat(1, 1fr); }
+:is(.markdown-preview-view.cards.cards-cols-2, .markdown-source-view.mod-cm6.cards.cards-cols-2) table.dataview.table-view-table tbody { grid-template-columns: repeat(2, 1fr); }
+:is(.markdown-preview-view.cards.cards-cols-3, .markdown-source-view.mod-cm6.cards.cards-cols-3) table.dataview.table-view-table tbody { grid-template-columns: repeat(3, 1fr); }
+:is(.markdown-preview-view.cards.cards-cols-4, .markdown-source-view.mod-cm6.cards.cards-cols-4) table.dataview.table-view-table tbody { grid-template-columns: repeat(4, 1fr); }
+:is(.markdown-preview-view.cards.cards-cols-5, .markdown-source-view.mod-cm6.cards.cards-cols-5) table.dataview.table-view-table tbody { grid-template-columns: repeat(5, 1fr); }
+:is(.markdown-preview-view.cards.cards-cols-6, .markdown-source-view.mod-cm6.cards.cards-cols-6) table.dataview.table-view-table tbody { grid-template-columns: repeat(6, 1fr); }
+:is(.markdown-preview-view.cards.cards-cols-7, .markdown-source-view.mod-cm6.cards.cards-cols-7) table.dataview.table-view-table tbody { grid-template-columns: repeat(7, 1fr); }
+:is(.markdown-preview-view.cards.cards-cols-8, .markdown-source-view.mod-cm6.cards.cards-cols-8) table.dataview.table-view-table tbody { grid-template-columns: repeat(8, 1fr); }
+
+:is(.markdown-preview-view.cards.cards-16-9, .markdown-source-view.mod-cm6.cards.cards-16-9) table.dataview.table-view-table tbody > tr > td img { aspect-ratio: 16 / 9; }
+:is(.markdown-preview-view.cards.cards-1-1, .markdown-source-view.mod-cm6.cards.cards-1-1) table.dataview.table-view-table tbody > tr > td img { aspect-ratio: 1 / 1; }
+:is(.markdown-preview-view.cards.cards-2-1, .markdown-source-view.mod-cm6.cards.cards-2-1) table.dataview.table-view-table tbody > tr > td img { aspect-ratio: 2 / 1; }
+:is(.markdown-preview-view.cards.cards-2-3, .markdown-source-view.mod-cm6.cards.cards-2-3) table.dataview.table-view-table tbody > tr > td img { aspect-ratio: 2 / 3; }
+
+/* Full-bleed cover: the card's own padding moves off the image so it
+   touches the card's top/left/right edges instead of sitting inset. */
+:is(.markdown-preview-view.cards.cards-cover, .markdown-source-view.mod-cm6.cards.cards-cover) table.dataview.table-view-table tbody > tr {
+    padding: 0 0 var(--s2) 0;
+}
+
+:is(.markdown-preview-view.cards.cards-cover, .markdown-source-view.mod-cm6.cards.cards-cover) table.dataview.table-view-table tbody > tr > td:has(img) {
+    padding: 0;
+}
+
+:is(.markdown-preview-view.cards.cards-cover, .markdown-source-view.mod-cm6.cards.cards-cover) table.dataview.table-view-table tbody > tr > td:not(:has(img)) {
+    padding-inline: var(--s2);
+}
+
+:is(.markdown-preview-view.cards.cards-cover, .markdown-source-view.mod-cm6.cards.cards-cover) table.dataview.table-view-table tbody > tr > td img {
+    border-radius: var(--r3) var(--r3) 0 0;
+}
+
+/* The row is already a column flexbox; push the last cell to the card's
+   bottom edge instead of stacking directly under the one above it */
+:is(.markdown-preview-view.cards.cards-align-bottom, .markdown-source-view.mod-cm6.cards.cards-align-bottom) table.dataview.table-view-table tbody > tr > td:last-child {
+    margin-block-start: auto;
+}
+
 /* ============================== */
 /*   BASES POLISH                 */
 /* ============================== */
@@ -10339,6 +10816,25 @@ body.is-mobile :is(.wide-page, .full-page, .wide-table, .wide-image) {
 
 .bases-cards-label {
     color: var(--text-muted);
+}
+
+/* ============================== */
+/*   EMBEDS (CSSCLASSES)          */
+/* ============================== */
+/* Per-note cssclasses from the Minimal/Baseline/Cupertino vocabulary.
+   embed-strict drops the card chrome an embedded note otherwise gets from
+   .tf-embed-cards (below) or Obsidian's own default embed background, so
+   a transclusion reads as part of the flow instead of a boxed-in card.
+   embed-hide-title hides the embed's title bar entirely. */
+:is(.markdown-preview-view.embed-strict, .markdown-source-view.mod-cm6.embed-strict) .markdown-embed {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+:is(.markdown-preview-view.embed-hide-title, .markdown-source-view.mod-cm6.embed-hide-title) .markdown-embed-title {
+    display: none;
 }
 
 /* ============================================================
@@ -11056,4 +11552,206 @@ body.depth-shadows.theme-dark :is(.popover, .suggestion-container) {
 
 body.depth-shadows.theme-dark .prompt {
     background-image: linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06));
+}
+
+/* ============================== */
+/*   GRAPH VIEW                   */
+/* ============================== */
+
+/* Graph view read Obsidian's own hardcoded defaults (app.css .theme-dark/
+   .theme-light) in every season, since nothing here ever set the 8
+   --graph-* variables. Wire them to existing tokens so nodes and edges
+   pick up the active season instead of stock gray/green/yellow. Most of
+   this already inherits correctly once the base ramp above is set — set
+   it explicitly anyway so the mapping is intentional, not incidental. */
+:root {
+    --graph-line: var(--divider-color);
+    --graph-node: var(--text-muted);
+    --graph-node-unresolved: var(--text-faint);
+    --graph-node-focused: var(--primary-color);
+    --graph-node-tag: var(--callout-success);
+    --graph-node-attachment: var(--callout-warning);
+    --graph-text: var(--text-normal);
+}
+
+.graph-controls {
+    background-color: var(--background-secondary);
+    border: var(--border-thin) solid var(--divider-color);
+    border-radius: var(--r3);
+    -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
+    box-shadow: var(--shadow-2);
+}
+
+.graph-controls-button {
+    border-radius: var(--r2);
+    -electron-corner-smoothing: var(--squircle-btn);
+    corner-shape: squircle;
+}
+
+/* ============================== */
+/*   SEASON-COLORED DIAGRAMS      */
+/* ============================== */
+
+/* Obsidian's only built-in dark-mode handling for Mermaid is a raw filter
+   on the rendered SVG (app.css: .theme-dark .mermaid > svg { filter:
+   invert(100%) hue-rotate(180deg) saturate(1.25); }) — it does not read
+   any theme variable and mangles hue in a warm palette. Cancel it and
+   color the SVG's own elements from the season instead. --font-mermaid
+   is a real Obsidian variable (app.css) that was never set, so diagrams
+   fell back to its default rather than the interface font.
+
+   Mermaid re-injects its own <style> inside every rendered SVG, scoped
+   with a per-diagram id (e.g. #me3f58561 .node rect) — an id selector,
+   which outranks any class selector here regardless of source order.
+   !important is the only way to win against vendor-generated, ID-scoped
+   CSS we don't control; this is not overriding our own earlier rule. */
+body.tf-season-mermaid {
+    --font-mermaid: var(--font-interface);
+}
+
+body.tf-season-mermaid.theme-dark .mermaid > svg {
+    filter: none;
+}
+
+/* Flowchart / state / class diagram nodes */
+body.tf-season-mermaid .mermaid :is(.node rect, .node polygon, .node circle, .node ellipse) {
+    fill: var(--background-secondary) !important;
+    stroke: var(--divider-color) !important;
+}
+
+body.tf-season-mermaid .mermaid .node.default > * {
+    fill: var(--background-secondary) !important;
+    stroke: var(--primary-color) !important;
+}
+
+/* Edges and arrowheads */
+body.tf-season-mermaid .mermaid :is(.edgePath .path, .flowchart-link) {
+    stroke: var(--text-muted) !important;
+}
+
+body.tf-season-mermaid .mermaid .arrowheadPath {
+    fill: var(--text-muted) !important;
+    stroke: none !important;
+}
+
+/* Cluster (subgraph) backgrounds */
+body.tf-season-mermaid .mermaid .cluster rect {
+    fill: var(--background-secondary-alt) !important;
+    stroke: var(--divider-color) !important;
+}
+
+/* Text: node labels, edge labels, titles, sequence-diagram message text.
+   Excludes .noteText on purpose — it sits on .note's light fill (below)
+   regardless of mode, and mermaid's own near-black default already reads
+   correctly there; forcing --text-normal would make it invisible in dark
+   mode. */
+body.tf-season-mermaid .mermaid :is(.label, .edgeLabel, .titleText, .nodeLabel, .messageText) {
+    color: var(--text-normal) !important;
+    fill: var(--text-normal) !important;
+}
+
+/* Mermaid bakes its own light translucent pill (rgba(232,232,232,.8)) onto
+   the <span class="edgeLabel">/<p> text itself, on top of the .labelBkg
+   div below — two independent background layers. Without this the span's
+   light pill survives underneath season-dark text and reads illegible. */
+body.tf-season-mermaid .mermaid :is(span.edgeLabel, .edgeLabel p) {
+    background-color: transparent !important;
+}
+
+/* Edge-label backgrounds are an HTML <div class="labelBkg"> inside a
+   foreignObject, not an SVG rect — background-color, not fill. */
+body.tf-season-mermaid .mermaid :is(.edgeLabel rect, .labelBkg) {
+    background-color: var(--background-primary) !important;
+    fill: var(--background-primary) !important;
+}
+
+/* Sequence diagrams: actors, lifelines, notes. Mermaid puts the same
+   .actor class on both the box <rect> and its <text> label — a bare
+   .actor rule paints the label the same fill as its own box, erasing it.
+   Split by tag: rect gets the box color, text gets --text-normal. */
+body.tf-season-mermaid .mermaid rect.actor {
+    fill: var(--background-secondary) !important;
+    stroke: var(--primary-color) !important;
+}
+
+body.tf-season-mermaid .mermaid text.actor {
+    fill: var(--text-normal) !important;
+}
+
+body.tf-season-mermaid .mermaid line.actor-line {
+    stroke: var(--divider-color) !important;
+}
+
+body.tf-season-mermaid .mermaid :is(.messageLine0, .messageLine1) {
+    stroke: var(--text-muted) !important;
+}
+
+body.tf-season-mermaid .mermaid .note {
+    fill: var(--callout-info) !important;
+    stroke: var(--callout-info) !important;
+    fill-opacity: .15 !important;
+}
+
+/* Gantt: bars and grid */
+body.tf-season-mermaid .mermaid .task {
+    fill: var(--background-secondary) !important;
+    stroke: var(--primary-color) !important;
+}
+
+body.tf-season-mermaid .mermaid .task.active {
+    fill: var(--primary-color) !important;
+}
+
+body.tf-season-mermaid .mermaid .grid .tick line {
+    stroke: var(--divider-color) !important;
+}
+
+/* ============================== */
+/*   FOOTNOTES                    */
+/* ============================== */
+
+/* Reading-mode footnote refs/backrefs are <a class="footnote-link"> —
+   before this, they inherited whichever Link Style variant was active
+   (a pill, a glow-on-hover scale transform, an underline that lands
+   under a bare arrow glyph). None of that reads as a footnote. The base
+   Link Styles selector now excludes .footnote-link at its point of
+   definition rather than being patched here — see ":not(.footnote-link)"
+   on the ":is(.markdown-rendered a, ...)" rule above. This section is
+   the deliberate, restrained treatment that takes its place. */
+.footnote-ref .footnote-link {
+    color: var(--text-accent);
+    font-weight: var(--weight-medium);
+}
+
+.footnote-ref .footnote-link:hover {
+    color: var(--link-color-hover);
+}
+
+.footnote-backref {
+    color: var(--text-faint);
+    margin-inline-start: var(--s1);
+}
+
+.footnote-backref:hover {
+    color: var(--text-accent);
+}
+
+/* The footnote list itself: quieter than body text, tightened spacing
+   between entries so a long list doesn't sprawl */
+.footnotes {
+    color: var(--text-muted);
+}
+
+.footnotes ol {
+    margin-block-start: var(--s2);
+}
+
+.footnotes li {
+    margin-block-end: var(--s2);
+}
+
+.footnotes li::marker {
+    color: var(--text-faint);
+    font-variant-numeric: tabular-nums;
 }
