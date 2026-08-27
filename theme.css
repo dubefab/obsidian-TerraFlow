@@ -128,6 +128,9 @@ settings:
             -
                 label: Liquid glass
                 value: callout-style-liquid
+            -
+                label: Soft card
+                value: callout-style-card
     -
         id: blockquote-style-selector
         title: Blockquote style
@@ -5600,6 +5603,51 @@ body:not(.is-mobile).theme-dark.callout-style-glass :is(.callout, .cm-callout) {
 .callout-style-bold .callout .callout-title {
     font-weight: var(--weight-bold);
     letter-spacing: 0.02em;
+}
+
+/* Soft Card Style - ported from wavecnct.com: flat tinted panel,
+   full 2px accent-mixed border, no left rule */
+.callout-style-card .callout {
+    --callout-padding: 1.25rem;
+    background: color-mix(in srgb, var(--callout-color) 6%, var(--background-primary));
+    border: var(--border-thick) solid color-mix(in srgb, var(--callout-color) 45%, var(--background-primary));
+    border-radius: var(--r4);
+    -electron-corner-smoothing: var(--squircle-main);
+    corner-shape: squircle;
+    box-shadow: 0 2px 8px rgba(var(--callout-color-rgb), .10);
+    color: color-mix(in srgb, var(--callout-color) 25%, var(--text-normal));
+}
+
+/* The per-type :is() color rules (e.g. theme.css:5142) take their specificity
+   from their highest branch (.markdown-source-view.mod-cm6 .cm-callout.cm-callout-*,
+   4 classes), which outranks this 2-class selector even in reading mode where
+   that branch never matches — so border-inline-start-color survives at full
+   accent strength unless forced back to the mixed value here. */
+.callout-style-card .callout {
+    border-inline-start-color: color-mix(in srgb, var(--callout-color) 45%, var(--background-primary)) !important;
+}
+
+.callout-style-card .callout .callout-title {
+    color: var(--text-normal);
+    text-shadow: none;
+}
+
+.callout-style-card .callout .callout-content strong {
+    color: var(--text-normal);
+}
+
+.callout-style-card .markdown-source-view.mod-cm6 .cm-callout {
+    border: none;
+    outline: none;
+}
+
+.theme-dark .callout-style-card .callout {
+    box-shadow: 0 2px 8px rgba(var(--callout-color-rgb), .18);
+}
+
+body:not(.is-mobile).callout-style-card .callout:hover {
+    box-shadow: 0 6px 16px rgba(var(--callout-color-rgb), .16);
+    border-color: color-mix(in srgb, var(--callout-color) 60%, var(--background-primary));
 }
 
 /* Highlight Styling - Shared Properties */
