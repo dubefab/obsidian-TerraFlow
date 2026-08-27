@@ -4,15 +4,15 @@ name: TerraFlow
 id: seasonal-themes
 settings:
     -
-        id: colors-heading
-        title: Colors
+        id: seasonal-heading
+        title: Color Scheme
         type: heading
         level: 2
         collapsed: true
     -
         id: season-selector
-        title: Season
-        description: Choose your seasonal color palette. Academia is designed for dark mode only.
+        title: Active Season
+        description: Choose your seasonal color palette
         type: class-select
         allowEmpty: false
         default: autumn-theme
@@ -33,7 +33,7 @@ settings:
                 label: 🧊 Iceberg
                 value: iceberg-theme
             -
-                label: 📚 Academia
+                label: 📚 Academia (Dark ONLY)
                 value: academia-theme
             -
                 label: 🌙 Twilight
@@ -52,40 +52,57 @@ settings:
                 value: tokyo-theme
     -
         id: use-custom-accent
-        title: Use custom accent
-        description: Override the seasonal accent with the color below
+        title: Custom Accent Color
+        description: Enable to override the seasonal accent with the color below
         type: class-toggle
         default: false
     -
         id: custom-accent
-        title: Custom accent
-        description: The accent color used when Use custom accent is on
+        title: Accent Color (when override is on)
+        description: The accent color used when Custom Accent Override is enabled
         type: variable-color
         default: "#5E7D6E"
         opacity: false
         format: hex
     -
         id: enable-monochrome
-        title: Monochrome
+        title: Monochrome Mode
         description: Desaturate the interface to grayscale
         type: class-toggle
         default: false
     -
         id: low-contrast
-        title: Low contrast
-        description: Unify the whole window on the season's deeper panel tone for one calm, rich surface
+        title: Low Contrast Mode
+        description: Unify the whole window on the season's deeper panel tone for one calm, rich surface — works with every season
         type: class-toggle
         default: false
     -
+        id: heading-color-intensity
+        title: Heading Color Intensity
+        description: Muted blends headings into the text color (dark, barely noticeable); Vivid lifts them to full palette saturation (funky!)
+        type: class-select
+        allowEmpty: false
+        default: heading-color-default
+        options:
+            -
+                label: Default
+                value: heading-color-default
+            -
+                label: Muted (subtle)
+                value: heading-color-muted
+            -
+                label: Vivid (funky)
+                value: heading-color-vivid
+    -
         id: tinted-body-text
-        title: Tint body text
-        description: Blend the season's accent color into body text so the palette shows through
+        title: Season-Tinted Body Text
+        description: Blend the season's accent color into body text so the palette shows through — verified readable in every season
         type: class-toggle
         default: false
     -
         id: body-text-tint
-        title: Body text tint strength
-        description: How much accent to blend in, used when Tint body text is on
+        title: Body Text Tint Strength
+        description: How much accent to blend in (used when Season-Tinted Body Text is on)
         type: variable-number-slider
         default: 20
         min: 10
@@ -94,46 +111,374 @@ settings:
         format: "%"
     -
         id: p3-accents
-        title: P3 vivid accents
-        description: On wide-gamut (Display P3) Apple screens, boost the season accent's chroma so it glows. No effect on sRGB displays or Custom accent.
+        title: P3 Vivid Accents
+        description: On wide-gamut (Display P3) Apple screens, boost the season accent's chroma so it glows — no effect on sRGB displays or the Custom Accent override
         type: class-toggle
         default: false
+    -
+        id: custom-heading-colors-heading
+        title: Custom Heading Colors
+        description: Override the season's H1–H6 colors with your own
+        type: heading
+        level: 3
+        collapsed: true
+    -
+        id: custom-heading-colors
+        title: Custom Heading Colors
+        description: Use the colors below instead of the season palette — composes with Heading Color Intensity
+        type: class-toggle
+        default: false
+    -
+        id: custom-h1
+        title: H1 Color
+        type: variable-color
+        format: hex
+        opacity: false
+        default: "#c77b8b"
+        alt-format:
+            -
+                id: custom-h1-rgb
+                format: rgb-values
+    -
+        id: custom-h2
+        title: H2 Color
+        type: variable-color
+        format: hex
+        opacity: false
+        default: "#bc5c00"
+        alt-format:
+            -
+                id: custom-h2-rgb
+                format: rgb-values
+    -
+        id: custom-h3
+        title: H3 Color
+        type: variable-color
+        format: hex
+        opacity: false
+        default: "#a08428"
+        alt-format:
+            -
+                id: custom-h3-rgb
+                format: rgb-values
+    -
+        id: custom-h4
+        title: H4 Color
+        type: variable-color
+        format: hex
+        opacity: false
+        default: "#6e9b72"
+        alt-format:
+            -
+                id: custom-h4-rgb
+                format: rgb-values
+    -
+        id: custom-h5
+        title: H5 Color
+        type: variable-color
+        format: hex
+        opacity: false
+        default: "#7892bd"
+        alt-format:
+            -
+                id: custom-h5-rgb
+                format: rgb-values
+    -
+        id: custom-h6
+        title: H6 Color
+        type: variable-color
+        format: hex
+        opacity: false
+        default: "#ad6bc0"
+        alt-format:
+            -
+                id: custom-h6-rgb
+                format: rgb-values
 
     -
-        id: callouts-quotes-heading
-        title: Callouts & quotes
+        id: interface-heading
+        title: Interface
         type: heading
         level: 2
         collapsed: true
     -
-        id: callout-style-selector
-        title: Callout style
-        description: Choose a visual style for your callouts
+        id: layout-style
+        title: Interface Layout
+        description: Choose the overall layout structure of the application
         type: class-select
         allowEmpty: false
-        default: callout-style-default
+        default: layout-default
         options:
             -
-                label: Default (gradient)
-                value: callout-style-default
+                label: Default
+                value: layout-default
             -
-                label: Vintage paper
-                value: callout-style-vintage
+                label: Card
+                value: layout-card
+    -
+        id: depth-shadows
+        title: Depth & Shadows
+        description: Add realistic multi-layer shadows for visual depth and hierarchy
+        type: class-toggle
+        default: true
+    -
+        id: depth-warm
+        title: Tinted Ambient Shadows
+        description: Tint shadows with the accent color for a warm, Apple-style ambient elevation (requires Depth & Shadows)
+        type: class-toggle
+        default: false
+    -
+        id: tf-luminance-depth
+        title: Luminance Depth (No Shadows)
+        description: Callouts, modals, popovers, and cards read as elevated through a stepped surface tint instead of a drop shadow — pairs well with Disable Box Shadows for elevation that survives a flat look
+        type: class-toggle
+        default: false
+    -
+        id: terraflow-quiet
+        title: Quiet Mode (Rams Reduction)
+        description: Soften hover lifts, mute accent backgrounds, remove link glow — a calmer, less expressive interface
+        type: class-toggle
+        default: false
+    -
+        id: neutral-chrome
+        title: Neutral Chrome
+        description: Reserve the accent color for selection and active states — icon and button hovers wash gray instead of tinting, and the accent glow is removed
+        type: class-toggle
+        default: false
+    -
+        id: file-explorer-style
+        title: File Explorer Style
+        description: Folder presentation in the file browser
+        type: class-select
+        allowEmpty: false
+        default: explorer-style-rainbow
+        options:
             -
-                label: Modern glass
-                value: callout-style-glass
+                label: Rainbow Cards (Default)
+                value: explorer-style-rainbow
             -
-                label: Bold border
-                value: callout-style-bold
+                label: Minimal
+                value: explorer-style-minimal
             -
-                label: Liquid glass
-                value: callout-style-liquid
+                label: Finder
+                value: explorer-style-finder
             -
-                label: Soft card
-                value: callout-style-card
+                label: Glass
+                value: explorer-style-glass
+    -
+        id: enable-floating-nav
+        title: Floating Nav Buttons
+        description: Transform sidebar navigation buttons into a floating pill that expands on hover
+        type: class-toggle
+        default: false
+    -
+        id: show-header-on-hover
+        title: Show View Header on Hover
+        description: Only show the view header (title and buttons) when hovering the top area
+        type: class-toggle
+        default: false
+    -
+        id: ribbon-autohide
+        title: Auto-Hide Ribbon
+        description: Hide the ribbon completely — glide your cursor to the left screen edge (or tab into it) and it slides back in, pushing the workspace over
+        type: class-toggle
+        default: false
+    -
+        id: ambient-gradient
+        title: Ambient Accent Gradient
+        description: Wash the top of the workspace with a soft accent-color gradient that fades into the background
+        type: class-toggle
+        default: false
+    -
+        id: scroll-edge-fade
+        title: Scroll Edge Dissolve
+        description: Note content melts softly into the chrome at the top and bottom of the scroll area instead of clipping hard
+        type: class-toggle
+        default: false
+    -
+        id: pill-tabs
+        title: Soft Pill Tabs
+        description: Restyle workspace tabs as quiet translucent pills instead of squared tab shapes
+        type: class-toggle
+        default: false
+
+    -
+        id: liquid-glass-heading
+        title: Liquid Glass
+        type: heading
+        level: 2
+        collapsed: true
+    -
+        id: tf-glass-tint
+        title: Glass Tint
+        description: How solid the glass material is across menus, popovers, panels and modals — lower is clearer, higher is more tinted
+        type: variable-number-slider
+        default: 65
+        min: 35
+        max: 90
+        step: 5
+        format: "%"
+    -
+        id: tf-liquid-tags
+        title: Liquid Tags
+        description: Tags become gel chips with a specular rim, seasonal tint, and a squashy press
+        type: class-toggle
+        default: false
+    -
+        id: tf-liquid-properties
+        title: Liquid Properties Panel
+        description: The frontmatter/properties block becomes a floating frosted card with a specular edge
+        type: class-toggle
+        default: false
+    -
+        id: tf-liquid-tables
+        title: Liquid Tables
+        description: Whole tables become liquid glass with a distinct seasonal-accent header row that sticks while rows scroll beneath it (reading mode)
+        type: class-toggle
+        default: false
+    -
+        id: tf-liquid-statusbar
+        title: Liquid Status Bar
+        description: The expanded status pill gets true glass material — refraction blur and a specular rim
+        type: class-toggle
+        default: false
+    -
+        id: tf-liquid-prompt
+        title: Liquid Command Palette
+        description: Deeper refraction on the palette and a liquid gradient on the selected row
+        type: class-toggle
+        default: false
+
+    -
+        id: animations-heading
+        title: Animations
+        type: heading
+        level: 2
+        collapsed: true
+    -
+        id: animation-style
+        title: Animation Style
+        description: Choose the animation personality for the interface
+        type: class-select
+        allowEmpty: false
+        default: animation-style-default
+        options:
+            -
+                label: Default (Subtle Pop)
+                value: animation-style-default
+            -
+                label: Whimsy (Bouncy)
+                value: animation-style-whimsy
+    -
+        id: smooth-caret
+        title: Smooth Caret (iA Writer)
+        description: The text cursor glides between positions instead of jumping — satisfying, but turn off if it feels laggy while typing
+        type: class-toggle
+        default: false
+    -
+        id: scroll-progress
+        title: Reading Progress Bar
+        description: A hairline accent bar under the note header that fills as you scroll through the note
+        type: class-toggle
+        default: false
+    -
+        id: scroll-reveal
+        title: Rise Into View
+        description: Callouts, tables, images and code blocks gently fade and rise as they scroll into view (reading mode)
+        type: class-toggle
+        default: false
+
+    -
+        id: content-styles-heading
+        title: Editor & Content
+        type: heading
+        level: 2
+        collapsed: true
+    -
+        id: font-normal
+        title: Body Text Weight
+        description: Font weight for body text (Obsidian default is 400)
+        type: variable-number-slider
+        default: 400
+        min: 300
+        max: 600
+        step: 50
+    -
+        id: optical-text-trim
+        title: Optical Text Centering
+        description: Trim the font's invisible leading in short labels (tag chips, tab titles, callout titles) so text centers on its letterforms, not its line box
+        type: class-toggle
+        default: true
+    -
+        id: tf-balanced-headings
+        title: Balanced Headings & Titles
+        description: Wrap headings, titles, callout titles, and tooltips onto evenly-balanced lines instead of leaving a short ragged last line
+        type: class-toggle
+        default: false
+    -
+        id: tf-luminous
+        title: Luminous Details
+        description: Horizontal rules become glowing seasonal gradient hairlines and images get a gentle hover lift with an accent-tinted shadow
+        type: class-toggle
+        default: false
+    -
+        id: tf-embed-cards
+        title: Elegant Embed Cards
+        description: Note embeds and transclusions become soft accent-edged cards with a hover lift and a link icon that appears on hover
+        type: class-toggle
+        default: false
+    -
+        id: tf-aurora-title
+        title: Aurora Note Title
+        description: The inline note title shimmers with a slow-drifting gradient of the season's heading colors
+        type: class-toggle
+        default: false
+    -
+        id: tf-season-mermaid
+        title: Season-Colored Diagrams
+        description: Color Mermaid diagrams from the active season's palette instead of Obsidian's default dark-mode invert filter
+        type: class-toggle
+        default: true
+    -
+        id: link-style-selector
+        title: Link Style
+        description: Choose a visual style for links in your notes
+        type: class-select
+        allowEmpty: false
+        default: link-style-default
+        options:
+            -
+                label: Default (Subtle Pill)
+                value: link-style-default
+            -
+                label: Plain (No Background)
+                value: link-style-plain
+            -
+                label: Underline Accent
+                value: link-style-underline
+            -
+                label: Neon Glow
+                value: link-style-glow
+    -
+        id: highlight-style-selector
+        title: Highlight Style
+        description: Choose a visual style for text highlights
+        type: class-select
+        allowEmpty: false
+        default: highlight-style-default
+        options:
+            -
+                label: Default
+                value: highlight-style-default
+            -
+                label: Glass
+                value: highlight-style-glass
+            -
+                label: Marker
+                value: highlight-style-marker
     -
         id: blockquote-style-selector
-        title: Blockquote style
+        title: Blockquote Style
         description: Choose a visual style for blockquotes in your notes
         type: class-select
         allowEmpty: false
@@ -143,227 +488,96 @@ settings:
                 label: Default
                 value: blockquote-style-default
             -
-                label: Modern glass
+                label: Modern Glass
                 value: blockquote-style-glass
             -
-                label: Bold dramatic
+                label: Bold Dramatic
                 value: blockquote-style-bold
             -
-                label: Liquid glass
+                label: Liquid Glass
                 value: blockquote-style-liquid
-
     -
-        id: depth-motion-heading
-        title: Depth & motion
-        type: heading
-        level: 2
-        collapsed: true
-    -
-        id: depth-shadows
-        title: Depth & shadows
-        description: Add realistic multi-layer shadows for visual depth and hierarchy
-        type: class-toggle
-        default: true
-    -
-        id: depth-warm
-        title: Tinted ambient shadows
-        description: Tint shadows with the accent color for a warm, Apple-style ambient elevation. Requires Depth & shadows.
-        type: class-toggle
-        default: false
-    -
-        id: tf-luminance-depth
-        title: Elevate with surface tint
-        description: Callouts, modals, popovers, and cards read as elevated through a stepped surface tint instead of a drop shadow. Pairs well with Remove all shadows below for elevation that survives a flat look.
-        type: class-toggle
-        default: false
-    -
-        id: disable-shadows
-        title: Remove all shadows
-        description: Turn off every box-shadow and elevation effect, for maximum speed and a flat look
-        type: class-toggle
-        default: false
-    -
-        id: animation-style
-        title: Animation style
-        description: Choose the animation personality for the interface
+        id: callout-style-selector
+        title: Callout Style
+        description: Choose a visual style for your callouts
         type: class-select
         allowEmpty: false
-        default: animation-style-default
+        default: callout-style-default
         options:
             -
-                label: Default (subtle pop)
-                value: animation-style-default
+                label: Default (Gradient)
+                value: callout-style-default
             -
-                label: Whimsy (bouncy)
-                value: animation-style-whimsy
+                label: Vintage Paper
+                value: callout-style-vintage
+            -
+                label: Modern Glass
+                value: callout-style-glass
+            -
+                label: Bold Border
+                value: callout-style-bold
+            -
+                label: Liquid Glass
+                value: callout-style-liquid
     -
-        id: scroll-reveal
-        title: Fade content in on scroll
-        description: Callouts, tables, images and code blocks gently fade and rise as they scroll into view. Reading mode only.
+        id: inline-code-accent
+        title: Accent Inline Code
+        description: Highlight inline code with gradient backgrounds and accent colors
         type: class-toggle
         default: false
     -
-        id: disable-ui-animations
-        title: Disable UI animations
-        description: Turn off pop-up and press animations across the interface
-        type: class-toggle
-        default: false
-
-    -
-        id: embeds-media-heading
-        title: Embeds & media
-        type: heading
-        level: 2
-        collapsed: true
-    -
-        id: tf-embed-cards
-        title: Elegant embed cards
-        description: Note embeds and transclusions become soft accent-edged cards with a hover lift and a link icon that appears on hover
+        id: tabular-numerics
+        title: Tabular Numerics
+        description: Use tabular (fixed-width) numerals in metadata, tables, and status bar for precise alignment
         type: class-toggle
         default: false
     -
-        id: tf-luminous
-        title: Glowing rules and image lift
-        description: Horizontal rules become glowing seasonal gradient hairlines, and images get a gentle hover lift with an accent-tinted shadow
+        id: tag-chips
+        title: Braun Tag Chips
+        description: Restyle inline tags as minimal uppercase chips — no background, hairline border, tight tracking
         type: class-toggle
         default: false
     -
-        id: tf-season-mermaid
-        title: Season-colored diagrams
-        description: Color Mermaid diagrams from the active season's palette instead of Obsidian's default dark-mode invert filter
-        type: class-toggle
-        default: true
-    -
-        id: banners-cards-heading
-        title: "Banners & cards (cssclasses)"
-        type: heading
-        level: 3
-        collapsed: true
-    -
-        id: banners-cards-info
-        title: Usage
-        type: info-text
-        markdown: true
-        description: "`banner`: mark an image `![[img|banner]]` as a cover · `cards`: render Dataview tables as a card grid"
-    -
-        id: banner-height
-        title: Banner height
-        description: Height of the cover image in notes using the banner cssclass
-        type: variable-text
-        default: 240px
-    -
-        id: cards-min-width
-        title: Card minimum width
-        description: Minimum card width in notes using the cards cssclass
-        type: variable-text
-        default: 180px
-
-    -
-        id: focus-calm-heading
-        title: Focus & calm
-        type: heading
-        level: 2
-        collapsed: true
-    -
-        id: terraflow-quiet
-        title: Quiet mode
-        description: Soften hover lifts, mute accent backgrounds, and remove link glow, for a calmer, less expressive interface
+        id: enable-fancy-bullets
+        title: Fancy Multilevel Bullet Styles
+        description: Unique custom bullet shapes per list nesting level, and muted tabular numerals for ordered lists
         type: class-toggle
         default: false
     -
-        id: neutral-chrome
-        title: Neutral chrome
-        description: Reserve the accent color for selection and active states — icon and button hovers wash gray instead of tinting, and the accent glow is removed
+        id: caret-accent
+        title: Accent Caret & Selection
+        description: Color the cursor caret and text-selection with the accent color (visionOS-style)
         type: class-toggle
         default: false
     -
-        id: focus-mode-heading
-        title: Deep focus mode
-        type: heading
-        level: 3
-        collapsed: true
-    -
-        id: focus-mode
-        title: Deep focus mode
-        description: Warm sepia (light) or warm dark (dark) palette, neutral heading hierarchy, no decorative backgrounds or animations, ribbon and status bar hidden, 68ch measure
+        id: caret-no-blink
+        title: Static Caret (No Blink)
+        description: Keeps the cursor steady instead of blinking — easier on the eyes during long writing sessions
         type: class-toggle
         default: false
     -
-        id: focus-mode-dim-paragraphs
-        title: Typewriter dimming
-        description: Fade non-active lines to about 50% opacity in live preview (iA Writer style). Reading mode dims all paragraphs until hovered.
-        type: class-toggle
-        default: false
-    -
-        id: focus-mode-hide-sidebars
-        title: Hide sidebar panels
-        description: Collapse the left and right sidebar content panels so only the editor canvas is visible
-        type: class-toggle
-        default: false
-    -
-        id: focus-mode-keep-chrome
-        title: Keep ribbon & status bar
-        description: Escape hatch — show ribbon and status bar even in Deep focus mode. Palette and heading changes stay active.
-        type: class-toggle
-        default: false
-
-    -
-        id: glass-heading
-        title: Glass
-        type: heading
-        level: 2
-        collapsed: true
-    -
-        id: tf-glass-tint
-        title: Tint strength
-        description: How solid the glass material is across menus, popovers, panels and modals — lower is clearer, higher is more tinted
-        type: variable-number-slider
-        default: 65
-        min: 35
-        max: 90
-        step: 5
-        format: "%"
-    -
-        id: tf-liquid-prompt
-        title: Command palette
-        description: Deeper refraction on the palette and a liquid gradient on the selected row
-        type: class-toggle
-        default: false
-    -
-        id: disable-glass-menus
-        title: Disable glass menus
-        description: Turn off glass effects for menus, popovers, and suggestions
-        type: class-toggle
-        default: false
-    -
-        id: disable-modal-frost
-        title: Disable modal frost
-        description: Turn off the frosted glass effect for modal backgrounds
-        type: class-toggle
-        default: false
-
-    -
-        id: headings-heading
+        id: heading-case-heading
         title: Headings
+        description: Style, alignment, typography, and per-level text case
         type: heading
-        level: 2
+        level: 3
         collapsed: true
     -
         id: heading-style-selector
-        title: Style
+        title: Heading Style
         description: Choose a visual style for your headings
         type: class-select
         allowEmpty: false
         default: heading-style-default
         options:
             -
-                label: Default (background)
+                label: Default (Background)
                 value: heading-style-default
             -
                 label: Underline
                 value: heading-style-underline
             -
-                label: Border accent
+                label: Border Accent
                 value: heading-style-border
             -
                 label: Minimal
@@ -372,17 +586,17 @@ settings:
                 label: Gradient
                 value: heading-style-gradient
             -
-                label: Glass (frosted)
+                label: Glass (Frosted)
                 value: heading-style-glass
             -
-                label: Liquid glass
+                label: Liquid Glass
                 value: heading-style-liquid
             -
-                label: Badge (pill)
+                label: Badge (Pill)
                 value: heading-style-badge
     -
         id: heading-alignment
-        title: Alignment
+        title: Heading Alignment
         description: Choose the alignment for headings
         type: class-select
         allowEmpty: false
@@ -396,127 +610,19 @@ settings:
                 value: heading-align-center
     -
         id: heading-font
-        title: Font
-        description: Enter the name of a font installed on your system to use for headings. Leave as 'inherit' to use the default theme font.
+        title: Heading Font
+        description: Enter the name of a font installed on your system to use for headings (leave as 'inherit' to use the default theme font)
         type: variable-text
         default: inherit
     -
         id: heading-tight-tracking
-        title: Tight tracking
+        title: Tight Heading Tracking
         description: Apply negative letter-spacing to H1/H2 for Apple-style optical display tightening
         type: class-toggle
         default: false
     -
-        id: tf-balanced-headings
-        title: Balanced line wrapping
-        description: Wrap headings, titles, callout titles, and tooltips onto evenly-balanced lines instead of leaving a short ragged last line
-        type: class-toggle
-        default: false
-    -
-        id: heading-color-intensity
-        title: Color intensity
-        description: Muted blends headings into the text color, barely noticeable. Vivid lifts them to full palette saturation.
-        type: class-select
-        allowEmpty: false
-        default: heading-color-default
-        options:
-            -
-                label: Default
-                value: heading-color-default
-            -
-                label: Muted (subtle)
-                value: heading-color-muted
-            -
-                label: Vivid
-                value: heading-color-vivid
-    -
-        id: custom-heading-colors-heading
-        title: Custom colors
-        type: heading
-        level: 3
-        collapsed: true
-    -
-        id: custom-heading-colors
-        title: Use custom colors
-        description: Override the season's H1–H6 colors with your own. Composes with Color intensity above.
-        type: class-toggle
-        default: false
-    -
-        id: custom-h1
-        title: H1 color
-        type: variable-color
-        format: hex
-        opacity: false
-        default: "#c77b8b"
-        alt-format:
-            -
-                id: custom-h1-rgb
-                format: rgb-values
-    -
-        id: custom-h2
-        title: H2 color
-        type: variable-color
-        format: hex
-        opacity: false
-        default: "#bc5c00"
-        alt-format:
-            -
-                id: custom-h2-rgb
-                format: rgb-values
-    -
-        id: custom-h3
-        title: H3 color
-        type: variable-color
-        format: hex
-        opacity: false
-        default: "#a08428"
-        alt-format:
-            -
-                id: custom-h3-rgb
-                format: rgb-values
-    -
-        id: custom-h4
-        title: H4 color
-        type: variable-color
-        format: hex
-        opacity: false
-        default: "#6e9b72"
-        alt-format:
-            -
-                id: custom-h4-rgb
-                format: rgb-values
-    -
-        id: custom-h5
-        title: H5 color
-        type: variable-color
-        format: hex
-        opacity: false
-        default: "#7892bd"
-        alt-format:
-            -
-                id: custom-h5-rgb
-                format: rgb-values
-    -
-        id: custom-h6
-        title: H6 color
-        type: variable-color
-        format: hex
-        opacity: false
-        default: "#ad6bc0"
-        alt-format:
-            -
-                id: custom-h6-rgb
-                format: rgb-values
-    -
-        id: heading-case-heading
-        title: Text case
-        description: Per-level capitalization for H1–H6
-        type: heading
-        level: 3
-        collapsed: true
-    -
         id: h1-case
-        title: H1 case
+        title: H1 Case
         description: Title Case capitalizes the first letter of every word
         type: class-select
         allowEmpty: false
@@ -533,7 +639,7 @@ settings:
                 value: h1-case-upper
     -
         id: h2-case
-        title: H2 case
+        title: H2 Case
         type: class-select
         allowEmpty: false
         default: h2-case-normal
@@ -549,7 +655,7 @@ settings:
                 value: h2-case-upper
     -
         id: h3-case
-        title: H3 case
+        title: H3 Case
         type: class-select
         allowEmpty: false
         default: h3-case-normal
@@ -565,7 +671,7 @@ settings:
                 value: h3-case-upper
     -
         id: h4-case
-        title: H4 case
+        title: H4 Case
         type: class-select
         allowEmpty: false
         default: h4-case-normal
@@ -581,7 +687,7 @@ settings:
                 value: h4-case-upper
     -
         id: h5-case
-        title: H5 case
+        title: H5 Case
         type: class-select
         allowEmpty: false
         default: h5-case-normal
@@ -597,7 +703,7 @@ settings:
                 value: h5-case-upper
     -
         id: h6-case
-        title: H6 case
+        title: H6 Case
         type: class-select
         allowEmpty: false
         default: h6-case-normal
@@ -611,136 +717,28 @@ settings:
             -
                 label: UPPERCASE
                 value: h6-case-upper
-
     -
-        id: layout-heading
-        title: Layout & width
-        type: heading
-        level: 2
-        collapsed: true
-    -
-        id: line-width
-        title: Line width
-        description: Maximum width for editor and reading view content
-        type: variable-text
-        default: 64ch
-    -
-        id: editor-line-height
-        title: Line height
-        description: Line height for editor and reading view text (e.g. 1.4, 1.6, 1.8)
-        type: variable-text
-        default: "1.6"
-    -
-        id: focus-grid
-        title: Focus dot grid
-        description: Faint Bauhaus-style 24px dot grid behind the editor — tactile, barely perceptible
-        type: class-toggle
-        default: false
-    -
-        id: scroll-edge-fade
-        title: Fade content at scroll edges
-        description: Note content melts softly into the chrome at the top and bottom of the scroll area instead of clipping hard
-        type: class-toggle
-        default: false
-    -
-        id: block-width-heading
-        title: Block width (cssclasses)
+        id: alt-checkboxes-heading
+        title: Alternate Checkboxes
+        description: Decorative task states — [/], [-], [>], [?], [!], [*] and more
         type: heading
         level: 3
         collapsed: true
     -
-        id: block-width-info
-        title: Usage
-        type: info-text
-        markdown: true
-        description: "Add `cssclasses` to a note's properties: `wide-page`, `full-page`, `wide-table`, `wide-image`"
-    -
-        id: wide-block-width
-        title: Wide block width
-        description: Maximum width for tables/images in notes using the wide-table or wide-image cssclass
-        type: variable-text
-        default: 110ch
-
-    -
-        id: links-heading
-        title: Links
-        type: heading
-        level: 2
-        collapsed: true
-    -
-        id: link-style-selector
-        title: Style
-        description: Choose a visual style for links in your notes
-        type: class-select
-        allowEmpty: false
-        default: link-style-default
-        options:
-            -
-                label: Default (subtle pill)
-                value: link-style-default
-            -
-                label: Plain (no background)
-                value: link-style-plain
-            -
-                label: Underline accent
-                value: link-style-underline
-            -
-                label: Neon glow
-                value: link-style-glow
-
-    -
-        id: lists-tasks-heading
-        title: Lists & tasks
-        type: heading
-        level: 2
-        collapsed: true
-    -
-        id: enable-fancy-bullets
-        title: Fancy bullets
-        description: Unique custom bullet shapes per list nesting level, and muted tabular numerals for ordered lists
-        type: class-toggle
-        default: false
-    -
         id: alt-checkboxes
-        title: Alternate checkboxes
-        description: Style extended task states — [/], [-], [>], [?], [!], [*] and more — with seasonal colors and glyphs in editor and reading mode
+        title: Alternate Checkboxes
+        description: Style extended task states with seasonal colors and glyphs in editor and reading mode
         type: class-toggle
         default: false
-
-    -
-        id: note-header-heading
-        title: Note header
-        type: heading
-        level: 2
-        collapsed: true
-    -
-        id: tf-aurora-title
-        title: Shimmering note title
-        description: The inline note title shimmers with a slow-drifting gradient of the season's heading colors
-        type: class-toggle
-        default: false
-    -
-        id: tf-liquid-properties
-        title: Glass properties panel
-        description: The frontmatter/properties block becomes a floating frosted card with a specular edge
-        type: class-toggle
-        default: false
-    -
-        id: scroll-progress
-        title: Reading progress bar
-        description: A hairline accent bar under the note header that fills as you scroll through the note
-        type: class-toggle
-        default: false
-
     -
         id: tables-heading
         title: Tables
         type: heading
-        level: 2
+        level: 3
         collapsed: true
     -
         id: table-style
-        title: Density
+        title: Table Density
         description: Cell padding and text sizing for tables
         type: class-select
         allowEmpty: false
@@ -756,198 +754,156 @@ settings:
                 label: Relaxed
                 value: table-style-relaxed
     -
-        id: tf-liquid-tables
-        title: Glass tables
-        description: Tables become liquid glass with a distinct seasonal-accent header row that sticks while rows scroll beneath it. Reading mode only.
-        type: class-toggle
-        default: false
-    -
         id: table-plain-rows
-        title: Disable row striping
+        title: Disable Row Striping
         description: Turn off the alternating row background (striping is on by default)
         type: class-toggle
         default: false
     -
         id: table-no-hover
-        title: Disable row hover highlight
+        title: Disable Row Hover Highlight
         description: Turn off the accent-tinted row highlight on hover
         type: class-toggle
         default: false
 
     -
-        id: tags-heading
-        title: Tags
+        id: layout-heading
+        title: Layout & Spacing
         type: heading
         level: 2
         collapsed: true
     -
-        id: tag-chips
-        title: Minimal chips
-        description: Restyle inline tags as minimal uppercase chips — no background, hairline border, tight tracking
+        id: line-width
+        title: Line Width
+        description: Maximum width for editor and reading view content
+        type: variable-text
+        default: 64ch
+    -
+        id: editor-line-height
+        title: Line Height
+        description: Line height for editor and reading view text (e.g. 1.4, 1.6, 1.8)
+        type: variable-text
+        default: "1.6"
+    -
+        id: focus-grid
+        title: Focus Dot Grid
+        description: Faint Bauhaus-style 24px dot grid behind the editor — tactile, barely perceptible
         type: class-toggle
         default: false
     -
-        id: tf-liquid-tags
-        title: Glass chips
-        description: Tags become gel chips with a specular rim, seasonal tint, and a squashy press
+        id: block-width-heading
+        title: Block Width (cssclasses)
+        type: heading
+        level: 3
+        collapsed: true
+    -
+        id: block-width-info
+        title: Usage
+        type: info-text
+        markdown: true
+        description: "Add `cssclasses` to a note's properties: `wide-page`, `full-page`, `wide-table`, `wide-image`"
+    -
+        id: wide-block-width
+        title: Wide Block Width
+        description: Maximum width for tables/images in notes using the wide-table or wide-image cssclass
+        type: variable-text
+        default: 110ch
+    -
+        id: banners-cards-heading
+        title: "Banners & Cards (cssclasses)"
+        type: heading
+        level: 3
+        collapsed: true
+    -
+        id: banners-cards-info
+        title: Usage
+        type: info-text
+        markdown: true
+        description: "`banner`: mark an image `![[img|banner]]` as a cover · `cards`: render Dataview tables as a card grid"
+    -
+        id: banner-height
+        title: Banner Height
+        description: Height of the cover image in notes using the banner cssclass
+        type: variable-text
+        default: 240px
+    -
+        id: cards-min-width
+        title: Card Minimum Width
+        description: Minimum card width in notes using the cards cssclass
+        type: variable-text
+        default: 180px
+
+    -
+        id: focus-mode-heading
+        title: Deep Focus Mode
+        type: heading
+        level: 2
+        collapsed: true
+    -
+        id: focus-mode
+        title: Deep Focus Mode
+        description: Warm sepia (light) or warm dark (dark) palette, neutral heading hierarchy, no decorative backgrounds or animations, ribbon and status bar hidden, 68ch measure
+        type: class-toggle
+        default: false
+    -
+        id: focus-mode-dim-paragraphs
+        title: Typewriter Dimming
+        description: Fade non-active lines to ~50% opacity in live-preview (iA Writer style). Reading mode dims all paragraphs until hovered.
+        type: class-toggle
+        default: false
+    -
+        id: focus-mode-hide-sidebars
+        title: Hide Sidebar Panels
+        description: Collapse the left and right sidebar content panels so only the editor canvas is visible
+        type: class-toggle
+        default: false
+    -
+        id: focus-mode-keep-chrome
+        title: Keep Ribbon & Status Bar
+        description: Escape hatch — show ribbon and status bar even in Focus Mode. Palette and heading neutralisation remain active.
         type: class-toggle
         default: false
 
     -
-        id: text-heading
-        title: Text
+        id: performance-heading
+        title: Performance & Accessibility
         type: heading
         level: 2
         collapsed: true
     -
-        id: font-normal
-        title: Body weight
-        description: Font weight for body text (Obsidian's default is 400)
-        type: variable-number-slider
-        default: 400
-        min: 300
-        max: 600
-        step: 50
-    -
-        id: optical-text-trim
-        title: Optical centering
-        description: Trim the font's invisible leading in short labels (tag chips, tab titles, callout titles) so text centers on its letterforms, not its line box
-        type: class-toggle
-        default: true
-    -
-        id: tabular-numerics
-        title: Tabular numerals
-        description: Use tabular (fixed-width) numerals in metadata, tables, and status bar for precise alignment
+        id: disable-ui-animations
+        title: Disable UI Animations
+        description: Turn off pop-up and press animations across the interface
         type: class-toggle
         default: false
     -
-        id: inline-code-accent
-        title: Accent inline code
-        description: Highlight inline code with gradient backgrounds and accent colors
+        id: disable-modal-frost
+        title: Disable Modal Frost
+        description: Turn off frosted glass effect for modal backgrounds
         type: class-toggle
         default: false
     -
-        id: highlight-style-selector
-        title: Highlight style
-        description: Choose a visual style for text highlights
-        type: class-select
-        allowEmpty: false
-        default: highlight-style-default
-        options:
-            -
-                label: Default
-                value: highlight-style-default
-            -
-                label: Glass
-                value: highlight-style-glass
-            -
-                label: Marker
-                value: highlight-style-marker
-    -
-        id: caret-accent
-        title: Accent caret & selection
-        description: Color the cursor caret and text-selection with the accent color (visionOS-style)
+        id: disable-glass-menus
+        title: Disable Glass Menus
+        description: Turn off glass effects for menus, popovers, and suggestions
         type: class-toggle
         default: false
     -
-        id: caret-no-blink
-        title: Static caret
-        description: Keeps the cursor steady instead of blinking — easier on the eyes during long writing sessions
-        type: class-toggle
-        default: false
-    -
-        id: smooth-caret
-        title: Smooth caret
-        description: The text cursor glides between positions instead of jumping. Turn off if it feels laggy while typing.
-        type: class-toggle
-        default: false
-
-    -
-        id: workspace-heading
-        title: Workspace
-        type: heading
-        level: 2
-        collapsed: true
-    -
-        id: layout-style
-        title: Layout
-        description: Choose the overall layout structure of the application
-        type: class-select
-        allowEmpty: false
-        default: layout-default
-        options:
-            -
-                label: Default
-                value: layout-default
-            -
-                label: Card
-                value: layout-card
-    -
-        id: file-explorer-style
-        title: File explorer style
-        description: Folder presentation in the file browser
-        type: class-select
-        allowEmpty: false
-        default: explorer-style-rainbow
-        options:
-            -
-                label: Rainbow cards (default)
-                value: explorer-style-rainbow
-            -
-                label: Minimal
-                value: explorer-style-minimal
-            -
-                label: Finder
-                value: explorer-style-finder
-            -
-                label: Glass
-                value: explorer-style-glass
-    -
-        id: pill-tabs
-        title: Soft pill tabs
-        description: Restyle workspace tabs as quiet translucent pills instead of squared tab shapes
-        type: class-toggle
-        default: false
-    -
-        id: enable-floating-nav
-        title: Floating nav buttons
-        description: Transform sidebar navigation buttons into a floating pill that expands on hover
-        type: class-toggle
-        default: false
-    -
-        id: show-header-on-hover
-        title: Show view header on hover
-        description: Only show the view header (title and buttons) when hovering the top area
-        type: class-toggle
-        default: false
-    -
-        id: ribbon-autohide
-        title: Auto-hide ribbon
-        description: Hide the ribbon completely — glide your cursor to the left screen edge (or tab into it) and it slides back in, pushing the workspace over
-        type: class-toggle
-        default: false
-    -
-        id: ambient-gradient
-        title: Ambient accent gradient
-        description: Wash the top of the workspace with a soft accent-color gradient that fades into the background
+        id: disable-shadows
+        title: Disable Box Shadows
+        description: Remove all box-shadows and elevation styling for maximum speed and a flat look
         type: class-toggle
         default: false
     -
         id: disable-scrollbars
-        title: Use system scrollbars
-        description: Disable the custom scrollbar styling
-        type: class-toggle
-        default: false
-    -
-        id: tf-liquid-statusbar
-        title: Glass status bar
-        description: The expanded status pill gets true glass material — refraction blur and a specular rim
+        title: Disable Scrollbar Styling
+        description: Disable the custom scrollbars
         type: class-toggle
         default: false
     -
         id: disable-status-bar
-        title: Disable status bar styling
-        description: Disable the custom status bar style
+        title: Disable Status Bar Styling
+        description: Disable the status bar style
         type: class-toggle
         default: false
 
@@ -5605,51 +5561,6 @@ body:not(.is-mobile).theme-dark.callout-style-glass :is(.callout, .cm-callout) {
     letter-spacing: 0.02em;
 }
 
-/* Soft Card Style - ported from wavecnct.com: flat tinted panel,
-   full 2px accent-mixed border, no left rule */
-.callout-style-card .callout {
-    --callout-padding: 1.25rem;
-    background: color-mix(in srgb, var(--callout-color) 6%, var(--background-primary));
-    border: var(--border-thick) solid color-mix(in srgb, var(--callout-color) 45%, var(--background-primary));
-    border-radius: var(--r4);
-    -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
-    box-shadow: 0 2px 8px rgba(var(--callout-color-rgb), .10);
-    color: color-mix(in srgb, var(--callout-color) 25%, var(--text-normal));
-}
-
-/* The per-type :is() color rules (e.g. theme.css:5142) take their specificity
-   from their highest branch (.markdown-source-view.mod-cm6 .cm-callout.cm-callout-*,
-   4 classes), which outranks this 2-class selector even in reading mode where
-   that branch never matches — so border-inline-start-color survives at full
-   accent strength unless forced back to the mixed value here. */
-.callout-style-card .callout {
-    border-inline-start-color: color-mix(in srgb, var(--callout-color) 45%, var(--background-primary)) !important;
-}
-
-.callout-style-card .callout .callout-title {
-    color: var(--text-normal);
-    text-shadow: none;
-}
-
-.callout-style-card .callout .callout-content strong {
-    color: var(--text-normal);
-}
-
-.callout-style-card .markdown-source-view.mod-cm6 .cm-callout {
-    border: none;
-    outline: none;
-}
-
-.theme-dark .callout-style-card .callout {
-    box-shadow: 0 2px 8px rgba(var(--callout-color-rgb), .18);
-}
-
-body:not(.is-mobile).callout-style-card .callout:hover {
-    box-shadow: 0 6px 16px rgba(var(--callout-color-rgb), .16);
-    border-color: color-mix(in srgb, var(--callout-color) 60%, var(--background-primary));
-}
-
 /* Highlight Styling - Shared Properties */
 .theme-light,
 .theme-dark {
@@ -8098,6 +8009,23 @@ input[type='number'] {
     line-height: 1.2;
     padding-block: 0.35em;
     padding-inline-start: 25px;
+}
+
+/* Capsule Search Field (macOS 27 style) - Card layout only */
+body.layout-card .search-input-container input {
+    height: var(--height-input);
+    border-radius: var(--radius-pill) !important;
+    corner-shape: round;
+    -electron-corner-smoothing: 0%;
+    background-color: var(--background-secondary-alt);
+    border-color: transparent;
+}
+
+/* Native Obsidian positions the search icon with a fixed top offset tuned to
+   the default 30px input height — re-center it for the taller capsule field */
+body.layout-card .search-input-container::before {
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 /* Dropdown options */
