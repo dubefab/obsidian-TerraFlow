@@ -5637,10 +5637,6 @@ body:not(.is-mobile).theme-dark.callout-style-glass :is(.callout, .cm-callout) {
     text-shadow: none;
 }
 
-.callout-style-card .callout .callout-content strong {
-    color: var(--text-normal);
-}
-
 .callout-style-card .markdown-source-view.mod-cm6 .cm-callout {
     border: none;
     outline: none;
