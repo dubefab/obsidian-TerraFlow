@@ -844,6 +844,16 @@ settings:
                 label: Marker
                 value: highlight-style-marker
     -
+        id: tf-highlight-strength
+        title: Highlight strength
+        description: How strongly colored highlights tint the text behind them
+        type: variable-number-slider
+        default: 38
+        min: 15
+        max: 70
+        step: 1
+        format: "%"
+    -
         id: caret-accent
         title: Accent caret & selection
         description: Color the cursor caret and text-selection with the accent color (visionOS-style)
@@ -1114,6 +1124,51 @@ body {
     --glass-bg: rgba(var(--background-secondary-rgb), var(--tf-glass-tint, 65%));
 }
 
+/* Colored highlights (Obsidian 1.14+) — six hue anchors, fixed across every
+   season so the picker's color names stay honest, painted at a lightness and
+   chroma each season sets on itself below (--hl-l / --hl-c / --hl-shift).
+   Defaults here cover the instant before a season class applies. Style
+   Settings' Highlight strength slider injects --tf-highlight-strength on
+   body -- named tf- to avoid colliding with Obsidian's own --highlight-opacity,
+   which app.css already sets to a fixed 30% on body and would silently win
+   over any fallback in var(--highlight-opacity, ...) here. */
+body {
+    --hl-h-red: 25deg;
+    --hl-h-orange: 60deg;
+    --hl-h-yellow: 95deg;
+    --hl-h-green: 145deg;
+    --hl-h-blue: 250deg;
+    --hl-h-purple: 305deg;
+
+    --hl-l: 0.63;
+    --hl-c: 0.12;
+    --hl-shift: 0deg;
+
+    /* Yellow needs its own lightness: at the same L as the other five hues
+       it renders as olive/mustard, not yellow -- yellow only reads as
+       "yellow" near the top of the lightness range, unlike red/blue/purple
+       which read fine at mid lightness. Boost L (and nudge chroma so it
+       doesn't wash out at that lightness) relative to the season's own base
+       rather than a fixed value, so it still tracks how light/dark the
+       season is meant to feel. */
+    --hl-l-yellow: clamp(0.75, calc(var(--hl-l) + 0.20), 0.94);
+    --hl-c-yellow: min(calc(var(--hl-c) + 0.02), 0.17);
+
+    --hl-solid-red: oklch(var(--hl-l) var(--hl-c) calc(var(--hl-h-red) + var(--hl-shift)));
+    --hl-solid-orange: oklch(var(--hl-l) var(--hl-c) calc(var(--hl-h-orange) + var(--hl-shift)));
+    --hl-solid-yellow: oklch(var(--hl-l-yellow) var(--hl-c-yellow) calc(var(--hl-h-yellow) + var(--hl-shift)));
+    --hl-solid-green: oklch(var(--hl-l) var(--hl-c) calc(var(--hl-h-green) + var(--hl-shift)));
+    --hl-solid-blue: oklch(var(--hl-l) var(--hl-c) calc(var(--hl-h-blue) + var(--hl-shift)));
+    --hl-solid-purple: oklch(var(--hl-l) var(--hl-c) calc(var(--hl-h-purple) + var(--hl-shift)));
+
+    --highlight-background-red: color-mix(in oklch, var(--hl-solid-red) var(--tf-highlight-strength, 38%), transparent);
+    --highlight-background-orange: color-mix(in oklch, var(--hl-solid-orange) var(--tf-highlight-strength, 38%), transparent);
+    --highlight-background-yellow: color-mix(in oklch, var(--hl-solid-yellow) var(--tf-highlight-strength, 38%), transparent);
+    --highlight-background-green: color-mix(in oklch, var(--hl-solid-green) var(--tf-highlight-strength, 38%), transparent);
+    --highlight-background-blue: color-mix(in oklch, var(--hl-solid-blue) var(--tf-highlight-strength, 38%), transparent);
+    --highlight-background-purple: color-mix(in oklch, var(--hl-solid-purple) var(--tf-highlight-strength, 38%), transparent);
+}
+
 /* Body Text Weight — Obsidian hardcodes font-weight: 400 on body and only
    routes --font-normal to links/callout titles/bold-calc, so plain note
    text needs an explicit hook for the Style Settings slider. */
@@ -1197,6 +1252,9 @@ body {
 /* --- Academia Theme --- */
 
 .academia-theme {
+    --hl-l: 0.80;
+    --hl-c: 0.11;
+    --hl-shift: 6deg;
     --accent-h: 30;
     --accent-s: 45%;
     --accent-l: 50%;
@@ -1282,6 +1340,9 @@ body {
 }
 
 .theme-light.iceberg-theme {
+    --hl-l: 0.53;
+    --hl-c: 0.12;
+    --hl-shift: -5deg;
     --background-primary: #e2e3e7;
     --background-primary-rgb: 226, 227, 231;
     --background-secondary: #d4d7e1;
@@ -1354,6 +1415,9 @@ body {
 }
 
 .theme-dark.iceberg-theme {
+    --hl-l: 0.74;
+    --hl-c: 0.09;
+    --hl-shift: -5deg;
     --background-primary: #111319;
     --background-primary-rgb: 17, 19, 25;
     --background-secondary: #171826;
@@ -1433,6 +1497,9 @@ body {
 }
 
 .theme-light.twilight-theme {
+    --hl-l: 0.60;
+    --hl-c: 0.10;
+    --hl-shift: -5deg;
     --background-primary: #FBFBFE;
     --background-primary-rgb: 251, 251, 254;
     --background-secondary: #F3F1F8;
@@ -1505,6 +1572,9 @@ body {
 }
 
 .theme-dark.twilight-theme {
+    --hl-l: 0.79;
+    --hl-c: 0.12;
+    --hl-shift: 0deg;
     --background-primary: #16141F;
     --background-primary-rgb: 22, 20, 31;
     --background-secondary: #1C1A26;
@@ -1584,6 +1654,9 @@ body {
 }
 
 .theme-light.autumn-theme {
+    --hl-l: 0.63;
+    --hl-c: 0.12;
+    --hl-shift: 6deg;
     --background-primary: #eeece2;
     --background-primary-rgb: 238, 236, 226;
     --background-secondary: #e6e4da;
@@ -1656,6 +1729,9 @@ body {
 }
 
 .theme-dark.autumn-theme {
+    --hl-l: 0.75;
+    --hl-c: 0.10;
+    --hl-shift: 6deg;
     --background-primary: #282520;
     --background-primary-rgb: 40, 37, 32;
     --background-secondary: #32302a;
@@ -1735,6 +1811,9 @@ body {
 }
 
 .theme-light.winter-theme {
+    --hl-l: 0.46;
+    --hl-c: 0.09;
+    --hl-shift: -5deg;
     --background-primary: #f0f8ff;
     --background-primary-rgb: 240, 248, 255;
     --background-secondary: #e6f2ff;
@@ -1807,6 +1886,9 @@ body {
 }
 
 .theme-dark.winter-theme {
+    --hl-l: 0.74;
+    --hl-c: 0.09;
+    --hl-shift: -5deg;
     --background-primary: #151b21;
     --background-primary-rgb: 21, 27, 33;
     --background-secondary: #1d242b;
@@ -1886,6 +1968,9 @@ body {
 }
 
 .theme-light.spring-theme {
+    --hl-l: 0.65;
+    --hl-c: 0.13;
+    --hl-shift: 6deg;
     --background-primary: #f5faf0;
     --background-primary-rgb: 245, 250, 240;
     --background-secondary: #eef5e6;
@@ -1958,6 +2043,9 @@ body {
 }
 
 .theme-dark.spring-theme {
+    --hl-l: 0.82;
+    --hl-c: 0.12;
+    --hl-shift: 0deg;
     --background-primary: #1a1f16;
     --background-primary-rgb: 26, 31, 22;
     --background-secondary: #252b21;
@@ -2037,6 +2125,9 @@ body {
 }
 
 .theme-light.summer-theme {
+    --hl-l: 0.61;
+    --hl-c: 0.16;
+    --hl-shift: 0deg;
     --background-primary: #f7f7f7;
     --background-primary-rgb: 247, 247, 247;
     --background-secondary: #f5f5f5;
@@ -2109,6 +2200,9 @@ body {
 }
 
 .theme-dark.summer-theme {
+    --hl-l: 0.78;
+    --hl-c: 0.13;
+    --hl-shift: 6deg;
     --background-primary: #1f1a1a;
     --background-primary-rgb: 31, 26, 26;
     --background-secondary: #2a2424;
@@ -2188,6 +2282,9 @@ body {
 }
 
 .theme-light.paper-theme {
+    --hl-l: 0.59;
+    --hl-c: 0.16;
+    --hl-shift: 6deg;
     --background-primary: #F3F1EC;
     --background-primary-rgb: 243, 241, 236;
     --background-secondary: #E5E3E0;
@@ -2279,6 +2376,9 @@ body {
 }
 
 .theme-dark.paper-theme {
+    --hl-l: 0.88;
+    --hl-c: 0.16;
+    --hl-shift: 6deg;
     --background-primary: #191919;
     --background-primary-rgb: 25, 25, 25;
     --background-secondary: #2C2C2E;
@@ -2380,6 +2480,9 @@ body {
 }
 
 .theme-light.calm-focus-theme {
+    --hl-l: 0.56;
+    --hl-c: 0.09;
+    --hl-shift: 0deg;
     --background-primary: #F5F2EE;
     --background-primary-rgb: 245, 242, 238;
     --background-secondary: #EDE9E3;
@@ -2471,6 +2574,9 @@ body {
 }
 
 .theme-dark.calm-focus-theme {
+    --hl-l: 0.70;
+    --hl-c: 0.09;
+    --hl-shift: 0deg;
     --background-primary: #1E1E1C;
     --background-primary-rgb: 30, 30, 28;
     --background-secondary: #282825;
@@ -2573,6 +2679,9 @@ body {
 }
 
 .theme-light.melange-theme {
+    --hl-l: 0.64;
+    --hl-c: 0.10;
+    --hl-shift: 6deg;
     --background-primary: #f0ecea;
     --background-primary-rgb: 240, 236, 234;
     --background-secondary: #e9e1db;
@@ -2648,6 +2757,9 @@ body {
 }
 
 .theme-dark.melange-theme {
+    --hl-l: 0.67;
+    --hl-c: 0.09;
+    --hl-shift: 6deg;
     --accent-h: 28;
     --accent-s: 71%;
     --accent-l: 63%;
@@ -2738,6 +2850,9 @@ body {
 }
 
 .theme-light.tokyo-theme {
+    --hl-l: 0.53;
+    --hl-c: 0.09;
+    --hl-shift: -5deg;
     --accent-h: 194;
     --accent-s: 94%;
     --accent-l: 24%;
@@ -2817,6 +2932,9 @@ body {
 }
 
 .theme-dark.tokyo-theme {
+    --hl-l: 0.77;
+    --hl-c: 0.13;
+    --hl-shift: -5deg;
     --background-primary: #24283b;
     --background-primary-rgb: 36, 40, 59;
     --background-secondary: #16161f;
@@ -5341,27 +5459,36 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
     -electron-corner-smoothing: var(--squircle-main);
     corner-shape: squircle;
     display: inline;
-    background-color: rgba(var(--callout-color-rgb), .2);
-    color: var(--callout-color);
-    border-bottom: 2px solid var(--callout-color);
+    /* --tf-hl-ctx here is the callout tint. A colored highlight (1.14+)
+       overrides it through the --tf-hl-set fallback declared in the shared
+       highlight block below ("Highlight Styling - Shared Properties"), so a
+       picked color always wins regardless of this rule's extra specificity. */
+    --tf-hl-ctx: color-mix(in oklch, var(--callout-color) 20%, transparent);
+    --tf-hl-solid-ctx: var(--callout-color);
+    --tf-hl-ink-ctx: var(--callout-color);
+    background-color: var(--tf-hl);
+    color: var(--tf-hl-ink);
+    border-bottom: 2px solid var(--tf-hl-solid);
     box-shadow: 0 1px 2px rgba(var(--callout-color-rgb), .15);
 }
 
 .theme-dark :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight) {
-    background-color: rgba(var(--callout-color-rgb), .25);
-    color: hsl(from var(--callout-color) h s calc(l * 1.1));
-    border-bottom: 2px solid var(--callout-color);
+    --tf-hl-ctx: color-mix(in oklch, var(--callout-color) 25%, transparent);
+    --tf-hl-ink-ctx: hsl(from var(--callout-color) h s calc(l * 1.1));
+    background-color: var(--tf-hl);
+    color: var(--tf-hl-ink);
+    border-bottom: 2px solid var(--tf-hl-solid);
     box-shadow: 0 1px 2px rgba(var(--callout-color-rgb), .2);
     text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
 }
 
 :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight):hover {
-    background-color: rgba(var(--callout-color-rgb), .3);
+    --tf-hl-ctx: color-mix(in oklch, var(--callout-color) 30%, transparent);
     transform: translateY(-2px);
 }
 
 .theme-dark :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight):hover {
-    background-color: rgba(var(--callout-color-rgb), .35);
+    --tf-hl-ctx: color-mix(in oklch, var(--callout-color) 35%, transparent);
 }
 
 :is(.callout, .cm-callout) .callout-content :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
@@ -5665,7 +5792,79 @@ body:not(.is-mobile).callout-style-card .callout:hover {
     corner-shape: squircle;
         display: inline;
         transition: background-color var(--transition-ui), transform var(--transition-ui);
+
+        /* Colored highlights (Obsidian 1.14+): --tf-hl-*-set is written only
+           by the six color rules further down (data-highlight / cm-highlight-*).
+           var() fallback resolves per element using each variable's own final
+           cascaded value, not the specificity of whichever rule references it,
+           so a picked color always wins over the mode/style/callout context
+           below no matter how many classes those rules carry. */
+        --tf-hl: var(--tf-hl-set, var(--tf-hl-ctx));
+        --tf-hl-solid: var(--tf-hl-solid-set, var(--tf-hl-solid-ctx));
+        --tf-hl-ink: var(--tf-hl-ink-set, var(--tf-hl-ink-ctx));
+        /* The default style's border-bottom needs a darker/deeper shade than
+           the fill, not the fill color itself, so it gets its own -ctx rather
+           than reusing --tf-hl-solid-ctx -- but a colored highlight still
+           uses the picked hue (--tf-hl-solid-set) for its border, same as it
+           does for the fill. */
+        --tf-hl-border: var(--tf-hl-solid-set, var(--tf-hl-border-ctx));
     }
+}
+
+/* Colored highlights (Obsidian 1.14+): ==text== prefixed with a colored circle
+   or square (==🔴 text==) tags the mark with data-highlight="red" in reading
+   mode, or a cm-highlight-red class alongside cm-highlight in the editor
+   (both on the formatting glyphs and the highlighted text). --hl-solid-* and
+   --highlight-background-* are computed per season above (body block and each
+   season's --hl-l/--hl-c/--hl-shift). Ink matches native: full text-normal,
+   not the season's highlight ink, since that's tuned for the season pastel
+   and reads wrong on a saturated hue. */
+.markdown-rendered mark[data-highlight="red"],
+.markdown-preview-view mark[data-highlight="red"],
+.cm-s-obsidian span.cm-highlight-red {
+    --tf-hl-set: var(--highlight-background-red);
+    --tf-hl-solid-set: var(--hl-solid-red);
+    --tf-hl-ink-set: var(--text-normal);
+}
+
+.markdown-rendered mark[data-highlight="orange"],
+.markdown-preview-view mark[data-highlight="orange"],
+.cm-s-obsidian span.cm-highlight-orange {
+    --tf-hl-set: var(--highlight-background-orange);
+    --tf-hl-solid-set: var(--hl-solid-orange);
+    --tf-hl-ink-set: var(--text-normal);
+}
+
+.markdown-rendered mark[data-highlight="yellow"],
+.markdown-preview-view mark[data-highlight="yellow"],
+.cm-s-obsidian span.cm-highlight-yellow {
+    --tf-hl-set: var(--highlight-background-yellow);
+    --tf-hl-solid-set: var(--hl-solid-yellow);
+    --tf-hl-ink-set: var(--text-normal);
+}
+
+.markdown-rendered mark[data-highlight="green"],
+.markdown-preview-view mark[data-highlight="green"],
+.cm-s-obsidian span.cm-highlight-green {
+    --tf-hl-set: var(--highlight-background-green);
+    --tf-hl-solid-set: var(--hl-solid-green);
+    --tf-hl-ink-set: var(--text-normal);
+}
+
+.markdown-rendered mark[data-highlight="blue"],
+.markdown-preview-view mark[data-highlight="blue"],
+.cm-s-obsidian span.cm-highlight-blue {
+    --tf-hl-set: var(--highlight-background-blue);
+    --tf-hl-solid-set: var(--hl-solid-blue);
+    --tf-hl-ink-set: var(--text-normal);
+}
+
+.markdown-rendered mark[data-highlight="purple"],
+.markdown-preview-view mark[data-highlight="purple"],
+.cm-s-obsidian span.cm-highlight-purple {
+    --tf-hl-set: var(--highlight-background-purple);
+    --tf-hl-solid-set: var(--hl-solid-purple);
+    --tf-hl-ink-set: var(--text-normal);
 }
 
 /* Light Theme */
@@ -5675,10 +5874,14 @@ body:not(.is-mobile).callout-style-card .callout:hover {
     span.cm-highlight,
     .markdown-preview-view mark,
     .cm-s-obsidian span.cm-highlight {
-        background-color: var(--highlight-bg);
-        color: var(--highlight-bg-dark-color);
+        --tf-hl-ctx: var(--highlight-bg);
+        --tf-hl-solid-ctx: var(--highlight-bg);
+        --tf-hl-ink-ctx: var(--highlight-bg-dark-color);
+        --tf-hl-border-ctx: var(--highlight-bg-dark);
+        background-color: var(--tf-hl);
+        color: var(--tf-hl-ink);
         box-shadow: var(--shadow-1);
-        border-bottom: 2px solid var(--highlight-bg-dark);
+        border-bottom: 2px solid var(--tf-hl-border);
 
         &:hover {
             box-shadow: var(--shadow-2);
@@ -5694,14 +5897,20 @@ body:not(.is-mobile).callout-style-card .callout:hover {
     span.cm-highlight,
     .markdown-preview-view mark,
     .cm-s-obsidian span.cm-highlight {
-        background-color: var(--highlight-bg-dark);
-        color: var(--highlight-bg-light-color);
+        --tf-hl-ctx: var(--highlight-bg-dark);
+        --tf-hl-solid-ctx: var(--highlight-bg-dark);
+        --tf-hl-ink-ctx: var(--highlight-bg-light-color);
+        --tf-hl-border-ctx: rgba(var(--primary-color-rgb), .35);
+        background-color: var(--tf-hl);
+        color: var(--tf-hl-ink);
         box-shadow: var(--shadow-2);
-        border-bottom: 2px solid rgba(var(--primary-color-rgb), .35);
+        border-bottom: 2px solid var(--tf-hl-border);
         text-shadow: 0 1px 2px rgba(0, 0, 0, .4);
 
         &:hover {
-            background-color: var(--highlight-bg-dark-color);
+            /* Colored highlights keep their color on hover instead of
+               darkening to the season swatch. */
+            background-color: var(--tf-hl-set, var(--highlight-bg-dark-color));
             box-shadow: var(--shadow-3);
             filter: brightness(1.1);
         }
@@ -5715,10 +5924,10 @@ body:not(.is-mobile).callout-style-card .callout:hover {
     .markdown-preview-view mark,
     .cm-s-obsidian span.cm-highlight
 ) {
-    background-color: rgba(var(--highlight-bg-rgb, var(--primary-color-rgb)), 0.42);
-    color: var(--highlight-bg-dark-color);
+    background-color: color-mix(in oklch, var(--tf-hl-solid) 42%, transparent);
+    color: var(--tf-hl-ink);
     border: 1px solid var(--glass-border);
-    border-bottom: 2px solid rgba(var(--highlight-bg-rgb, var(--primary-color-rgb)), 0.45);
+    border-bottom: 2px solid color-mix(in oklch, var(--tf-hl-solid) 45%, transparent);
     box-shadow:
         0 2px 6px rgba(0, 0, 0, 0.12),
         inset 0 1px 0 rgba(255, 255, 255, 0.4);
@@ -5730,10 +5939,10 @@ body:not(.is-mobile).callout-style-card .callout:hover {
     .markdown-preview-view mark,
     .cm-s-obsidian span.cm-highlight
 ) {
-    background-color: rgba(var(--highlight-bg-rgb, var(--primary-color-rgb)), 0.45);
-    color: var(--highlight-bg-light-color);
+    background-color: color-mix(in oklch, var(--tf-hl-solid) 45%, transparent);
+    color: var(--tf-hl-ink);
     border-color: rgba(255, 255, 255, 0.12);
-    border-block-end-color: rgba(var(--highlight-bg-rgb, var(--primary-color-rgb)), 0.55);
+    border-block-end-color: color-mix(in oklch, var(--tf-hl-solid) 55%, transparent);
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
@@ -5759,7 +5968,7 @@ body:not(.is-mobile).callout-style-card .callout:hover {
     .cm-s-obsidian span.cm-highlight
 ) {
     background-color: transparent;
-    background-image: linear-gradient(transparent 55%, rgba(var(--highlight-bg-rgb, var(--primary-color-rgb)), .45) 55%);
+    background-image: linear-gradient(transparent 55%, color-mix(in oklch, var(--tf-hl-solid) 45%, transparent) 55%);
     background-repeat: no-repeat;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
@@ -5777,7 +5986,7 @@ body:not(.is-mobile).callout-style-card .callout:hover {
     .markdown-preview-view mark,
     .cm-s-obsidian span.cm-highlight
 ) {
-    background-image: linear-gradient(transparent 55%, rgba(var(--highlight-bg-rgb, var(--primary-color-rgb)), .55) 55%);
+    background-image: linear-gradient(transparent 55%, color-mix(in oklch, var(--tf-hl-solid) 55%, transparent) 55%);
     color: var(--text-normal);
     text-shadow: none;
 }
@@ -5788,7 +5997,7 @@ body:not(.is-mobile).callout-style-card .callout:hover {
     .markdown-preview-view mark,
     .cm-s-obsidian span.cm-highlight
 ):hover {
-    background-image: linear-gradient(transparent 45%, rgba(var(--highlight-bg-rgb, var(--primary-color-rgb)), .55) 45%);
+    background-image: linear-gradient(transparent 45%, color-mix(in oklch, var(--tf-hl-solid) 55%, transparent) 45%);
     filter: none;
 }
 
@@ -5798,11 +6007,11 @@ body:not(.is-mobile).callout-style-card .callout:hover {
    vs (0,5,1) there (dark: (0,7,1) vs (0,6,1)). No !important needed. */
 .highlight-style-marker :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight) {
     background-color: transparent;
-    background-image: linear-gradient(transparent 55%, rgba(var(--callout-color-rgb), .45) 55%);
+    background-image: linear-gradient(transparent 55%, color-mix(in oklch, var(--tf-hl-solid) 45%, transparent) 55%);
     background-repeat: no-repeat;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
-    color: var(--callout-color);
+    color: var(--tf-hl-ink);
     padding: 0 2px;
     border: none;
     border-radius: 0;
@@ -5811,13 +6020,13 @@ body:not(.is-mobile).callout-style-card .callout:hover {
 }
 
 .theme-dark.highlight-style-marker :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight) {
-    background-image: linear-gradient(transparent 55%, rgba(var(--callout-color-rgb), .55) 55%);
-    color: hsl(from var(--callout-color) h s calc(l * 1.1));
+    background-image: linear-gradient(transparent 55%, color-mix(in oklch, var(--tf-hl-solid) 55%, transparent) 55%);
+    color: var(--tf-hl-ink);
     text-shadow: none;
 }
 
 .highlight-style-marker :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight):hover {
-    background-image: linear-gradient(transparent 45%, rgba(var(--callout-color-rgb), .55) 45%);
+    background-image: linear-gradient(transparent 45%, color-mix(in oklch, var(--tf-hl-solid) 55%, transparent) 45%);
     transform: none;
 }
 
@@ -8719,7 +8928,7 @@ body.show-header-on-hover.layout-card .view-header:hover {
    screen edge and carries :hover while the ribbon is off-screen. NO
    transforms on the ribbon — a transform would become the containing
    block for the fixed strip and un-pin it from the edge. */
-body:not(.is-mobile).ribbon-autohide .workspace-ribbon.mod-left {
+body:not(.is-mobile).ribbon-autohide .workspace-ribbon:is(.mod-left, .mod-primary) {
     /* -2px fudge tucks the border-right hairline off-screen too */
     margin-left: calc(-1 * var(--ribbon-width) - 2px);
     /* 140ms grace on retract so grazing out doesn't flicker;
@@ -8741,7 +8950,7 @@ body:not(.is-mobile).ribbon-autohide.mod-macos {
 /* Invisible 10px hot strip pinned to the screen edge — position: fixed
    on the pseudo keeps it hit-testable while the ribbon is off-screen,
    independent of the ribbon's own geometry */
-body:not(.is-mobile).ribbon-autohide .workspace-ribbon.mod-left::after {
+body:not(.is-mobile).ribbon-autohide .workspace-ribbon:is(.mod-left, .mod-primary)::after {
     content: "";
     position: fixed;
     top: 0;
@@ -8751,27 +8960,27 @@ body:not(.is-mobile).ribbon-autohide .workspace-ribbon.mod-left::after {
 }
 
 /* :focus-within keeps the ribbon reachable by keyboard */
-body:not(.is-mobile).ribbon-autohide .workspace-ribbon.mod-left:is(:hover, :focus-within) {
+body:not(.is-mobile).ribbon-autohide .workspace-ribbon:is(.mod-left, .mod-primary):is(:hover, :focus-within) {
     margin-left: 0;
     transition-delay: 0s;
 }
 
 /* Icons hang back, then glide in on the spring a beat after the panel —
    containers animate (not the icons) so icon hover transforms stay intact */
-body:not(.is-mobile).ribbon-autohide .workspace-ribbon.mod-left :is(.side-dock-actions, .side-dock-settings) {
+body:not(.is-mobile).ribbon-autohide .workspace-ribbon:is(.mod-left, .mod-primary) :is(.side-dock-actions, .side-dock-settings) {
     opacity: 0;
     transform: translateX(-10px);
     transition: opacity 0.18s var(--ease-apple), transform 0.35s var(--ease-spring-md);
 }
 
-body:not(.is-mobile).ribbon-autohide .workspace-ribbon.mod-left:is(:hover, :focus-within) :is(.side-dock-actions, .side-dock-settings) {
+body:not(.is-mobile).ribbon-autohide .workspace-ribbon:is(.mod-left, .mod-primary):is(:hover, :focus-within) :is(.side-dock-actions, .side-dock-settings) {
     opacity: 1;
     transform: translateX(0);
     transition-delay: 60ms;
 }
 
 /* Settings cluster lands last for a two-beat cascade */
-body:not(.is-mobile).ribbon-autohide .workspace-ribbon.mod-left:is(:hover, :focus-within) .side-dock-settings {
+body:not(.is-mobile).ribbon-autohide .workspace-ribbon:is(.mod-left, .mod-primary):is(:hover, :focus-within) .side-dock-settings {
     transition-delay: 120ms;
 }
 
@@ -9464,7 +9673,7 @@ body.inline-code-accent :not(pre) > code:hover {
 /* ============================== */
 
 /* Left sidebar ribbon */
-.workspace-ribbon.side-dock-ribbon.mod-left {
+.workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary) {
     background-color: var(--background-secondary-alt);
     border-right: 1px solid var(--background-modifier-border);
     padding: 8px 4px;
@@ -9526,9 +9735,9 @@ body.depth-shadows .side-dock-ribbon-action.is-active .clickable-icon {
 }
 
 /* Card layout specific - Pill container (applies whether sidebar is open or
-   collapsed). Desktop only: .workspace-ribbon.side-dock-ribbon.mod-left
+   collapsed). Desktop only: .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary)
    doesn't exist on mobile, which uses the drawer ribbon instead. */
-body:not(.is-mobile).layout-card .workspace-ribbon.side-dock-ribbon.mod-left {
+body:not(.is-mobile).layout-card .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary) {
     background-color: rgba(var(--primary-color-rgb), 0.08) !important;
     border-radius: var(--radius-pill);
     border: none !important;
@@ -9553,18 +9762,18 @@ body:not(.is-mobile).layout-card .workspace-ribbon.side-dock-ribbon.mod-left {
 }
 
 /* Fix height consistency when sidebar is collapsed */
-body:not(.is-mobile).layout-card .workspace-ribbon.side-dock-ribbon.mod-left.is-collapsed {
+body:not(.is-mobile).layout-card .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary).is-collapsed {
     height: auto !important;
     min-height: 0 !important;
 }
 
 /* macOS specific - more space for traffic lights */
-body.mod-macos.is-hidden-frameless.layout-card .workspace-ribbon.side-dock-ribbon.mod-left:not(.is-collapsed) {
+body.mod-macos.is-hidden-frameless.layout-card .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary):not(.is-collapsed) {
     margin-top: 90px !important;
 }
 
 /* When left sidebar is closed, ensure ribbon still looks the same */
-body:not(.is-mobile).layout-card:not(.is-left-sidedock-open) .workspace-ribbon.side-dock-ribbon.mod-left:not(.is-collapsed) {
+body:not(.is-mobile).layout-card:not(.is-left-sidedock-open) .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary):not(.is-collapsed) {
     background-color: rgba(var(--primary-color-rgb), 0.08) !important;
     border-radius: var(--radius-pill);
     border: none !important;
@@ -9572,7 +9781,7 @@ body:not(.is-mobile).layout-card:not(.is-left-sidedock-open) .workspace-ribbon.s
 }
 
 /* Hide/fix :before pseudo-element in card layout */
-body:not(.is-mobile).layout-card .workspace-ribbon.mod-left:before {
+body:not(.is-mobile).layout-card .workspace-ribbon:is(.mod-left, .mod-primary):before {
     display: none !important;
 }
 
@@ -9600,13 +9809,13 @@ body:not(.is-mobile).layout-card .workspace-ribbon-collapse-btn {
 }
 
 /* Depth shadows for ribbon pill - DISABLED for seamless look */
-body:not(.is-mobile).depth-shadows.layout-card .workspace-ribbon.side-dock-ribbon.mod-left:not(.is-collapsed) {
+body:not(.is-mobile).depth-shadows.layout-card .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary):not(.is-collapsed) {
     box-shadow: none;
 }
 
 /* Ribbon autohide functionality when ribbon is disabled in Obsidian settings */
 /* When .show-ribbon is absent, hide the ribbon completely */
-body:not(.is-mobile).layout-card:not(.show-ribbon) .workspace-ribbon.side-dock-ribbon.mod-left {
+body:not(.is-mobile).layout-card:not(.show-ribbon) .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary) {
     display: none !important;
 }
 
@@ -9619,8 +9828,8 @@ body:not(.is-mobile).layout-card:not(.show-ribbon) .workspace-ribbon.side-dock-r
    edge strip is NOT clipped — its containing block is the viewport).
    Both collapsed states listed so this outranks the pill's own
    !important margins. */
-body:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon.side-dock-ribbon.mod-left:not(.is-collapsed),
-body:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon.side-dock-ribbon.mod-left.is-collapsed {
+body:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary):not(.is-collapsed),
+body:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary).is-collapsed {
     margin: 80px 4px 12px !important;
     margin-left: -54px !important;
     width: 48px !important;
@@ -9632,14 +9841,14 @@ body:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon.side-dock-rib
     border-radius: var(--radius-pill);
 }
 
-body:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon.side-dock-ribbon.mod-left:not(.is-collapsed):is(:hover, :focus-within),
-body:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon.side-dock-ribbon.mod-left.is-collapsed:is(:hover, :focus-within) {
+body:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary):not(.is-collapsed):is(:hover, :focus-within),
+body:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary).is-collapsed:is(:hover, :focus-within) {
     margin-left: 12px !important;
 }
 
 /* macOS frameless keeps the extra traffic-light clearance */
-body.mod-macos.is-hidden-frameless:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon.side-dock-ribbon.mod-left:not(.is-collapsed),
-body.mod-macos.is-hidden-frameless:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon.side-dock-ribbon.mod-left.is-collapsed {
+body.mod-macos.is-hidden-frameless:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary):not(.is-collapsed),
+body.mod-macos.is-hidden-frameless:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary).is-collapsed {
     margin-top: 90px !important;
 }
 
@@ -9656,7 +9865,7 @@ body:not(.is-mobile).ribbon-autohide.layout-card .workspace-split.mod-left-split
         margin-left 0.3s var(--ease-apple) 140ms;
 }
 
-body:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon.mod-left:is(:hover, :focus-within) ~ .workspace-split.mod-left-split {
+body:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon:is(.mod-left, .mod-primary):is(:hover, :focus-within) ~ .workspace-split.mod-left-split {
     margin-left: 0;
     transition-delay: 0s, 0s, 0s;
 }
@@ -11651,12 +11860,12 @@ body.optical-text-trim .callout-title-inner {
     text-box: trim-both cap alphabetic;
 }
 
-/* Tab titles ellipsize via overflow:hidden, which clips ink outside the
-   trimmed box — an alphabetic under-edge cuts descenders (p, g, y).
-   Trim only down to the font's descent edge here. */
-body.optical-text-trim .workspace-tab-header-inner-title {
-    text-box: trim-both cap text;
-}
+/* Tab titles are excluded on purpose: overflow:hidden on
+   .workspace-tab-header-inner-title clips ink outside the trimmed box, and
+   a cap-height top edge cuts ascenders (l, t, f, k, b, d) on every tab.
+   The flex-centered parent (.workspace-tab-header-inner) already centers
+   the title on its line box, so trimming here only shrinks the clip
+   region for no visual gain. */
 
 /* Tag chips need a block container for the trim to bite; inline-block
    also prevents a chip breaking across lines */
