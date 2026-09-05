@@ -7554,8 +7554,11 @@ body:not(.disable-modal-frost) .modal-bg {
     background-color: transparent !important;
 }
 
-/* Explicit styling for inactive tabs */
-:is(body:not(.is-mobile).layout-card:not(.tf-liquid-chrome), body:not(.is-mobile).layout-card.theme-dark:not(.tf-liquid-chrome)) .workspace-tab-header:not(.is-active) {
+/* Explicit styling for inactive tabs. Editor tab strip only — excluded from
+   the sidebar pane switcher (Files/Search/Bookmarks etc), which has its own
+   transparent-until-active styling further down and would otherwise lose to
+   this rule's higher specificity. */
+:is(body:not(.is-mobile).layout-card:not(.tf-liquid-chrome), body:not(.is-mobile).layout-card.theme-dark:not(.tf-liquid-chrome)) .workspace-tab-header:not(.is-active):not(.workspace-split.mod-left-split .workspace-tab-header):not(.workspace-split.mod-right-split .workspace-tab-header) {
     background-color: rgba(var(--primary-color-rgb), 0.08) !important;
 }
 
