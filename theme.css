@@ -341,6 +341,12 @@ settings:
         description: Turn off the frosted glass effect for modal backgrounds
         type: class-toggle
         default: false
+    -
+        id: tf-liquid-chrome
+        title: Liquid glass controls
+        description: Float toolbar, ribbon, status bar and settings controls in translucent capsules with a hairline highlight and soft shadow
+        type: class-toggle
+        default: false
 
     -
         id: headings-heading
@@ -3660,7 +3666,7 @@ body:not(.is-phone).layout-card .workspace-tab-header-container-inner {
     gap: 6px;
 }
 
-body:not(.is-phone).layout-card .workspace-tab-header {
+body:not(.is-phone).layout-card:not(.tf-liquid-chrome) .workspace-tab-header {
     background-color: rgba(var(--background-secondary-rgb), .3);
     border-radius: var(--r3);
     height: var(--height-input);
@@ -3668,12 +3674,19 @@ body:not(.is-phone).layout-card .workspace-tab-header {
     transition: background-color var(--transition-ui), transform var(--transition-ui), box-shadow var(--transition-ui), border-radius var(--transition-ui);
 }
 
+body:not(.is-phone).layout-card.tf-liquid-chrome .workspace-tab-header {
+    border-radius: var(--r3);
+    height: var(--height-input);
+    display: flex;
+    transition: background-color var(--transition-ui), transform var(--transition-ui), box-shadow var(--transition-ui), border-radius var(--transition-ui);
+}
+
 /* Contrast boost (when depth shadows disabled) */
-body:not(.is-phone):not(.depth-shadows).layout-card .workspace-tab-header {
+body:not(.is-phone):not(.depth-shadows).layout-card:not(.tf-liquid-chrome) .workspace-tab-header {
     background-color: rgba(var(--background-secondary-rgb), .2) !important;
 }
 
-body:not(.is-phone):not(.depth-shadows).layout-card .workspace-tab-header.is-active {
+body:not(.is-phone):not(.depth-shadows).layout-card:not(.tf-liquid-chrome) .workspace-tab-header.is-active {
     background-color: var(--background-primary) !important;
     border: none !important;
     box-shadow: 0 0 20px rgba(var(--primary-color-rgb), 0.15);
@@ -3684,11 +3697,11 @@ body:not(.is-phone):not(.depth-shadows).layout-card .workspace-tab-header:not(.i
 }
 
 /* Elevated active tab (when depth shadows enabled) */
-body:not(.is-phone).depth-shadows.layout-card .workspace-tab-header {
+body:not(.is-phone).depth-shadows.layout-card:not(.tf-liquid-chrome) .workspace-tab-header {
     background-color: rgba(var(--background-secondary-rgb), .3);
 }
 
-body:not(.is-phone).depth-shadows.layout-card .workspace-tab-header.is-active {
+body:not(.is-phone).depth-shadows.layout-card:not(.tf-liquid-chrome) .workspace-tab-header.is-active {
     background-color: var(--background-primary) !important;
     border: none !important;
     transform: translateY(-2px) !important;
@@ -3790,8 +3803,8 @@ body.is-focused .workspace-tabs.mod-top {
     transform: translateY(-2px);
 }
 
-.vertical-tab-nav-item.is-active,
-.vertical-tab-nav-item.is-active :is(svg) {
+body:not(.tf-liquid-chrome) .vertical-tab-nav-item.is-active,
+body:not(.tf-liquid-chrome) .vertical-tab-nav-item.is-active :is(svg) {
     background: var(--primary-color) !important;
     color: white !important;
     font-weight: var(--weight-semibold);
@@ -3808,8 +3821,8 @@ body.is-focused .workspace-tabs.mod-top {
     border-inline-start-color: var(--primary-color);
 }
 
-.theme-dark .vertical-tab-nav-item.is-active,
-.theme-dark .vertical-tab-nav-item.is-active :is(svg) {
+body:not(.tf-liquid-chrome) .theme-dark .vertical-tab-nav-item.is-active,
+body:not(.tf-liquid-chrome) .theme-dark .vertical-tab-nav-item.is-active :is(svg) {
     background: var(--primary-color) !important;
     color: white !important;
     border-inline-start-color: var(--primary-color-dark) !important;
@@ -3840,7 +3853,7 @@ body.is-focused .workspace-tabs.mod-top {
     -webkit-backdrop-filter: none;
 }
 
-.setting-item:hover {
+body:not(.tf-liquid-chrome) .setting-item:hover {
     background-color: rgba(var(--primary-color-rgb), .05);
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-btn);
@@ -3903,6 +3916,9 @@ body.is-focused .workspace-tabs.mod-top {
     -electron-corner-smoothing: var(--squircle-btn);
     corner-shape: superellipse(1.5);
     transition: opacity 0.15s cubic-bezier(0.32, 0.72, 0, 1), background-color 0.18s, color 0.18s;
+}
+
+body:not(.tf-liquid-chrome) .vertical-tab-content .setting-item {
     border: none !important;
 }
 
@@ -7539,7 +7555,7 @@ body:not(.disable-modal-frost) .modal-bg {
 }
 
 /* Explicit styling for inactive tabs */
-:is(body:not(.is-mobile).layout-card, body:not(.is-mobile).layout-card.theme-dark) .workspace-tab-header:not(.is-active) {
+:is(body:not(.is-mobile).layout-card:not(.tf-liquid-chrome), body:not(.is-mobile).layout-card.theme-dark:not(.tf-liquid-chrome)) .workspace-tab-header:not(.is-active) {
     background-color: rgba(var(--primary-color-rgb), 0.08) !important;
 }
 
@@ -8560,8 +8576,22 @@ body:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right
     align-items: center !important;
 }
 
-body:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container .workspace-tab-header-container-inner {
+body:not(.is-mobile).layout-card:not(.tf-liquid-chrome) .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container .workspace-tab-header-container-inner {
     background-color: rgba(var(--primary-color-rgb), 0.08) !important;
+    border-radius: var(--radius-pill);
+    padding: 1px 4px 1px !important;
+    margin: 0 auto !important;
+    gap: 3px !important;
+    height: 42px !important;
+    width: fit-content !important;
+    max-width: calc(100% - 40px);
+    justify-content: center !important;
+    border: none !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+body:not(.is-mobile).layout-card.tf-liquid-chrome .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container .workspace-tab-header-container-inner {
     border-radius: var(--radius-pill);
     padding: 1px 4px 1px !important;
     margin: 0 auto !important;
@@ -8586,7 +8616,7 @@ body:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right
     box-shadow: none;
 }
 
-body:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header.is-active {
+body:not(.is-mobile).layout-card:not(.tf-liquid-chrome) .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header.is-active {
     background-color: var(--background-primary) !important;
     border-radius: var(--r4);
     border: none !important;
@@ -9738,10 +9768,7 @@ body.depth-shadows .side-dock-ribbon-action.is-active .clickable-icon {
    collapsed). Desktop only: .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary)
    doesn't exist on mobile, which uses the drawer ribbon instead. */
 body:not(.is-mobile).layout-card .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary) {
-    background-color: rgba(var(--primary-color-rgb), 0.08) !important;
     border-radius: var(--radius-pill);
-    border: none !important;
-    box-shadow: none;
     /* must clear the pill's semicircular end caps */
     padding: 14px 6px !important;
     /* left margin 12px balances the composite gap on the right (4px ribbon
@@ -9761,6 +9788,12 @@ body:not(.is-mobile).layout-card .workspace-ribbon.side-dock-ribbon:is(.mod-left
     overflow: visible !important;
 }
 
+body:not(.is-mobile).layout-card:not(.tf-liquid-chrome) .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary) {
+    background-color: rgba(var(--primary-color-rgb), 0.08) !important;
+    border: none !important;
+    box-shadow: none;
+}
+
 /* Fix height consistency when sidebar is collapsed */
 body:not(.is-mobile).layout-card .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary).is-collapsed {
     height: auto !important;
@@ -9774,8 +9807,11 @@ body.mod-macos.is-hidden-frameless.layout-card .workspace-ribbon.side-dock-ribbo
 
 /* When left sidebar is closed, ensure ribbon still looks the same */
 body:not(.is-mobile).layout-card:not(.is-left-sidedock-open) .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary):not(.is-collapsed) {
-    background-color: rgba(var(--primary-color-rgb), 0.08) !important;
     border-radius: var(--radius-pill);
+}
+
+body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.is-left-sidedock-open) .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary):not(.is-collapsed) {
+    background-color: rgba(var(--primary-color-rgb), 0.08) !important;
     border: none !important;
     box-shadow: none;
 }
@@ -9794,11 +9830,11 @@ body.layout-card .side-dock-ribbon-action .clickable-icon {
     border-radius: var(--r3);
 }
 
-body.layout-card .side-dock-ribbon-action .clickable-icon:hover {
+body.layout-card:not(.tf-liquid-chrome) .side-dock-ribbon-action .clickable-icon:hover {
     background-color: rgba(var(--background-secondary-rgb), 0.5) !important;
 }
 
-body.layout-card .side-dock-ribbon-action.is-active .clickable-icon {
+body.layout-card:not(.tf-liquid-chrome) .side-dock-ribbon-action.is-active .clickable-icon {
     background-color: var(--background-primary) !important;
     border-radius: var(--r3);
 }
@@ -11735,6 +11771,335 @@ body.tf-liquid-prompt .suggestion-item.is-selected {
             rgba(var(--primary-color-rgb), .24) 0%,
             rgba(var(--primary-color-rgb), .12) 100%);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25);
+}
+
+/* ============================== */
+/*   LIQUID GLASS CHROME          */
+/* ============================== */
+/* Reeder-on-Tahoe treatment: toolbar/ribbon/status-bar controls float in
+   translucent capsules over content, and the settings window rebuilds as a
+   raised nav pill + inset grouped row cards. One global toggle, additive —
+   base rules are untouched; --lg-* tokens are the only tuning surface. */
+
+body.tf-liquid-chrome {
+    --lg-fill: rgba(var(--background-primary-rgb), .62);
+    --lg-fill-raised: rgba(var(--background-primary-rgb), .78);
+    --lg-blur: blur(14px) saturate(180%);
+    --lg-rim:
+        inset 0 1px 0 rgba(255, 255, 255, .65),
+        inset 0 0 0 1px rgba(255, 255, 255, .18);
+    --lg-shadow:
+        0 6px 18px rgba(0, 0, 0, .10),
+        0 1px 3px rgba(0, 0, 0, .05);
+    --lg-hairline: rgba(0, 0, 0, .028);
+}
+
+body.tf-liquid-chrome.theme-dark {
+    --lg-fill: rgba(var(--background-secondary-rgb), .55);
+    --lg-fill-raised: rgba(var(--background-secondary-rgb), .72);
+    --lg-rim:
+        inset 0 1px 0 rgba(255, 255, 255, .14),
+        inset 0 0 0 1px rgba(255, 255, 255, .06);
+    --lg-shadow:
+        0 8px 24px rgba(0, 0, 0, .40),
+        0 1px 3px rgba(0, 0, 0, .25);
+    --lg-hairline: rgba(255, 255, 255, .04);
+}
+
+/* --- Toolbar capsules --- */
+
+body.tf-liquid-chrome .view-header {
+    background-color: transparent;
+    border-block-end-color: transparent;
+}
+
+body.tf-liquid-chrome .view-header:hover,
+body.tf-liquid-chrome.theme-dark .view-header:hover {
+    background-color: transparent;
+    box-shadow: none;
+    transform: none;
+}
+
+body.tf-liquid-chrome:not(.is-mobile) .view-header :is(.view-actions, .view-header-nav-buttons) {
+    background-color: var(--lg-fill) !important;
+    border: none !important;
+    box-shadow: var(--lg-rim), var(--lg-shadow) !important;
+    border-radius: var(--radius-pill);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+    body:not(.is-mobile).tf-liquid-chrome .view-header :is(.view-actions, .view-header-nav-buttons) {
+        backdrop-filter: var(--lg-blur);
+        -webkit-backdrop-filter: var(--lg-blur);
+    }
+}
+
+body.tf-liquid-chrome .view-header :is(.view-actions, .view-header-nav-buttons) .clickable-icon {
+    background-color: transparent !important;
+    color: var(--text-muted) !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+body.tf-liquid-chrome .view-header :is(.view-actions, .view-header-nav-buttons) .clickable-icon:hover {
+    background-color: var(--lg-fill-raised) !important;
+    box-shadow: var(--lg-shadow) !important;
+    border-radius: var(--r2);
+    color: var(--text-normal) !important;
+}
+
+body.tf-liquid-chrome .sidebar-toggle-button .clickable-icon:hover {
+    background-color: var(--lg-fill-raised);
+    box-shadow: var(--lg-shadow);
+    border-radius: var(--r2);
+}
+
+/* Floating nav pill (bookmark/new-folder/collapse-all/search) — hidden
+   until hovered at the foot of the file explorer. */
+body.tf-liquid-chrome:not(.is-mobile).enable-floating-nav .nav-buttons-container:hover {
+    background-color: var(--lg-fill);
+    box-shadow: var(--lg-rim), var(--lg-shadow);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+    body.tf-liquid-chrome:not(.is-mobile).enable-floating-nav .nav-buttons-container:hover {
+        backdrop-filter: var(--lg-blur);
+        -webkit-backdrop-filter: var(--lg-blur);
+    }
+}
+
+/* Tab pills — editor tab strip. layout-card draws the capsule shape; here
+   we just reskin its fill (its own background/border/transform !important
+   rules are scoped :not(.tf-liquid-chrome) above so these can take over). */
+body.tf-liquid-chrome.layout-card:not(.is-phone) .workspace-tab-header {
+    background-color: var(--lg-fill) !important;
+}
+
+@supports (backdrop-filter: blur(1px)) {
+    body.tf-liquid-chrome.layout-card:not(.is-mobile):not(.is-phone) .workspace-tab-header {
+        backdrop-filter: var(--lg-blur);
+        -webkit-backdrop-filter: var(--lg-blur);
+    }
+}
+
+body.tf-liquid-chrome.layout-card:not(.is-phone) .workspace-tab-header:not(.is-active):hover {
+    background-color: var(--lg-fill-raised) !important;
+}
+
+body.tf-liquid-chrome.layout-card:not(.is-phone) .workspace-tab-header.is-active,
+body.tf-liquid-chrome .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header.is-active {
+    background-color: var(--lg-fill-raised) !important;
+    box-shadow: var(--lg-rim), var(--lg-shadow) !important;
+    border: none !important;
+    transform: none !important;
+    color: var(--text-normal) !important;
+}
+
+/* Tab pills — sidebar pane switcher (Files/Search/Bookmarks, Outline/
+   Backlinks/Tags): one shared glass capsule housing icon-only tabs. */
+body.tf-liquid-chrome:not(.is-mobile) .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container-inner {
+    background-color: var(--lg-fill) !important;
+    box-shadow: var(--lg-rim), var(--lg-shadow);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+    body.tf-liquid-chrome:not(.is-mobile) .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container-inner {
+        backdrop-filter: var(--lg-blur);
+        -webkit-backdrop-filter: var(--lg-blur);
+    }
+}
+
+/* --- Ribbon & status bar --- */
+
+body.tf-liquid-chrome .workspace-ribbon {
+    background-color: transparent;
+    border-inline-end-color: transparent;
+}
+
+/* Plain ribbon (no layout-card): floating capsule inset from the edge */
+body.tf-liquid-chrome:not(.layout-card) .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary) {
+    margin: var(--s2);
+    border-radius: var(--r4);
+    background-color: var(--lg-fill);
+    box-shadow: var(--lg-rim), var(--lg-shadow);
+}
+
+/* backdrop-filter creates a new containing block for fixed-position
+   descendants — ribbon-autohide's invisible hover strip is a ::after
+   with position:fixed pinned to the viewport edge while the ribbon itself
+   sits off-screen (margin-left negative). Blurring the ribbon would drag
+   that strip off-screen with it and break the hover-to-reveal entirely,
+   so autohide keeps the flat translucent fill with no blur. */
+@supports (backdrop-filter: blur(1px)) {
+    body:not(.is-mobile).tf-liquid-chrome:not(.layout-card):not(.ribbon-autohide) .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary) {
+        backdrop-filter: var(--lg-blur);
+        -webkit-backdrop-filter: var(--lg-blur);
+    }
+}
+
+/* layout-card ribbon: reskin its existing pill shape/position, don't rebuild it */
+body.tf-liquid-chrome.layout-card:not(.is-mobile) .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary) {
+    background-color: var(--lg-fill) !important;
+    box-shadow: var(--lg-rim), var(--lg-shadow) !important;
+}
+
+@supports (backdrop-filter: blur(1px)) {
+    body.tf-liquid-chrome.layout-card:not(.is-mobile):not(.ribbon-autohide) .workspace-ribbon.side-dock-ribbon:is(.mod-left, .mod-primary) {
+        backdrop-filter: var(--lg-blur);
+        -webkit-backdrop-filter: var(--lg-blur);
+    }
+}
+
+body.tf-liquid-chrome.layout-card .side-dock-ribbon-action.is-active .clickable-icon {
+    background-color: var(--lg-fill-raised) !important;
+    box-shadow: var(--lg-shadow);
+}
+
+body.tf-liquid-chrome :is(.side-dock-ribbon-action, .side-dock-actions, .workspace-ribbon) .clickable-icon:hover {
+    background-color: var(--lg-fill-raised) !important;
+    color: var(--text-normal);
+    box-shadow: var(--lg-shadow);
+    transform: none;
+}
+
+body.tf-liquid-chrome:not(.is-mobile):not(.disable-status-bar) .status-bar:hover {
+    background-color: var(--lg-fill);
+    border-color: transparent;
+    box-shadow: var(--lg-rim), var(--lg-shadow);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+    body.tf-liquid-chrome:not(.is-mobile):not(.disable-status-bar) .status-bar:hover {
+        backdrop-filter: var(--lg-blur);
+        -webkit-backdrop-filter: var(--lg-blur);
+    }
+}
+
+/* --- Settings window --- */
+
+body.tf-liquid-chrome .modal.mod-settings {
+    background: var(--background-secondary);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+body.tf-liquid-chrome.theme-dark .modal.mod-settings {
+    background: var(--background-secondary);
+}
+
+body.tf-liquid-chrome .vertical-tab-header {
+    background: transparent;
+}
+
+body.tf-liquid-chrome.theme-dark .vertical-tab-header {
+    background: transparent;
+}
+
+body.tf-liquid-chrome .vertical-tab-nav-item:hover {
+    transform: none;
+}
+
+body.tf-liquid-chrome .vertical-tab-nav-item.is-active {
+    background: var(--lg-fill-raised);
+    color: var(--text-normal);
+    box-shadow: var(--lg-rim), var(--lg-shadow);
+    transform: none;
+}
+
+body.tf-liquid-chrome .vertical-tab-nav-item.is-active :is(svg, .vertical-tab-nav-item-icon) {
+    color: var(--text-normal) !important;
+}
+
+body.tf-liquid-chrome .vertical-tab-content {
+    background-color: var(--lg-fill-raised);
+    border-color: transparent;
+    border-radius: var(--r4);
+    box-shadow: var(--lg-shadow);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+    body:not(.is-mobile).tf-liquid-chrome .vertical-tab-content {
+        backdrop-filter: var(--lg-blur);
+        -webkit-backdrop-filter: var(--lg-blur);
+    }
+}
+
+/* Grouped rows: consecutive .setting-item siblings read as one inset card.
+   .setting-item-heading breaks a run — it becomes the section label above
+   the next card, matching "FETCHING CONTENT" / "SAVED ITEMS" in Reeder. A
+   whisper-thin hairline separates rows within a group, same as the Reeder
+   reference (Text Size / Line Height / Max. Width). */
+body.tf-liquid-chrome .vertical-tab-content .setting-item {
+    background: var(--lg-fill-raised);
+    border-radius: 0;
+}
+
+body.tf-liquid-chrome .vertical-tab-content .setting-item:not(.setting-item-heading) + .setting-item:not(.setting-item-heading) {
+    /* 0.5px, not --border-thin (1px) — a true 1-device-pixel hairline on
+       Retina instead of 2, matching native AppKit dividers */
+    border-block-start: 0.5px solid var(--lg-hairline) !important;
+}
+
+body.tf-liquid-chrome .vertical-tab-content .setting-item-heading + .setting-item,
+body.tf-liquid-chrome .vertical-tab-content .setting-item:first-child {
+    border-start-start-radius: var(--r3);
+    border-start-end-radius: var(--r3);
+}
+
+body.tf-liquid-chrome .vertical-tab-content .setting-item:last-child,
+body.tf-liquid-chrome .vertical-tab-content .setting-item:has(+ .setting-item-heading) {
+    border-end-start-radius: var(--r3);
+    border-end-end-radius: var(--r3);
+}
+
+body.tf-liquid-chrome .vertical-tab-content .setting-item:not(.setting-item-heading):hover {
+    background: var(--lg-fill-raised);
+    border-radius: 0;
+}
+
+body.tf-liquid-chrome .vertical-tab-content .setting-item-heading {
+    background: transparent;
+    margin-block-start: var(--s4);
+    padding-inline: var(--s2);
+    font-size: .75em;
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    color: var(--text-faint);
+}
+
+/* Style Settings plugin draws its own section dividers (bundled styles.css,
+   .style-settings-heading), independent of our .setting-item grouping above */
+body.tf-liquid-chrome .style-settings-heading {
+    border-bottom: none !important;
+}
+
+/* --- Menus, popovers, palette, modals --- */
+
+body.tf-liquid-chrome :is(.popover, .prompt, .suggestion-container, .menu) {
+    background-color: var(--lg-fill);
+    border-color: transparent;
+    box-shadow: var(--lg-rim), var(--lg-shadow);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+    body:not(.is-mobile).tf-liquid-chrome:not(.disable-glass-menus) :is(.popover, .prompt, .suggestion-container, .menu) {
+        backdrop-filter: var(--lg-blur);
+        -webkit-backdrop-filter: var(--lg-blur);
+    }
+}
+
+body.tf-liquid-chrome:not(.disable-modal-frost) .modal:not(.mod-settings) {
+    background: var(--lg-fill-raised);
+    box-shadow: var(--lg-rim), var(--lg-shadow);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+    body:not(.is-mobile).tf-liquid-chrome:not(.disable-modal-frost) .modal:not(.mod-settings) {
+        backdrop-filter: var(--lg-blur);
+        -webkit-backdrop-filter: var(--lg-blur);
+    }
 }
 
 /* ============================== */
