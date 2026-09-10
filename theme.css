@@ -132,6 +132,12 @@ settings:
                 label: Soft card
                 value: callout-style-card
     -
+        id: tf-nested-callout-inherit
+        title: Nested callouts follow parent color
+        description: A callout inside another callout takes the outer callout's color instead of its own type color
+        type: class-toggle
+        default: false
+    -
         id: blockquote-style-selector
         title: Blockquote style
         description: Choose a visual style for blockquotes in your notes
@@ -11478,6 +11484,62 @@ body:not(.is-mobile).callout-style-liquid :is(.callout, .cm-callout) {
 body:not(.is-mobile):not(.terraflow-quiet).callout-style-liquid .callout:hover::after {
     transform: translateX(130%);
     transition: transform 0.9s var(--ease-apple);
+}
+
+/* ============================== */
+/*   NESTED CALLOUTS              */
+/* ============================== */
+/* Placed after every callout style block above: variant selectors like
+   .callout-style-liquid :is(.callout, .cm-callout) are 0,2,0, same as
+   .callout .callout below, so source order decides the winner. Any new
+   callout style must be added ABOVE this section, not below it. */
+
+/* Hand the outer callout's color down so the optional inherit toggle
+   below can read it — each nesting level re-exports for its own child. */
+:is(.callout, .cm-callout) > .callout-content {
+    --tf-parent-callout: var(--callout-color);
+    --tf-parent-callout-rgb: var(--callout-color-rgb);
+}
+
+/* A nested callout keeps its own type color but drops every material
+   effect that stacks badly on top of the parent's: gradients, blur,
+   specular insets, shadows and hover lift all wash the parent's tint
+   toward grey when doubled. Flat tint + accent bar reads as a step
+   inside the parent instead of a competing panel.
+   !important on backdrop-filter/box-shadow: Glass and Liquid set those
+   two inside `body:not(.is-mobile).callout-style-X :is(...)`, which is
+   0,3,1 — higher than this rule's 0,2,0 — so source order alone doesn't
+   win against them (verified live: nested blur survived without it). */
+:is(.callout, .cm-callout) .callout {
+    background-image: none;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none;
+    border-inline-start: var(--border-heavy) solid var(--callout-color);
+    border-radius: var(--r3);
+    box-shadow: none !important;
+}
+
+:is(.callout, .cm-callout) .callout:hover {
+    transform: none;
+}
+
+:is(.callout, .cm-callout) .callout::before,
+:is(.callout, .cm-callout) .callout::after {
+    display: none;
+}
+
+/* Optional: nested callout follows the parent's hue instead of its own
+   type color. !important required — the per-type :is() rules are 0,4,0
+   (specificity from their .cm-callout.cm-callout-* branch) and set
+   background-color from the literal --callout-<type>-rgb, not from
+   --callout-color-rgb, so overriding the variable alone would recolor
+   the title/icon/text but leave the background on the old hue. */
+body.tf-nested-callout-inherit :is(.callout, .cm-callout) .callout {
+    --callout-color: var(--tf-parent-callout) !important;
+    --callout-color-rgb: var(--tf-parent-callout-rgb) !important;
+    background-color: rgba(var(--tf-parent-callout-rgb), .12) !important;
+    border-inline-start-color: var(--tf-parent-callout) !important;
 }
 
 /* ============================== */
