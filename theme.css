@@ -1337,7 +1337,7 @@ body {
     --callout-success: #88D6A0;
     --callout-success-rgb: 136, 214, 160;
     --callout-danger: #ff2d2d;
-    --callout-danger-rgb: 153, 0, 0;
+    --callout-danger-rgb: 255, 45, 45;
     --callout-cite: #BBADFF;
     --callout-cite-rgb: 187, 173, 255;
     --callout-video: #57E6FF;
@@ -1417,11 +1417,11 @@ body {
     --callout-cite: #573d84;
     --callout-cite-rgb: 87, 61, 132;
     --callout-video: #1bc9e1;
-    --callout-video-rgb: 87, 217, 235;
+    --callout-video-rgb: 27, 201, 225;
     --callout-quote: #b0c5f6;
-    --callout-quote-rgb: 226, 234, 252;
+    --callout-quote-rgb: 176, 197, 246;
     --highlight-bg: #8a9fc2;
-    --highlight-bg-rgb: 168, 184, 214;
+    --highlight-bg-rgb: 138, 159, 194;
     --highlight-bg-dark: #8a9fc2;
     --highlight-bg-dark-color: #1a2535;
 }
@@ -1494,7 +1494,7 @@ body {
     --callout-video: #78dce8;
     --callout-video-rgb: 120, 220, 232;
     --callout-quote: #495285;
-    --callout-quote-rgb: 29, 32, 51;
+    --callout-quote-rgb: 73, 82, 133;
     --highlight-bg: #1f2635;
     --highlight-bg-dark: #2a354a;
     --highlight-bg-dark-color: #2a354a;
@@ -1560,7 +1560,7 @@ body {
     --heading-quinary-rgb: 136, 84, 208;
     --heading-senary-rgb: 60, 64, 198;
     --callout-note: #d8b55d;
-    --callout-note-rgb: 233, 213, 163;
+    --callout-note-rgb: 216, 181, 93;
     --callout-info: #5885AF;
     --callout-info-rgb: 88, 133, 175;
     --callout-warning: #C67D3D;
@@ -1735,7 +1735,7 @@ body {
     --callout-quote: #b0a483;
     --callout-quote-rgb: 176, 164, 131;
     --highlight-bg: #d6b07b;
-    --highlight-bg-rgb: 232, 200, 154;
+    --highlight-bg-rgb: 214, 176, 123;
     --highlight-bg-dark: #c9a772;
     --highlight-bg-dark-color: #2d1f0e;
 }
@@ -1892,7 +1892,7 @@ body {
     --callout-quote: #a1c8f0;
     --callout-quote-rgb: 161, 200, 240;
     --highlight-bg: #7eb0d6;
-    --highlight-bg-rgb: 158, 197, 230;
+    --highlight-bg-rgb: 126, 176, 214;
     --highlight-bg-dark: #7aaddb;
     --highlight-bg-dark-color: #0f2535;
 }
@@ -2026,7 +2026,7 @@ body {
     --heading-senary: #b8860b;
     --heading-primary-rgb: 114, 160, 67;
     --heading-secondary-rgb: 160, 90, 139;
-    --heading-tertiary-rgb: 255, 139, 124;
+    --heading-tertiary-rgb: 255, 119, 101;
     --heading-quaternary-rgb: 107, 142, 35;
     --heading-quinary-rgb: 46, 90, 139;
     --heading-senary-rgb: 184, 134, 11;
@@ -2047,9 +2047,9 @@ body {
     --callout-video: #7ba3d4;
     --callout-video-rgb: 123, 163, 212;
     --callout-quote: #77d531;
-    --callout-quote-rgb: 184, 233, 148;
+    --callout-quote-rgb: 119, 213, 49;
     --highlight-bg: #a8d67a;
-    --highlight-bg-rgb: 200, 230, 168;
+    --highlight-bg-rgb: 168, 214, 122;
     --highlight-bg-dark: #a6d47a;
     --highlight-bg-dark-color: #1a2f0e;
 }
@@ -2182,8 +2182,8 @@ body {
     --heading-quinary: #0a6b5d;
     --heading-senary: #4b0082;
     --heading-primary-rgb: 255, 107, 157;
-    --heading-secondary-rgb: 0, 201, 183;
-    --heading-tertiary-rgb: 255, 159, 67;
+    --heading-secondary-rgb: 0, 178, 162;
+    --heading-tertiary-rgb: 252, 123, 0;
     --heading-quaternary-rgb: 243, 104, 224;
     --heading-quinary-rgb: 10, 107, 93;
     --heading-senary-rgb: 75, 0, 130;
@@ -2202,11 +2202,11 @@ body {
     --callout-cite: #573d84;
     --callout-cite-rgb: 87, 61, 132;
     --callout-video: #27cee5;
-    --callout-video-rgb: 87, 217, 235;
+    --callout-video-rgb: 39, 206, 229;
     --callout-quote: #f2bf00;
-    --callout-quote-rgb: 255, 248, 220;
+    --callout-quote-rgb: 242, 191, 0;
     --highlight-bg: #ff99bb;
-    --highlight-bg-rgb: 255, 201, 224;
+    --highlight-bg-rgb: 255, 153, 187;
     --highlight-bg-dark: #f5a8c9;
     --highlight-bg-dark-color: #4a1530;
 }
@@ -2844,7 +2844,7 @@ body {
     --callout-quote: #867462;
     --callout-quote-rgb: 134, 116, 98;
     --highlight-bg: #574a33;
-    --highlight-bg-rgb: 210, 190, 115;
+    --highlight-bg-rgb: 87, 74, 51;
     --highlight-bg-dark: #574a33;
     --highlight-bg-dark-color: #6b5a3d;
     --highlight-bg-light-color: #d2be73;
@@ -3750,7 +3750,7 @@ body.mod-macos.is-hidden-frameless.layout-card .workspace-tab-header-container-i
 
 .mod-windows .titlebar-button:hover,
 .mod-linux .titlebar-button:hover {
-    background-color: rgba(var(--background-modifier-hover-rgb), 0.5) !important;
+    background-color: var(--background-modifier-hover) !important;
 }
 
 body.is-focused .sidebar-toggle-button,
@@ -5611,7 +5611,7 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
             transparent);
 }
 
-.theme-dark .callout-style-vintage .callout {
+.theme-dark.callout-style-vintage .callout {
     background:
         repeating-linear-gradient(0deg,
             rgba(var(--callout-color-rgb), 0.05) 0px,
@@ -5679,7 +5679,7 @@ body:not(.is-mobile).callout-style-glass :is(.callout, .cm-callout) {
 }
 
 /* Dark glass callout: gradient background applies on all devices */
-.theme-dark .callout-style-glass :is(.callout, .cm-callout) {
+.theme-dark.callout-style-glass :is(.callout, .cm-callout) {
     background:
         radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.3) 0%, transparent 62%),
         radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.22) 0%, transparent 62%),
@@ -5733,7 +5733,7 @@ body:not(.is-mobile).theme-dark.callout-style-glass :is(.callout, .cm-callout) {
     z-index: -1;
 }
 
-.theme-dark .callout-style-bold .callout {
+.theme-dark.callout-style-bold .callout {
     background:
         radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.3) 0%, transparent 50%),
         radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.25) 0%, transparent 50%),
@@ -5791,7 +5791,7 @@ body:not(.is-mobile).theme-dark.callout-style-glass :is(.callout, .cm-callout) {
     outline: none;
 }
 
-.theme-dark .callout-style-card .callout {
+.theme-dark.callout-style-card .callout {
     box-shadow: 0 2px 8px rgba(var(--callout-color-rgb), .18);
 }
 
@@ -9032,7 +9032,7 @@ body:not(.is-mobile).ribbon-autohide .workspace-ribbon:is(.mod-left, .mod-primar
     box-shadow: 0 4px 12px rgba(0, 0, 0, var(--opacity-subtle));
 }
 
-.theme-dark .blockquote-style-glass :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
+.theme-dark.blockquote-style-glass :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
     background: linear-gradient(135deg, rgba(var(--background-secondary-rgb), 0.38), rgba(var(--background-secondary-rgb), 0.22));
     border-color: rgba(255, 255, 255, 0.2);
     box-shadow:
@@ -9089,7 +9089,7 @@ body:not(.is-mobile).ribbon-autohide .workspace-ribbon:is(.mod-left, .mod-primar
 }
 
 /* Bold Dramatic - Dark Mode */
-.theme-dark .blockquote-style-bold :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
+.theme-dark.blockquote-style-bold :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
     background:
         radial-gradient(ellipse at top left, rgba(var(--primary-color-rgb), 0.28) 0%, transparent 50%),
         radial-gradient(ellipse at bottom right, rgba(var(--primary-color-rgb), 0.2) 0%, transparent 50%),
@@ -9181,7 +9181,7 @@ body.is-mobile .prompt {
 }
 
 /* Fix heading backgrounds wrapping poorly on narrow screens */
-body.is-mobile .heading-style-badge .cm-line:is(.HyperMD-header-1, .HyperMD-header-2, .HyperMD-header-3) .cm-formatting-header + span {
+body.is-mobile.heading-style-badge .cm-line:is(.HyperMD-header-1, .HyperMD-header-2, .HyperMD-header-3) .cm-formatting-header + span {
     display: inline !important;
     white-space: normal !important;
     word-break: break-word !important;
@@ -11440,7 +11440,7 @@ body.tf-aurora-title:not(.terraflow-quiet) .inline-title {
         0 8px 24px rgba(0, 0, 0, .12);
 }
 
-.theme-dark .callout-style-liquid :is(.callout, .cm-callout) {
+.theme-dark.callout-style-liquid :is(.callout, .cm-callout) {
     background:
         radial-gradient(ellipse at top left,
             rgba(var(--callout-color-rgb), .3) 0%,
@@ -11567,7 +11567,7 @@ body.tf-nested-callout-inherit .callout .callout {
     border-inline-start: var(--border-heavy) solid rgba(var(--primary-color-rgb), .65);
 }
 
-.theme-dark .blockquote-style-liquid :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
+.theme-dark.blockquote-style-liquid :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
     background:
         radial-gradient(ellipse at top left,
             rgba(var(--primary-color-rgb), .2) 0%,
