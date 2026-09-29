@@ -6939,6 +6939,25 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) .sidebar-toggle-bu
     transform: scale(-1.07, 1.07);
 }
 
+/* Search option buttons (Match case, etc.) are centered natively with translateY(-50%).
+   Hover pop, press squash, Whimsy scale and the depth-shadows lift (!important) all replace that
+   transform and make the icon jump, so re-add the offset here. */
+body:not(.tf-x):not(.tf-y) .input-right-decorator.clickable-icon:hover:not(:active) {
+    transform: translateY(-50%) scale(1.07) !important;
+}
+
+body:not(.tf-x):not(.tf-y):not(.tf-z) .input-right-decorator.clickable-icon:active {
+    transform: translateY(-50%) scale(1.06, 0.9) !important;
+}
+
+body.animation-style-whimsy:not(.tf-x):not(.tf-y) .input-right-decorator.clickable-icon:hover:not(:active) {
+    transform: translateY(-50%) scale(var(--whimsy-scale-pop)) !important;
+}
+
+body.animation-style-whimsy:not(.tf-x):not(.tf-y):not(.tf-z) .input-right-decorator.clickable-icon:active {
+    transform: translateY(-50%) scale(0.9) !important;
+}
+
 /* ================================================= ==================================================
    WHIMSY ANIMATIONS (From Blobob)
 ================================================ ================================================== */
@@ -12677,7 +12696,7 @@ body.tf-hover-lift .workspace-tab-header.is-active:hover {
     transform: scale(1.04);
 }
 
-body.tf-hover-lift:not(.is-phone).depth-shadows.layout-card:not(.tf-liquid-chrome) .workspace-tab-header.is-active {
+body.tf-hover-lift:not(.is-phone).depth-shadows.layout-card:not(.tf-liquid-chrome) .workspace-tab-header.is-active:not(.workspace-split.mod-left-split .workspace-tab-header):not(.workspace-split.mod-right-split .workspace-tab-header) {
     transform: translateY(-2px) !important;
 }
 
