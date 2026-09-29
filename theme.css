@@ -8541,6 +8541,14 @@ body.layout-card .workspace-leaf {
     margin: 5px;
 }
 
+/* The leaf's margin pushes it 10px past the tab container. overflow: hidden
+   still lets script scroll that overflow, so Obsidian's scrollIntoView calls
+   slowly moved the card up under the tabs. clip looks the same but cannot
+   be scrolled. */
+body.layout-card .workspace-tab-container {
+    overflow: clip;
+}
+
 /* Leaf content - THE CARD (desktop and mobile) */
 body.layout-card .workspace-leaf-content {
     background-color: var(--card-bg) !important;
