@@ -277,6 +277,18 @@ settings:
         type: class-toggle
         default: false
     -
+        id: tf-hover-lift
+        title: Hover lift
+        description: Headings, callouts, quotes, code blocks, properties, and tabs rise slightly under the pointer
+        type: class-toggle
+        default: false
+    -
+        id: tf-softer
+        title: Softer look
+        description: Removes shadows from heading badges, link chips, and highlights, and weakens the accent fill on Default and Liquid callouts. Colors and layout stay the same
+        type: class-toggle
+        default: false
+    -
         id: neutral-chrome
         title: Neutral chrome
         description: Reserve the accent color for selection and active states — icon and button hovers wash gray instead of tinting, and the accent glow is removed
@@ -1131,6 +1143,18 @@ body {
     --line-height-normal: var(--line-normal);
     --file-line-width: var(--line-width, 64ch);
     --glass-bg: rgba(var(--background-secondary-rgb), var(--tf-glass-tint, 65%));
+    /* Tonal ladder in the season hue: hover < active < selected */
+    --tf-tone-hover-a: .06;
+    --tf-tone-active-a: .10;
+    --tf-tone-selected-a: .14;
+    --tf-tone-hover: rgba(var(--primary-color-rgb), var(--tf-tone-hover-a));
+    --tf-tone-active: rgba(var(--primary-color-rgb), var(--tf-tone-active-a));
+    --tf-tone-selected: rgba(var(--primary-color-rgb), var(--tf-tone-selected-a));
+}
+
+/* Black drop shadows vanish on dark surfaces; deepen them so hover depth reads */
+body.theme-dark {
+    --shadow-3: 0 6px 18px rgba(0, 0, 0, .28);
 }
 
 /* Colored highlights (Obsidian 1.14+) — six hue anchors, fixed across every
@@ -3682,13 +3706,12 @@ body:not(.is-phone).depth-shadows.layout-card:not(.tf-liquid-chrome) .workspace-
 body:not(.is-phone).depth-shadows.layout-card:not(.tf-liquid-chrome) .workspace-tab-header.is-active {
     background-color: var(--background-primary) !important;
     border: none !important;
-    transform: translateY(-2px) !important;
+    transform: translateY(-1px) !important;
     box-shadow: var(--depth-2);
 }
 
 body:not(.is-phone).depth-shadows.layout-card .workspace-tab-header:not(.is-active):hover {
-    transform: scale(1.02);
-    background-color: rgba(var(--background-secondary-rgb), 0.5);
+    background-color: var(--tf-tone-hover);
 }
 
 body:not(.is-phone).layout-card .workspace-tab-header-inner-title {
@@ -4134,7 +4157,6 @@ body.h6-case-upper :is(h6, .cm-header-6) {
 
 /* Heading Hover Effects */
 :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-line) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6):hover {
-    transform: translateY(-2px);
     filter: brightness(1.05);
     box-shadow: var(--shadow-1);
 }
@@ -4331,10 +4353,6 @@ body.h6-case-upper :is(h6, .cm-header-6) {
     -electron-corner-smoothing: 0%;
 }
 
-.heading-style-badge :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-line) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6):hover {
-    transform: scale(1.02);
-}
-
 /* Glass Style - Frosted, soft tint per heading level */
 .heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
     border-radius: var(--r3);
@@ -4376,7 +4394,6 @@ body:not(.is-mobile).heading-style-glass :is(.markdown-preview-view, .markdown-s
 }
 
 .heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6):hover {
-    transform: translateY(-2px);
     box-shadow:
         0 10px 22px rgba(0, 0, 0, 0.18),
         inset 0 1px 0 rgba(255, 255, 255, 0.45);
@@ -4913,7 +4930,8 @@ body.link-style-default :is(p, li)>:is(a, .internal-link, .external-link, .cm-li
     display: none;
 }
 
-.nav-files-container>div>.nav-folder:hover {
+/* Folder-card lift is opt-in (Hover lift) */
+body.tf-hover-lift .nav-files-container>div>.nav-folder:hover {
     transform: translateY(-2px);
 }
 
@@ -4963,12 +4981,8 @@ body.link-style-default :is(p, li)>:is(a, .internal-link, .external-link, .cm-li
 }
 
 .nav-file-title:is(:not(.is-active)):hover {
-    background-color: rgba(255, 255, 255, var(--link-opacity-normal)) !important;
-    filter: brightness(1.15);
-}
-
-.theme-dark .nav-file-title:is(:not(.is-active)):hover {
-    background-color: rgba(255, 255, 255, var(--link-opacity-unresolved)) !important;
+    background-color: rgba(var(--folder-heading-rgb, var(--primary-color-rgb)), var(--tf-tone-hover-a)) !important;
+    filter: none;
 }
 
 /* ============================== */
@@ -5059,7 +5073,7 @@ body.explorer-style-glass .nav-files-container .nav-folder-title:hover {
 
 /* Active file: liquid-glass pill — tinted fill under a specular highlight */
 body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.is-active .nav-file-title-content {
-    background-color: rgba(var(--folder-heading-rgb), .22);
+    background-color: color-mix(in srgb, var(--background-primary) 70%, transparent);
     background-image: linear-gradient(180deg, rgba(255, 255, 255, .25), rgba(255, 255, 255, 0) 60%);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4), 0 2px 8px rgba(0, 0, 0, .1);
     color: var(--text-normal);
@@ -5098,12 +5112,12 @@ body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.i
     inset-inline-start: 0;
     inset-block-start: 50%;
     transform: translateY(-50%);
-    block-size: 70%;
+    block-size: 80%;
     inline-size: 3px;
     border-radius: 0 var(--r1) var(--r1) 0;
     -electron-corner-smoothing: var(--squircle-main);
     corner-shape: squircle;
-    opacity: .8;
+    opacity: .9;
     z-index: 2;
 }
 
@@ -5120,36 +5134,61 @@ body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.i
 }
 
 .nav-files-container>div>.nav-folder .nav-file-title.is-active .nav-file-title-content {
-    background-color: rgba(var(--folder-heading-rgb), .25);
+    background-color: color-mix(in srgb, var(--background-primary) 70%, transparent);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
     color: var(--folder-text-color);
 }
 
-.nav-file-title.is-selected {
-    position: relative;
-    background-color: rgba(var(--primary-color-rgb), .15) !important;
+/* Dark surfaces are darker than the folder card, so lift the chip with a text-color mix instead */
+body.theme-dark .nav-files-container>div>.nav-folder .nav-file-title.is-active .nav-file-title-content {
+    background-color: color-mix(in srgb, var(--text-normal) 9%, transparent);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 2px 8px rgba(0, 0, 0, .25);
+}
+
+/* Multi-select: flat chip in the folder hue behind the label (same geometry as the active chip, no lift) */
+body .nav-files-container .nav-file-title.is-selected,
+body .nav-files-container .nav-file-title.is-selected:hover {
+    background-color: transparent !important;
+    filter: none;
+}
+
+.nav-files-container .nav-file-title.is-selected:not(.is-active) .nav-file-title-content {
+    display: inline-block;
+    inline-size: auto;
+    padding-block: var(--s1);
+    padding-inline: var(--s2);
+    margin-block: calc(var(--s1) * -1);
+    margin-inline-start: calc(var(--s2) * -1);
+    background-color: rgba(var(--folder-heading-rgb, var(--primary-color-rgb)), var(--tf-tone-selected-a));
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
     corner-shape: squircle;
-}
-
-.nav-file-title.is-selected .nav-file-title-content {
-    color: var(--text-normal);
+    color: var(--folder-text-color, var(--text-normal));
     font-weight: var(--weight-medium);
 }
 
-.nav-file-title.is-selected::before {
-    content: "";
-    position: absolute;
-    inset-inline-start: 0;
-    inset-block-start: 50%;
-    transform: translateY(-50%);
-    block-size: 60%;
-    inline-size: 3px;
-    border-radius: 0 var(--r1) var(--r1) 0;
+.nav-files-container .nav-file-title.is-selected:not(.is-active):hover .nav-file-title-content {
+    background-color: rgba(var(--folder-heading-rgb, var(--primary-color-rgb)), calc(var(--tf-tone-selected-a) + var(--tf-tone-hover-a)));
+}
+
+/* Selected + active: keep the raised chip, add a hue hairline */
+.nav-file-title.is-active.is-selected .nav-file-title-content {
+    outline: var(--border-thin, 1px) solid rgba(var(--folder-heading-rgb, var(--primary-color-rgb)), .45);
+    outline-offset: -1px;
+}
+
+/* Folders in a multi-select: same flat chip (text colour already set above) */
+body .nav-files-container .nav-folder-title.is-selected {
+    background-color: transparent !important;
+}
+
+.nav-files-container .nav-folder-title.is-selected .nav-folder-title-content {
+    padding-inline: var(--s2);
+    margin-inline-start: calc(var(--s2) * -1);
+    background-color: rgba(var(--folder-heading-rgb, var(--primary-color-rgb)), var(--tf-tone-selected-a));
+    border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
     corner-shape: squircle;
-    background-color: var(--primary-color);
-    opacity: .7;
 }
 
 /* Callout Styling */
@@ -5179,19 +5218,12 @@ body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.i
     box-shadow: var(--shadow-3);
 }
 
-.callout:hover {
-    transform: translateY(-2px);
-}
-
-.callout:active {
-    transform: translateY(0);
-    transition-duration: var(--fast);
-}
+/* Callouts stay put on hover; depth/shadow rules carry the feedback */
 
 .callout .callout-title {
     display: flex;
     align-items: center;
-    gap: .75em;
+    gap: .35em;
     font-weight: var(--weight-semibold);
     font-size: 1.1em;
     padding-block: 0;
@@ -5246,49 +5278,49 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) .callout:not(.is-c
 :is(.callout[data-callout="note"], .callout[data-callout="default"], .markdown-source-view.mod-cm6 .cm-callout.cm-callout-note, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-default) {
     --callout-color: var(--callout-note);
     --callout-color-rgb: var(--callout-note-rgb);
-    background-color: rgba(var(--callout-note-rgb), .12);
+    background-color: rgba(var(--callout-note-rgb), var(--tf-callout-wash, .12));
     border-inline-start-color: var(--callout-note);
 }
 
 :is(.callout[data-callout="info"], .markdown-source-view.mod-cm6 .cm-callout.cm-callout-info) {
     --callout-color: var(--callout-info);
     --callout-color-rgb: var(--callout-info-rgb);
-    background-color: rgba(var(--callout-info-rgb), .12);
+    background-color: rgba(var(--callout-info-rgb), var(--tf-callout-wash, .12));
     border-inline-start-color: var(--callout-info);
 }
 
 :is(.callout[data-callout="warning"], .callout[data-callout="caution"], .callout[data-callout="attention"], .callout[data-callout="question"], .callout[data-callout="help"], .callout[data-callout="faq"], .markdown-source-view.mod-cm6 .cm-callout.cm-callout-warning, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-caution, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-attention, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-question, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-help, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-faq) {
     --callout-color: var(--callout-warning);
     --callout-color-rgb: var(--callout-warning-rgb);
-    background-color: rgba(var(--callout-warning-rgb), .12);
+    background-color: rgba(var(--callout-warning-rgb), var(--tf-callout-wash, .12));
     border-inline-start-color: var(--callout-warning);
 }
 
 :is(.callout[data-callout="success"], .callout[data-callout="check"], .callout[data-callout="done"], .callout[data-callout="todo"], .callout[data-callout="tip"], .callout[data-callout="hint"], .callout[data-callout="summary"], .callout[data-callout="abstract"], .callout[data-callout="tldr"], .markdown-source-view.mod-cm6 .cm-callout.cm-callout-success, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-check, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-done, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-todo, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-tip, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-hint, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-summary, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-abstract, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-tldr) {
     --callout-color: var(--callout-success);
     --callout-color-rgb: var(--callout-success-rgb);
-    background-color: rgba(var(--callout-success-rgb), .12);
+    background-color: rgba(var(--callout-success-rgb), var(--tf-callout-wash, .12));
     border-inline-start-color: var(--callout-success);
 }
 
 :is(.callout[data-callout="danger"], .callout[data-callout="error"], .callout[data-callout="failure"], .callout[data-callout="bug"], .callout[data-callout="important"], .markdown-source-view.mod-cm6 .cm-callout.cm-callout-danger, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-error, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-failure, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-bug, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-important) {
     --callout-color: var(--callout-danger);
     --callout-color-rgb: var(--callout-danger-rgb);
-    background-color: rgba(var(--callout-danger-rgb), .12);
+    background-color: rgba(var(--callout-danger-rgb), var(--tf-callout-wash, .12));
     border-inline-start-color: var(--callout-danger);
 }
 
 :is(.callout[data-callout="example"], .callout[data-callout="quote"], .markdown-source-view.mod-cm6 .cm-callout.cm-callout-example, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-quote) {
     --callout-color: var(--callout-example);
     --callout-color-rgb: var(--callout-example-rgb);
-    background-color: rgba(var(--callout-example-rgb), .12);
+    background-color: rgba(var(--callout-example-rgb), var(--tf-callout-wash, .12));
     border-inline-start-color: var(--callout-example);
 }
 
 :is(.callout[data-callout="cite"], .markdown-source-view.mod-cm6 .cm-callout.cm-callout-cite) {
     --callout-color: var(--callout-cite);
     --callout-color-rgb: var(--callout-cite-rgb);
-    background-color: rgba(var(--callout-cite-rgb), .12);
+    background-color: rgba(var(--callout-cite-rgb), var(--tf-callout-wash, .12));
     border-inline-start-color: var(--callout-cite);
     --callout-icon: lucide-book;
 }
@@ -5296,7 +5328,7 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) .callout:not(.is-c
 :is(.callout[data-callout="video"], .markdown-source-view.mod-cm6 .cm-callout.cm-callout-video) {
     --callout-color: var(--callout-video);
     --callout-color-rgb: var(--callout-video-rgb);
-    background-color: rgba(var(--callout-video-rgb), .12);
+    background-color: rgba(var(--callout-video-rgb), var(--tf-callout-wash, .12));
     border-inline-start-color: var(--callout-video);
     --callout-icon: lucide-video;
 }
@@ -5488,7 +5520,6 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
 }
 
 :is(.callout, .cm-callout) .callout-content :is(h1, h2, h3, h4, h5, h6):hover {
-    transform: translateY(-2px);
     filter: brightness(1.05);
     box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
 }
@@ -5655,7 +5686,6 @@ body:not(.is-mobile).theme-dark.callout-style-glass :is(.callout, .cm-callout) {
 }
 
 .callout-style-glass .callout:hover {
-    transform: translateY(-3px);
     box-shadow:
         0 12px 40px rgba(0, 0, 0, var(--opacity-divider)),
         inset 0 1px 0 rgba(255, 255, 255, 0.4),
@@ -5709,7 +5739,6 @@ body:not(.is-mobile).theme-dark.callout-style-glass :is(.callout, .cm-callout) {
         0 0 0 3px rgba(var(--callout-color-rgb), 0.2),
         0 8px 24px rgba(0, 0, 0, var(--opacity-overlay)),
         inset 0 0 25px rgba(var(--callout-color-rgb), 0.08);
-    transform: translateY(-2px) scale(1.01);
 }
 
 .callout-style-bold .callout .callout-title {
@@ -6059,7 +6088,6 @@ body:not(.is-mobile).callout-style-card .callout:hover {
 
 :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote):hover {
     box-shadow: var(--shadow-3);
-    transform: translateY(-2px);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
     corner-shape: squircle;
@@ -6111,7 +6139,6 @@ body:not(.is-mobile).callout-style-card .callout:hover {
 
 :is(.markdown-rendered code, .markdown-preview-view code, .cm-s-obsidian .cm-inline-code):not(pre code):hover {
     background-color: rgba(var(--primary-color-rgb), .1);
-    transform: translateY(-1px);
 }
 
 .theme-dark :is(.markdown-rendered code, .markdown-preview-view code, .cm-s-obsidian .cm-inline-code):not(pre code) {
@@ -6158,12 +6185,17 @@ body:not(.is-mobile).callout-style-card .callout:hover {
     box-shadow: var(--shadow-3), inset 0 2px 8px rgba(0, 0, 0, .25);
 }
 
+/* Light: a seasonal tint instead of a black 10% overlay, which turned cream
+   palettes (Autumn) muddy gray. Lighter fill also raises code-text contrast. */
+.theme-light :is(.markdown-rendered pre, .markdown-preview-view pre, .markdown-source-view.mod-cm6 .cm-embed-block.cm-embed-codeblock) {
+    background-image: linear-gradient(rgba(var(--primary-color-rgb), .05), rgba(var(--primary-color-rgb), .05));
+}
+
 /* Same specificity as .theme-dark above (0,2,1) — must come after it so hover
    wins the tie in dark theme too, not just light (was reversed: dark's
    resting border-color/box-shadow silently beat the hover state). */
 :is(.markdown-rendered pre, .markdown-preview-view pre):hover {
     box-shadow: var(--shadow-3);
-    transform: translateY(-2px);
     border-color: rgba(var(--primary-color-rgb), .15);
 }
 
@@ -6194,7 +6226,8 @@ body:not(.is-mobile).callout-style-card .callout:hover {
    on a darker background. */
 .markdown-source-view.mod-cm6 .cm-line.HyperMD-codeblock {
     background-color: var(--background-secondary-alt);
-    filter: brightness(0.92);
+    background-image: linear-gradient(rgba(var(--primary-color-rgb), .05), rgba(var(--primary-color-rgb), .05));
+    filter: none;
     margin: 0;
     padding-inline-start: var(--s3);
     padding-inline-end: var(--s2);
@@ -7411,16 +7444,15 @@ body:not(.disable-modal-frost) .modal-bg {
 }
 
 .metadata-container:hover {
-    transform: translateY(-2px);
     box-shadow: var(--shadow-3);
 }
 
 .metadata-container .metadata-properties-heading {
-    font-weight: var(--weight-bold);
-    color: var(--heading-primary);
+    font-weight: var(--weight-semibold);
+    color: var(--text-faint);
     margin-block-end: var(--s3);
-    font-size: 1.1em;
-    letter-spacing: .02em;
+    font-size: .78em;
+    letter-spacing: .08em;
     text-transform: uppercase;
     position: relative;
 }
@@ -7436,7 +7468,36 @@ body:not(.disable-modal-frost) .modal-bg {
 }
 
 .metadata-container .metadata-property-key:hover {
-    background-color: rgba(var(--primary-color-rgb), .05);
+    background-color: var(--tf-tone-hover);
+}
+
+/* Keys are labels: light seasonal tint and muted text, so values carry the weight */
+.metadata-container .metadata-property-key-input {
+    background-color: var(--tf-tone-hover);
+    color: var(--text-muted);
+    box-shadow: none;
+}
+
+.metadata-container .metadata-property-key-input:focus {
+    background-color: var(--tf-tone-active);
+    color: var(--text-normal);
+}
+
+/* Dark Monochrome paints every text input with --mono-well !important (line ~3184);
+   keys are labels, not form fields, so out-rank it here */
+.theme-dark.enable-monochrome .metadata-container .metadata-property-key-input {
+    background-color: var(--tf-tone-hover) !important;
+    border: none !important;
+    color: var(--text-muted) !important;
+}
+
+.theme-dark.enable-monochrome .metadata-container .metadata-property-key-input:focus {
+    background-color: var(--tf-tone-active) !important;
+    color: var(--text-normal) !important;
+}
+
+.metadata-container .multi-select-pill {
+    font-size: .85em;
 }
 
 .metadata-container .collapse-icon {
@@ -7488,7 +7549,6 @@ body:not(.disable-modal-frost) .modal-bg {
 
 .workspace-tab-header:hover {
     color: var(--text-normal);
-    transform: scale(1.04);
 }
 
 .workspace-tab-header.is-active {
@@ -7496,11 +7556,6 @@ body:not(.disable-modal-frost) .modal-bg {
     color: var(--text-normal);
     font-weight: var(--weight-semibold);
     z-index: 2;
-    transform: scale(1.02);
-}
-
-.workspace-tab-header.is-active:hover {
-    transform: scale(1.04);
 }
 
 .workspace-tab-header-inner {
@@ -7527,7 +7582,11 @@ body:not(.disable-modal-frost) .modal-bg {
    this rule's higher specificity. Low contrast and Pill tabs opt out: both set
    inactive tabs transparent (!important) and lost to this rule's specificity. */
 body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs) .workspace-tab-header:not(.is-active):not(.workspace-split.mod-left-split .workspace-tab-header):not(.workspace-split.mod-right-split .workspace-tab-header) {
-    background-color: rgba(var(--primary-color-rgb), 0.08) !important;
+    background-color: transparent !important;
+}
+
+body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs) .workspace-tab-header:not(.is-active):not(.workspace-split.mod-left-split .workspace-tab-header):not(.workspace-split.mod-right-split .workspace-tab-header):hover {
+    background-color: var(--tf-tone-hover) !important;
 }
 
 /* View Header Styling */
@@ -7543,7 +7602,6 @@ body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.
 .view-header:hover {
     box-shadow: var(--shadow-3);
     background-color: rgba(var(--background-primary-rgb), .92);
-    transform: translateY(-2px);
 }
 
 .theme-dark .view-header {
@@ -7813,48 +7871,72 @@ body:not(.disable-status-bar) .status-bar:hover .status-bar-item button:hover {
     color: var(--heading-primary);
 }
 
-.workspace-leaf-content[data-type="outline"] .view-content>div>.tree-item>.tree-item-self:is(:hover, .is-active) {
-    background-color: rgba(var(--heading-primary-rgb), .12);
+.workspace-leaf-content[data-type="outline"] .view-content>div>.tree-item>.tree-item-self:hover {
+    background-color: rgba(var(--heading-primary-rgb), var(--tf-tone-hover-a));
+}
+
+.workspace-leaf-content[data-type="outline"] .view-content>div>.tree-item>.tree-item-self.is-active {
+    background-color: rgba(var(--heading-primary-rgb), var(--tf-tone-active-a));
 }
 
 .workspace-leaf-content[data-type="outline"] .tree-item-children>.tree-item>.tree-item-self {
     color: var(--heading-secondary);
 }
 
-.workspace-leaf-content[data-type="outline"] .tree-item-children>.tree-item>.tree-item-self:is(:hover, .is-active) {
-    background-color: rgba(var(--heading-secondary-rgb), .12);
+.workspace-leaf-content[data-type="outline"] .tree-item-children>.tree-item>.tree-item-self:hover {
+    background-color: rgba(var(--heading-secondary-rgb), var(--tf-tone-hover-a));
+}
+
+.workspace-leaf-content[data-type="outline"] .tree-item-children>.tree-item>.tree-item-self.is-active {
+    background-color: rgba(var(--heading-secondary-rgb), var(--tf-tone-active-a));
 }
 
 .workspace-leaf-content[data-type="outline"] .tree-item-children .tree-item-children>.tree-item>.tree-item-self {
     color: var(--heading-tertiary);
 }
 
-.workspace-leaf-content[data-type="outline"] .tree-item-children .tree-item-children>.tree-item>.tree-item-self:is(:hover, .is-active) {
-    background-color: rgba(var(--heading-tertiary-rgb), .12);
+.workspace-leaf-content[data-type="outline"] .tree-item-children .tree-item-children>.tree-item>.tree-item-self:hover {
+    background-color: rgba(var(--heading-tertiary-rgb), var(--tf-tone-hover-a));
+}
+
+.workspace-leaf-content[data-type="outline"] .tree-item-children .tree-item-children>.tree-item>.tree-item-self.is-active {
+    background-color: rgba(var(--heading-tertiary-rgb), var(--tf-tone-active-a));
 }
 
 .workspace-leaf-content[data-type="outline"] .tree-item-children .tree-item-children .tree-item-children>.tree-item>.tree-item-self {
     color: var(--heading-quaternary);
 }
 
-.workspace-leaf-content[data-type="outline"] .tree-item-children .tree-item-children .tree-item-children>.tree-item>.tree-item-self:is(:hover, .is-active) {
-    background-color: rgba(var(--heading-quaternary-rgb), .12);
+.workspace-leaf-content[data-type="outline"] .tree-item-children .tree-item-children .tree-item-children>.tree-item>.tree-item-self:hover {
+    background-color: rgba(var(--heading-quaternary-rgb), var(--tf-tone-hover-a));
+}
+
+.workspace-leaf-content[data-type="outline"] .tree-item-children .tree-item-children .tree-item-children>.tree-item>.tree-item-self.is-active {
+    background-color: rgba(var(--heading-quaternary-rgb), var(--tf-tone-active-a));
 }
 
 .workspace-leaf-content[data-type="outline"] .tree-item-children .tree-item-children .tree-item-children .tree-item-children>.tree-item>.tree-item-self {
     color: var(--heading-quinary);
 }
 
-.workspace-leaf-content[data-type="outline"] .tree-item-children .tree-item-children .tree-item-children .tree-item-children>.tree-item>.tree-item-self:is(:hover, .is-active) {
-    background-color: rgba(var(--heading-quinary-rgb), .12);
+.workspace-leaf-content[data-type="outline"] .tree-item-children .tree-item-children .tree-item-children .tree-item-children>.tree-item>.tree-item-self:hover {
+    background-color: rgba(var(--heading-quinary-rgb), var(--tf-tone-hover-a));
+}
+
+.workspace-leaf-content[data-type="outline"] .tree-item-children .tree-item-children .tree-item-children .tree-item-children>.tree-item>.tree-item-self.is-active {
+    background-color: rgba(var(--heading-quinary-rgb), var(--tf-tone-active-a));
 }
 
 .workspace-leaf-content[data-type="outline"] .tree-item-children .tree-item-children .tree-item-children .tree-item-children .tree-item-children>.tree-item>.tree-item-self {
     color: var(--heading-senary);
 }
 
-.workspace-leaf-content[data-type="outline"] .tree-item-children .tree-item-children .tree-item-children .tree-item-children .tree-item-children>.tree-item>.tree-item-self:is(:hover, .is-active) {
-    background-color: rgba(var(--heading-senary-rgb), .12);
+.workspace-leaf-content[data-type="outline"] .tree-item-children .tree-item-children .tree-item-children .tree-item-children .tree-item-children>.tree-item>.tree-item-self:hover {
+    background-color: rgba(var(--heading-senary-rgb), var(--tf-tone-hover-a));
+}
+
+.workspace-leaf-content[data-type="outline"] .tree-item-children .tree-item-children .tree-item-children .tree-item-children .tree-item-children>.tree-item>.tree-item-self.is-active {
+    background-color: rgba(var(--heading-senary-rgb), var(--tf-tone-active-a));
 }
 
 /* Scrollbar Styling */
@@ -8760,7 +8842,7 @@ body.layout-card .view-header :is(.view-actions, .view-header-nav-buttons) .clic
 }
 
 .search-result-file-title:hover {
-    background-color: rgba(var(--primary-color-rgb), 0.1);
+    background-color: var(--tf-tone-hover);
     color: var(--primary-color);
 }
 
@@ -8809,7 +8891,7 @@ body.layout-card .search-result-file-match {
 }
 
 body.layout-card .search-result-file-match:hover {
-    background-color: rgba(var(--primary-color-rgb), 0.05) !important;
+    background-color: var(--tf-tone-hover) !important;
 }
 
 body.layout-card .search-result-file-match em {
@@ -9068,7 +9150,6 @@ body:not(.is-mobile).ribbon-autohide .workspace-ribbon:is(.mod-left, .mod-primar
         0 0 0 3px rgba(var(--primary-color-rgb), 0.2),
         0 8px 24px rgba(0, 0, 0, var(--opacity-overlay)),
         inset 0 0 25px rgba(var(--primary-color-rgb), 0.08);
-    transform: translateY(-2px) scale(1.01);
 }
 
 /* ============================== */
@@ -9374,12 +9455,10 @@ body.depth-shadows :is(.callout, .metadata-container, .canvas-card) {
 
 body.depth-shadows .callout:hover {
     box-shadow: var(--depth-3);
-    transform: translateY(-2px) !important;
 }
 
 body.depth-shadows .metadata-container:hover {
     box-shadow: var(--depth-3);
-    transform: translateY(-1px) !important;
 }
 
 /* Canvas cards - depth 4 on hover */
@@ -9465,6 +9544,16 @@ body.depth-shadows .workspace-tab-header:hover {
 
 body.depth-shadows .workspace-tab-header.is-active {
     box-shadow: var(--depth-2);
+}
+
+/* Editor strip: only the active tab is a raised chip. Same exclusions as the
+   inactive-fill rule in the tab header section. */
+body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs).depth-shadows .workspace-tab-header:not(.is-active):not(.workspace-split.mod-left-split .workspace-tab-header):not(.workspace-split.mod-right-split .workspace-tab-header) {
+    box-shadow: none;
+}
+
+body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs).depth-shadows .workspace-tab-header:not(.is-active):not(.workspace-split.mod-left-split .workspace-tab-header):not(.workspace-split.mod-right-split .workspace-tab-header):hover {
+    box-shadow: var(--depth-1);
 }
 
 /* Sidebar tabs - NO individual shadows, only on the pill container */
@@ -10074,8 +10163,6 @@ body.neutral-chrome .side-dock-ribbon-action .clickable-icon:hover {
 /* ============================== */
 
 /* Halve hover lifts for callouts, cards, pills, buttons */
-body.terraflow-quiet.depth-shadows .callout:hover,
-body.terraflow-quiet.depth-shadows .metadata-container:hover,
 body.terraflow-quiet.depth-shadows .canvas-card:hover {
     transform: translateY(-1px) !important;
 }
@@ -11433,10 +11520,13 @@ body:not(.is-mobile):not(.terraflow-quiet).callout-style-liquid .callout:hover::
 /* ============================== */
 /*   NESTED CALLOUTS              */
 /* ============================== */
-/* Placed after every callout style block above: variant selectors like
+/* Placed after every callout style block above: light variants like
    .callout-style-liquid :is(.callout, .cm-callout) are 0,2,0, same as
-   .callout .callout below, so source order decides the winner. Any new
-   callout style must be added ABOVE this section, not below it. */
+   .callout .callout below, and the .theme-dark.callout-style-X variants
+   are 0,3,0, same as .theme-dark .callout .callout below, so source
+   order decides both. Any new callout style, light or dark, must be
+   added ABOVE this section, not below it. Softer (end of file) carries
+   its own 0,4,1 nested rule. */
 
 /* Hand the outer callout's color down so the optional inherit toggle
    below can read it — each nesting level re-exports for its own child.
@@ -11472,6 +11562,16 @@ body:not(.is-mobile):not(.terraflow-quiet).callout-style-liquid .callout:hover::
     box-shadow: none !important;
 }
 
+/* Dark twin of the reset above. Every .theme-dark.callout-style-X rule
+   is 0,3,0 and beats the 0,2,0 reset whatever the order, so a dark nested
+   callout kept its parent style's gradients. 0,3,0 here ties those rules
+   and wins on source order. border-inline-start-color: dark Glass sets
+   border-color at 0,3,0, which dims the accent bar on custom types. */
+.theme-dark .callout .callout {
+    background-image: none;
+    border-inline-start-color: var(--callout-color);
+}
+
 .callout .callout:hover {
     transform: none;
 }
@@ -11490,7 +11590,7 @@ body:not(.is-mobile):not(.terraflow-quiet).callout-style-liquid .callout:hover::
 body.tf-nested-callout-inherit .callout .callout {
     --callout-color: var(--tf-parent-callout) !important;
     --callout-color-rgb: var(--tf-parent-callout-rgb) !important;
-    background-color: rgba(var(--tf-parent-callout-rgb), .12) !important;
+    background-color: rgba(var(--tf-parent-callout-rgb), var(--tf-callout-wash, .12)) !important;
     border-inline-start-color: var(--tf-parent-callout) !important;
 }
 
@@ -12476,4 +12576,180 @@ body.tf-season-mermaid .mermaid .grid .tick line {
 .footnotes li::marker {
     color: var(--text-faint);
     font-variant-numeric: tabular-nums;
+}
+
+/* ============================== */
+/*   HOVER LIFT (opt-in)          */
+/* ============================== */
+/* Default TerraFlow keeps reading surfaces still on hover. This block restores
+   the original lifts when the Hover lift toggle is on. Kept last so it wins
+   over every variant rule above. */
+
+body.tf-hover-lift :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-line) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6):hover {
+    transform: translateY(-2px);
+}
+
+body.tf-hover-lift.heading-style-badge :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-line) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6):hover {
+    transform: scale(1.02);
+}
+
+body.tf-hover-lift.heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6):hover {
+    transform: translateY(-2px);
+}
+
+body.tf-hover-lift :is(.callout, .cm-callout) .callout-content :is(h1, h2, h3, h4, h5, h6):hover {
+    transform: translateY(-2px);
+}
+
+body.tf-hover-lift .callout:hover {
+    transform: translateY(-2px);
+}
+
+body.tf-hover-lift .callout:active {
+    transform: translateY(0);
+    transition-duration: var(--fast);
+}
+
+body.tf-hover-lift.callout-style-glass .callout:hover {
+    transform: translateY(-3px);
+}
+
+body.tf-hover-lift.callout-style-bold .callout:hover,
+body.tf-hover-lift.blockquote-style-bold :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote):hover {
+    transform: translateY(-2px) scale(1.01);
+}
+
+body.tf-hover-lift.depth-shadows .callout:hover {
+    transform: translateY(-2px) !important;
+}
+
+body.tf-hover-lift.depth-shadows .metadata-container:hover {
+    transform: translateY(-1px) !important;
+}
+
+body.tf-hover-lift :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote):hover {
+    transform: translateY(-2px);
+}
+
+body.tf-hover-lift :is(.markdown-rendered code, .markdown-preview-view code, .cm-s-obsidian .cm-inline-code):not(pre code):hover {
+    transform: translateY(-1px);
+}
+
+body.tf-hover-lift :is(.markdown-rendered pre, .markdown-preview-view pre):hover {
+    transform: translateY(-2px);
+}
+
+body.tf-hover-lift .metadata-container:hover,
+body.tf-hover-lift .view-header:hover {
+    transform: translateY(-2px);
+}
+
+body.tf-hover-lift .workspace-tab-header:hover {
+    transform: scale(1.04);
+}
+
+body.tf-hover-lift .workspace-tab-header.is-active {
+    transform: scale(1.02);
+}
+
+body.tf-hover-lift .workspace-tab-header.is-active:hover {
+    transform: scale(1.04);
+}
+
+body.tf-hover-lift:not(.is-phone).depth-shadows.layout-card:not(.tf-liquid-chrome) .workspace-tab-header.is-active {
+    transform: translateY(-2px) !important;
+}
+
+body.tf-hover-lift:not(.is-phone).depth-shadows.layout-card .workspace-tab-header:not(.is-active):hover {
+    transform: scale(1.02);
+}
+
+body.terraflow-quiet.tf-hover-lift.depth-shadows .callout:hover,
+body.terraflow-quiet.tf-hover-lift.depth-shadows .metadata-container:hover {
+    transform: translateY(-1px) !important;
+}
+
+/* ============================== */
+/*   SOFTER LOOK (opt-in)         */
+/* ============================== */
+/* One "Softer look" switch: flat heading badges, plain link chips and
+   highlights, weaker Default/Liquid callout tint. Off by default; it only
+   removes shadow or tint strength. */
+
+body.tf-softer.heading-style-badge :is(.markdown-preview-view, .markdown-reading-view, .markdown-source-view.mod-cm6 .cm-line) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6),
+body.tf-softer.heading-style-badge :is(.markdown-preview-view, .markdown-reading-view, .markdown-source-view.mod-cm6 .cm-line) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6):hover {
+    box-shadow: none;
+}
+
+body.tf-softer.link-style-glow :is(.markdown-rendered a, .markdown-rendered .internal-link, .markdown-rendered .external-link, .markdown-source-view.mod-cm6 .cm-link, .markdown-source-view.mod-cm6 .cm-url, .markdown-source-view.mod-cm6 .cm-hmd-internal-link, .markdown-source-view.mod-cm6 .cm-hmd-external-link) {
+    background: rgba(var(--primary-color-rgb), .04);
+    box-shadow: none;
+}
+
+body.tf-softer.link-style-glow :is(.markdown-rendered a, .markdown-rendered .internal-link, .markdown-rendered .external-link, .markdown-source-view.mod-cm6 .cm-link, .markdown-source-view.mod-cm6 .cm-url, .markdown-source-view.mod-cm6 .cm-hmd-internal-link, .markdown-source-view.mod-cm6 .cm-hmd-external-link):hover {
+    text-shadow: none;
+    box-shadow: none;
+    transform: none;
+}
+
+body.tf-softer :is(.markdown-rendered mark, span.cm-highlight, .markdown-preview-view mark, .cm-s-obsidian span.cm-highlight),
+body.tf-softer :is(.markdown-rendered mark, span.cm-highlight, .markdown-preview-view mark, .cm-s-obsidian span.cm-highlight):hover {
+    box-shadow: none;
+    text-shadow: none;
+}
+
+body.tf-softer.callout-style-default .callout {
+    background:
+        radial-gradient(ellipse at bottom right,
+            rgba(var(--callout-color-rgb), .1) 0%,
+            transparent 70%),
+        linear-gradient(135deg,
+            rgba(var(--callout-color-rgb), .01) 0%,
+            rgba(var(--callout-color-rgb), .02) 100%);
+}
+
+body.theme-dark.tf-softer.callout-style-default .callout {
+    background:
+        radial-gradient(ellipse at bottom right,
+            rgba(var(--callout-color-rgb), .16) 0%,
+            transparent 70%),
+        linear-gradient(135deg,
+            rgba(var(--callout-color-rgb), .03) 0%,
+            rgba(var(--callout-color-rgb), .06) 100%);
+}
+
+body.tf-softer.callout-style-liquid :is(.callout, .cm-callout) {
+    background:
+        radial-gradient(ellipse at top left,
+            rgba(var(--callout-color-rgb), .14) 0%,
+            transparent 60%),
+        linear-gradient(160deg,
+            rgba(255, 255, 255, .18) 0%,
+            rgba(var(--callout-color-rgb), .06) 45%,
+            rgba(var(--background-primary-rgb), .3) 100%);
+}
+
+body.theme-dark.tf-softer.callout-style-liquid :is(.callout, .cm-callout) {
+    background:
+        radial-gradient(ellipse at top left,
+            rgba(var(--callout-color-rgb), .19) 0%,
+            transparent 60%),
+        linear-gradient(160deg,
+            rgba(255, 255, 255, .07) 0%,
+            rgba(var(--callout-color-rgb), .1) 45%,
+            rgba(var(--background-primary-rgb), .4) 100%);
+}
+
+/* Softer: thin the flat per-type wash in light. Dark needs nothing here for
+   top-level callouts: the 0,4,1 dark Softer shorthands already reset background-color. */
+body.tf-softer:is(.callout-style-default, .callout-style-liquid) {
+    --tf-callout-wash: .04;
+}
+
+/* Softer: nested callouts keep the flat nested look (no gradients), with the
+   thinned wash. 0,4,1 ties the dark Softer shorthands above and wins on source
+   order; beats the 0,4,0 per-type rules and 0,3,0 dark Liquid. */
+body.tf-softer:is(.callout-style-default, .callout-style-liquid) .callout .callout {
+    background-image: none;
+    background-color: rgba(var(--callout-color-rgb), var(--tf-callout-wash, .12));
 }
