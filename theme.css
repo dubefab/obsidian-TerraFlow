@@ -5171,10 +5171,23 @@ body .nav-files-container .nav-file-title.is-selected:hover {
     background-color: rgba(var(--folder-heading-rgb, var(--primary-color-rgb)), calc(var(--tf-tone-selected-a) + var(--tf-tone-hover-a)));
 }
 
-/* Selected + active: keep the raised chip, add a hue hairline */
-.nav-file-title.is-active.is-selected .nav-file-title-content {
-    outline: var(--border-thin, 1px) solid rgba(var(--folder-heading-rgb, var(--primary-color-rgb)), .45);
-    outline-offset: -1px;
+/* Active file: flat selected chip, same as a multi-select item (no raised chip) */
+body .nav-files-container :is(.nav-folder, div) .nav-file-title[data-path][data-path].is-active .nav-file-title-content,
+body .nav-files-container :is(.nav-folder, div) .nav-file-title[data-path][data-path].is-active:hover .nav-file-title-content {
+    padding-block: var(--s1);
+    padding-inline: var(--s2);
+    margin-block: calc(var(--s1) * -1);
+    margin-inline-start: calc(var(--s2) * -1);
+    background-color: rgba(var(--folder-heading-rgb, var(--primary-color-rgb)), var(--tf-tone-selected-a));
+    background-image: none;
+    box-shadow: none;
+    transform: none;
+    outline: none;
+    color: var(--folder-text-color, var(--text-normal));
+}
+
+.nav-file-title.is-active::before {
+    display: none;
 }
 
 /* Folders in a multi-select: same flat chip (text colour already set above) */
