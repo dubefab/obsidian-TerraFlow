@@ -135,6 +135,15 @@ settings:
                 label: Header band
                 value: callout-style-band
     -
+        id: tf-band-strength
+        title: Header band strength
+        description: How far the Header band callout stands out from the page. Scales the title band, body tint and frame together. 130 is the default, used when Callout style is Header band.
+        type: variable-number-slider
+        default: 130
+        min: 100
+        max: 150
+        step: 10
+    -
         id: tf-nested-callout-inherit
         title: Nested callouts follow parent color
         description: A callout inside another callout takes the outer callout's color instead of its own type color
@@ -11591,11 +11600,12 @@ body:not(.is-mobile):not(.terraflow-quiet).callout-style-liquid .callout:hover::
    Must stay ABOVE the NESTED CALLOUTS section. */
 body.callout-style-band {
     --callout-blend-mode: normal;
-    --tf-callout-wash: .03;
-    --tf-callout-band: 14%;
-    --tf-callout-title-ink: 25%;
+    --tf-band-k: calc(var(--tf-band-strength, 130) / 100);
+    --tf-callout-wash: calc(.07 * var(--tf-band-k));
+    --tf-callout-band: calc(20% * var(--tf-band-k));
+    --tf-callout-title-ink: calc(12% / max(1, var(--tf-band-k)) / max(1, var(--tf-band-k)));
     --tf-callout-icon-ink: 55%;
-    --tf-callout-edge: 22%;
+    --tf-callout-edge: calc(36% * var(--tf-band-k));
     --tf-callout-pad-x: var(--s4);
     --tf-callout-title-pad-y: var(--s2);
     --tf-callout-body-pad-y: var(--s3);
@@ -11603,11 +11613,11 @@ body.callout-style-band {
 }
 
 body.theme-dark.callout-style-band {
-    --tf-callout-wash: .04;
-    --tf-callout-band: 10%;
-    --tf-callout-title-ink: 30%;
+    --tf-callout-wash: calc(.08 * var(--tf-band-k));
+    --tf-callout-band: calc(15% * var(--tf-band-k));
+    --tf-callout-title-ink: calc(30% / max(1, var(--tf-band-k)));
     --tf-callout-icon-ink: 80%;
-    --tf-callout-edge: 28%;
+    --tf-callout-edge: calc(40% * var(--tf-band-k));
     --tf-callout-shadow: none;
 }
 
@@ -11673,13 +11683,13 @@ body.callout-style-band .callout > .callout-content > :last-child {
    nested accent bar. 0,3,1 beats the 0,2,0 and 0,3,0 resets below.
    The band tokens re-resolve per element, so the lower mix applies here. */
 body.callout-style-band .callout .callout {
-    --tf-callout-band: 8%;
+    --tf-callout-band: calc(12% * var(--tf-band-k));
     border: var(--border-thin) solid var(--tf-callout-border);
     border-radius: var(--r3);
 }
 
 body.theme-dark.callout-style-band .callout .callout {
-    --tf-callout-band: 6%;
+    --tf-callout-band: calc(9% * var(--tf-band-k));
 }
 
 /* Deep Focus: keep the structure, drop the band tint. The left edge needs
