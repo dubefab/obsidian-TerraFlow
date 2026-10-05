@@ -917,6 +917,29 @@ settings:
                 label: Card
                 value: layout-card
     -
+        id: corner-size-style
+        title: Corner size
+        description: Scales every rounded corner by one factor so nested shapes keep their proportions. Tight is closer to square, Soft is rounder on cards, modals, callouts and menus. Pills and toggles keep their shape
+        type: class-select
+        allowEmpty: false
+        default: tf-corner-size-default
+        options:
+            -
+                label: Tight
+                value: tf-corner-size-tight
+            -
+                label: Default
+                value: tf-corner-size-default
+            -
+                label: Soft
+                value: tf-corner-size-soft
+    -
+        id: tf-corners-squircle
+        title: Squircle corners
+        description: Draws panels, tabs, buttons, inputs and settings with a continuous squircle curve instead of TerraFlow's smoothed rounded corners. Looks tighter and squarer on larger corners
+        type: class-toggle
+        default: false
+    -
         id: file-explorer-style
         title: File explorer style
         description: Folder presentation in the file browser
@@ -3620,8 +3643,8 @@ body.focus-mode.focus-mode-dim-paragraphs .markdown-preview-view p:hover {
 }
 
 /* ---- Sub-toggle: Hide Sidebar Panels ---- */
-body.focus-mode.focus-mode-hide-sidebars .workspace-split.mod-left-split,
-body.focus-mode.focus-mode-hide-sidebars .workspace-split.mod-right-split {
+body.focus-mode.focus-mode-hide-sidebars .workspace-split:is(.mod-left-split, .mod-primary-split),
+body.focus-mode.focus-mode-hide-sidebars .workspace-split:is(.mod-right-split, .mod-secondary-split) {
     display: none !important;
 }
 
@@ -3725,8 +3748,8 @@ body:not(.is-phone).layout-card .workspace-tab-header.is-active .workspace-tab-h
     font-weight: 600;
 }
 
-body.layout-card .workspace-split.mod-left-split,
-body.layout-card .workspace-split.mod-right-split {
+body.layout-card .workspace-split:is(.mod-left-split, .mod-primary-split),
+body.layout-card .workspace-split:is(.mod-right-split, .mod-secondary-split) {
     background-color: var(--background-secondary-alt);
 }
 
@@ -3751,10 +3774,11 @@ body.mod-macos.is-hidden-frameless.layout-card .workspace-tab-header-container-i
 body.is-focused .sidebar-toggle-button,
 body.is-focused .workspace-tabs.mod-top {
     --tab-container-background: var(--background-secondary);
+    --sidebar-tab-container-background: var(--background-secondary);
 }
 
 /* Unset sidebar toggle top offset and background */
-.mod-macos.is-hidden-frameless:not(.is-popout-window) .sidebar-toggle-button.mod-right {
+.mod-macos.is-hidden-frameless:not(.is-popout-window) .sidebar-toggle-button:is(.mod-right, .mod-secondary) {
     inset-block-start: unset;
     background-color: transparent !important;
 }
@@ -3788,7 +3812,7 @@ body.is-focused .workspace-tabs.mod-top {
 .vertical-tab-nav-item:hover {
     background: rgba(var(--primary-color-rgb), .12);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
     transform: translateY(-2px);
 }
 
@@ -3826,7 +3850,7 @@ body:not(.tf-liquid-chrome) .theme-dark .vertical-tab-nav-item.is-active :is(svg
     border: var(--border-thin) solid var(--glass-border);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
@@ -3846,7 +3870,7 @@ body:not(.tf-liquid-chrome) .setting-item:hover {
     background-color: rgba(var(--primary-color-rgb), .05);
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
     border: none !important;
     transform: none !important;
 }
@@ -3869,7 +3893,7 @@ body:not(.tf-liquid-chrome) .setting-item:hover {
     outline-offset: calc(var(--border-thick) * -1);
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
 }
 
 .vertical-tab-nav-item:focus:not(:focus-visible) {
@@ -3888,7 +3912,7 @@ body:not(.tf-liquid-chrome) .setting-item:hover {
 .vertical-tab-header {
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
     background: rgba(var(--primary-color-rgb), .05);
     padding-block: 8px;
     padding-inline: 12px;
@@ -3903,7 +3927,7 @@ body:not(.tf-liquid-chrome) .setting-item:hover {
     background: transparent;
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
     transition: opacity 0.15s var(--ease-apple), background-color 0.18s, color 0.18s;
 }
 
@@ -3982,7 +4006,7 @@ body.tf-balanced-headings :is(h1, h2, h3, h4, h5, h6, .inline-title, .callout-ti
     line-height: var(--line-tight);
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     position: relative;
     font-weight: var(--weight-semibold);
     letter-spacing: -.01em;
@@ -4827,7 +4851,7 @@ body.link-style-default :is(p, li)>:is(a, .internal-link, .external-link, .cm-li
     --nav-collapse-icon-color: var(--folder-text-color);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     margin-block-end: var(--s1);
     position: relative;
     transition: transform var(--transition-ui), background-color var(--transition-ui);
@@ -5045,7 +5069,7 @@ body:is(.theme-light, .theme-dark).explorer-style-glass .nav-files-container>div
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4), 0 4px 14px rgba(0, 0, 0, .05);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-soft);
-    corner-shape: superellipse(3);
+    corner-shape: var(--tf-corner-shape-soft, superellipse(3));
     padding: 4px;
     margin-block-end: var(--s2);
 }
@@ -5101,7 +5125,7 @@ body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.i
     padding-inline: var(--s3);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     border: none;
     font-weight: var(--weight-semibold);
 }
@@ -5116,7 +5140,7 @@ body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.i
     inline-size: 3px;
     border-radius: 0 var(--r1) var(--r1) 0;
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     opacity: .9;
     z-index: 2;
 }
@@ -5162,7 +5186,7 @@ body .nav-files-container .nav-file-title.is-selected:hover {
     background-color: rgba(var(--folder-heading-rgb, var(--primary-color-rgb)), var(--tf-tone-selected-a));
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     color: var(--folder-text-color, var(--text-normal));
     font-weight: var(--weight-medium);
 }
@@ -5201,7 +5225,7 @@ body .nav-files-container .nav-folder-title.is-selected {
     background-color: rgba(var(--folder-heading-rgb, var(--primary-color-rgb)), var(--tf-tone-selected-a));
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
 }
 
 /* Callout Styling */
@@ -5215,7 +5239,7 @@ body .nav-files-container .nav-folder-title.is-selected {
             rgba(var(--callout-color-rgb), .03) 100%);
     border-radius: var(--r4) var(--r1) var(--r4) var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     border: none;
     border-inline-start: var(--border-heavy) solid var(--callout-color);
 }
@@ -5260,7 +5284,7 @@ body .nav-files-container .nav-folder-title.is-selected {
     padding: .5em;
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     flex-shrink: 0;
     color: var(--callout-color);
 }
@@ -5382,7 +5406,7 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) .callout:not(.is-c
         text-decoration: none;
         border-radius: var(--r1);
         -electron-corner-smoothing: var(--squircle-main);
-        corner-shape: squircle;
+        corner-shape: var(--tf-corner-shape, squircle);
         padding-inline: 3px !important;
         transition: var(--transition-callout-link);
     }
@@ -5399,7 +5423,7 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) .callout:not(.is-c
         text-decoration: none;
         border-radius: var(--r1);
         -electron-corner-smoothing: var(--squircle-main);
-        corner-shape: squircle;
+        corner-shape: var(--tf-corner-shape, squircle);
         padding-inline: 3px !important;
         transition: var(--transition-callout-link);
     }
@@ -5414,7 +5438,7 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) .callout:not(.is-c
         text-decoration: none;
         border-radius: var(--r1);
         -electron-corner-smoothing: var(--squircle-main);
-        corner-shape: squircle;
+        corner-shape: var(--tf-corner-shape, squircle);
         padding-inline: 3px !important;
         transition: var(--transition-callout-link);
     }
@@ -5482,7 +5506,7 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
     padding: 3px 4px;
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     display: inline;
     /* --tf-hl-ctx here is the callout tint. A colored highlight (1.14+)
        overrides it through the --tf-hl-set fallback declared in the shared
@@ -5525,7 +5549,7 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
     padding-inline: .3em;
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     font-weight: var(--weight-semibold);
     letter-spacing: -.01em;
     margin-block: .5em;
@@ -5591,7 +5615,7 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
             rgba(var(--background-secondary-rgb), 0.9) 100%);
     border: var(--border-thick) solid rgba(var(--callout-color-rgb), 0.25);
     border-inline-start: 5px solid var(--callout-color);
-    border-radius: 4px 12px 12px 4px;
+    border-radius: calc(4px * var(--tf-radius-scale, 1)) var(--r3) var(--r3) calc(4px * var(--tf-radius-scale, 1));
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, var(--opacity-light-overlay)),
         inset 0 -1px 0 rgba(0, 0, 0, var(--opacity-subtle)),
@@ -5767,7 +5791,7 @@ body:not(.is-mobile).theme-dark.callout-style-glass :is(.callout, .cm-callout) {
     border: var(--border-thick) solid color-mix(in srgb, var(--callout-color) 45%, var(--background-primary));
     border-radius: var(--r4);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     box-shadow: 0 2px 8px rgba(var(--callout-color-rgb), .10);
     color: color-mix(in srgb, var(--callout-color) 25%, var(--text-normal));
 }
@@ -5811,7 +5835,7 @@ body:not(.is-mobile).callout-style-card .callout:hover {
         padding: 6px 4px;
         border-radius: var(--r1);
         -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
         display: inline;
         transition: background-color var(--transition-ui), transform var(--transition-ui);
 
@@ -6075,7 +6099,7 @@ body:not(.is-mobile).callout-style-card .callout:hover {
 :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     border: none;
     overflow: hidden;
     padding-block: 5px;
@@ -6103,7 +6127,7 @@ body:not(.is-mobile).callout-style-card .callout:hover {
     box-shadow: var(--shadow-3);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     border-block-end: var(--border-thin) solid rgba(var(--primary-color-rgb), .2);
 }
 
@@ -6142,7 +6166,7 @@ body:not(.is-mobile).callout-style-card .callout:hover {
     padding-inline: 6px;
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
     font-size: 0.9em;
     font-family: var(--font-monospace);
     border: var(--border-thin) solid rgba(var(--primary-color-rgb), .1);
@@ -6167,7 +6191,7 @@ body:not(.is-mobile).callout-style-card .callout:hover {
     padding-inline: 5px;
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
     font-size: 0.85em;
     font-family: var(--font-monospace);
     border: var(--border-thin) solid var(--background-modifier-border);
@@ -6180,7 +6204,7 @@ body:not(.is-mobile).callout-style-card .callout:hover {
     background-image: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .1));
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     padding: var(--s3);
     margin-block: var(--s3);
     margin-inline: 0;
@@ -6218,7 +6242,7 @@ body:not(.is-mobile).callout-style-card .callout:hover {
     background-image: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .1));
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     border: var(--border-thick) solid rgba(var(--primary-color-rgb), .15);
     box-shadow: var(--shadow-2), inset 0 2px 6px rgba(0, 0, 0, .1);
     margin-block: var(--s3);
@@ -6356,7 +6380,7 @@ body:not(.is-mobile).callout-style-card .callout:hover {
     border: var(--border-thin) solid rgba(var(--primary-color-rgb), .15);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
     padding-block: 4px;
     padding-inline: 8px;
     font-size: 0.75em;
@@ -6399,7 +6423,7 @@ body:not(.is-mobile).callout-style-card .callout:hover {
 :is(.markdown-rendered img, .markdown-source-view.mod-cm6 .cm-content img) {
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     max-inline-size: 100%;
 }
 
@@ -6421,7 +6445,7 @@ body:not(.is-mobile).callout-style-card .callout:hover {
 .markdown-preview-view table {
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     overflow: hidden;
     border-collapse: separate;
     border-spacing: 0;
@@ -6752,7 +6776,7 @@ body:not(.disable-ui-animations) .tooltip {
 .tooltip {
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
     box-shadow:
         inset 0 0 0 1px rgba(255, 255, 255, 0.12),
         0 2px 8px var(--background-modifier-box-shadow);
@@ -6855,11 +6879,11 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.callout, .cm-
     to   { transform: translateX(0); opacity: 1; }
 }
 
-body:not(.is-mobile):not(.disable-ui-animations) .workspace-split.mod-left-split:not(.is-sidedock-collapsed) .workspace-tabs {
+body:not(.is-mobile):not(.disable-ui-animations) .workspace-split:is(.mod-left-split, .mod-primary-split):not(.is-sidedock-collapsed) .workspace-tabs {
     animation: tf-sidedock-in-left var(--rebound-dur-lg) var(--rebound-ease);
 }
 
-body:not(.is-mobile):not(.disable-ui-animations) .workspace-split.mod-right-split:not(.is-sidedock-collapsed) .workspace-tabs {
+body:not(.is-mobile):not(.disable-ui-animations) .workspace-split:is(.mod-right-split, .mod-secondary-split):not(.is-sidedock-collapsed) .workspace-tabs {
     animation: tf-sidedock-in-right var(--rebound-dur-lg) var(--rebound-ease);
 }
 
@@ -6920,7 +6944,7 @@ body:not(.disable-ui-animations) .clickable-icon:active {
 }
 
 /* Keep native scale(-1,1) mirror of the right toggle icon while pressed */
-body:not(.disable-ui-animations) .sidebar-toggle-button.mod-right .clickable-icon:active {
+body:not(.disable-ui-animations) .sidebar-toggle-button:is(.mod-right, .mod-secondary) .clickable-icon:active {
     transform: scale(-1.06, 0.9);
 }
 
@@ -6930,12 +6954,12 @@ body:not(.disable-ui-animations) .sidebar-toggle-button.mod-right .clickable-ico
    floating nav) are excluded so this never downgrades their scale(1.1).
    Whimsy replaces this with its bigger scale-pop. */
 body:not(.disable-ui-animations):not(.animation-style-whimsy)
-    .clickable-icon:hover:not(:active):not(.workspace-ribbon *):not(.side-dock-actions *):not(.view-actions *):not(.nav-buttons-container *):not(.sidebar-toggle-button.mod-right *) {
+    .clickable-icon:hover:not(:active):not(.workspace-ribbon *):not(.side-dock-actions *):not(.view-actions *):not(.nav-buttons-container *):not(.sidebar-toggle-button:is(.mod-right, .mod-secondary) *) {
     transform: scale(1.07);
 }
 
 /* Mirrored right toggle keeps its native flip while swelling */
-body:not(.disable-ui-animations):not(.animation-style-whimsy) .sidebar-toggle-button.mod-right .clickable-icon:hover:not(:active) {
+body:not(.disable-ui-animations):not(.animation-style-whimsy) .sidebar-toggle-button:is(.mod-right, .mod-secondary) .clickable-icon:hover:not(:active) {
     transform: scale(-1.07, 1.07);
 }
 
@@ -7271,21 +7295,21 @@ body.animation-style-whimsy .workspace-tab-header-inner-close-button:hover {
 }
 
 /* Sidebar toggles: gentle tilt on inner icon only (container transforms travel during collapse) */
-body.animation-style-whimsy .sidebar-toggle-button.mod-left .clickable-icon,
-body.animation-style-whimsy .sidebar-toggle-button.mod-right .clickable-icon {
+body.animation-style-whimsy .sidebar-toggle-button:is(.mod-left, .mod-primary) .clickable-icon,
+body.animation-style-whimsy .sidebar-toggle-button:is(.mod-right, .mod-secondary) .clickable-icon {
     transition: transform 0.3s var(--ease-spring-sm);
 }
 
-body.animation-style-whimsy .sidebar-toggle-button.mod-left:hover .clickable-icon {
+body.animation-style-whimsy .sidebar-toggle-button:is(.mod-left, .mod-primary):hover .clickable-icon {
     transform: rotate(-12deg) scale(1.08);
 }
 
 /* Mirrored right icon: keep flip, mirror rotation so tilt reads +12° */
-body.animation-style-whimsy .sidebar-toggle-button.mod-right:hover .clickable-icon {
+body.animation-style-whimsy .sidebar-toggle-button:is(.mod-right, .mod-secondary):hover .clickable-icon {
     transform: scale(-1, 1) rotate(-12deg) scale(1.08);
 }
 
-body.animation-style-whimsy .sidebar-toggle-button.mod-right .clickable-icon:active {
+body.animation-style-whimsy .sidebar-toggle-button:is(.mod-right, .mod-secondary) .clickable-icon:active {
     transform: scale(-0.9, 0.9);
 }
 
@@ -7447,7 +7471,7 @@ body:not(.disable-modal-frost) .modal-bg {
     color: inherit !important;
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
     box-shadow: 0 0 0 1px rgba(var(--primary-color-rgb), .2);
     outline: none !important;
     padding: 0 1px !important;
@@ -7465,7 +7489,7 @@ body:not(.disable-modal-frost) .modal-bg {
     background-color: rgba(var(--background-secondary-rgb), .7);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     padding: var(--s4);
     margin-block-end: var(--s4);
     border: none;
@@ -7550,7 +7574,7 @@ body:not(.disable-modal-frost) .modal-bg {
     border-radius: var(--r3) var(--r3) 0 0;
     overflow: visible;
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     margin-inline-end: 0;
     margin-block-end: 0;
     background-color: rgba(var(--background-secondary-rgb), 0.9);
@@ -7613,11 +7637,11 @@ body:not(.disable-modal-frost) .modal-bg {
    transparent-until-active styling further down and would otherwise lose to
    this rule's higher specificity. Low contrast and Pill tabs opt out: both set
    inactive tabs transparent (!important) and lost to this rule's specificity. */
-body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs) .workspace-tab-header:not(.is-active):not(.workspace-split.mod-left-split .workspace-tab-header):not(.workspace-split.mod-right-split .workspace-tab-header) {
+body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs) .workspace-tab-header:not(.is-active):not(.workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-tab-header):not(.workspace-split:is(.mod-right-split, .mod-secondary-split) .workspace-tab-header) {
     background-color: transparent !important;
 }
 
-body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs) .workspace-tab-header:not(.is-active):not(.workspace-split.mod-left-split .workspace-tab-header):not(.workspace-split.mod-right-split .workspace-tab-header):hover {
+body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs) .workspace-tab-header:not(.is-active):not(.workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-tab-header):not(.workspace-split:is(.mod-right-split, .mod-secondary-split) .workspace-tab-header):hover {
     background-color: var(--tf-tone-hover) !important;
 }
 
@@ -7664,12 +7688,12 @@ body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.
 }
 
 /* Workspace Split Styling */
-.workspace-split.mod-left-split,
-.workspace-split.mod-right-split {
+.workspace-split:is(.mod-left-split, .mod-primary-split),
+.workspace-split:is(.mod-right-split, .mod-secondary-split) {
     background-color: var(--glass-bg);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-soft);
-    corner-shape: superellipse(3);
+    corner-shape: var(--tf-corner-shape-soft, superellipse(3));
     border: var(--border-thin) solid var(--glass-border);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     position: relative;
@@ -7681,8 +7705,8 @@ body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.
     contain: layout;
 }
 
-.workspace-split.mod-left-split:hover,
-.workspace-split.mod-right-split:hover {
+.workspace-split:is(.mod-left-split, .mod-primary-split):hover,
+.workspace-split:is(.mod-right-split, .mod-secondary-split):hover {
     background-color: var(--glass-bg);
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
     transform: none;
@@ -7690,29 +7714,29 @@ body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.
 }
 
 /* Sidedock ghost fix: hide header during slide (class lands at slide start), fade in after landing */
-.workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container {
+.workspace-split:is(.mod-left-split, .mod-right-split, .mod-primary-split, .mod-secondary-split) .workspace-tab-header-container {
     transition:
         opacity 0.18s var(--ease-apple) 0.1s,
         transform 0.35s var(--ease-spring-sm) 0.1s;
 }
 
-.workspace-split:is(.mod-left-split, .mod-right-split).is-sidedock-collapsed .workspace-tab-header-container {
+.workspace-split:is(.mod-left-split, .mod-right-split, .mod-primary-split, .mod-secondary-split).is-sidedock-collapsed .workspace-tab-header-container {
     opacity: 0;
     transition: none;
 }
 
 /* Landing settle: icons drift in from window edge as the panel lands */
-.workspace-split.mod-right-split.is-sidedock-collapsed .workspace-tab-header-container {
+.workspace-split:is(.mod-right-split, .mod-secondary-split).is-sidedock-collapsed .workspace-tab-header-container {
     transform: translateX(8px);
 }
 
-.workspace-split.mod-left-split.is-sidedock-collapsed .workspace-tab-header-container {
+.workspace-split:is(.mod-left-split, .mod-primary-split).is-sidedock-collapsed .workspace-tab-header-container {
     transform: translateX(-8px);
 }
 
 /* Hide the animated toggle CLONE Obsidian leaves in mod-root on re-parent (updateFrameless → cloneNode) */
-body.mod-macos .workspace.is-right-sidedock-open .workspace-split.mod-root .sidebar-toggle-button.mod-right,
-body.mod-macos .workspace.is-left-sidedock-open .workspace-split.mod-root .sidebar-toggle-button.mod-left {
+body.mod-macos .workspace.is-right-sidedock-open .workspace-split.mod-root .sidebar-toggle-button:is(.mod-right, .mod-secondary),
+body.mod-macos .workspace.is-left-sidedock-open .workspace-split.mod-root .sidebar-toggle-button:is(.mod-left, .mod-primary) {
     visibility: hidden;
 }
 
@@ -7724,18 +7748,18 @@ body.mod-macos .workspace.is-left-sidedock-open .workspace-split.mod-root .sideb
     margin-inline-end: 5px;
 }
 
-.workspace-split.mod-left-split .workspace-tabs,
-.workspace-split.mod-right-split .workspace-tabs {
+.workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-tabs,
+.workspace-split:is(.mod-right-split, .mod-secondary-split) .workspace-tabs {
     flex-grow: 1;
     background-color: transparent;
 }
 
-.workspace-split.mod-left-split .workspace-leaf,
-.workspace-split.mod-left-split .workspace-tab-container,
-.workspace-split.mod-left-split .view-content,
-.workspace-split.mod-right-split .workspace-leaf,
-.workspace-split.mod-right-split .workspace-tab-container,
-.workspace-split.mod-right-split .view-content {
+.workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-leaf,
+.workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-tab-container,
+.workspace-split:is(.mod-left-split, .mod-primary-split) .view-content,
+.workspace-split:is(.mod-right-split, .mod-secondary-split) .workspace-leaf,
+.workspace-split:is(.mod-right-split, .mod-secondary-split) .workspace-tab-container,
+.workspace-split:is(.mod-right-split, .mod-secondary-split) .view-content {
     background-color: transparent;
 }
 
@@ -7754,7 +7778,7 @@ body:not(.is-mobile):not(.disable-status-bar) .status-bar {
     padding-inline: var(--s3);
     border-radius: var(--r4);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
     background-color: var(--background-secondary);
     border: var(--border-thin) solid var(--divider-color);
     box-shadow: var(--shadow-1);
@@ -7835,7 +7859,7 @@ body:not(.disable-status-bar) .status-bar:hover .status-bar-item button:hover {
     background-color: rgba(var(--primary-color-rgb), .1);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
     color: var(--text-normal);
 }
 
@@ -7864,7 +7888,7 @@ body:not(.disable-status-bar) .status-bar:hover .status-bar-item button:hover {
     position: relative;
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-soft);
-    corner-shape: superellipse(3);
+    corner-shape: var(--tf-corner-shape-soft, superellipse(3));
     min-height: 24px;
     height: auto !important;
     padding: var(--s1) var(--s2);
@@ -7978,14 +8002,14 @@ body:not(.disable-status-bar) .status-bar:hover .status-bar-item button:hover {
     background-color: transparent;
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
 }
 
 ::-webkit-scrollbar-thumb {
     background-color: var(--scrollbar-thumb);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     transition: background-color 0.25s var(--ease-apple);
 }
 
@@ -8003,7 +8027,7 @@ body:not(.disable-status-bar) .status-bar:hover .status-bar-item button:hover {
     background-color: transparent;
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
 }
 
 /* macOS overlay scrollbars: visible only while the pane is hovered */
@@ -8047,7 +8071,7 @@ body:not(.disable-scrollbars) :is(
     border: var(--border-thin) solid var(--glass-border);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     box-shadow: var(--shadow-overlay);
     backdrop-filter: blur(var(--tf-blur-m)) saturate(150%);
     -webkit-backdrop-filter: blur(var(--tf-blur-m)) saturate(150%);
@@ -8079,7 +8103,7 @@ body:not(.disable-scrollbars) :is(
     border: var(--border-thin) solid var(--glass-border);
     border-radius: var(--r4);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     box-shadow: var(--shadow-overlay);
     backdrop-filter: blur(var(--tf-blur-m)) saturate(160%);
     -webkit-backdrop-filter: blur(var(--tf-blur-m)) saturate(160%);
@@ -8114,7 +8138,7 @@ body:not(.disable-scrollbars) :is(
     border: var(--border-thin) solid rgba(var(--primary-color-rgb), .12);
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
     padding-block: var(--s2);
     padding-inline: var(--s3);
     color: var(--text-normal);
@@ -8140,7 +8164,7 @@ body:not(.disable-scrollbars) :is(
     border: var(--border-thin) solid var(--glass-border);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     box-shadow: var(--shadow-overlay);
     backdrop-filter: blur(var(--tf-blur-m)) saturate(150%);
     -webkit-backdrop-filter: blur(var(--tf-blur-m)) saturate(150%);
@@ -8166,7 +8190,7 @@ body:not(.disable-scrollbars) :is(
     padding: var(--s2);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
     margin: 2px var(--s1);
     cursor: pointer;
     transition: background-color var(--fast), transform var(--fast);
@@ -8201,7 +8225,7 @@ body:not(.disable-scrollbars) :is(
     border: var(--border-thin) solid rgba(var(--primary-color-rgb), .15);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
     padding-block: 2px;
     padding-inline: 6px;
     font-size: 0.75em;
@@ -8220,7 +8244,7 @@ body:not(.disable-scrollbars) :is(
     border: var(--border-thin) solid var(--glass-border);
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     box-shadow: var(--shadow-overlay);
     overflow: hidden;
     padding: 4px;
@@ -8260,7 +8284,7 @@ body.theme-dark.disable-glass-menus :is(.popover, .prompt, .suggestion-container
     padding: var(--s2);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
     /* macOS menus keep the arrow cursor; pointer reads as web/Android */
     transition: background-color var(--fast);
     display: flex;
@@ -8300,7 +8324,7 @@ body.theme-dark.disable-glass-menus :is(.popover, .prompt, .suggestion-container
     border: var(--border-thin) solid var(--glass-border);
     border-radius: var(--r4);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     box-shadow:
         0 12px 36px rgba(0, 0, 0, 0.25),
         inset 0 1px 0 rgba(255, 255, 255, 0.4);
@@ -8391,7 +8415,7 @@ input[type='password'],
 input[type='number'] {
     border-radius: var(--r4);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
 }
 
 .search-input-container input {
@@ -8404,7 +8428,7 @@ input[type='number'] {
 .dropdown-menu {
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     overflow: hidden;
 }
 
@@ -8426,7 +8450,7 @@ input[type='number'] {
     color: var(--text-muted);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
     padding: var(--s1);
     margin-block: 2px;
     margin-inline: 0;
@@ -8470,7 +8494,7 @@ input[type='number'] {
     color: var(--text-muted);
     border-radius: var(--r1);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: superellipse(1.5);
+    corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
     padding: 4px;
     transition: color var(--transition-ui), background-color var(--transition-ui), transform var(--transition-ui);
 }
@@ -8636,20 +8660,20 @@ body.layout-card .workspace-leaf-content {
 }
 
 /* Tab header hover scale effect - sidebars only (desktop only) */
-body:not(.is-mobile).layout-card .workspace-split.mod-left-split .workspace-tab-header-inner:hover,
-body:not(.is-mobile).layout-card .workspace-split.mod-right-split .workspace-tab-header-inner:hover {
+body:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-tab-header-inner:hover,
+body:not(.is-mobile).layout-card .workspace-split:is(.mod-right-split, .mod-secondary-split) .workspace-tab-header-inner:hover {
     transform: scale(1.05) !important;
     transition: transform var(--transition-ui);
 }
 
-body:not(.is-mobile).layout-card .workspace-split.mod-left-split .workspace-tab-header-inner,
-body:not(.is-mobile).layout-card .workspace-split.mod-right-split .workspace-tab-header-inner {
+body:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-tab-header-inner,
+body:not(.is-mobile).layout-card .workspace-split:is(.mod-right-split, .mod-secondary-split) .workspace-tab-header-inner {
     transition: transform var(--transition-ui);
 }
 
 /* Sidebar Pill Styles for Card Layout (Refined) */
 /* !important is load-bearing (measured 2026-09-28): beats native .workspace-tab-header-container background (--tab-container-background) and padding. */
-body:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container {
+body:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right-split, .mod-primary-split, .mod-secondary-split) .workspace-tab-header-container {
     background-color: transparent !important;
     padding: 8px 5px 1px 5px !important;
     border: none !important;
@@ -8659,7 +8683,7 @@ body:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right
 }
 
 /* !important is load-bearing (measured 2026-09-28): beats native .workspace-tab-header-container-inner padding and the .mod-primary-split padding. */
-body:not(.is-mobile).layout-card:not(.tf-liquid-chrome) .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container .workspace-tab-header-container-inner {
+body:not(.is-mobile).layout-card:not(.tf-liquid-chrome) .workspace-split:is(.mod-left-split, .mod-right-split, .mod-primary-split, .mod-secondary-split) .workspace-tab-header-container .workspace-tab-header-container-inner {
     background-color: rgba(var(--primary-color-rgb), 0.08) !important;
     border-radius: var(--radius-pill);
     padding: 1px 4px 1px !important;
@@ -8674,7 +8698,7 @@ body:not(.is-mobile).layout-card:not(.tf-liquid-chrome) .workspace-split:is(.mod
     align-items: center !important;
 }
 
-body:not(.is-mobile).layout-card.tf-liquid-chrome .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container .workspace-tab-header-container-inner {
+body:not(.is-mobile).layout-card.tf-liquid-chrome .workspace-split:is(.mod-left-split, .mod-right-split, .mod-primary-split, .mod-secondary-split) .workspace-tab-header-container .workspace-tab-header-container-inner {
     border-radius: var(--radius-pill);
     padding: 1px 4px 1px !important;
     margin: 0 auto !important;
@@ -8688,7 +8712,7 @@ body:not(.is-mobile).layout-card.tf-liquid-chrome .workspace-split:is(.mod-left-
     align-items: center !important;
 }
 
-body:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header {
+body:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right-split, .mod-primary-split, .mod-secondary-split) .workspace-tab-header {
     border-radius: var(--r2);
     height: var(--height-button);
     margin: 0;
@@ -8700,7 +8724,7 @@ body:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right
 }
 
 /* !important is load-bearing (measured 2026-09-28): beats the depth-shadows tab rule (translateY(-2px), primary bg, !important) and the native active-tab colors. */
-body:not(.is-mobile).layout-card:not(.tf-liquid-chrome) .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header.is-active {
+body:not(.is-mobile).layout-card:not(.tf-liquid-chrome) .workspace-split:is(.mod-left-split, .mod-right-split, .mod-primary-split, .mod-secondary-split) .workspace-tab-header.is-active {
     background-color: var(--background-primary) !important;
     border-radius: var(--r4);
     border: none !important;
@@ -8709,13 +8733,13 @@ body:not(.is-mobile).layout-card:not(.tf-liquid-chrome) .workspace-split:is(.mod
     transform: none !important;
 }
 
-body:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-inner {
+body:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right-split, .mod-primary-split, .mod-secondary-split) .workspace-tab-header-inner {
     padding: 0;
 }
 
 /* Traffic Light Offset for macOS Card Layout - Background should not overlap */
 /* !important is load-bearing (measured 2026-09-28): outscores the pill rule for .workspace-tab-header-container-inner (width, margin, padding). */
-body:not(.is-mobile).mod-macos.is-hidden-frameless.layout-card .workspace-split.mod-left-split .workspace-tab-header-container-inner {
+body:not(.is-mobile).mod-macos.is-hidden-frameless.layout-card .workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-tab-header-container-inner {
     padding-inline-start: 4px !important;
     margin-inline-start: 80px !important;
     margin-inline-end: auto !important;
@@ -8723,12 +8747,12 @@ body:not(.is-mobile).mod-macos.is-hidden-frameless.layout-card .workspace-split.
 }
 
 /* Shift Right Sidebar Tabs to the right */
-body:not(.is-mobile).layout-card .workspace-split.mod-right-split .workspace-tab-header-container .workspace-tab-header-container-inner {
+body:not(.is-mobile).layout-card .workspace-split:is(.mod-right-split, .mod-secondary-split) .workspace-tab-header-container .workspace-tab-header-container-inner {
     margin-inline-start: 12px;
 }
 
 /* Vault Profile Selection Styling (Pill Aesthetic) */
-body:not(.is-mobile) .workspace-split.mod-left-split .workspace-sidedock-vault-profile {
+body:not(.is-mobile) .workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-sidedock-vault-profile {
     background-color: rgba(var(--primary-color-rgb), 0.05);
     border-radius: var(--radius-pill);
     margin: 4px 12px 10px;
@@ -8745,13 +8769,13 @@ body:not(.is-mobile) .workspace-split.mod-left-split .workspace-sidedock-vault-p
     overflow: hidden;
 }
 
-body:not(.is-mobile) .workspace-split.mod-left-split .workspace-sidedock-vault-profile:hover {
+body:not(.is-mobile) .workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-sidedock-vault-profile:hover {
     background-color: rgba(var(--primary-color-rgb), 0.1) !important;
     transform: translateY(-1px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
 }
 
-body:not(.is-mobile) .workspace-split.mod-left-split .workspace-sidedock-vault-profile .workspace-drawer-vault-name {
+body:not(.is-mobile) .workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-sidedock-vault-profile .workspace-drawer-vault-name {
     font-weight: var(--weight-semibold);
     color: var(--text-normal);
     font-size: 0.82em;
@@ -8760,7 +8784,7 @@ body:not(.is-mobile) .workspace-split.mod-left-split .workspace-sidedock-vault-p
 }
 
 /* Card Layout Specific Adjustments */
-body.layout-card:not(.is-mobile) .workspace-split.mod-left-split .workspace-sidedock-vault-profile {
+body.layout-card:not(.is-mobile) .workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-sidedock-vault-profile {
     background-color: var(--background-primary);
 }
 
@@ -8932,15 +8956,6 @@ body.layout-card .search-result-file-match {
 
 body.layout-card .search-result-file-match:hover {
     background-color: var(--tf-tone-hover) !important;
-}
-
-body.layout-card .search-result-file-match em {
-    background-color: var(--text-highlight-bg);
-    color: var(--text-normal);
-    font-weight: var(--weight-bold);
-    padding-block: 0;
-    padding-inline: 4px;
-    border-radius: var(--r1);
 }
 
 /* --- Tag Pane Refinements (Pills in Tray) --- */
@@ -9234,8 +9249,8 @@ body.is-mobile :is(
     .nav-files-container,
     .metadata-container,
     .workspace-split,
-    .workspace-split.mod-left-split,
-    .workspace-split.mod-right-split
+    .workspace-split:is(.mod-left-split, .mod-primary-split),
+    .workspace-split:is(.mod-right-split, .mod-secondary-split)
 ) {
     contain: none !important;
     will-change: auto !important;
@@ -9588,11 +9603,11 @@ body.depth-shadows .workspace-tab-header.is-active {
 
 /* Editor strip: only the active tab is a raised chip. Same exclusions as the
    inactive-fill rule in the tab header section. */
-body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs).depth-shadows .workspace-tab-header:not(.is-active):not(.workspace-split.mod-left-split .workspace-tab-header):not(.workspace-split.mod-right-split .workspace-tab-header) {
+body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs).depth-shadows .workspace-tab-header:not(.is-active):not(.workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-tab-header):not(.workspace-split:is(.mod-right-split, .mod-secondary-split) .workspace-tab-header) {
     box-shadow: none;
 }
 
-body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs).depth-shadows .workspace-tab-header:not(.is-active):not(.workspace-split.mod-left-split .workspace-tab-header):not(.workspace-split.mod-right-split .workspace-tab-header):hover {
+body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs).depth-shadows .workspace-tab-header:not(.is-active):not(.workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-tab-header):not(.workspace-split:is(.mod-right-split, .mod-secondary-split) .workspace-tab-header):hover {
     box-shadow: var(--depth-1);
 }
 
@@ -9615,12 +9630,12 @@ body.depth-shadows .nav-folder-title:hover {
 }
 
 /* Tab header pill container in sidebars */
-body.depth-shadows:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container-inner {
+body.depth-shadows:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right-split, .mod-primary-split, .mod-secondary-split) .workspace-tab-header-container-inner {
     box-shadow: var(--depth-1);
     transition: var(--transition-depth);
 }
 
-body.depth-shadows:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container-inner:hover {
+body.depth-shadows:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right-split, .mod-primary-split, .mod-secondary-split) .workspace-tab-header-container-inner:hover {
     box-shadow: var(--depth-2);
     transform: translateY(-1px) !important;
 }
@@ -9975,7 +9990,7 @@ body.mod-macos.is-hidden-frameless:not(.is-mobile).ribbon-autohide.layout-card .
    instead of sitting flush against the screen edge. The gap collapses
    in sync with the ribbon slide-in (ribbon and split are siblings), so
    revealed geometry is identical to the non-autohide pill layout. */
-body:not(.is-mobile).ribbon-autohide.layout-card .workspace-split.mod-left-split {
+body:not(.is-mobile).ribbon-autohide.layout-card .workspace-split:is(.mod-left-split, .mod-primary-split) {
     margin-left: 5px;
     transition:
         box-shadow var(--transition-ui),
@@ -9983,7 +9998,7 @@ body:not(.is-mobile).ribbon-autohide.layout-card .workspace-split.mod-left-split
         margin-left 0.3s var(--ease-apple) 140ms;
 }
 
-body:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon:is(.mod-left, .mod-primary):is(:hover, :focus-within) ~ .workspace-split.mod-left-split {
+body:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon:is(.mod-left, .mod-primary):is(:hover, :focus-within) ~ .workspace-split:is(.mod-left-split, .mod-primary-split) {
     margin-left: 0;
     transition-delay: 0s, 0s, 0s;
 }
@@ -11079,7 +11094,7 @@ img[src$="#interface"] {
     object-fit: cover;
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
 }
 
 :is(.markdown-preview-view.banner.banner-fade, .markdown-source-view.mod-cm6.banner.banner-fade) img[alt="banner"] {
@@ -11166,7 +11181,7 @@ img[src$="#interface"] {
     border: var(--border-thin) solid var(--divider-color);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     box-shadow: var(--shadow-1);
     padding: var(--s2);
     overflow: hidden;
@@ -11199,7 +11214,7 @@ img[src$="#interface"] {
     object-fit: cover;
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
 }
 
 /* Column count and aspect ratio — Minimal/Baseline/Cupertino vocabulary.
@@ -11248,30 +11263,129 @@ img[src$="#interface"] {
 /* ============================== */
 /*   BASES POLISH                 */
 /* ============================== */
-/* Season-aware hover + card styling for the native Bases plugin */
-.bases-tbody .bases-tr:hover {
-    background-color: rgba(var(--primary-color-rgb), .05);
+/* Season-aware hover + card styling, set through Obsidian's native Bases variables */
+body {
+    --bases-table-row-background-hover: rgba(var(--primary-color-rgb), .05);
+    --bases-cards-background: var(--background-secondary);
+    --bases-cards-shadow: var(--shadow-1);
+    --bases-cards-shadow-hover: var(--shadow-2);
+    --bases-cards-radius: var(--r3);
+    --bases-cards-corner-shape: var(--tf-corner-shape, squircle);
 }
 
-.theme-dark .bases-tbody .bases-tr:hover {
-    background-color: rgba(var(--primary-color-rgb), .08);
+body.theme-dark {
+    --bases-table-row-background-hover: rgba(var(--primary-color-rgb), .08);
 }
 
 .bases-cards-item {
-    border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
-    background-color: var(--background-secondary);
-    box-shadow: var(--shadow-1);
     transition: box-shadow var(--transition-ui);
-}
-
-.bases-cards-item:hover {
-    box-shadow: var(--shadow-2);
 }
 
 .bases-cards-label {
     color: var(--text-muted);
+}
+
+/* Kanban (1.14+): cards match the cards view; columns are quiet
+   accent-washed lanes with a half-strength hairline. Colour, shadow and
+   corner only: the Kanban view measures padding, gaps and line heights
+   to place its absolutely positioned cards, so never set those here. */
+body {
+    --bases-kanban-column-background: rgba(var(--primary-color-rgb), .03);
+    --bases-kanban-column-radius: var(--r4);
+    --bases-kanban-card-background: var(--background-secondary);
+    --bases-kanban-card-shadow: var(--shadow-1);
+    --bases-kanban-card-shadow-hover: var(--shadow-2);
+    --bases-kanban-card-radius: var(--r3);
+    --bases-kanban-card-corner-shape: var(--tf-corner-shape, squircle);
+    --bases-kanban-cover-background: var(--background-secondary-alt);
+}
+
+.bases-kanban-column {
+    border-color: color-mix(in srgb, var(--background-modifier-border) 50%, transparent);
+    corner-shape: var(--tf-corner-shape, squircle);
+    -electron-corner-smoothing: var(--squircle-main);
+}
+
+.bases-kanban-card {
+    -electron-corner-smoothing: var(--squircle-main);
+}
+
+/* ============================== */
+/*   CORNERS                      */
+/* ============================== */
+/* Style Settings "Squircle corners" (class-toggle tf-corners-squircle).
+   Electron draws -electron-corner-smoothing instead of corner-shape
+   whenever smoothing is above 0%, so every rule that sets both renders a
+   smoothed circular arc and its corner-shape value is ignored. With the
+   toggle off nothing here applies. On, it sets the --squircle-* smoothing
+   vars to 0% so the corner-shape value is what gets drawn.
+   body.class (0,1,1) beats native .mod-macos --corner-shape (0,1,0). */
+body.tf-corners-squircle {
+    --corner-shape: squircle;
+    --tf-corner-shape: squircle;
+    --tf-corner-shape-btn: squircle;
+    --tf-corner-shape-soft: squircle;
+    --squircle-btn: 0%;
+    --squircle-main: 0%;
+    --squircle-soft: 0%;
+}
+
+/* Style Settings "Corner size". One multiplier scales every radius token so
+   nested shapes stay in proportion. tf-corner-size-default adds no rules.
+   Base px values must match their sources: :root --r1..--r4 (GLOBAL
+   VARIABLES), native app.css body --radius-s/m/l/xl 4/8/12/24 (18 on
+   .is-mobile), --card-radius (LAYOUT: CARD INTERFACE and the mobile card
+   block) and --tag-radius (tag-chips). Native derived radii (clickable
+   icon, tab, input, modal, tooltip, menu, scrollbar, setting items) follow
+   --radius-* because they are declared on body too. Left alone on purpose:
+   --radius-pill, native --toggle-radius and --touch-radius-*, and
+   --mobile-sidebar-radius (matches the device corner). The callout-style-
+   vintage literal reads --tf-radius-scale with a fallback of 1.
+   body:is(.class) (0,1,1) beats native body and .mod-macos/.is-mobile. */
+body.tf-corner-size-tight {
+    --tf-radius-scale: 0.6;
+}
+
+body.tf-corner-size-soft {
+    --tf-radius-scale: 1.25;
+}
+
+body:is(.tf-corner-size-tight, .tf-corner-size-soft) {
+    --r1: calc(6px * var(--tf-radius-scale));
+    --r2: calc(10px * var(--tf-radius-scale));
+    --r3: calc(12px * var(--tf-radius-scale));
+    --r4: calc(16px * var(--tf-radius-scale));
+    --radius-s: calc(4px * var(--tf-radius-scale));
+    --radius-m: calc(8px * var(--tf-radius-scale));
+    --radius-l: calc(12px * var(--tf-radius-scale));
+    --radius-xl: calc(24px * var(--tf-radius-scale));
+}
+
+body.is-mobile:is(.tf-corner-size-tight, .tf-corner-size-soft) {
+    --radius-xl: calc(18px * var(--tf-radius-scale));
+}
+
+body.layout-card:is(.tf-corner-size-tight, .tf-corner-size-soft) {
+    --card-radius: calc(20px * var(--tf-radius-scale));
+}
+
+body.is-mobile.layout-card:is(.tf-corner-size-tight, .tf-corner-size-soft) {
+    --card-radius: calc(16px * var(--tf-radius-scale));
+}
+
+body.is-tablet.layout-card:is(.tf-corner-size-tight, .tf-corner-size-soft) {
+    --card-radius: calc(20px * var(--tf-radius-scale));
+}
+
+body.tag-chips:is(.tf-corner-size-tight, .tf-corner-size-soft) {
+    --tag-radius: calc(3px * var(--tf-radius-scale));
+}
+
+/* Toggle tracks stay pills. At Default --r4 (16px) already exceeds half
+   the track height, so this matches the Default shape. 0.6x would not. */
+body.tf-corner-size-tight .checkbox-container {
+    border-radius: var(--radius-pill);
 }
 
 /* ============================== */
@@ -11422,7 +11536,7 @@ body.tf-embed-cards .markdown-embed {
     border-inline-start: var(--border-heavy) solid rgba(var(--primary-color-rgb), .55);
     border-radius: var(--r1) var(--r3) var(--r3) var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     padding: var(--s2) var(--s3);
     transition: box-shadow var(--transition-ui), transform var(--transition-ui), border-color var(--transition-ui);
 }
@@ -12044,7 +12158,7 @@ body.tf-liquid-chrome.layout-card:not(.is-phone) .workspace-tab-header:not(.is-a
 }
 
 body.tf-liquid-chrome.layout-card:not(.is-phone) .workspace-tab-header.is-active,
-body.tf-liquid-chrome .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header.is-active {
+body.tf-liquid-chrome .workspace-split:is(.mod-left-split, .mod-right-split, .mod-primary-split, .mod-secondary-split) .workspace-tab-header.is-active {
     background-color: var(--lg-fill-raised) !important;
     box-shadow: var(--lg-rim), var(--lg-shadow) !important;
     border: none !important;
@@ -12054,13 +12168,13 @@ body.tf-liquid-chrome .workspace-split:is(.mod-left-split, .mod-right-split) .wo
 
 /* Tab pills — sidebar pane switcher (Files/Search/Bookmarks, Outline/
    Backlinks/Tags): one shared glass capsule housing icon-only tabs. */
-body.tf-liquid-chrome:not(.is-mobile) .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container-inner {
+body.tf-liquid-chrome:not(.is-mobile) .workspace-split:is(.mod-left-split, .mod-right-split, .mod-primary-split, .mod-secondary-split) .workspace-tab-header-container-inner {
     background-color: var(--lg-fill) !important;
     box-shadow: var(--lg-rim), var(--lg-shadow);
 }
 
 @supports (backdrop-filter: blur(1px)) {
-    body.tf-liquid-chrome:not(.is-mobile) .workspace-split:is(.mod-left-split, .mod-right-split) .workspace-tab-header-container-inner {
+    body.tf-liquid-chrome:not(.is-mobile) .workspace-split:is(.mod-left-split, .mod-right-split, .mod-primary-split, .mod-secondary-split) .workspace-tab-header-container-inner {
         backdrop-filter: var(--lg-blur);
         -webkit-backdrop-filter: var(--lg-blur);
     }
@@ -12441,14 +12555,14 @@ body.depth-shadows.theme-dark .prompt {
     border: var(--border-thin) solid var(--divider-color);
     border-radius: var(--r3);
     -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
     box-shadow: var(--shadow-2);
 }
 
 .graph-controls-button {
     border-radius: var(--r2);
     -electron-corner-smoothing: var(--squircle-btn);
-    corner-shape: squircle;
+    corner-shape: var(--tf-corner-shape, squircle);
 }
 
 /* ============================== */
@@ -12696,7 +12810,7 @@ body.tf-hover-lift .workspace-tab-header.is-active:hover {
     transform: scale(1.04);
 }
 
-body.tf-hover-lift:not(.is-phone).depth-shadows.layout-card:not(.tf-liquid-chrome) .workspace-tab-header.is-active:not(.workspace-split.mod-left-split .workspace-tab-header):not(.workspace-split.mod-right-split .workspace-tab-header) {
+body.tf-hover-lift:not(.is-phone).depth-shadows.layout-card:not(.tf-liquid-chrome) .workspace-tab-header.is-active:not(.workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-tab-header):not(.workspace-split:is(.mod-right-split, .mod-secondary-split) .workspace-tab-header) {
     transform: translateY(-2px) !important;
 }
 
