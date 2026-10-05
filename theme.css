@@ -131,6 +131,9 @@ settings:
             -
                 label: Soft card
                 value: callout-style-card
+            -
+                label: Header band
+                value: callout-style-band
     -
         id: tf-nested-callout-inherit
         title: Nested callouts follow parent color
@@ -225,6 +228,12 @@ settings:
         id: tf-embed-cards
         title: Elegant embed cards
         description: Note embeds and transclusions become soft accent-edged cards with a hover lift and a link icon that appears on hover
+        type: class-toggle
+        default: false
+    -
+        id: tf-embed-band
+        title: Embed title band
+        description: The title of a note embed sits on a tinted band with a hairline below, like Header band callouts
         type: class-toggle
         default: false
     -
@@ -434,6 +443,12 @@ settings:
         id: tf-balanced-headings
         title: Balanced line wrapping
         description: Wrap headings, titles, callout titles, and tooltips onto evenly-balanced lines instead of leaving a short ragged last line
+        type: class-toggle
+        default: false
+    -
+        id: tf-heading-even
+        title: Even heading steps
+        description: Spaces heading sizes more evenly (larger h2, smaller h3, h5 and h6 closer to body text) and gives h3 the same weight as h2
         type: class-toggle
         default: false
     -
@@ -917,6 +932,12 @@ settings:
                 label: Card
                 value: layout-card
     -
+        id: tf-flat-sidebars
+        title: Flat side panels
+        description: With the Card layout, side panels sit flat on the background and only the note keeps its card
+        type: class-toggle
+        default: false
+    -
         id: corner-size-style
         title: Corner size
         description: Scales every rounded corner by one factor so nested shapes keep their proportions. Tight is closer to square, Soft is rounder on cards, modals, callouts and menus. Pills and toggles keep their shape
@@ -1051,7 +1072,6 @@ settings:
     --heading-bg-opacity: .2;
     --heading-pad-y: 0.2em;
     --heading-pad-x: 0.5em;
-    --heading-font: inherit;
 
     /* Typography refinement tokens */
     --tracking-tight: -0.02em;
@@ -3538,7 +3558,7 @@ body.focus-mode :is(
 }
 
 /* --- Mute callout decorations — structure survives, colour noise goes --- */
-body.focus-mode :is(.callout, .cm-callout) {
+body.focus-mode .callout {
     background-color: var(--background-secondary) !important;
     border-inline-start-color: var(--text-muted) !important;
 }
@@ -3986,6 +4006,35 @@ body.tf-balanced-headings :is(h1, h2, h3, h4, h5, h6, .inline-title, .callout-ti
     font-family: var(--heading-font);
 }
 
+/* Heading tokens. Obsidian reads --h1-size..--h6-size for Reading view
+   (.markdown-rendered hN) and Live Preview (.HyperMD-header-N lines), so one
+   value per level keeps both modes in sync. On body, not :root, so Style
+   Settings can override them. Defaults equal the old literal sizes.
+   --inline-title-size is pinned to Obsidian's own default, because native
+   derives it from --h1-size and the inline title would otherwise grow.
+   --heading-font moved here from :root (Style Settings variable). */
+body {
+    --heading-font: inherit;
+    --h1-size: 1.8em;
+    --h2-size: 1.4em;
+    --h3-size: 1.35em;
+    --h4-size: 1.15em;
+    --h5-size: 1.1em;
+    --h6-size: 1.05em;
+    --tf-h3-weight: 700;
+    --inline-title-size: 1.618em;
+}
+
+/* Even heading steps (opt-in): h2 and h3 move apart, h5/h6 settle toward
+   body size, and h3 takes the shared semibold so it never outweighs h2. */
+body.tf-heading-even {
+    --h2-size: 1.5em;
+    --h3-size: 1.3em;
+    --h5-size: 1.05em;
+    --h6-size: 1em;
+    --tf-h3-weight: var(--weight-semibold);
+}
+
 /* Base heading styles (Preview and Source Mode) */
 .markdown-preview-view h1,
 .markdown-preview-view h2,
@@ -4030,7 +4079,7 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
     --h-color: var(--heading-primary);
     background-color: rgba(var(--heading-primary-rgb), var(--heading-bg-opacity));
     color: hsl(from var(--heading-primary) h s calc(l * var(--heading-text-multiplier)));
-    font-size: 1.8em;
+    font-size: var(--h1-size);
     letter-spacing: -0.02em;
 }
 
@@ -4042,7 +4091,7 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
     --h-color: var(--heading-secondary);
     background-color: rgba(var(--heading-secondary-rgb), var(--heading-bg-opacity));
     color: hsl(from var(--heading-secondary) h s calc(l * var(--heading-text-multiplier)));
-    font-size: 1.4em;
+    font-size: var(--h2-size);
     letter-spacing: -0.015em;
 }
 
@@ -4054,8 +4103,8 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
     --h-color: var(--heading-tertiary);
     background-color: rgba(var(--heading-tertiary-rgb), var(--heading-bg-opacity));
     color: hsl(from var(--heading-tertiary) h s calc(l * var(--heading-text-multiplier)));
-    font-size: 1.35em;
-    font-weight: 700;
+    font-size: var(--h3-size);
+    font-weight: var(--tf-h3-weight);
 }
 
 .markdown-preview-view h4,
@@ -4066,7 +4115,7 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
     --h-color: var(--heading-quaternary);
     background-color: rgba(var(--heading-quaternary-rgb), var(--heading-bg-opacity));
     color: hsl(from var(--heading-quaternary) h s calc(l * var(--heading-text-multiplier)));
-    font-size: 1.15em;
+    font-size: var(--h4-size);
 }
 
 .markdown-preview-view h5,
@@ -4077,7 +4126,7 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
     --h-color: var(--heading-quinary);
     background-color: rgba(var(--heading-quinary-rgb), var(--heading-bg-opacity));
     color: hsl(from var(--heading-quinary) h s calc(l * var(--heading-text-multiplier)));
-    font-size: 1.1em;
+    font-size: var(--h5-size);
 }
 
 .markdown-preview-view h6,
@@ -4088,7 +4137,7 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
     --h-color: var(--heading-senary);
     background-color: rgba(var(--heading-senary-rgb), var(--heading-bg-opacity));
     color: hsl(from var(--heading-senary) h s calc(l * var(--heading-text-multiplier)));
-    font-size: 1.05em;
+    font-size: var(--h6-size);
 }
 
 /* Live-preview heading font-size, applied at the LINE level rather than the
@@ -4100,12 +4149,12 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
    and the span then just inherits the corrected line size as Obsidian's own
    rule already intends. (Confirmed live: span-level !important alone
    double-scaled headings, compounding on top of the line's own --hN-size.) */
-.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-1 { font-size: 1.8em; }
-.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-2 { font-size: 1.4em; }
-.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-3 { font-size: 1.35em; }
-.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-4 { font-size: 1.15em; }
-.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-5 { font-size: 1.1em; }
-.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-6 { font-size: 1.05em; }
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-1 { font-size: var(--h1-size); }
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-2 { font-size: var(--h2-size); }
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-3 { font-size: var(--h3-size); }
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-4 { font-size: var(--h4-size); }
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-5 { font-size: var(--h5-size); }
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-6 { font-size: var(--h6-size); }
 
 /* Suppress <br> artifacts from trailing double-spaces in headings */
 .markdown-preview-view :is(h1, h2, h3, h4, h5, h6) > br {
@@ -4735,9 +4784,9 @@ em,
 
     body.link-style-glow &:hover {
         color: var(--link-color-hover);
-        background: rgba(var(--callout-color-rgb, var(--primary-color-rgb)), .2);
-        text-shadow: 0 0 12px rgba(var(--callout-color-rgb, var(--primary-color-rgb)), 0.6);
-        box-shadow: 0 4px 15px rgba(var(--callout-color-rgb, var(--primary-color-rgb)), 0.2);
+        background: color-mix(in srgb, var(--callout-color, rgb(var(--primary-color-rgb))) 20%, transparent);
+        text-shadow: 0 0 12px color-mix(in srgb, var(--callout-color, rgb(var(--primary-color-rgb))) 60%, transparent);
+        box-shadow: 0 4px 15px color-mix(in srgb, var(--callout-color, rgb(var(--primary-color-rgb))) 20%, transparent);
         transform: translateY(-1px) scale(1.03);
     }
 }
@@ -5230,13 +5279,16 @@ body .nav-files-container .nav-folder-title.is-selected {
 
 /* Callout Styling */
 .callout {
+    /* Readable type-tinted ink for links, bold and headings inside callouts.
+       Declared on .callout, not body: var(--callout-color) only exists here. */
+    --tf-callout-ink: color-mix(in oklch, var(--callout-color) var(--tf-callout-ink-mix, 35%), var(--text-normal));
     background:
         radial-gradient(ellipse at bottom right,
-            rgba(var(--callout-color-rgb), .15) 0%,
+            color-mix(in srgb, var(--callout-color) 15%, transparent) 0%,
             transparent 70%),
         linear-gradient(135deg,
-            rgba(var(--callout-color-rgb), .01) 0%,
-            rgba(var(--callout-color-rgb), .03) 100%);
+            color-mix(in srgb, var(--callout-color) 1%, transparent) 0%,
+            color-mix(in srgb, var(--callout-color) 3%, transparent) 100%);
     border-radius: var(--r4) var(--r1) var(--r4) var(--r1);
     -electron-corner-smoothing: var(--squircle-main);
     corner-shape: var(--tf-corner-shape, squircle);
@@ -5247,12 +5299,11 @@ body .nav-files-container .nav-folder-title.is-selected {
 .theme-dark .callout {
     background:
         radial-gradient(ellipse at bottom right,
-            rgba(var(--callout-color-rgb), .25) 0%,
+            color-mix(in srgb, var(--callout-color) 25%, transparent) 0%,
             transparent 70%),
         linear-gradient(135deg,
-            rgba(var(--callout-color-rgb), .05) 0%,
-            rgba(var(--callout-color-rgb), .1) 100%);
-    box-shadow: var(--shadow-3);
+            color-mix(in srgb, var(--callout-color) 5%, transparent) 0%,
+            color-mix(in srgb, var(--callout-color) 10%, transparent) 100%);
 }
 
 /* Callouts stay put on hover; depth/shadow rules carry the feedback */
@@ -5268,13 +5319,7 @@ body .nav-files-container .nav-folder-title.is-selected {
     background: transparent;
     border-block-end: none;
     color: hsl(from var(--callout-color) h s calc(l * .7));
-    text-shadow: 0 1px 2px rgba(var(--callout-color-rgb), .1);
-}
-
-/* Dark mode must LIGHTEN titles, not darken them — the .7 multiplier above
-   is a light-mode readability guard and inverts on dark backgrounds */
-.theme-dark .callout .callout-title {
-    color: hsl(from var(--callout-color) h s calc(min(l * 1.2, 85%)));
+    text-shadow: 0 1px 2px color-mix(in srgb, var(--callout-color) 10%, transparent);
 }
 
 .callout .callout-icon {
@@ -5310,64 +5355,49 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) .callout:not(.is-c
     padding-inline: 0;
 }
 
-/* Callout Types */
-/* Callout Types - Logical Grouping */
-:is(.callout[data-callout="note"], .callout[data-callout="default"], .markdown-source-view.mod-cm6 .cm-callout.cm-callout-note, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-default) {
-    --callout-color: var(--callout-note);
-    --callout-color-rgb: var(--callout-note-rgb);
-    background-color: rgba(var(--callout-note-rgb), var(--tf-callout-wash, .12));
-    border-inline-start-color: var(--callout-note);
+/* Callout Types
+   Native Obsidian maps every built-in type to a body variable
+   (app.css: .callout[data-callout="tip"] { --callout-color: var(--callout-tip) }).
+   Season palettes define note/info/warning/success/danger/example/cite/video/
+   quote. These aliases point the other native names at them, so all 13
+   native groups and custom types (via --callout-default) get a colour.
+   Hex only: callout rules mix var(--callout-color) with color-mix(), so no
+   per-type -rgb twin is needed. The old rules' .cm-callout.cm-callout-<type>
+   branches never matched (Obsidian 1.14 emits no such class). */
+body {
+    --callout-default: var(--callout-note);
+    --callout-summary: var(--callout-video);
+    --callout-tip: var(--callout-video);
+    --callout-important: var(--callout-video);
+    --callout-todo: var(--callout-info);
+    --callout-question: var(--callout-warning);
+    --callout-fail: var(--callout-danger);
+    --callout-error: var(--callout-danger);
+    --callout-bug: var(--callout-danger);
+    --tf-callout-ink-mix: 35%;
 }
 
-:is(.callout[data-callout="info"], .markdown-source-view.mod-cm6 .cm-callout.cm-callout-info) {
-    --callout-color: var(--callout-info);
-    --callout-color-rgb: var(--callout-info-rgb);
-    background-color: rgba(var(--callout-info-rgb), var(--tf-callout-wash, .12));
-    border-inline-start-color: var(--callout-info);
+body.theme-dark {
+    --tf-callout-ink-mix: 50%;
 }
 
-:is(.callout[data-callout="warning"], .callout[data-callout="caution"], .callout[data-callout="attention"], .callout[data-callout="question"], .callout[data-callout="help"], .callout[data-callout="faq"], .markdown-source-view.mod-cm6 .cm-callout.cm-callout-warning, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-caution, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-attention, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-question, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-help, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-faq) {
-    --callout-color: var(--callout-warning);
-    --callout-color-rgb: var(--callout-warning-rgb);
-    background-color: rgba(var(--callout-warning-rgb), var(--tf-callout-wash, .12));
-    border-inline-start-color: var(--callout-warning);
-}
-
-:is(.callout[data-callout="success"], .callout[data-callout="check"], .callout[data-callout="done"], .callout[data-callout="todo"], .callout[data-callout="tip"], .callout[data-callout="hint"], .callout[data-callout="summary"], .callout[data-callout="abstract"], .callout[data-callout="tldr"], .markdown-source-view.mod-cm6 .cm-callout.cm-callout-success, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-check, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-done, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-todo, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-tip, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-hint, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-summary, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-abstract, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-tldr) {
-    --callout-color: var(--callout-success);
-    --callout-color-rgb: var(--callout-success-rgb);
-    background-color: rgba(var(--callout-success-rgb), var(--tf-callout-wash, .12));
-    border-inline-start-color: var(--callout-success);
-}
-
-:is(.callout[data-callout="danger"], .callout[data-callout="error"], .callout[data-callout="failure"], .callout[data-callout="bug"], .callout[data-callout="important"], .markdown-source-view.mod-cm6 .cm-callout.cm-callout-danger, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-error, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-failure, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-bug, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-important) {
-    --callout-color: var(--callout-danger);
-    --callout-color-rgb: var(--callout-danger-rgb);
-    background-color: rgba(var(--callout-danger-rgb), var(--tf-callout-wash, .12));
-    border-inline-start-color: var(--callout-danger);
-}
-
-:is(.callout[data-callout="example"], .callout[data-callout="quote"], .markdown-source-view.mod-cm6 .cm-callout.cm-callout-example, .markdown-source-view.mod-cm6 .cm-callout.cm-callout-quote) {
-    --callout-color: var(--callout-example);
-    --callout-color-rgb: var(--callout-example-rgb);
-    background-color: rgba(var(--callout-example-rgb), var(--tf-callout-wash, .12));
-    border-inline-start-color: var(--callout-example);
-}
-
-:is(.callout[data-callout="cite"], .markdown-source-view.mod-cm6 .cm-callout.cm-callout-cite) {
+/* Types the native map does not cover the way TerraFlow wants */
+.callout[data-callout="cite"] {
     --callout-color: var(--callout-cite);
-    --callout-color-rgb: var(--callout-cite-rgb);
-    background-color: rgba(var(--callout-cite-rgb), var(--tf-callout-wash, .12));
-    border-inline-start-color: var(--callout-cite);
     --callout-icon: lucide-book;
 }
 
-:is(.callout[data-callout="video"], .markdown-source-view.mod-cm6 .cm-callout.cm-callout-video) {
+.callout[data-callout="video"] {
     --callout-color: var(--callout-video);
-    --callout-color-rgb: var(--callout-video-rgb);
-    background-color: rgba(var(--callout-video-rgb), var(--tf-callout-wash, .12));
-    border-inline-start-color: var(--callout-video);
     --callout-icon: lucide-video;
+}
+
+/* Flat per-type wash under every style's gradient layers. The doubled class
+   and attribute pin this at 0,4,0, the specificity the old per-type :is()
+   rules had, so each style's background shorthand still loses to it exactly
+   as before. Lower it only after reviewing those shorthands. */
+.callout.callout[data-callout][data-callout] {
+    background-color: color-mix(in srgb, var(--callout-color) calc(var(--tf-callout-wash, .12) * 100%), transparent);
 }
 
 :is(.callout, .cm-callout) .callout-content {
@@ -5379,7 +5409,7 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) .callout:not(.is-c
 }
 
 :is(.callout, .cm-callout) .callout-content :is(strong, em) {
-    color: var(--callout-color);
+    color: var(--tf-callout-ink);
 }
 
 :is(.callout, .cm-callout) .callout-title :is(a, strong, em, .internal-link, .external-link) {
@@ -5401,8 +5431,8 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) .callout:not(.is-c
     & a,
     & .internal-link,
     & .external-link {
-        color: var(--callout-color) !important;
-        background: rgba(var(--callout-color-rgb), .08) !important;
+        color: var(--tf-callout-ink) !important;
+        background: color-mix(in srgb, var(--callout-color) 8%, transparent) !important;
         text-decoration: none;
         border-radius: var(--r1);
         -electron-corner-smoothing: var(--squircle-main);
@@ -5414,12 +5444,12 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) .callout:not(.is-c
     & a:hover,
     & .internal-link:hover,
     & .external-link:hover {
-        background: rgba(var(--callout-color-rgb), .15) !important;
+        background: color-mix(in srgb, var(--callout-color) 15%, transparent) !important;
     }
 
     & .callout-title :is(a, .internal-link, .external-link, .cm-url) {
         color: inherit !important;
-        background: rgba(var(--callout-color-rgb), .08) !important;
+        background: color-mix(in srgb, var(--callout-color) 8%, transparent) !important;
         text-decoration: none;
         border-radius: var(--r1);
         -electron-corner-smoothing: var(--squircle-main);
@@ -5429,12 +5459,12 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) .callout:not(.is-c
     }
 
     & .callout-title :is(a, .internal-link, .external-link, .cm-url):hover {
-        background: rgba(var(--callout-color-rgb), .15) !important;
+        background: color-mix(in srgb, var(--callout-color) 15%, transparent) !important;
     }
 
     & .callout-content :is(a, .internal-link, .external-link, .cm-url) {
-        color: var(--callout-color) !important;
-        background: rgba(var(--callout-color-rgb), .08) !important;
+        color: var(--tf-callout-ink) !important;
+        background: color-mix(in srgb, var(--callout-color) 8%, transparent) !important;
         text-decoration: none;
         border-radius: var(--r1);
         -electron-corner-smoothing: var(--squircle-main);
@@ -5444,7 +5474,7 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) .callout:not(.is-c
     }
 
     & .callout-content :is(a, .internal-link, .external-link, .cm-url):hover {
-        background: rgba(var(--callout-color-rgb), .15) !important;
+        background: color-mix(in srgb, var(--callout-color) 15%, transparent) !important;
     }
 }
 
@@ -5460,7 +5490,7 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
 
 [data-callout] .is-unresolved {
     opacity: .75;
-    background: rgba(var(--callout-color-rgb), .08) !important;
+    background: color-mix(in srgb, var(--callout-color) 8%, transparent) !important;
     color: inherit;
     border-bottom: 1px dashed var(--callout-color) !important;
     text-decoration: none !important;
@@ -5473,12 +5503,12 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
 
 :is(.callout, .cm-callout) :is(.callout-content, .callout-title) .is-unresolved:hover,
 :is(.callout, .cm-callout) :is(.callout-content, .callout-title) .internal-link.is-unresolved:hover {
-    background: rgba(var(--callout-color-rgb), .15) !important;
+    background: color-mix(in srgb, var(--callout-color) 15%, transparent) !important;
     opacity: .9;
 }
 
 :is(.callout, .cm-callout) .callout-content :is(.internal-link.is-unresolved, .is-unresolved):hover {
-    color: var(--callout-color) !important;
+    color: var(--tf-callout-ink) !important;
     border-bottom: 1px dashed var(--callout-color) !important;
 }
 
@@ -5518,7 +5548,7 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
     background-color: var(--tf-hl);
     color: var(--tf-hl-ink);
     border-bottom: 2px solid var(--tf-hl-solid);
-    box-shadow: 0 1px 2px rgba(var(--callout-color-rgb), .15);
+    box-shadow: 0 1px 2px color-mix(in srgb, var(--callout-color) 15%, transparent);
 }
 
 .theme-dark :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight) {
@@ -5527,7 +5557,7 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
     background-color: var(--tf-hl);
     color: var(--tf-hl-ink);
     border-bottom: 2px solid var(--tf-hl-solid);
-    box-shadow: 0 1px 2px rgba(var(--callout-color-rgb), .2);
+    box-shadow: 0 1px 2px color-mix(in srgb, var(--callout-color) 20%, transparent);
     text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
 }
 
@@ -5541,7 +5571,7 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
 }
 
 :is(.callout, .cm-callout) .callout-content :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
-    color: var(--callout-color) !important;
+    color: var(--tf-callout-ink) !important;
     background-color: transparent !important;
     box-shadow: none;
     background-image: none !important;
@@ -5585,10 +5615,6 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
     font-size: .9em;
 }
 
-.theme-dark :is(.callout, .cm-callout) .callout-content :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
-    color: hsl(from var(--callout-color) h s calc(l * 1.4)) !important;
-}
-
 .markdown-source-view.mod-cm6 .cm-callout .cm-content .cm-line :is(.cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
     color: var(--callout-color);
 }
@@ -5603,17 +5629,17 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
 .callout-style-vintage .callout {
     background:
         repeating-linear-gradient(0deg,
-            rgba(var(--callout-color-rgb), 0.03) 0px,
-            rgba(var(--callout-color-rgb), 0.05) 1px,
+            color-mix(in srgb, var(--callout-color) 3%, transparent) 0px,
+            color-mix(in srgb, var(--callout-color) 5%, transparent) 1px,
             transparent 1px,
             transparent 2px),
-        radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.12) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at top left, color-mix(in srgb, var(--callout-color) 12%, transparent) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, color-mix(in srgb, var(--callout-color) 8%, transparent) 0%, transparent 50%),
         linear-gradient(135deg,
-            rgba(var(--callout-color-rgb), 0.15) 0%,
+            color-mix(in srgb, var(--callout-color) 15%, transparent) 0%,
             rgba(var(--background-secondary-rgb), 0.95) 50%,
             rgba(var(--background-secondary-rgb), 0.9) 100%);
-    border: var(--border-thick) solid rgba(var(--callout-color-rgb), 0.25);
+    border: var(--border-thick) solid color-mix(in srgb, var(--callout-color) 25%, transparent);
     border-inline-start: 5px solid var(--callout-color);
     border-radius: calc(4px * var(--tf-radius-scale, 1)) var(--r3) var(--r3) calc(4px * var(--tf-radius-scale, 1));
     box-shadow:
@@ -5633,28 +5659,28 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
     height: 1px;
     background: linear-gradient(to right,
             transparent,
-            rgba(var(--callout-color-rgb), 0.2),
+            color-mix(in srgb, var(--callout-color) 20%, transparent),
             transparent);
 }
 
 .theme-dark.callout-style-vintage .callout {
     background:
         repeating-linear-gradient(0deg,
-            rgba(var(--callout-color-rgb), 0.05) 0px,
-            rgba(var(--callout-color-rgb), 0.08) 1px,
+            color-mix(in srgb, var(--callout-color) 5%, transparent) 0px,
+            color-mix(in srgb, var(--callout-color) 8%, transparent) 1px,
             transparent 1px,
             transparent 2px),
-        radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.18) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at top left, color-mix(in srgb, var(--callout-color) 18%, transparent) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, color-mix(in srgb, var(--callout-color) 12%, transparent) 0%, transparent 50%),
         linear-gradient(135deg,
-            rgba(var(--callout-color-rgb), 0.2) 0%,
+            color-mix(in srgb, var(--callout-color) 20%, transparent) 0%,
             rgba(var(--background-secondary-rgb), 0.85) 50%,
             rgba(var(--background-secondary-rgb), 0.8) 100%);
+    /* Outer drop shadows removed: the native lighten blend hid them (measured
+       101 px changed by at most 9/255 when dropped). The insets do show. */
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        inset 0 -1px 0 rgba(0, 0, 0, var(--opacity-overlay)),
-        0 2px 8px rgba(0, 0, 0, 0.3),
-        0 1px 3px rgba(0, 0, 0, var(--opacity-overlay));
+        inset 0 -1px 0 rgba(0, 0, 0, var(--opacity-overlay));
 }
 
 .callout-style-vintage .callout:hover {
@@ -5671,14 +5697,14 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
 }
 
 /* Modern Glass Style - structural properties apply on all devices */
-.callout-style-glass :is(.callout, .cm-callout) {
+.callout-style-glass .callout {
     border-inline-start: none;
     border-radius: var(--r4);
     position: relative;
 }
 
 /* GPU-expensive blur + multi-layer shadow desktop-only */
-body:not(.is-mobile).callout-style-glass :is(.callout, .cm-callout) {
+body:not(.is-mobile).callout-style-glass .callout {
     backdrop-filter: blur(var(--tf-blur-m)) saturate(180%) brightness(1.06);
     -webkit-backdrop-filter: blur(var(--tf-blur-m)) saturate(180%) brightness(1.06);
     box-shadow:
@@ -5705,16 +5731,16 @@ body:not(.is-mobile).callout-style-glass :is(.callout, .cm-callout) {
 }
 
 /* Dark glass callout: gradient background applies on all devices */
-.theme-dark.callout-style-glass :is(.callout, .cm-callout) {
+.theme-dark.callout-style-glass .callout {
     background:
-        radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.3) 0%, transparent 62%),
-        radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.22) 0%, transparent 62%),
-        linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.26) 0%, rgba(var(--background-primary-rgb), 0.38) 100%);
-    border-color: rgba(var(--callout-color-rgb), 0.35);
+        radial-gradient(ellipse at top left, color-mix(in srgb, var(--callout-color) 30%, transparent) 0%, transparent 62%),
+        radial-gradient(ellipse at bottom right, color-mix(in srgb, var(--callout-color) 22%, transparent) 0%, transparent 62%),
+        linear-gradient(135deg, color-mix(in srgb, var(--callout-color) 26%, transparent) 0%, rgba(var(--background-primary-rgb), 0.38) 100%);
+    border-color: color-mix(in srgb, var(--callout-color) 35%, transparent);
 }
 
 /* Desktop-only: heavy blur + multi-layer shadow */
-body:not(.is-mobile).theme-dark.callout-style-glass :is(.callout, .cm-callout) {
+body:not(.is-mobile).theme-dark.callout-style-glass .callout {
     backdrop-filter: blur(var(--tf-blur-l)) saturate(160%) brightness(0.98);
     -webkit-backdrop-filter: blur(var(--tf-blur-l)) saturate(160%) brightness(0.98);
     box-shadow:
@@ -5732,50 +5758,37 @@ body:not(.is-mobile).theme-dark.callout-style-glass :is(.callout, .cm-callout) {
 /* Bold Border Style - Strong, confident, impactful */
 .callout-style-bold .callout {
     background:
-        radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.25) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.2) 0%, transparent 50%),
-        linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.18) 0%, rgba(var(--background-secondary-rgb), 0.9) 100%);
+        radial-gradient(ellipse at top left, color-mix(in srgb, var(--callout-color) 25%, transparent) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, color-mix(in srgb, var(--callout-color) 20%, transparent) 0%, transparent 50%),
+        linear-gradient(135deg, color-mix(in srgb, var(--callout-color) 18%, transparent) 0%, rgba(var(--background-secondary-rgb), 0.9) 100%);
     border: var(--border-heavy) solid var(--callout-color);
     border-inline-start: 6px solid var(--callout-color);
     border-radius: var(--r4);
     box-shadow:
-        0 0 0 2px rgba(var(--callout-color-rgb), 0.15),
+        0 0 0 2px color-mix(in srgb, var(--callout-color) 15%, transparent),
         0 6px 20px rgba(0, 0, 0, var(--opacity-divider)),
-        inset 0 0 20px rgba(var(--callout-color-rgb), 0.05);
+        inset 0 0 20px color-mix(in srgb, var(--callout-color) 5%, transparent);
     position: relative;
-}
-
-.callout-style-bold .callout::before {
-    content: '';
-    position: absolute;
-    inset-block-start: -3px;
-    inset-inline-start: -3px;
-    inset-inline-end: -3px;
-    inset-block-end: -3px;
-    border: var(--border-thin) solid rgba(var(--callout-color-rgb), 0.2);
-    border-radius: var(--r4);
-    pointer-events: none;
-    z-index: -1;
 }
 
 .theme-dark.callout-style-bold .callout {
     background:
-        radial-gradient(ellipse at top left, rgba(var(--callout-color-rgb), 0.3) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom right, rgba(var(--callout-color-rgb), 0.25) 0%, transparent 50%),
-        linear-gradient(135deg, rgba(var(--callout-color-rgb), 0.22) 0%, rgba(var(--background-secondary-rgb), 0.7) 100%);
+        radial-gradient(ellipse at top left, color-mix(in srgb, var(--callout-color) 30%, transparent) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, color-mix(in srgb, var(--callout-color) 25%, transparent) 0%, transparent 50%),
+        linear-gradient(135deg, color-mix(in srgb, var(--callout-color) 22%, transparent) 0%, rgba(var(--background-secondary-rgb), 0.7) 100%);
     box-shadow:
-        0 0 0 2px rgba(var(--callout-color-rgb), 0.25),
+        0 0 0 2px color-mix(in srgb, var(--callout-color) 25%, transparent),
         0 6px 20px rgba(0, 0, 0, 0.3),
-        inset 0 0 20px rgba(var(--callout-color-rgb), 0.08);
+        inset 0 0 20px color-mix(in srgb, var(--callout-color) 8%, transparent);
 }
 
 .callout-style-bold .callout:hover {
     border-width: 4px;
     border-left-width: 8px;
     box-shadow:
-        0 0 0 3px rgba(var(--callout-color-rgb), 0.2),
+        0 0 0 3px color-mix(in srgb, var(--callout-color) 20%, transparent),
         0 8px 24px rgba(0, 0, 0, var(--opacity-overlay)),
-        inset 0 0 25px rgba(var(--callout-color-rgb), 0.08);
+        inset 0 0 25px color-mix(in srgb, var(--callout-color) 8%, transparent);
 }
 
 .callout-style-bold .callout .callout-title {
@@ -5792,16 +5805,11 @@ body:not(.is-mobile).theme-dark.callout-style-glass :is(.callout, .cm-callout) {
     border-radius: var(--r4);
     -electron-corner-smoothing: var(--squircle-main);
     corner-shape: var(--tf-corner-shape, squircle);
-    box-shadow: 0 2px 8px rgba(var(--callout-color-rgb), .10);
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--callout-color) 10%, transparent);
     color: color-mix(in srgb, var(--callout-color) 25%, var(--text-normal));
-}
-
-/* The per-type :is() color rules (e.g. theme.css:5142) take their specificity
-   from their highest branch (.markdown-source-view.mod-cm6 .cm-callout.cm-callout-*,
-   4 classes), which outranks this 2-class selector even in reading mode where
-   that branch never matches — so border-inline-start-color survives at full
-   accent strength unless forced back to the mixed value here. */
-.callout-style-card .callout {
+    /* !important keeps nested Card callouts on the mixed edge: the later
+       nested reset (.callout .callout) repaints border-inline-start at full
+       accent otherwise. */
     border-inline-start-color: color-mix(in srgb, var(--callout-color) 45%, var(--background-primary)) !important;
 }
 
@@ -5816,11 +5824,11 @@ body:not(.is-mobile).theme-dark.callout-style-glass :is(.callout, .cm-callout) {
 }
 
 .theme-dark.callout-style-card .callout {
-    box-shadow: 0 2px 8px rgba(var(--callout-color-rgb), .18);
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--callout-color) 18%, transparent);
 }
 
 body:not(.is-mobile).callout-style-card .callout:hover {
-    box-shadow: 0 6px 16px rgba(var(--callout-color-rgb), .16);
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--callout-color) 16%, transparent);
     border-color: color-mix(in srgb, var(--callout-color) 60%, var(--background-primary));
 }
 
@@ -6595,6 +6603,10 @@ body:not(.is-mobile).callout-style-card .callout:hover {
 
 /* Unique bullet points per list level (un-ordered lists) */
 body.enable-fancy-bullets {
+    /* Level-3 square: --text-muted pulled 20% toward --text-normal clears
+       3:1 on every season in light and dark (min 3.41:1, Tokyo dark).
+       The old fixed mid-grey fell to 1.29-2.65:1 on dark palettes. */
+    --tf-bullet-3: color-mix(in oklch, var(--text-muted) 80%, var(--text-normal));
 
     /* LEVEL 1 */
     .markdown-reading-view ul>li>.list-bullet:after,
@@ -6621,7 +6633,7 @@ body.enable-fancy-bullets {
         height: 5px;
         width: 5px;
         border-radius: 0%;
-        background-color: rgb(89, 89, 89);
+        background-color: var(--tf-bullet-3);
     }
 
     /* LEVEL 4 */
@@ -7680,9 +7692,6 @@ body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.
 
 .theme-dark .view-header-title {
     color: var(--text-muted);
-}
-
-.theme-dark .view-header-title {
     text-shadow: 0 1px 2px rgba(0, 0, 0, .3);
     font-weight: var(--weight-medium);
 }
@@ -8657,6 +8666,17 @@ body.layout-card .view-header {
    to 0 in MOBILE & iPAD FIXES — the leaf margin alone is enough there) */
 body.layout-card .workspace-leaf-content {
     margin-block-end: 20px;
+}
+
+/* Flat side panels (opt-in): sidebar leaves drop the card surface and its
+   depth so only the note pane reads as a card. Desktop only, so phone and
+   iPad drawers are untouched. 0,6,1 + !important beats the card surface
+   (0,2,1 !important) and Luminance depth (0,5,1 !important); 0,6,1 beats the
+   depth-shadows rest and hover shadows (0,4,1 / 0,5,1). The sidebar tab pill
+   row sits outside the leaf content and is not changed. */
+body.tf-flat-sidebars:not(.is-mobile).layout-card .workspace-split:is(.mod-left-split, .mod-right-split, .mod-primary-split, .mod-secondary-split) .workspace-leaf-content {
+    background-color: transparent !important;
+    box-shadow: none;
 }
 
 /* Tab header hover scale effect - sidebars only (desktop only) */
@@ -9721,11 +9741,11 @@ body.tf-luminance-depth.theme-dark {
     --elevate-4: color-mix(in srgb, white 19%, var(--background-primary));
 }
 
-body.tf-luminance-depth :is(.callout, .metadata-container, .canvas-card) {
+body.tf-luminance-depth :is(.metadata-container, .canvas-card) {
     background-color: var(--elevate-2);
 }
 
-body.tf-luminance-depth :is(.callout, .metadata-container):hover {
+body.tf-luminance-depth .metadata-container:hover {
     background-color: var(--elevate-3);
 }
 
@@ -10230,7 +10250,7 @@ body.terraflow-quiet.depth-shadows .nav-buttons-container:hover {
 }
 
 /* Soften callout left-border */
-body.terraflow-quiet .callout {
+body.terraflow-quiet:not(.callout-style-band) .callout {
     border-left-width: 2px !important;
 }
 
@@ -10494,7 +10514,17 @@ body.tag-chips .cm-line .cm-hashtag-begin {
 /* ============================== */
 /* Task-state styling inspired by Baseline (github.com/aaaaalexis/obsidian-baseline).
    Colors ride the season palette via --callout-* vars so every season recolors them.
-   Note: Monochrome mode does not desaturate these states. */
+   Monochrome remaps those vars to the accent, so every state follows the accent there.
+   Each state sets --tf-task (and its glyph); one shared rule mixes it toward
+   --text-normal (--tf-task-mix) so the --background-primary glyph stays legible
+   in light palettes. */
+body.alt-checkboxes {
+    --tf-task-mix: 50%;
+}
+
+body.alt-checkboxes.theme-dark {
+    --tf-task-mix: 70%;
+}
 
 /* Replace Obsidian's mask checkmark with a text glyph for alternate states */
 body.alt-checkboxes :is(
@@ -10508,6 +10538,19 @@ body.alt-checkboxes :is(
     color: var(--background-primary);
     font-size: 12px;
     line-height: 1;
+}
+
+/* Shared fill for every alternate state that sets --tf-task. A state with no
+   token (an unlisted letter) leaves --tf-task-fill invalid, so the fallback
+   keeps the plain checked colour exactly as before. [/] and [-] keep
+   their own rules below. */
+body.alt-checkboxes :is(
+    .markdown-source-view.mod-cm6 .HyperMD-task-line:not([data-task=" "]):not([data-task="x"]):not([data-task="X"]):not([data-task="/"]):not([data-task="-"]),
+    .markdown-rendered li.task-list-item:not([data-task=" "]):not([data-task="x"]):not([data-task="X"]):not([data-task="/"]):not([data-task="-"])
+) .task-list-item-checkbox:checked {
+    --tf-task-fill: color-mix(in oklch, var(--tf-task) var(--tf-task-mix, 50%), var(--text-normal));
+    background: var(--tf-task-fill, var(--emphasis-color)) !important;
+    border-color: var(--tf-task-fill, var(--emphasis-color)) !important;
 }
 
 /* [/] in progress — half fill, no glyph */
@@ -10543,265 +10586,86 @@ body.alt-checkboxes :is(
     text-decoration-color: var(--text-faint);
 }
 
+/* Per-state colour token and glyph. Custom properties only: the shared
+   fill rule above turns --tf-task into the checkbox fill. Same selector
+   shape (and source order) as the old per-state rules. */
 /* [>] forwarded */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task=">"],
-    .markdown-rendered li.task-list-item[data-task=">"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "❯";
-    background: var(--callout-info) !important;
-    border-color: var(--callout-info) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task=">"] .task-list-item-checkbox { --tf-task: var(--callout-info); --task-glyph: "❯"; }
 
 /* [<] scheduled */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="<"],
-    .markdown-rendered li.task-list-item[data-task="<"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "❮";
-    background: var(--callout-video) !important;
-    border-color: var(--callout-video) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="<"] .task-list-item-checkbox { --tf-task: var(--callout-video); --task-glyph: "❮"; }
 
 /* [?] question */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="?"],
-    .markdown-rendered li.task-list-item[data-task="?"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "?";
-    background: var(--callout-warning) !important;
-    border-color: var(--callout-warning) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="?"] .task-list-item-checkbox { --tf-task: var(--callout-warning); --task-glyph: "?"; }
 
 /* [!] important */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="!"],
-    .markdown-rendered li.task-list-item[data-task="!"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "!";
-    background: var(--callout-danger) !important;
-    border-color: var(--callout-danger) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="!"] .task-list-item-checkbox { --tf-task: var(--callout-danger); --task-glyph: "!"; }
 
 /* [*] star */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="*"],
-    .markdown-rendered li.task-list-item[data-task="*"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "★";
-    background: var(--callout-warning) !important;
-    border-color: var(--callout-warning) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="*"] .task-list-item-checkbox { --tf-task: var(--callout-warning); --task-glyph: "★"; }
 
 /* ["] quote */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task='"'],
-    .markdown-rendered li.task-list-item[data-task='"']
-) .task-list-item-checkbox:checked {
-    --task-glyph: "❝";
-    background: var(--callout-quote) !important;
-    border-color: var(--callout-quote) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task='"'] .task-list-item-checkbox { --tf-task: var(--callout-quote); --task-glyph: "❝"; }
 
 /* [b] bookmark */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="b"],
-    .markdown-rendered li.task-list-item[data-task="b"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "b";
-    background: var(--callout-cite) !important;
-    border-color: var(--callout-cite) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="b"] .task-list-item-checkbox { --tf-task: var(--callout-cite); --task-glyph: "b"; }
 
 /* [i] information */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="i"],
-    .markdown-rendered li.task-list-item[data-task="i"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "i";
-    background: var(--callout-info) !important;
-    border-color: var(--callout-info) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="i"] .task-list-item-checkbox { --tf-task: var(--callout-info); --task-glyph: "i"; }
 
 /* [I] idea */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="I"],
-    .markdown-rendered li.task-list-item[data-task="I"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "I";
-    background: var(--callout-warning) !important;
-    border-color: var(--callout-warning) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="I"] .task-list-item-checkbox { --tf-task: var(--callout-warning); --task-glyph: "I"; }
 
 /* [p] pro */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="p"],
-    .markdown-rendered li.task-list-item[data-task="p"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "▲";
-    background: var(--callout-success) !important;
-    border-color: var(--callout-success) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="p"] .task-list-item-checkbox { --tf-task: var(--callout-success); --task-glyph: "▲"; }
 
 /* [c] con */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="c"],
-    .markdown-rendered li.task-list-item[data-task="c"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "▼";
-    background: var(--callout-danger) !important;
-    border-color: var(--callout-danger) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="c"] .task-list-item-checkbox { --tf-task: var(--callout-danger); --task-glyph: "▼"; }
 
 /* [u] up */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="u"],
-    .markdown-rendered li.task-list-item[data-task="u"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "↑";
-    background: var(--callout-success) !important;
-    border-color: var(--callout-success) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="u"] .task-list-item-checkbox { --tf-task: var(--callout-success); --task-glyph: "↑"; }
 
 /* [d] down */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="d"],
-    .markdown-rendered li.task-list-item[data-task="d"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "↓";
-    background: var(--callout-danger) !important;
-    border-color: var(--callout-danger) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="d"] .task-list-item-checkbox { --tf-task: var(--callout-danger); --task-glyph: "↓"; }
 
 /* [S] savings */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="S"],
-    .markdown-rendered li.task-list-item[data-task="S"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "$";
-    background: var(--callout-success) !important;
-    border-color: var(--callout-success) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="S"] .task-list-item-checkbox { --tf-task: var(--callout-success); --task-glyph: "$"; }
 
 /* [k] key */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="k"],
-    .markdown-rendered li.task-list-item[data-task="k"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "k";
-    background: var(--callout-warning) !important;
-    border-color: var(--callout-warning) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="k"] .task-list-item-checkbox { --tf-task: var(--callout-warning); --task-glyph: "k"; }
 
 /* [f] fire */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="f"],
-    .markdown-rendered li.task-list-item[data-task="f"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "f";
-    background: var(--callout-danger) !important;
-    border-color: var(--callout-danger) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="f"] .task-list-item-checkbox { --tf-task: var(--callout-danger); --task-glyph: "f"; }
 
 /* [t] time */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="t"],
-    .markdown-rendered li.task-list-item[data-task="t"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "t";
-    background: var(--callout-info) !important;
-    border-color: var(--callout-info) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="t"] .task-list-item-checkbox { --tf-task: var(--callout-info); --task-glyph: "t"; }
 
 /* [n] note */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="n"],
-    .markdown-rendered li.task-list-item[data-task="n"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "n";
-    background: var(--callout-cite) !important;
-    border-color: var(--callout-cite) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="n"] .task-list-item-checkbox { --tf-task: var(--callout-cite); --task-glyph: "n"; }
 
 /* [l] location */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="l"],
-    .markdown-rendered li.task-list-item[data-task="l"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "l";
-    background: var(--callout-example) !important;
-    border-color: var(--callout-example) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="l"] .task-list-item-checkbox { --tf-task: var(--callout-example); --task-glyph: "l"; }
 
 /* [w] win */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="w"],
-    .markdown-rendered li.task-list-item[data-task="w"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "w";
-    background: var(--callout-success) !important;
-    border-color: var(--callout-success) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="w"] .task-list-item-checkbox { --tf-task: var(--callout-success); --task-glyph: "w"; }
 
 /* [B] brainstorm */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="B"],
-    .markdown-rendered li.task-list-item[data-task="B"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "B";
-    background: var(--callout-warning) !important;
-    border-color: var(--callout-warning) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="B"] .task-list-item-checkbox { --tf-task: var(--callout-warning); --task-glyph: "B"; }
 
 /* [L] love */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="L"],
-    .markdown-rendered li.task-list-item[data-task="L"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "♥";
-    background: var(--callout-danger) !important;
-    border-color: var(--callout-danger) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="L"] .task-list-item-checkbox { --tf-task: var(--callout-danger); --task-glyph: "♥"; }
 
 /* [+] add */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="+"],
-    .markdown-rendered li.task-list-item[data-task="+"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "+";
-    background: var(--callout-success) !important;
-    border-color: var(--callout-success) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="+"] .task-list-item-checkbox { --tf-task: var(--callout-success); --task-glyph: "+"; }
 
 /* [A] alarm */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="A"],
-    .markdown-rendered li.task-list-item[data-task="A"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "A";
-    background: var(--callout-danger) !important;
-    border-color: var(--callout-danger) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="A"] .task-list-item-checkbox { --tf-task: var(--callout-danger); --task-glyph: "A"; }
 
 /* [R] review */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="R"],
-    .markdown-rendered li.task-list-item[data-task="R"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "R";
-    background: var(--callout-warning) !important;
-    border-color: var(--callout-warning) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="R"] .task-list-item-checkbox { --tf-task: var(--callout-warning); --task-glyph: "R"; }
 
 /* [P] phone */
-body.alt-checkboxes :is(
-    .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="P"],
-    .markdown-rendered li.task-list-item[data-task="P"]
-) .task-list-item-checkbox:checked {
-    --task-glyph: "P";
-    background: var(--callout-cite) !important;
-    border-color: var(--callout-cite) !important;
-}
+body.alt-checkboxes :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task="P"] .task-list-item-checkbox { --tf-task: var(--callout-cite); --task-glyph: "P"; }
 
 /* ============================== */
 /*   ENHANCED TABLES              */
@@ -11566,6 +11430,51 @@ body.tf-embed-cards:not(.is-mobile) .markdown-embed:hover .markdown-embed-link {
 }
 
 /* ============================== */
+/*   EMBED TITLE BAND (opt-in)    */
+/* ============================== */
+/* Note embeds (.internal-embed.inline-embed, same DOM in Reading view and
+   Live Preview) get the Header band look on their title row. The mix numbers
+   reuse the Header band body tokens when that style is on, and fall back to
+   the same values otherwise. Colours derive from the season accent. Scoped
+   to note views, so hover popovers and canvas file nodes are untouched. */
+body.tf-embed-band {
+    --tf-embed-band: var(--tf-callout-band, 14%);
+    /* Embed titles are smaller (0.85em with Elegant embed cards), so light
+       mode uses a 20% ink mix instead of the band's 25% to clear 4.5:1. */
+    --tf-embed-ink: 20%;
+    --tf-embed-edge: var(--tf-callout-edge, 22%);
+}
+
+body.theme-dark.tf-embed-band {
+    --tf-embed-band: var(--tf-callout-band, 10%);
+    --tf-embed-ink: var(--tf-callout-title-ink, 30%);
+    --tf-embed-edge: var(--tf-callout-edge, 28%);
+}
+
+body.tf-embed-band :is(.markdown-preview-view, .markdown-source-view.mod-cm6) .internal-embed.inline-embed > .markdown-embed-title:not(:empty) {
+    background-color: color-mix(in oklch, var(--primary-color) var(--tf-embed-band), var(--background-primary));
+    color: color-mix(in oklch, var(--primary-color) var(--tf-embed-ink), var(--text-normal));
+    border-block-end: var(--border-thin) solid color-mix(in oklch, var(--primary-color) var(--tf-embed-edge), transparent);
+    padding-block: var(--s2);
+    margin-block-end: var(--s2);
+}
+
+/* With Elegant embed cards the card has padding, a heavy start edge and
+   rounded corners: pull the band out to the card's inner edge and round its
+   top corners to match. */
+body.tf-embed-band.tf-embed-cards :is(.markdown-preview-view, .markdown-source-view.mod-cm6) .internal-embed.inline-embed > .markdown-embed-title:not(:empty) {
+    margin-block-start: calc(-1 * var(--s2));
+    margin-inline: calc(-1 * var(--s3));
+    border-start-start-radius: calc(var(--r1) - var(--border-heavy));
+    border-start-end-radius: calc(var(--r3) - var(--border-thin));
+}
+
+/* Deep Focus: keep the hairline, drop the tint */
+body.focus-mode.tf-embed-band :is(.markdown-preview-view, .markdown-source-view.mod-cm6) .internal-embed.inline-embed > .markdown-embed-title:not(:empty) {
+    background-color: transparent;
+}
+
+/* ============================== */
 /*   AURORA NOTE TITLE (opt-in)   */
 /* ============================== */
 
@@ -11605,7 +11514,7 @@ body.tf-aurora-title:not(.terraflow-quiet) .inline-title {
 /* ============================== */
 
 /* Structural properties on all devices; !important mirrors the other callout styles */
-.callout-style-liquid :is(.callout, .cm-callout) {
+.callout-style-liquid .callout {
     border: none;
     border-inline-start: none;
     border-radius: var(--r4);
@@ -11613,11 +11522,11 @@ body.tf-aurora-title:not(.terraflow-quiet) .inline-title {
     overflow: hidden;
     background:
         radial-gradient(ellipse at top left,
-            rgba(var(--callout-color-rgb), .22) 0%,
+            color-mix(in srgb, var(--callout-color) 22%, transparent) 0%,
             transparent 60%),
         linear-gradient(160deg,
             rgba(255, 255, 255, .18) 0%,
-            rgba(var(--callout-color-rgb), .1) 45%,
+            color-mix(in srgb, var(--callout-color) 10%, transparent) 45%,
             rgba(var(--background-primary-rgb), .3) 100%);
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, .5),
@@ -11625,14 +11534,14 @@ body.tf-aurora-title:not(.terraflow-quiet) .inline-title {
         0 8px 24px rgba(0, 0, 0, .12);
 }
 
-.theme-dark.callout-style-liquid :is(.callout, .cm-callout) {
+.theme-dark.callout-style-liquid .callout {
     background:
         radial-gradient(ellipse at top left,
-            rgba(var(--callout-color-rgb), .3) 0%,
+            color-mix(in srgb, var(--callout-color) 30%, transparent) 0%,
             transparent 60%),
         linear-gradient(160deg,
             rgba(255, 255, 255, .07) 0%,
-            rgba(var(--callout-color-rgb), .16) 45%,
+            color-mix(in srgb, var(--callout-color) 16%, transparent) 45%,
             rgba(var(--background-primary-rgb), .4) 100%);
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, .22),
@@ -11641,7 +11550,7 @@ body.tf-aurora-title:not(.terraflow-quiet) .inline-title {
 }
 
 /* GPU-expensive refraction blur desktop-only (same gating as Modern Glass) */
-body:not(.is-mobile).callout-style-liquid :is(.callout, .cm-callout) {
+body:not(.is-mobile).callout-style-liquid .callout {
     backdrop-filter: blur(var(--tf-blur-l)) saturate(190%);
     -webkit-backdrop-filter: blur(var(--tf-blur-l)) saturate(190%);
 }
@@ -11672,6 +11581,118 @@ body:not(.is-mobile):not(.terraflow-quiet).callout-style-liquid .callout:hover::
 }
 
 /* ============================== */
+/*   HEADER BAND CALLOUT STYLE    */
+/* ============================== */
+/* Title on its own tinted band, content in a faint well below a hairline.
+   Numbers live on body (Style Settings-safe). Colours are derived on
+   .callout, because var(--callout-color) only resolves there. Styles
+   .callout only, never the Live Preview .cm-callout wrapper. Monochrome
+   needs no rule: it remaps the hex --callout-* tokens these mixes read.
+   Must stay ABOVE the NESTED CALLOUTS section. */
+body.callout-style-band {
+    --callout-blend-mode: normal;
+    --tf-callout-wash: .03;
+    --tf-callout-band: 14%;
+    --tf-callout-title-ink: 25%;
+    --tf-callout-icon-ink: 55%;
+    --tf-callout-edge: 22%;
+    --tf-callout-pad-x: var(--s4);
+    --tf-callout-title-pad-y: var(--s2);
+    --tf-callout-body-pad-y: var(--s3);
+    --tf-callout-shadow: var(--shadow-1);
+}
+
+body.theme-dark.callout-style-band {
+    --tf-callout-wash: .04;
+    --tf-callout-band: 10%;
+    --tf-callout-title-ink: 30%;
+    --tf-callout-icon-ink: 80%;
+    --tf-callout-edge: 28%;
+    --tf-callout-shadow: none;
+}
+
+/* 0,2,1: beats .theme-dark .callout (0,2,0) and ties the depth-shadows
+   resting rule, winning on source order. Depth-shadows hover (0,3,1) still
+   applies on purpose. Radius comes from the base .callout rule. */
+body.callout-style-band .callout {
+    --tf-callout-title-bg: color-mix(in oklch, var(--callout-color) var(--tf-callout-band), var(--background-primary));
+    --tf-callout-title-fg: color-mix(in oklch, var(--callout-color) var(--tf-callout-title-ink), var(--text-normal));
+    --tf-callout-icon: color-mix(in oklch, var(--callout-color) var(--tf-callout-icon-ink), var(--text-normal));
+    --tf-callout-border: color-mix(in oklch, var(--callout-color) var(--tf-callout-edge), transparent);
+    padding: 0;
+    background-image: none;
+    border: var(--border-thin) solid var(--tf-callout-border);
+    box-shadow: var(--tf-callout-shadow);
+}
+
+body.callout-style-band .callout > .callout-title {
+    background-color: var(--tf-callout-title-bg);
+    color: var(--tf-callout-title-fg);
+    padding-block: var(--tf-callout-title-pad-y);
+    padding-inline: var(--tf-callout-pad-x);
+    border-block-end: var(--border-thin) solid var(--tf-callout-border);
+    text-shadow: none;
+    gap: var(--s2);
+}
+
+/* Collapsed or title-only: the band is the whole callout, so no divider */
+body.callout-style-band .callout.is-collapsed > .callout-title,
+body.callout-style-band .callout > .callout-title:last-child {
+    border-block-end-color: transparent;
+}
+
+/* The rubber-band fold scales a collapsed title to .94, which would open a
+   strip of well colour under the band. 0,6,1 beats that rule's 0,5,1. */
+body.callout-style-band:not(.disable-ui-animations):not(.animation-style-whimsy) .callout.is-collapsed .callout-title {
+    transform: none;
+}
+
+body.callout-style-band .callout > .callout-title .callout-icon {
+    padding: 0;
+}
+
+body.callout-style-band .callout > .callout-title .callout-icon .svg-icon {
+    color: var(--tf-callout-icon);
+}
+
+body.callout-style-band .callout > .callout-content {
+    padding-block: var(--tf-callout-body-pad-y);
+    padding-inline: var(--tf-callout-pad-x);
+    color: var(--text-normal);
+}
+
+body.callout-style-band .callout > .callout-content > :first-child {
+    margin-block-start: 0;
+}
+
+body.callout-style-band .callout > .callout-content > :last-child {
+    margin-block-end: 0;
+}
+
+/* Nested: a lighter band and a hairline frame instead of the generic
+   nested accent bar. 0,3,1 beats the 0,2,0 and 0,3,0 resets below.
+   The band tokens re-resolve per element, so the lower mix applies here. */
+body.callout-style-band .callout .callout {
+    --tf-callout-band: 8%;
+    border: var(--border-thin) solid var(--tf-callout-border);
+    border-radius: var(--r3);
+}
+
+body.theme-dark.callout-style-band .callout .callout {
+    --tf-callout-band: 6%;
+}
+
+/* Deep Focus: keep the structure, drop the band tint. The left edge needs
+   !important to beat focus mode's own !important accent-bar colour. */
+body.focus-mode.callout-style-band .callout > .callout-title {
+    background-color: transparent;
+}
+
+body.focus-mode.callout-style-band .callout {
+    border-inline-start-color: var(--tf-callout-border) !important;
+}
+
+/* ============================== */
 /*   NESTED CALLOUTS              */
 /* ============================== */
 /* Placed after every callout style block above: light variants like
@@ -11694,7 +11715,6 @@ body:not(.is-mobile):not(.terraflow-quiet).callout-style-liquid .callout:hover::
    transparent — reported live as "the whole callout is white". */
 .callout > .callout-content {
     --tf-parent-callout: var(--callout-color);
-    --tf-parent-callout-rgb: var(--callout-color-rgb);
 }
 
 /* A nested callout keeps its own type color but drops every material
@@ -11736,16 +11756,11 @@ body:not(.is-mobile):not(.terraflow-quiet).callout-style-liquid .callout:hover::
 }
 
 /* Optional: nested callout follows the parent's hue instead of its own
-   type color. !important required — the per-type :is() rules are 0,4,0
-   (specificity from their .cm-callout.cm-callout-* branch) and set
-   background-color from the literal --callout-<type>-rgb, not from
-   --callout-color-rgb, so overriding the variable alone would recolor
-   the title/icon/text but leave the background on the old hue. */
+   type color. Every callout colour (wash, gradients, bar, title, ink)
+   derives from --callout-color, so overriding it alone recolors the whole
+   nested callout. 0,3,1 beats native per-type (0,1,1) and cite/video (0,2,0). */
 body.tf-nested-callout-inherit .callout .callout {
-    --callout-color: var(--tf-parent-callout) !important;
-    --callout-color-rgb: var(--tf-parent-callout-rgb) !important;
-    background-color: rgba(var(--tf-parent-callout-rgb), var(--tf-callout-wash, .12)) !important;
-    border-inline-start-color: var(--tf-parent-callout) !important;
+    --callout-color: var(--tf-parent-callout);
 }
 
 /* ============================== */
@@ -12855,42 +12870,42 @@ body.tf-softer :is(.markdown-rendered mark, span.cm-highlight, .markdown-preview
 body.tf-softer.callout-style-default .callout {
     background:
         radial-gradient(ellipse at bottom right,
-            rgba(var(--callout-color-rgb), .1) 0%,
+            color-mix(in srgb, var(--callout-color) 10%, transparent) 0%,
             transparent 70%),
         linear-gradient(135deg,
-            rgba(var(--callout-color-rgb), .01) 0%,
-            rgba(var(--callout-color-rgb), .02) 100%);
+            color-mix(in srgb, var(--callout-color) 1%, transparent) 0%,
+            color-mix(in srgb, var(--callout-color) 2%, transparent) 100%);
 }
 
 body.theme-dark.tf-softer.callout-style-default .callout {
     background:
         radial-gradient(ellipse at bottom right,
-            rgba(var(--callout-color-rgb), .16) 0%,
+            color-mix(in srgb, var(--callout-color) 16%, transparent) 0%,
             transparent 70%),
         linear-gradient(135deg,
-            rgba(var(--callout-color-rgb), .03) 0%,
-            rgba(var(--callout-color-rgb), .06) 100%);
+            color-mix(in srgb, var(--callout-color) 3%, transparent) 0%,
+            color-mix(in srgb, var(--callout-color) 6%, transparent) 100%);
 }
 
-body.tf-softer.callout-style-liquid :is(.callout, .cm-callout) {
+body.tf-softer.callout-style-liquid .callout {
     background:
         radial-gradient(ellipse at top left,
-            rgba(var(--callout-color-rgb), .14) 0%,
+            color-mix(in srgb, var(--callout-color) 14%, transparent) 0%,
             transparent 60%),
         linear-gradient(160deg,
             rgba(255, 255, 255, .18) 0%,
-            rgba(var(--callout-color-rgb), .06) 45%,
+            color-mix(in srgb, var(--callout-color) 6%, transparent) 45%,
             rgba(var(--background-primary-rgb), .3) 100%);
 }
 
-body.theme-dark.tf-softer.callout-style-liquid :is(.callout, .cm-callout) {
+body.theme-dark.tf-softer.callout-style-liquid .callout {
     background:
         radial-gradient(ellipse at top left,
-            rgba(var(--callout-color-rgb), .19) 0%,
+            color-mix(in srgb, var(--callout-color) 19%, transparent) 0%,
             transparent 60%),
         linear-gradient(160deg,
             rgba(255, 255, 255, .07) 0%,
-            rgba(var(--callout-color-rgb), .1) 45%,
+            color-mix(in srgb, var(--callout-color) 10%, transparent) 45%,
             rgba(var(--background-primary-rgb), .4) 100%);
 }
 
@@ -12905,5 +12920,5 @@ body.tf-softer:is(.callout-style-default, .callout-style-liquid) {
    order; beats the 0,4,0 per-type rules and 0,3,0 dark Liquid. */
 body.tf-softer:is(.callout-style-default, .callout-style-liquid) .callout .callout {
     background-image: none;
-    background-color: rgba(var(--callout-color-rgb), var(--tf-callout-wash, .12));
+    background-color: color-mix(in srgb, var(--callout-color) calc(var(--tf-callout-wash, .12) * 100%), transparent);
 }
