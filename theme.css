@@ -5409,6 +5409,118 @@ body.theme-dark {
     background-color: color-mix(in srgb, var(--callout-color) calc(var(--tf-callout-wash, .12) * 100%), transparent);
 }
 
+/* Callout children follow the callout color. The accent and gray tokens are
+   declared on body, so without this every checkbox, bullet, inline code and
+   quote bar inside a callout showed the season color. Re-declared on .callout
+   (not .cm-callout, which wraps only the outermost one), so each nested
+   callout re-resolves against its own --callout-color. The --tf-base-* copies
+   keep the body value readable here without a self-referencing cycle. */
+body {
+    --tf-base-muted: var(--text-muted);
+    --tf-base-faint: var(--text-faint);
+    --tf-base-divider: var(--divider-color);
+}
+
+.callout {
+    --primary-color: var(--callout-color);
+    --primary-color-dark: var(--tf-callout-ink);
+    --interactive-accent: var(--callout-color);
+    --interactive-accent-hover: var(--tf-callout-ink);
+    --color-accent: var(--callout-color);
+    --text-accent: var(--tf-callout-ink);
+    --text-accent-hover: var(--tf-callout-ink);
+    --emphasis-color: var(--tf-callout-ink);
+    --checkbox-color: var(--callout-color);
+    --blockquote-border-color: var(--callout-color);
+    --text-muted: color-mix(in oklch, var(--callout-color) 25%, var(--tf-base-muted));
+    --text-faint: color-mix(in oklch, var(--callout-color) 25%, var(--tf-base-faint));
+    --checkbox-border-color: var(--text-faint);
+    --list-marker-color: var(--text-faint);
+    --checklist-done-color: var(--text-muted);
+    --divider-color: color-mix(in oklch, var(--callout-color) 25%, var(--tf-base-divider));
+    --hr-color: color-mix(in srgb, var(--text-normal) 22%, transparent);
+    --tf-bullet-3: color-mix(in oklch, var(--text-muted) 80%, var(--text-normal));
+}
+
+/* The ~200 rgba(var(--primary-color-rgb), a) rules (liquid tables, blockquotes,
+   code blocks, tags, hover washes) need a triplet, which a hex callout color
+   cannot give. Mirror the native type map (app.css) onto the season -rgb
+   twins. Custom types fall back to note, like native --callout-default. */
+.callout {
+    --primary-color-rgb: var(--callout-note-rgb);
+}
+
+.callout:is([data-callout="abstract"], [data-callout="summary"], [data-callout="tldr"], [data-callout="tip"], [data-callout="hint"], [data-callout="important"], [data-callout="video"]) {
+    --primary-color-rgb: var(--callout-video-rgb);
+}
+
+.callout:is([data-callout="info"], [data-callout="todo"]) {
+    --primary-color-rgb: var(--callout-info-rgb);
+}
+
+.callout:is([data-callout="success"], [data-callout="check"], [data-callout="done"]) {
+    --primary-color-rgb: var(--callout-success-rgb);
+}
+
+.callout:is([data-callout="question"], [data-callout="help"], [data-callout="faq"], [data-callout="warning"], [data-callout="caution"], [data-callout="attention"]) {
+    --primary-color-rgb: var(--callout-warning-rgb);
+}
+
+.callout:is([data-callout="failure"], [data-callout="fail"], [data-callout="missing"], [data-callout="danger"], [data-callout="error"], [data-callout="bug"]) {
+    --primary-color-rgb: var(--callout-danger-rgb);
+}
+
+.callout[data-callout="example"] {
+    --primary-color-rgb: var(--callout-example-rgb);
+}
+
+.callout:is([data-callout="quote"], [data-callout="cite"]) {
+    --primary-color-rgb: var(--callout-quote-rgb);
+}
+
+.callout[data-callout="cite"] {
+    --primary-color-rgb: var(--callout-cite-rgb);
+}
+
+.callout > .callout-content {
+    --tf-parent-callout-rgb: var(--primary-color-rgb);
+}
+
+body.tf-nested-callout-inherit .callout .callout {
+    --primary-color-rgb: var(--tf-parent-callout-rgb);
+}
+
+/* Tinted body text: same slider strength, toward the callout color */
+body.tinted-body-text .callout {
+    --text-normal: color-mix(in srgb, var(--callout-color) var(--body-text-tint, 20%), rgb(var(--text-normal-rgb)));
+}
+
+/* Inline code accent reads --primary-color-rgb, which cannot follow a hex
+   callout color, so restate its three states with color-mix */
+body.inline-code-accent .callout :not(pre) > code,
+body.inline-code-accent .cm-callout .cm-inline-code:not(.cm-formatting) {
+    background: linear-gradient(135deg,
+        color-mix(in srgb, var(--callout-color) 10%, transparent),
+        color-mix(in srgb, var(--callout-color) 15%, transparent)) !important;
+    box-shadow: 0 1px 3px color-mix(in srgb, var(--callout-color) 10%, transparent);
+}
+
+body.inline-code-accent.theme-dark .callout :not(pre) > code,
+body.inline-code-accent.theme-dark .cm-callout .cm-inline-code:not(.cm-formatting) {
+    background: linear-gradient(135deg,
+        color-mix(in srgb, var(--callout-color) 15%, transparent),
+        color-mix(in srgb, var(--callout-color) 20%, transparent)) !important;
+    box-shadow: 0 1px 3px color-mix(in srgb, var(--callout-color) 15%, transparent);
+}
+
+body.inline-code-accent .callout :not(pre) > code:hover,
+body.inline-code-accent .cm-callout .cm-inline-code:not(.cm-formatting):hover {
+    background: linear-gradient(135deg,
+        color-mix(in srgb, var(--callout-color) 20%, transparent),
+        color-mix(in srgb, var(--callout-color) 25%, transparent)) !important;
+    box-shadow: 0 2px 6px color-mix(in srgb, var(--callout-color) 20%, transparent);
+}
+
 :is(.callout, .cm-callout) .callout-content {
     color: hsl(from var(--callout-color) h s calc(l * 0.6));
 }
