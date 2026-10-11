@@ -117,14 +117,8 @@ settings:
                 label: Default (gradient)
                 value: callout-style-default
             -
-                label: Vintage paper
-                value: callout-style-vintage
-            -
                 label: Modern glass
                 value: callout-style-glass
-            -
-                label: Bold border
-                value: callout-style-bold
             -
                 label: Liquid glass
                 value: callout-style-liquid
@@ -163,9 +157,6 @@ settings:
             -
                 label: Modern glass
                 value: blockquote-style-glass
-            -
-                label: Bold dramatic
-                value: blockquote-style-bold
             -
                 label: Liquid glass
                 value: blockquote-style-liquid
@@ -375,6 +366,12 @@ settings:
         id: disable-modal-frost
         title: Disable modal frost
         description: Turn off the frosted glass effect for modal backgrounds
+        type: class-toggle
+        default: false
+    -
+        id: tf-opaque
+        title: Reduce transparency
+        description: Solid surfaces everywhere. Turns off every blur and fills menus, popovers, the palette, modals and glass controls with an opaque color
         type: class-toggle
         default: false
     -
@@ -1202,6 +1199,9 @@ body {
     --tf-tone-hover: rgba(var(--primary-color-rgb), var(--tf-tone-hover-a));
     --tf-tone-active: rgba(var(--primary-color-rgb), var(--tf-tone-active-a));
     --tf-tone-selected: rgba(var(--primary-color-rgb), var(--tf-tone-selected-a));
+    /* Text on an accent fill: near-black or near-white, whichever clears
+       contrast. oklch L 0.58 is where white and black text tie at about 4.6:1. Ink is a faint tint of the accent hue, not pure black or white. */
+    --tf-on-accent: oklch(from var(--primary-color) clamp(0.1, calc((0.58 - l) * 1000), 1) 0.015 h);
 }
 
 /* Black drop shadows vanish on dark surfaces; deepen them so hover depth reads */
@@ -1351,7 +1351,7 @@ body {
     --background-secondary-alt: #443131;
     --text-normal: #C7B3A8;
     --text-normal-rgb: 199, 179, 168;
-    --text-muted: #baa39d;
+    --text-muted: #c6b3ae;
     --emphasis-color: #a8522d;
     --emphasis-color-light: #C6AD75;
     --primary-color: #C6AD75;
@@ -2373,7 +2373,7 @@ body {
 
     --text-normal: #656360;
     --text-normal-rgb: 101, 99, 96;
-    --text-muted: #7d7b78;
+    --text-muted: #6a6865;
     --text-faint: #C7C5C2;
 
     --emphasis-color: #D14532;
@@ -2557,7 +2557,7 @@ body {
 
     --text-normal: #2E2C29;
     --text-normal-rgb: 46, 44, 41;
-    --text-muted: #7A7671;
+    --text-muted: #6d6965;
     --text-faint: #B5B0A9;
 
     --emphasis-color: #4A6A5B;
@@ -2644,7 +2644,7 @@ body {
 
     --text-normal: #D5D0C9;
     --text-normal-rgb: 213, 208, 201;
-    --text-muted: #8A8680;
+    --text-muted: #928e89;
     --text-faint: #524F4A;
 
     --emphasis-color: #88AE99;
@@ -2741,7 +2741,7 @@ body {
     --background-secondary-alt: #e0d4ca;
     --text-normal: #54433a;
     --text-normal-rgb: 84, 67, 58;
-    --text-muted: #7d6658;
+    --text-muted: #766053;
     --text-faint: #a98a78;
     --emphasis-color: #bc5c00;
     --emphasis-color-light: #d97708;
@@ -2913,7 +2913,7 @@ body {
     --background-secondary-alt: #d4d4da;
     --text-normal: #343b58;
     --text-normal-rgb: 52, 59, 88;
-    --text-muted: #6c6f85;
+    --text-muted: #616478;
     --text-faint: #7c7f93;
     --emphasis-color: #2c3252;
     --emphasis-color-light: #343b58;
@@ -2991,7 +2991,7 @@ body {
     --background-secondary-alt: #292e47;
     --text-normal: #9aa5ce;
     --text-normal-rgb: 154, 165, 206;
-    --text-muted: #646e9d;
+    --text-muted: #868eb3;
     --text-faint: #414868;
     --emphasis-color: #c0caf5;
     --emphasis-color-light: #d5dbf8;
@@ -3203,7 +3203,8 @@ body.theme-dark.enable-monochrome {
     border-block-end: var(--border-thick) solid var(--mono-line) !important;
 }
 
-.theme-dark.enable-monochrome :is(.markdown-rendered, .markdown-preview-view) table thead tr {
+.theme-dark.enable-monochrome :is(.markdown-rendered, .markdown-preview-view) table thead tr,
+.theme-light.enable-monochrome :is(.markdown-rendered, .markdown-preview-view) table thead tr {
     background-color: var(--mono-well) !important;
 }
 
@@ -3320,10 +3321,6 @@ body.theme-dark.enable-monochrome {
     border-block-end: var(--border-thick) solid rgba(0, 0, 0, .2) !important;
 }
 
-.theme-light.enable-monochrome :is(.markdown-rendered, .markdown-preview-view) table thead tr {
-    background-color: var(--mono-well) !important;
-}
-
 .theme-light.enable-monochrome :is(
     .setting-item-name,
     .setting-item-description,
@@ -3352,11 +3349,7 @@ body.theme-dark.enable-monochrome {
     stroke: #ffffff !important;
 }
 
-.theme-dark.enable-monochrome :is(mark, .cm-highlight, mark:hover, .cm-highlight:hover) {
-    background-color: var(--mono-mark) !important;
-    color: #000000 !important;
-}
-
+.theme-dark.enable-monochrome :is(mark, .cm-highlight, mark:hover, .cm-highlight:hover),
 .theme-light.enable-monochrome :is(mark, .cm-highlight, mark:hover, .cm-highlight:hover) {
     background-color: var(--mono-mark) !important;
     color: #000000 !important;
@@ -3842,13 +3835,16 @@ body.is-focused .workspace-tabs.mod-top {
     background: rgba(var(--primary-color-rgb), .12);
     -electron-corner-smoothing: var(--squircle-btn);
     corner-shape: var(--tf-corner-shape-btn, superellipse(1.5));
+}
+
+body.tf-hover-lift .vertical-tab-nav-item:hover {
     transform: translateY(-2px);
 }
 
 body:not(.tf-liquid-chrome) .vertical-tab-nav-item.is-active,
 body:not(.tf-liquid-chrome) .vertical-tab-nav-item.is-active :is(svg) {
     background: var(--primary-color) !important;
-    color: white !important;
+    color: var(--tf-on-accent) !important;
     font-weight: var(--weight-semibold);
     transform: translateY(-2px);
 }
@@ -3866,7 +3862,7 @@ body:not(.tf-liquid-chrome) .vertical-tab-nav-item.is-active :is(svg) {
 body:not(.tf-liquid-chrome) .theme-dark .vertical-tab-nav-item.is-active,
 body:not(.tf-liquid-chrome) .theme-dark .vertical-tab-nav-item.is-active :is(svg) {
     background: var(--primary-color) !important;
-    color: white !important;
+    color: var(--tf-on-accent) !important;
     border-inline-start-color: var(--primary-color-dark) !important;
     box-shadow: var(--shadow-3);
 }
@@ -3932,7 +3928,7 @@ body:not(.tf-liquid-chrome) .setting-item:hover {
 @media (prefers-contrast: high) {
     .vertical-tab-nav-item.is-active {
         background: var(--primary-color) !important;
-        color: white !important;
+        color: var(--tf-on-accent) !important;
         border-inline-start: 5px solid var(--primary-color-dark) !important;
         box-shadow: inset 0 0 0 2px #fff;
     }
@@ -4733,7 +4729,7 @@ em,
    used (e.g. "body.link-style-default &" === the old
    "body.link-style-default :is(...)"), so specificity and cascade order are
    unchanged from before this consolidation. */
-:is(.markdown-rendered a:not(.footnote-link), .markdown-rendered .internal-link, .markdown-rendered .external-link, .markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-url:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-internal-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-external-link:not(.cm-formatting)) {
+:is(.markdown-rendered a:not(.footnote-link, .tag), .markdown-rendered .internal-link, .markdown-rendered .external-link, .markdown-source-view.mod-cm6 .cm-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-url:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-internal-link:not(.cm-formatting), .markdown-source-view.mod-cm6 .cm-hmd-external-link:not(.cm-formatting)) {
     text-decoration: none !important;
     border-block-end: none !important;
     transition: color var(--transition-ui), background-color var(--transition-ui), border-color var(--transition-ui), box-shadow var(--transition-ui), transform var(--transition-ui), text-shadow var(--transition-ui);
@@ -4840,8 +4836,8 @@ body.link-style-default :is(p, li)>:is(a, .internal-link, .external-link, .cm-li
     border-block-end: none !important;
 }
 
-/* Unified Accent Glow for Link Hovers */
-.markdown-rendered a:hover,
+/* Unified Accent Glow for Link Hovers (tags excluded: live preview tags have no hover glow) */
+.markdown-rendered a:where(:not(.tag)):hover,
 .markdown-rendered .internal-link:hover,
 .markdown-rendered .external-link:hover,
 .markdown-source-view.mod-cm6 .cm-line .cm-link:hover,
@@ -5153,14 +5149,6 @@ body.explorer-style-glass .nav-files-container .nav-folder-title:hover {
     color: color-mix(in srgb, rgb(var(--folder-heading-rgb)) 55%, var(--text-normal));
 }
 
-/* Active file: liquid-glass pill — tinted fill under a specular highlight */
-body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.is-active .nav-file-title-content {
-    background-color: color-mix(in srgb, var(--background-primary) 70%, transparent);
-    background-image: linear-gradient(180deg, rgba(255, 255, 255, .25), rgba(255, 255, 255, 0) 60%);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4), 0 2px 8px rgba(0, 0, 0, .1);
-    color: var(--text-normal);
-}
-
 .nav-folder .nav-folder-children .nav-folder {
     --folder-color: inherit;
     --folder-text-color: inherit;
@@ -5188,43 +5176,9 @@ body.explorer-style-glass .nav-files-container>div>.nav-folder .nav-file-title.i
     font-weight: var(--weight-semibold);
 }
 
-.nav-file-title.is-active::before {
-    content: "";
-    position: absolute;
-    inset-inline-start: 0;
-    inset-block-start: 50%;
-    transform: translateY(-50%);
-    block-size: 80%;
-    inline-size: 3px;
-    border-radius: 0 var(--r1) var(--r1) 0;
-    -electron-corner-smoothing: var(--squircle-main);
-    corner-shape: var(--tf-corner-shape, squircle);
-    opacity: .9;
-    z-index: 2;
-}
-
 .nav-file-title.is-active:hover {
     background-color: transparent !important;
     filter: none !important;
-}
-
-.nav-file-title.is-active:hover .nav-file-title-content {
-    opacity: 1;
-    box-shadow: var(--shadow-3);
-    transform: translateY(-2px);
-    background-color: inherit;
-}
-
-.nav-files-container>div>.nav-folder .nav-file-title.is-active .nav-file-title-content {
-    background-color: color-mix(in srgb, var(--background-primary) 70%, transparent);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
-    color: var(--folder-text-color);
-}
-
-/* Dark surfaces are darker than the folder card, so lift the chip with a text-color mix instead */
-body.theme-dark .nav-files-container>div>.nav-folder .nav-file-title.is-active .nav-file-title-content {
-    background-color: color-mix(in srgb, var(--text-normal) 9%, transparent);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 2px 8px rgba(0, 0, 0, .25);
 }
 
 /* Multi-select: flat chip in the folder hue behind the label (same geometry as the active chip, no lift) */
@@ -5253,9 +5207,11 @@ body .nav-files-container .nav-file-title.is-selected:hover {
     background-color: rgba(var(--folder-heading-rgb, var(--primary-color-rgb)), calc(var(--tf-tone-selected-a) + var(--tf-tone-hover-a)));
 }
 
-/* Active file: flat selected chip, same as a multi-select item (no raised chip) */
-body .nav-files-container :is(.nav-folder, div) .nav-file-title[data-path][data-path].is-active .nav-file-title-content,
-body .nav-files-container :is(.nav-folder, div) .nav-file-title[data-path][data-path].is-active:hover .nav-file-title-content {
+/* Active file: flat selected chip, same as a multi-select item (no raised chip).
+   The raised glass and dark lift chips that used to sit above this were fully
+   overridden by it, so they were removed rather than out-ranked. */
+body .nav-files-container .nav-file-title.is-active .nav-file-title-content,
+body .nav-files-container .nav-file-title.is-active:hover .nav-file-title-content {
     padding-block: var(--s1);
     padding-inline: var(--s2);
     margin-block: calc(var(--s1) * -1);
@@ -5266,10 +5222,6 @@ body .nav-files-container :is(.nav-folder, div) .nav-file-title[data-path][data-
     transform: none;
     outline: none;
     color: var(--folder-text-color, var(--text-normal));
-}
-
-.nav-file-title.is-active::before {
-    display: none;
 }
 
 /* Folders in a multi-select: same flat chip (text colour already set above) */
@@ -5746,77 +5698,6 @@ body.link-style-underline [data-callout] :is(a, .internal-link, .external-link, 
 
 /* Callout Style Variants */
 
-/* Vintage Paper Style - Aged, textured, nostalgic */
-.callout-style-vintage .callout {
-    background:
-        repeating-linear-gradient(0deg,
-            color-mix(in srgb, var(--callout-color) 3%, transparent) 0px,
-            color-mix(in srgb, var(--callout-color) 5%, transparent) 1px,
-            transparent 1px,
-            transparent 2px),
-        radial-gradient(ellipse at top left, color-mix(in srgb, var(--callout-color) 12%, transparent) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom right, color-mix(in srgb, var(--callout-color) 8%, transparent) 0%, transparent 50%),
-        linear-gradient(135deg,
-            color-mix(in srgb, var(--callout-color) 15%, transparent) 0%,
-            rgba(var(--background-secondary-rgb), 0.95) 50%,
-            rgba(var(--background-secondary-rgb), 0.9) 100%);
-    border: var(--border-thick) solid color-mix(in srgb, var(--callout-color) 25%, transparent);
-    border-inline-start: 5px solid var(--callout-color);
-    border-radius: calc(4px * var(--tf-radius-scale, 1)) var(--r3) var(--r3) calc(4px * var(--tf-radius-scale, 1));
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, var(--opacity-light-overlay)),
-        inset 0 -1px 0 rgba(0, 0, 0, var(--opacity-subtle)),
-        0 2px 8px rgba(0, 0, 0, var(--opacity-divider)),
-        0 1px 3px rgba(0, 0, 0, var(--opacity-subtle));
-    position: relative;
-    overflow: hidden;
-}
-
-.callout-style-vintage .callout::before {
-    content: '';
-    position: absolute;
-    inset-block-start: 0;
-    inset-inline: 0;
-    height: 1px;
-    background: linear-gradient(to right,
-            transparent,
-            color-mix(in srgb, var(--callout-color) 20%, transparent),
-            transparent);
-}
-
-.theme-dark.callout-style-vintage .callout {
-    background:
-        repeating-linear-gradient(0deg,
-            color-mix(in srgb, var(--callout-color) 5%, transparent) 0px,
-            color-mix(in srgb, var(--callout-color) 8%, transparent) 1px,
-            transparent 1px,
-            transparent 2px),
-        radial-gradient(ellipse at top left, color-mix(in srgb, var(--callout-color) 18%, transparent) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom right, color-mix(in srgb, var(--callout-color) 12%, transparent) 0%, transparent 50%),
-        linear-gradient(135deg,
-            color-mix(in srgb, var(--callout-color) 20%, transparent) 0%,
-            rgba(var(--background-secondary-rgb), 0.85) 50%,
-            rgba(var(--background-secondary-rgb), 0.8) 100%);
-    /* Outer drop shadows removed: the native lighten blend hid them (measured
-       101 px changed by at most 9/255 when dropped). The insets do show. */
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        inset 0 -1px 0 rgba(0, 0, 0, var(--opacity-overlay));
-}
-
-.callout-style-vintage .callout:hover {
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.35),
-        inset 0 -1px 0 rgba(0, 0, 0, var(--opacity-active)),
-        0 4px 12px rgba(0, 0, 0, var(--opacity-overlay)),
-        0 2px 6px rgba(0, 0, 0, var(--opacity-divider));
-    border-inline-start-width: 6px;
-}
-
-.callout-style-vintage .callout .callout-icon {
-    filter: sepia(0.2) contrast(1.1);
-}
-
 /* Modern Glass Style - structural properties apply on all devices */
 .callout-style-glass .callout {
     border-inline-start: none;
@@ -5874,47 +5755,6 @@ body:not(.is-mobile).theme-dark.callout-style-glass .callout {
         0 12px 40px rgba(0, 0, 0, var(--opacity-divider)),
         inset 0 1px 0 rgba(255, 255, 255, 0.4),
         inset 0 -1px 0 rgba(0, 0, 0, var(--opacity-hover));
-}
-
-/* Bold Border Style - Strong, confident, impactful */
-.callout-style-bold .callout {
-    background:
-        radial-gradient(ellipse at top left, color-mix(in srgb, var(--callout-color) 25%, transparent) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom right, color-mix(in srgb, var(--callout-color) 20%, transparent) 0%, transparent 50%),
-        linear-gradient(135deg, color-mix(in srgb, var(--callout-color) 18%, transparent) 0%, rgba(var(--background-secondary-rgb), 0.9) 100%);
-    border: var(--border-heavy) solid var(--callout-color);
-    border-inline-start: 6px solid var(--callout-color);
-    border-radius: var(--r4);
-    box-shadow:
-        0 0 0 2px color-mix(in srgb, var(--callout-color) 15%, transparent),
-        0 6px 20px rgba(0, 0, 0, var(--opacity-divider)),
-        inset 0 0 20px color-mix(in srgb, var(--callout-color) 5%, transparent);
-    position: relative;
-}
-
-.theme-dark.callout-style-bold .callout {
-    background:
-        radial-gradient(ellipse at top left, color-mix(in srgb, var(--callout-color) 30%, transparent) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom right, color-mix(in srgb, var(--callout-color) 25%, transparent) 0%, transparent 50%),
-        linear-gradient(135deg, color-mix(in srgb, var(--callout-color) 22%, transparent) 0%, rgba(var(--background-secondary-rgb), 0.7) 100%);
-    box-shadow:
-        0 0 0 2px color-mix(in srgb, var(--callout-color) 25%, transparent),
-        0 6px 20px rgba(0, 0, 0, 0.3),
-        inset 0 0 20px color-mix(in srgb, var(--callout-color) 8%, transparent);
-}
-
-.callout-style-bold .callout:hover {
-    border-width: 4px;
-    border-left-width: 8px;
-    box-shadow:
-        0 0 0 3px color-mix(in srgb, var(--callout-color) 20%, transparent),
-        0 8px 24px rgba(0, 0, 0, var(--opacity-overlay)),
-        inset 0 0 25px color-mix(in srgb, var(--callout-color) 8%, transparent);
-}
-
-.callout-style-bold .callout .callout-title {
-    font-weight: var(--weight-bold);
-    letter-spacing: 0.02em;
 }
 
 /* Soft Card Style - ported from wavecnct.com: flat tinted panel,
@@ -6241,6 +6081,18 @@ body:not(.is-mobile).callout-style-card .callout:hover {
     position: relative;
     font-size: .9em;
     transition: box-shadow var(--transition-ui), transform var(--transition-ui);
+}
+
+/* Reading mode uses the live preview inset (native: --size-4-6, 24px) */
+:is(.markdown-preview-view blockquote, .markdown-rendered blockquote) {
+    padding-inline-start: 14px;
+}
+
+/* Live preview caps a quote line at --file-line-width measured in the quote's
+   own (.9em) font, so quotes are about 10% narrower than other blocks. Same
+   cap here so reading mode wraps the same way. Only with Readable line length. */
+.is-readable-line-width :is(.markdown-preview-view blockquote, .markdown-rendered blockquote) {
+    max-inline-size: var(--file-line-width);
 }
 
 .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote::before {
@@ -7099,19 +6951,19 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) .sidebar-toggle-bu
 /* Search option buttons (Match case, etc.) are centered natively with translateY(-50%).
    Hover pop, press squash, Whimsy scale and the depth-shadows lift (!important) all replace that
    transform and make the icon jump, so re-add the offset here. */
-body:not(.tf-x):not(.tf-y) .input-right-decorator.clickable-icon:hover:not(:active) {
+body .input-right-decorator.clickable-icon:hover:not(:active) {
     transform: translateY(-50%) scale(1.07) !important;
 }
 
-body:not(.tf-x):not(.tf-y):not(.tf-z) .input-right-decorator.clickable-icon:active {
+body .input-right-decorator.clickable-icon:active {
     transform: translateY(-50%) scale(1.06, 0.9) !important;
 }
 
-body.animation-style-whimsy:not(.tf-x):not(.tf-y) .input-right-decorator.clickable-icon:hover:not(:active) {
+body.animation-style-whimsy .input-right-decorator.clickable-icon:hover:not(:active) {
     transform: translateY(-50%) scale(var(--whimsy-scale-pop)) !important;
 }
 
-body.animation-style-whimsy:not(.tf-x):not(.tf-y):not(.tf-z) .input-right-decorator.clickable-icon:active {
+body.animation-style-whimsy .input-right-decorator.clickable-icon:active {
     transform: translateY(-50%) scale(0.9) !important;
 }
 
@@ -7577,7 +7429,7 @@ body:not(.disable-modal-frost) .modal-bg {
     will-change: opacity;
 }
 
-.theme-light body:not(.disable-modal-frost) .modal-bg {
+body.theme-light:not(.disable-modal-frost) .modal-bg {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -7638,7 +7490,7 @@ body:not(.disable-modal-frost) .modal-bg {
 
 .metadata-container .metadata-properties-heading {
     font-weight: var(--weight-semibold);
-    color: var(--text-faint);
+    color: var(--text-muted);
     margin-block-end: var(--s3);
     font-size: .78em;
     letter-spacing: .08em;
@@ -7770,11 +7622,11 @@ body:not(.disable-modal-frost) .modal-bg {
    transparent-until-active styling further down and would otherwise lose to
    this rule's higher specificity. Low contrast and Pill tabs opt out: both set
    inactive tabs transparent (!important) and lost to this rule's specificity. */
-body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs) .workspace-tab-header:not(.is-active):not(.workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-tab-header):not(.workspace-split:is(.mod-right-split, .mod-secondary-split) .workspace-tab-header) {
+body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs) .workspace-tab-header:not(.is-active):not(.workspace-split:is(.mod-left-split, .mod-primary-split, .mod-right-split, .mod-secondary-split) .workspace-tab-header) {
     background-color: transparent !important;
 }
 
-body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs) .workspace-tab-header:not(.is-active):not(.workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-tab-header):not(.workspace-split:is(.mod-right-split, .mod-secondary-split) .workspace-tab-header):hover {
+body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs) .workspace-tab-header:not(.is-active):not(.workspace-split:is(.mod-left-split, .mod-primary-split, .mod-right-split, .mod-secondary-split) .workspace-tab-header):hover {
     background-color: var(--tf-tone-hover) !important;
 }
 
@@ -8398,14 +8250,14 @@ body:not(.disable-scrollbars) :is(
 }
 
 /* Disable glass effects for menus/popovers/suggestions */
-body.disable-glass-menus :is(.popover, .prompt, .suggestion-container, .menu, .dropdown-menu, .modal) {
+body:is(.disable-glass-menus, .tf-opaque) :is(.popover, .prompt, .suggestion-container, .menu, .dropdown-menu, .modal) {
     background-color: var(--background-primary) !important;
     border-color: rgba(var(--primary-color-rgb), .12) !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
 }
 
-body.theme-dark.disable-glass-menus :is(.popover, .prompt, .suggestion-container, .menu, .dropdown-menu, .modal) {
+body.theme-dark:is(.disable-glass-menus, .tf-opaque) :is(.popover, .prompt, .suggestion-container, .menu, .dropdown-menu, .modal) {
     background-color: var(--background-secondary) !important;
     border-color: rgba(var(--primary-color-rgb), .2) !important;
 }
@@ -8643,9 +8495,15 @@ input[type='number'] {
 /* Keyboard focus: soft accent ring on controls that natively show nothing.
    :focus-visible only — mouse clicks never trigger it. Text inputs excluded;
    they already get Obsidian's native focus box-shadow. */
-body :is(button, .clickable-icon, .checkbox-container, .dropdown, select, a):focus-visible {
-    outline: 2px solid rgba(var(--primary-color-rgb), 0.5);
+body :is(button, .clickable-icon, .checkbox-container, .dropdown, select, a, .workspace-tab-header, .menu-item, .suggestion-item, .vertical-tab-nav-item):focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--primary-color) 80%, var(--text-normal));
     outline-offset: 1px;
+}
+
+/* Tree rows sit under contain: paint, which clips an outside ring */
+body :is(.tree-item-self, .nav-file-title, .nav-folder-title):focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--primary-color) 80%, var(--text-normal));
+    outline-offset: -2px;
 }
 
 /* Universal press feedback — Apple presses every interactive element */
@@ -8772,6 +8630,14 @@ body:not(.is-mobile).layout-card .workspace-split.mod-horizontal:focus-within {
     box-shadow: none;
     transform: none !important;
     z-index: auto !important;
+}
+
+/* Obsidian's Translucent window (body.is-translucent): the gutter behind the
+   cards must stay clear so the window material shows through. Native clears
+   these surfaces with a lower-specificity rule that the opaque !important
+   gutter fills above would otherwise beat. */
+body.is-translucent:not(.is-fullscreen).layout-card :is(.workspace, .workspace-split, .workspace-split.mod-vertical, .workspace-split.mod-horizontal) {
+    background-color: transparent !important;
 }
 
 /* View header fixes (desktop and mobile) */
@@ -9285,70 +9151,6 @@ body:not(.is-mobile).ribbon-autohide .workspace-ribbon:is(.mod-left, .mod-primar
 }
 
 /* ============================== */
-/*  Bold Dramatic Blockquote      */
-/* ============================== */
-
-/* Bold Dramatic - Light Mode */
-.blockquote-style-bold :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
-    background:
-        radial-gradient(ellipse at top left, rgba(var(--primary-color-rgb), 0.2) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom right, rgba(var(--primary-color-rgb), 0.15) 0%, transparent 50%),
-        linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.14) 0%, rgba(var(--background-secondary-rgb), 0.85) 100%);
-    border: var(--border-heavy) solid var(--blockquote-border-color);
-    border-inline-start: 6px solid var(--blockquote-border-color);
-    border-radius: var(--r4);
-    -electron-corner-smoothing: var(--squircle-main);
-    box-shadow:
-        0 0 0 2px rgba(var(--primary-color-rgb), 0.12),
-        0 6px 20px rgba(0, 0, 0, var(--opacity-divider)),
-        inset 0 0 20px rgba(var(--primary-color-rgb), 0.05);
-    position: relative;
-    overflow: hidden;
-}
-
-/* Bold Dramatic - Double outline ring */
-.blockquote-style-bold :is(.markdown-preview-view blockquote, .markdown-rendered blockquote)::before {
-    content: '';
-    position: absolute;
-    inset-block-start: -3px;
-    inset-inline-start: -3px;
-    inset-inline-end: -3px;
-    inset-block-end: -3px;
-    border: var(--border-thin) solid rgba(var(--primary-color-rgb), 0.18);
-    border-radius: var(--r4);
-    pointer-events: none;
-    z-index: -1;
-}
-
-/* Bold Dramatic - Source view bar */
-.blockquote-style-bold .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote::before {
-    inline-size: 6px;
-    border-radius: var(--r4) 0 0 var(--r4);
-}
-
-/* Bold Dramatic - Dark Mode */
-.theme-dark.blockquote-style-bold :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
-    background:
-        radial-gradient(ellipse at top left, rgba(var(--primary-color-rgb), 0.28) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom right, rgba(var(--primary-color-rgb), 0.2) 0%, transparent 50%),
-        linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.2) 0%, rgba(var(--background-secondary-rgb), 0.65) 100%);
-    box-shadow:
-        0 0 0 2px rgba(var(--primary-color-rgb), 0.22),
-        0 6px 20px rgba(0, 0, 0, 0.35),
-        inset 0 0 20px rgba(var(--primary-color-rgb), 0.08);
-}
-
-/* Bold Dramatic - Hover */
-.blockquote-style-bold :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote):hover {
-    border-width: 4px;
-    border-inline-start-width: 8px;
-    box-shadow:
-        0 0 0 3px rgba(var(--primary-color-rgb), 0.2),
-        0 8px 24px rgba(0, 0, 0, var(--opacity-overlay)),
-        inset 0 0 25px rgba(var(--primary-color-rgb), 0.08);
-}
-
-/* ============================== */
 /*     ACCESSIBILITY FEATURES     */
 /* ============================== */
 
@@ -9744,11 +9546,11 @@ body.depth-shadows .workspace-tab-header.is-active {
 
 /* Editor strip: only the active tab is a raised chip. Same exclusions as the
    inactive-fill rule in the tab header section. */
-body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs).depth-shadows .workspace-tab-header:not(.is-active):not(.workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-tab-header):not(.workspace-split:is(.mod-right-split, .mod-secondary-split) .workspace-tab-header) {
+body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs).depth-shadows .workspace-tab-header:not(.is-active):not(.workspace-split:is(.mod-left-split, .mod-primary-split, .mod-right-split, .mod-secondary-split) .workspace-tab-header) {
     box-shadow: none;
 }
 
-body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs).depth-shadows .workspace-tab-header:not(.is-active):not(.workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-tab-header):not(.workspace-split:is(.mod-right-split, .mod-secondary-split) .workspace-tab-header):hover {
+body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.pill-tabs).depth-shadows .workspace-tab-header:not(.is-active):not(.workspace-split:is(.mod-left-split, .mod-primary-split, .mod-right-split, .mod-secondary-split) .workspace-tab-header):hover {
     box-shadow: var(--depth-1);
 }
 
@@ -9761,6 +9563,11 @@ body.depth-shadows .clickable-icon:not(.workspace-tab-header-container *):not(.n
 
 body.depth-shadows .clickable-icon:not(.workspace-tab-header-container *):not(.nav-buttons-container *):hover {
     box-shadow: var(--depth-1);
+}
+
+/* Search option buttons keep their own centering transform (see the
+   .input-right-decorator rules in the hover pop block). */
+body.depth-shadows .clickable-icon:not(.workspace-tab-header-container *):not(.nav-buttons-container *):not(.input-right-decorator):hover {
     transform: translateY(-1px) !important;
 }
 
@@ -11325,8 +11132,7 @@ body.tf-corners-squircle {
    icon, tab, input, modal, tooltip, menu, scrollbar, setting items) follow
    --radius-* because they are declared on body too. Left alone on purpose:
    --radius-pill, native --toggle-radius and --touch-radius-*, and
-   --mobile-sidebar-radius (matches the device corner). The callout-style-
-   vintage literal reads --tf-radius-scale with a fallback of 1.
+   --mobile-sidebar-radius (matches the device corner).
    body:is(.class) (0,1,1) beats native body and .mod-macos/.is-mobile. */
 body.tf-corner-size-tight {
     --tf-radius-scale: 0.6;
@@ -11951,18 +11757,17 @@ body:not(.is-mobile):not(.terraflow-quiet).blockquote-style-liquid :is(.markdown
 /*   LIQUID TAGS                  */
 /* ============================== */
 
+/* Same chip as the live preview hashtag halves below (padding, shadow, pill) */
 body.tf-liquid-tags :is(.markdown-rendered, .markdown-preview-view) a.tag {
     background:
         linear-gradient(160deg,
             rgba(255, 255, 255, .22) 0%,
             rgba(var(--primary-color-rgb), .16) 100%);
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, .45),
-        inset 0 0 0 1px rgba(255, 255, 255, .12),
-        0 2px 6px rgba(0, 0, 0, .08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45);
     border: none;
     border-radius: var(--radius-pill);
-    padding: 0.15em 0.7em;
+    padding: 0.25em 0.6em 0.25em 0.5em;
+    line-height: normal;
     color: var(--primary-color);
     transition: transform var(--transition-ui), box-shadow var(--transition-ui);
 }
@@ -12474,7 +12279,7 @@ body.tf-liquid-chrome .vertical-tab-content .setting-item-heading {
     font-weight: var(--weight-semibold);
     text-transform: uppercase;
     letter-spacing: .03em;
-    color: var(--text-faint);
+    color: var(--text-muted);
 }
 
 /* Style Settings plugin draws its own section dividers (bundled styles.css,
@@ -12640,11 +12445,11 @@ body.optical-text-trim .callout-title-inner {
    the title on its line box, so trimming here only shrinks the clip
    region for no visual gain. */
 
-/* Tag chips need a block container for the trim to bite; inline-block
-   also prevents a chip breaking across lines */
+/* Tag chips are not trimmed: the trim cut the reading chip to 19px against
+   26px for the live preview hashtag. They stay inline-block (hover lift needs
+   it, and it keeps a chip from breaking across lines). */
 body.optical-text-trim :is(.markdown-rendered, .markdown-preview-view) a.tag {
     display: inline-block;
-    text-box: trim-both cap alphabetic;
 }
 
 /* ============================== */
@@ -12842,7 +12647,7 @@ body.tf-season-mermaid .mermaid .grid .tick line {
 }
 
 .footnote-backref {
-    color: var(--text-faint);
+    color: var(--text-muted);
     margin-inline-start: var(--s1);
 }
 
@@ -12905,11 +12710,6 @@ body.tf-hover-lift.callout-style-glass .callout:hover {
     transform: translateY(-3px);
 }
 
-body.tf-hover-lift.callout-style-bold .callout:hover,
-body.tf-hover-lift.blockquote-style-bold :is(.markdown-preview-view blockquote, .markdown-rendered blockquote, div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote):hover {
-    transform: translateY(-2px) scale(1.01);
-}
-
 body.tf-hover-lift.depth-shadows .callout:hover {
     transform: translateY(-2px) !important;
 }
@@ -12947,7 +12747,7 @@ body.tf-hover-lift .workspace-tab-header.is-active:hover {
     transform: scale(1.04);
 }
 
-body.tf-hover-lift:not(.is-phone).depth-shadows.layout-card:not(.tf-liquid-chrome) .workspace-tab-header.is-active:not(.workspace-split:is(.mod-left-split, .mod-primary-split) .workspace-tab-header):not(.workspace-split:is(.mod-right-split, .mod-secondary-split) .workspace-tab-header) {
+body.tf-hover-lift:not(.is-phone).depth-shadows.layout-card:not(.tf-liquid-chrome) .workspace-tab-header.is-active:not(.workspace-split:is(.mod-left-split, .mod-primary-split, .mod-right-split, .mod-secondary-split) .workspace-tab-header) {
     transform: translateY(-2px) !important;
 }
 
@@ -13043,4 +12843,26 @@ body.tf-softer:is(.callout-style-default, .callout-style-liquid) {
 body.tf-softer:is(.callout-style-default, .callout-style-liquid) .callout .callout {
     background-image: none;
     background-color: color-mix(in srgb, var(--callout-color) calc(var(--tf-callout-wash, .12) * 100%), transparent);
+}
+
+/* ============================== */
+/*   REDUCE TRANSPARENCY (opt-in) */
+/* ============================== */
+/* backdrop-filter is a literal in over a hundred rules, so a variable cannot
+   switch it off. One user-controlled override is the exception to the
+   no-!important rule. Menus, popovers, the palette and modals go solid
+   through the Disable glass menus rules above. */
+
+body.tf-opaque:is(.theme-light, .theme-dark) {
+    --glass-bg: var(--background-secondary);
+    --glass-border: var(--background-modifier-border);
+    --lg-fill: var(--background-secondary);
+    --lg-fill-raised: var(--background-secondary-alt);
+}
+
+body.tf-opaque *,
+body.tf-opaque *::before,
+body.tf-opaque *::after {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
 }
