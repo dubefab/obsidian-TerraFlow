@@ -1004,6 +1004,12 @@ settings:
                 label: Comfortable
                 value: nav-density-comfortable
     -
+        id: tf-nav-solid
+        title: Solid settings highlight
+        description: Fill the active item in the Settings sidebar with the season color. Off uses a soft tint and an accent bar
+        type: class-toggle
+        default: false
+    -
         id: pill-tabs
         title: Soft pill tabs
         description: Restyle workspace tabs as quiet translucent pills instead of squared tab shapes
@@ -3860,12 +3866,29 @@ body.tf-hover-lift .vertical-tab-nav-item:hover {
     transform: translateY(-2px);
 }
 
-body:not(.tf-liquid-chrome) .vertical-tab-nav-item.is-active,
+/* Settings sidebar, active item: soft tint plus accent bar by default.
+   The solid season fill is the opt-in Solid settings highlight toggle. */
+body:not(.tf-liquid-chrome) .vertical-tab-nav-item.is-active {
+    background: var(--tf-tone-selected) !important;
+    color: var(--text-normal) !important;
+    font-weight: var(--weight-semibold);
+    box-shadow: inset 3px 0 0 var(--primary-color);
+}
+
 body:not(.tf-liquid-chrome) .vertical-tab-nav-item.is-active :is(svg) {
+    color: var(--primary-color) !important;
+}
+
+body:not(.tf-liquid-chrome).tf-nav-solid .vertical-tab-nav-item.is-active,
+body:not(.tf-liquid-chrome).tf-nav-solid .vertical-tab-nav-item.is-active :is(svg) {
     background: var(--primary-color) !important;
     color: var(--tf-on-accent) !important;
-    font-weight: var(--weight-semibold);
+    box-shadow: none;
     transform: translateY(-2px);
+}
+
+body:not(.tf-liquid-chrome).tf-nav-solid .vertical-tab-nav-item.is-active:focus-visible {
+    outline-color: var(--tf-on-accent);
 }
 
 .theme-dark .vertical-tab-nav-item {
@@ -3876,14 +3899,6 @@ body:not(.tf-liquid-chrome) .vertical-tab-nav-item.is-active :is(svg) {
     background: rgba(var(--primary-color-rgb), .15);
     color: var(--text-normal);
     border-inline-start-color: var(--primary-color);
-}
-
-body:not(.tf-liquid-chrome) .theme-dark .vertical-tab-nav-item.is-active,
-body:not(.tf-liquid-chrome) .theme-dark .vertical-tab-nav-item.is-active :is(svg) {
-    background: var(--primary-color) !important;
-    color: var(--tf-on-accent) !important;
-    border-inline-start-color: var(--primary-color-dark) !important;
-    box-shadow: var(--shadow-3);
 }
 
 .vertical-tab-content {
@@ -8523,6 +8538,12 @@ input[type='number'] {
 body :is(button, .clickable-icon, .checkbox-container, .dropdown, select, a, .workspace-tab-header, .menu-item, .suggestion-item, .vertical-tab-nav-item):focus-visible {
     outline: 2px solid color-mix(in srgb, var(--primary-color) 80%, var(--text-normal));
     outline-offset: 1px;
+}
+
+/* Settings nav items fill their box: an outside ring floats off the edge and
+   reads as a second outline, so draw it inside */
+body .vertical-tab-nav-item:focus-visible {
+    outline-offset: -2px;
 }
 
 /* Tree rows sit under contain: paint, which clips an outside ring */
