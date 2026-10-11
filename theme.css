@@ -987,6 +987,23 @@ settings:
                 label: Glass
                 value: explorer-style-glass
     -
+        id: nav-density
+        title: File explorer row height
+        description: Spacing of rows in the file browser. Default is 30px, Compact 26px, Comfortable 36px
+        type: class-select
+        allowEmpty: false
+        default: nav-density-default
+        options:
+            -
+                label: Compact
+                value: nav-density-compact
+            -
+                label: Default
+                value: nav-density-default
+            -
+                label: Comfortable
+                value: nav-density-comfortable
+    -
         id: pill-tabs
         title: Soft pill tabs
         description: Restyle workspace tabs as quiet translucent pills instead of squared tab shapes
@@ -1192,6 +1209,8 @@ body {
     --line-height-normal: var(--line-normal);
     --file-line-width: var(--line-width, 64ch);
     --glass-bg: rgba(var(--background-secondary-rgb), var(--tf-glass-tint, 65%));
+    /* File tree row height. Hook for a future density select. */
+    --tf-nav-row: 30px;
     /* Tonal ladder in the season hue: hover < active < selected */
     --tf-tone-hover-a: .06;
     --tf-tone-active-a: .10;
@@ -4898,6 +4917,9 @@ body.link-style-default :is(p, li)>:is(a, .internal-link, .external-link, .cm-li
 }
 
 /* Navigation Files and Folders */
+body.nav-density-compact { --tf-nav-row: 26px; }
+body.nav-density-comfortable { --tf-nav-row: 36px; }
+
 .nav-files-container>div>.nav-folder {
     background-color: var(--folder-color);
     --nav-item-color: var(--folder-text-color);
@@ -4913,9 +4935,9 @@ body.link-style-default :is(p, li)>:is(a, .internal-link, .external-link, .cm-li
 }
 
 :is(.nav-folder-title, .nav-file-title) {
-    block-size: 30px !important;
-    min-block-size: 30px !important;
-    max-block-size: 30px !important;
+    block-size: var(--tf-nav-row) !important;
+    min-block-size: var(--tf-nav-row) !important;
+    max-block-size: var(--tf-nav-row) !important;
     box-sizing: border-box !important;
     align-items: center !important;
     padding-block: 0;
@@ -7669,7 +7691,9 @@ body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.low-contrast):not(.
     font-weight: var(--weight-medium);
 }
 
-/* Workspace Split Styling */
+/* Workspace Split Styling
+   --glass-bg here is a tinted fill with no blur of its own. It shows through
+   under Translucent window or Liquid chrome. Reduce transparency makes it solid. */
 .workspace-split:is(.mod-left-split, .mod-primary-split),
 .workspace-split:is(.mod-right-split, .mod-secondary-split) {
     background-color: var(--glass-bg);
@@ -8414,7 +8438,8 @@ input[type='number'] {
     overflow: hidden;
 }
 
-/* Ribbon Styling */
+/* Ribbon Styling
+   Same as the splits: --glass-bg is a tinted fill, blur comes only from Liquid chrome. */
 .workspace-ribbon {
     background-color: var(--glass-bg);
     border-inline-end: var(--border-thin) solid var(--glass-border);
