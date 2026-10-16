@@ -1227,6 +1227,12 @@ body {
     /* Text on an accent fill: near-black or near-white, whichever clears
        contrast. oklch L 0.58 is where white and black text tie at about 4.6:1. Ink is a faint tint of the accent hue, not pure black or white. */
     --tf-on-accent: oklch(from var(--primary-color) clamp(0.1, calc((0.58 - l) * 1000), 1) 0.015 h);
+    /* Motion refinement curves and durations (MOTION REFINEMENTS section) */
+    --tf-spring-snappy: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --tf-spring-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+    --tf-anim-fast: 120ms;
+    --tf-anim-medium: 220ms;
+    --tf-anim-slow: 350ms;
 }
 
 /* Black drop shadows vanish on dark surfaces; deepen them so hover depth reads */
@@ -5339,15 +5345,6 @@ body .nav-files-container .nav-folder-title.is-selected {
     line-height: var(--line-normal);
 }
 
-/* Fade-in callout content on expand using @starting-style (Chrome 117+).
-   Only fires when the element first appears or exits display:none — no-op otherwise. */
-body:not(.disable-ui-animations):not(.animation-style-whimsy) .callout:not(.is-collapsed) .callout-content {
-    transition: opacity 0.2s var(--ease-apple);
-    @starting-style {
-        opacity: 0;
-    }
-}
-
 .markdown-source-view.mod-cm6 .cm-embed-block.cm-callout {
     padding-block: 0;
     padding-inline: 0;
@@ -6706,38 +6703,15 @@ body.enable-fancy-bullets {
     }
 }
 
-/* Apply animation to menus (modals use macosSheetDrop below) */
+/* Apply animation to menus (palette and dialogs: see MOTION REFINEMENTS) */
 body:not(.disable-ui-animations) .menu {
     transform-origin: top left;
     animation: menuPop 0.28s var(--ease-apple) forwards;
 }
 
-/* Palette, suggestions, and page-preview popovers: rise with a soft
-   overshoot and resolve from a blur, settling sharp by the overshoot
-   point (whimsy replaces this with its bigger spring) */
-@keyframes tf-pop-settle {
-    0%   { opacity: 0; transform: scale(0.93) translateY(10px); filter: blur(6px); }
-    70%  { opacity: 1; transform: scale(1.015) translateY(-3px); filter: blur(0); }
-    100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
-}
-
-body:not(.disable-ui-animations) .popover,
-body:not(.disable-ui-animations) .suggestion-container {
-    animation: tf-pop-settle var(--dur-modal) var(--ease-apple) forwards;
-}
-
-/* Command palette / quick switcher: Spotlight-style — drops from above,
-   resolves from a blur, dips 2px past rest, and the results ripple in.
-   Ripple is fast + capped so retyping doesn't shimmer. */
-@keyframes tf-palette-drop {
-    0%   { opacity: 0; transform: translateY(-24px) scale(0.97); filter: blur(8px); }
-    65%  { opacity: 1; transform: translateY(5px) scale(1.005); filter: blur(0); }
-    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-}
-
-body:not(.disable-ui-animations) .prompt {
-    animation: tf-palette-drop var(--dur-modal) var(--ease-apple) forwards;
-}
+/* Palette, dialog, popover and suggestion entrances live in MOTION
+   REFINEMENTS, after the Whimsy block. Palette results ripple in here,
+   fast and capped so retyping doesn't shimmer. */
 
 body:not(.disable-ui-animations) .prompt .suggestion-item {
     animation: menuItemSlide 0.12s var(--ease-apple) both;
@@ -6830,27 +6804,6 @@ body.is-phone:not(.disable-ui-animations) .menu {
     transform-origin: bottom center;
 }
 
-/* macOS-sheet modal entrance: drops from above, dips 2px past its resting
-   point, then eases back — Settings and all dialogs */
-@keyframes macosSheetDrop {
-    0% {
-        opacity: 0;
-        transform: translateY(-36px) scale(0.96);
-    }
-    60% {
-        opacity: 1;
-        transform: translateY(5px) scale(1.008);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-body:not(.disable-ui-animations):not(.animation-style-whimsy) .modal {
-    animation: macosSheetDrop var(--dur-sheet) var(--ease-apple) forwards;
-}
-
 /* Settings: after the sheet lands, nav items ripple in (per header group,
    capped so 40 plugin tabs don't take a second) and the content pane
    drops in a beat later */
@@ -6909,15 +6862,11 @@ body:not(.is-mobile):not(.disable-ui-animations) .workspace-split:is(.mod-right-
     animation: tf-sidedock-in-right var(--rebound-dur-lg) var(--rebound-ease);
 }
 
-/* Properties panel: drops in from above with a spring landing
-   (whimsy has its own settle-bounce for this) */
+/* Settings content pane drop-in (used above). The Properties expand
+   reveal lives in MOTION REFINEMENTS; whimsy has its own settle-bounce. */
 @keyframes tf-drop-in {
     from { opacity: 0; transform: translateY(-14px); }
     to   { opacity: 1; transform: translateY(0); }
-}
-
-body:not(.disable-ui-animations):not(.animation-style-whimsy) .metadata-container:not(.is-collapsed) .metadata-content {
-    animation: tf-drop-in var(--rebound-dur) var(--ease-spring-sm);
 }
 
 /* Folder expand settle: children scale down from the fold point and spring
@@ -7457,6 +7406,268 @@ body.animation-style-whimsy:not(.disable-ui-animations) .inline-title {
 body.animation-style-whimsy:not(.disable-ui-animations) .modal-close-button:hover {
     transform: rotate(90deg) scale(1.2);
 }
+
+/* Whimsy, reduced motion: the overlay, notice, callout and checkbox
+   animations above are !important shorthands, which outrank the global
+   reduced-motion block (its * selector has no specificity). Same targets,
+   equal or higher specificity, later in the file, so their durations
+   collapse too. Nothing else about Whimsy changes. */
+@media (prefers-reduced-motion: reduce) {
+    body.animation-style-whimsy:not(.disable-ui-animations) :is(
+        .modal,
+        .notice-container,
+        .callout,
+        .menu,
+        .popover,
+        .suggestion-container,
+        .prompt,
+        .tooltip,
+        .task-list-item-checkbox:checked,
+        input[type="checkbox"]:checked
+    ) {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    } /* (0,4,2): ties or beats every Whimsy !important animation rule */
+}
+
+/* ============================== */
+/*       MOTION REFINEMENTS       */
+/* ============================== */
+
+/* Default style only. Every rule here is gated
+   body:not(.disable-ui-animations):not(.animation-style-whimsy), the same
+   pattern the Default rules use, so Whimsy keeps its own motion and
+   Disable UI animations turns all of it off. Curves and durations
+   (--tf-spring-*, --tf-anim-*) live on body near the top of the file. */
+
+/* --- Task checkboxes ---
+   Plain [ ], [x] and [X] tasks only. Live preview puts data-task on the
+   input, reading mode on the parent li. Custom states keep their Default or
+   Alternate-checkbox look. Obsidian flips the input and the line or li in
+   place, so the transitions below run on a real toggle, never on a fresh
+   render. The tick is a ::after that exists only while checked, so it needs
+   a keyframe, which replays when a line renders (as the old tick did). */
+@keyframes tf-tick-wipe {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0); }
+}
+
+/* The box presses on :active and springs back on release */
+body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(
+    .task-list-item-checkbox:is([data-task=" "], [data-task="x"], [data-task="X"]),
+    li.task-list-item:is([data-task=" "], [data-task="x"], [data-task="X"]) > .task-list-item-checkbox,
+    li.task-list-item:is([data-task=" "], [data-task="x"], [data-task="X"]) > p > .task-list-item-checkbox
+) {
+    transition: transform var(--tf-anim-slow) var(--tf-spring-snappy), border-color var(--transition-ui), box-shadow var(--transition-ui), background-color var(--transition-ui);
+} /* (0,5,3) beats the base checkbox rule (0,1,1) */
+
+body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(
+    .task-list-item-checkbox:is([data-task=" "], [data-task="x"], [data-task="X"]),
+    li.task-list-item:is([data-task=" "], [data-task="x"], [data-task="X"]) > .task-list-item-checkbox,
+    li.task-list-item:is([data-task=" "], [data-task="x"], [data-task="X"]) > p > .task-list-item-checkbox
+):active {
+    transform: scale(0.88);
+    transition: transform var(--tf-anim-fast) var(--tf-spring-smooth), border-color var(--transition-ui), box-shadow var(--transition-ui), background-color var(--transition-ui);
+} /* (0,6,3) beats checkbox :active (0,2,1) */
+
+/* No checkboxPop: the press and release are the pop */
+body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(
+    .task-list-item-checkbox:is([data-task=" "], [data-task="x"], [data-task="X"]),
+    li.task-list-item:is([data-task=" "], [data-task="x"], [data-task="X"]) > .task-list-item-checkbox,
+    li.task-list-item:is([data-task=" "], [data-task="x"], [data-task="X"]) > p > .task-list-item-checkbox
+):checked {
+    animation: none;
+} /* (0,6,3) beats checkbox :checked (0,2,1) */
+
+/* translate() keeps the tick centred without checkmarkAppear's scale(0) start */
+body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(
+    .task-list-item-checkbox:is([data-task=" "], [data-task="x"], [data-task="X"]),
+    li.task-list-item:is([data-task=" "], [data-task="x"], [data-task="X"]) > .task-list-item-checkbox,
+    li.task-list-item:is([data-task=" "], [data-task="x"], [data-task="X"]) > p > .task-list-item-checkbox
+):checked::after {
+    transform: translate(-50%, -50%);
+    animation: tf-tick-wipe var(--tf-anim-medium) var(--tf-spring-smooth) both;
+} /* (0,6,4) beats checkbox ::after (0,2,2) */
+
+/* Task text. Unchecked rows hold a transparent strike colour so the done
+   state can fade the strike in. */
+body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item)[data-task=" "] {
+    text-decoration-color: transparent;
+} /* (0,6,1) */
+
+body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.markdown-source-view.mod-cm6 .HyperMD-task-line, .markdown-rendered li.task-list-item):is([data-task=" "], [data-task="x"], [data-task="X"]) {
+    transition: color var(--tf-anim-slow) var(--tf-spring-smooth), text-decoration-color var(--tf-anim-slow) var(--tf-spring-smooth);
+} /* (0,6,1) */
+
+/* Live preview: the strike draws left to right on each text span
+   (the gradient strike-draw uses, run as a transition so it never replays).
+   Reading mode cannot (bare text node), so its strike fades in. */
+body:not(.disable-ui-animations):not(.animation-style-whimsy) .markdown-source-view.mod-cm6 .HyperMD-task-line:is([data-task="x"], [data-task="X"]) {
+    text-decoration: none;
+} /* (0,6,1) beats theme (0,4,0) and app.css (0,4,0) */
+
+body:not(.disable-ui-animations):not(.animation-style-whimsy) .markdown-source-view.mod-cm6 .HyperMD-task-line:is([data-task=" "], [data-task="x"], [data-task="X"]) > span[class*="cm-list-"]:not(.cm-formatting, .cm-highlight, .cm-strikethrough, .cm-inline-code, .cm-hashtag) {
+    background-image: linear-gradient(var(--emphasis-color), var(--emphasis-color));
+    background-repeat: no-repeat;
+    background-position: left 60%;
+    background-size: 0% 2px;
+    transition: background-size var(--tf-anim-slow) var(--tf-spring-smooth);
+} /* (0,8,2) */
+
+body:not(.disable-ui-animations):not(.animation-style-whimsy) .markdown-source-view.mod-cm6 .HyperMD-task-line:is([data-task="x"], [data-task="X"]) > span[class*="cm-list-"]:not(.cm-formatting, .cm-highlight, .cm-strikethrough, .cm-inline-code, .cm-hashtag) {
+    background-size: 100% 2px;
+}
+
+/* Spans with their own backgrounds keep a static strike */
+body:not(.disable-ui-animations):not(.animation-style-whimsy) .markdown-source-view.mod-cm6 .HyperMD-task-line:is([data-task="x"], [data-task="X"]) > span:is(.cm-highlight, .cm-inline-code, .cm-hashtag) {
+    text-decoration: line-through;
+    text-decoration-color: var(--emphasis-color);
+    text-decoration-thickness: 2px;
+}
+
+/* --- Explorer and list rows ---
+   Background, colour, shadow and filter crossfade on smooth. No transform
+   track at rest, so the press dip below eases in and snaps back on release
+   as before. A gliding highlight needs JS, so the active chip fades in
+   place instead. */
+body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(
+    .nav-file-title,
+    .nav-folder-title,
+    .workspace-leaf-content[data-type="outline"] .tree-item-self,
+    .search-result-file-title,
+    .search-result-file-match
+) {
+    transition: background-color var(--tf-anim-medium) var(--tf-spring-smooth), color var(--tf-anim-medium) var(--tf-spring-smooth), box-shadow var(--tf-anim-medium) var(--tf-spring-smooth), filter var(--tf-anim-medium) var(--tf-spring-smooth);
+} /* (0,5,1) beats the press dip (0,3,1), outline (0,3,0), search (0,1,0) */
+
+/* Press keeps the 80ms dip timing */
+body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(
+    .nav-file-title,
+    .nav-folder-title,
+    .workspace-leaf-content[data-type="outline"] .tree-item-self,
+    .search-result-file-title,
+    .search-result-file-match
+):active {
+    transition: transform 80ms var(--ease-apple), background-color var(--tf-anim-medium) var(--tf-spring-smooth), color var(--tf-anim-medium) var(--tf-spring-smooth), box-shadow var(--tf-anim-medium) var(--tf-spring-smooth), filter var(--tf-anim-medium) var(--tf-spring-smooth);
+} /* (0,6,1) */
+
+/* Active and multi-select chips fade in. Padding and margins stay instant,
+   so the chip geometry never animates. The label scale keeps its timing. */
+body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.nav-file-title-content, .nav-folder-title-content) {
+    transition: transform var(--transition-ui), background-color var(--tf-anim-medium) var(--tf-spring-smooth), color var(--tf-anim-medium) var(--tf-spring-smooth);
+} /* (0,3,1) beats the folder label (0,2,0) */
+
+/* --- Collapse and chevrons ---
+   Chevrons keep the native rotation on a snappier track. Explorer, outline
+   and search hide theirs (.tree-item-self .collapse-icon), and explorer
+   children settle in through tf-settle-y. Live preview rebuilds its fold
+   widget, so the chevron snaps there. Collapse stays instant: native code
+   removes or hides the content, so only the reveal can animate. */
+body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.collapse-icon, .callout-fold) svg.svg-icon {
+    transition: transform var(--tf-anim-medium) var(--tf-spring-snappy);
+} /* (0,4,2) beats springy chevrons and native (0,2,1) */
+
+/* Smooth has no overshoot, so opacity can share the track */
+@keyframes tf-reveal {
+    from { opacity: 0; translate: 0 -4px; }
+}
+
+/* Reduced motion: no reveal rules at all, so no offset lingers */
+@media (prefers-reduced-motion: no-preference) {
+    /* Callout and Properties expand. A keyframe, because the native height
+       slide writes an inline transition that cancels CSS transitions. */
+    body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(
+        .callout:not(.is-collapsed) > .callout-content,
+        .metadata-container:not(.is-collapsed) .metadata-content
+    ) {
+        animation: tf-reveal var(--tf-anim-medium) var(--tf-spring-smooth);
+    } /* (0,5,1) */
+
+    /* Reading-mode heading unfold. The view re-inserts the hidden sections.
+       @starting-style fades only inserted ones, and the :hover gate (the
+       pointer is on the heading whose fold was clicked) keeps note open,
+       scroll and jumps from fading. */
+    body:not(.disable-ui-animations):not(.animation-style-whimsy) .markdown-preview-sizer > :is(.el-h1, .el-h2, .el-h3, .el-h4, .el-h5, .el-h6):hover ~ div {
+        transition: opacity var(--tf-anim-medium) var(--tf-spring-smooth), translate var(--tf-anim-medium) var(--tf-spring-smooth);
+        @starting-style {
+            opacity: 0;
+            translate: 0 -4px;
+        }
+    } /* (0,5,2) */
+
+    /* Live-preview unfold: fade only, same gate. :where() keeps this at
+       (0,2,1) so task, quote and code lines keep their own transitions
+       (and reveal instantly). */
+    body:not(.disable-ui-animations):not(.animation-style-whimsy) :where(.markdown-source-view.mod-cm6 .cm-line.HyperMD-header:hover ~ :is(.cm-line, .cm-embed-block)) {
+        transition: opacity var(--tf-anim-medium) var(--tf-spring-smooth);
+        @starting-style {
+            opacity: 0;
+        }
+    }
+}
+
+/* --- Command palette and dialogs ---
+   The sheet scales in on the smooth curve while opacity runs its own short
+   track, so the fade never overshoots. No to frame and no fill: when the
+   keyframes end, scale and opacity fall back to rest, so no transform or
+   filter lingers. The backdrop keeps its fade and static frost. */
+@keyframes tf-fade-in {
+    from { opacity: 0; }
+}
+
+@keyframes tf-float-in {
+    from { scale: 0.96; }
+}
+
+body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.prompt, .modal) {
+    animation: tf-float-in var(--tf-anim-slow) var(--tf-spring-smooth), tf-fade-in var(--tf-anim-fast) var(--tf-spring-smooth);
+} /* (0,3,1); no other non-Whimsy rule animates .prompt or .modal */
+
+/* The global reduced-motion block zeroes durations, not delays */
+@media (prefers-reduced-motion: reduce) {
+    body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.prompt, .suggestion-container) .suggestion-item {
+        animation-delay: 0s !important;
+    }
+}
+
+/* --- Popovers and suggestion lists ---
+   Hover previews and suggestion lists grow from their top-left anchor on
+   the smooth curve. Scale only: Obsidian fades both in with an inline 80ms
+   opacity transition, which outranks any opacity keyframe. No to frame and
+   no fill, so no scale, transform or blur lingers. */
+@keyframes tf-popover-in {
+    from { scale: 0.95; }
+}
+
+body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.popover, .suggestion-container) {
+    animation: tf-popover-in var(--tf-anim-medium) var(--tf-spring-smooth);
+} /* (0,3,1); no other non-Whimsy rule animates these */
+
+/* --- Tags and ribbon ---
+   Tags and ribbon icons press in on the fast smooth track and spring back
+   on snappy. The press transform is !important because a press also
+   matches hover, and hover lifts outrank it (Depth shadows' icon lift is
+   !important), which hid the plain press under Depth shadows and Liquid
+   tags. Transitions stay plain, so reduced motion still zeroes them. */
+body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.markdown-rendered, .markdown-preview-view) a.tag {
+    transition: transform var(--tf-anim-medium) var(--tf-spring-snappy), background-color var(--tf-anim-fast) var(--tf-spring-smooth), border-color var(--tf-anim-fast) var(--tf-spring-smooth), color var(--tf-anim-fast) var(--tf-spring-smooth), box-shadow var(--tf-anim-fast) var(--tf-spring-smooth), opacity var(--anim-duration-fast) ease-in-out;
+} /* (0,4,2) beats Liquid tags (0,3,2) */
+
+/* Inline tags ignore transforms; the press shows on chip tags (inline-block) */
+body:not(.disable-ui-animations):not(.animation-style-whimsy) :is(.markdown-rendered, .markdown-preview-view) a.tag:active {
+    transform: scale(0.96) !important;
+    transition: transform var(--tf-anim-fast) var(--tf-spring-smooth), background-color var(--tf-anim-fast) var(--tf-spring-smooth), border-color var(--tf-anim-fast) var(--tf-spring-smooth), color var(--tf-anim-fast) var(--tf-spring-smooth), box-shadow var(--tf-anim-fast) var(--tf-spring-smooth), opacity var(--anim-duration-fast) ease-in-out;
+} /* (0,5,2) beats Liquid tags press (0,4,2) */
+
+/* Ribbon: colours keep their timing, only the transform track changes */
+body:not(.disable-ui-animations):not(.animation-style-whimsy) .workspace-ribbon.side-dock-ribbon .side-dock-ribbon-action.clickable-icon {
+    transition: transform var(--tf-anim-medium) var(--tf-spring-snappy), color var(--transition-ui), background-color var(--transition-ui), border-color var(--transition-ui), box-shadow var(--transition-ui), opacity var(--transition-ui);
+} /* (0,6,1) beats Depth shadows (0,4,1) and the press-squash rule (0,2,1) */
+
+body:not(.disable-ui-animations):not(.animation-style-whimsy) .workspace-ribbon.side-dock-ribbon .side-dock-ribbon-action.clickable-icon:active {
+    transform: scale(0.9) !important;
+    transition: transform var(--tf-anim-fast) var(--tf-spring-smooth), color var(--transition-ui), background-color var(--transition-ui), border-color var(--transition-ui), box-shadow var(--transition-ui), opacity var(--transition-ui);
+} /* (0,7,1) beats the Depth shadows hover lift (0,6,1) */
 
 /* Modal Background Frost */
 body:not(.disable-modal-frost) .modal-bg {
