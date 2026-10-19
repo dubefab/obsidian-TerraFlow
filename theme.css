@@ -4185,6 +4185,20 @@ body:not(.is-mobile) .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"
     font-size: var(--h6-size);
 }
 
+/* Reading mode: a paragraph break in live preview is one empty line (one line
+   height). Native p margins use --p-spacing (1rem), so set it to one line on p
+   only. Headings keep the 1rem value for the heading-stack rule below. */
+.markdown-preview-view p {
+    --p-spacing: 1lh;
+}
+
+/* Reading mode: headings stacked directly under each other touch, because the
+   base rule zeroes heading margins. Live preview keeps an 18px gap from the
+   native line padding (--p-spacing), so match it here. Heading after heading only. */
+.markdown-preview-sizer > :is(.el-h1, .el-h2, .el-h3, .el-h4, .el-h5, .el-h6) + :is(.el-h1, .el-h2, .el-h3, .el-h4, .el-h5, .el-h6) {
+    margin-top: var(--p-spacing);
+}
+
 /* Live-preview heading font-size, applied at the LINE level rather than the
    .cm-header-N span: Obsidian's own core CSS forces the span's font-size to
    `inherit !important` (so any span-level rule here is dead regardless of
@@ -6130,6 +6144,7 @@ body:not(.is-mobile).callout-style-card .callout:hover {
 }
 
 .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote::before {
+    border-inline-start: none;
     inline-size: 4px;
     border-radius: var(--r3) 0 0 var(--r3);
 }
