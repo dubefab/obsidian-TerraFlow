@@ -4504,7 +4504,6 @@ body.h6-case-upper :is(h6, .cm-header-6) {
 
 /* GPU hints desktop-only — these break iOS scroll containment */
 body:not(.is-mobile).heading-style-glass :is(.markdown-preview-view, .markdown-source-view.mod-cm6 .cm-content) :is(h1, h2, h3, h4, h5, h6, .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6) {
-    will-change: transform;
     contain: layout style;
 }
 
@@ -7744,7 +7743,6 @@ body.theme-light:not(.disable-modal-frost) .modal-bg {
     position: relative;
     transition: box-shadow var(--transition-ui), transform var(--transition-ui);
     contain: layout style;
-    will-change: transform;
 }
 
 .metadata-container:hover {
@@ -11694,6 +11692,12 @@ body.tf-aurora-title .inline-title {
    focus mode and prefers-reduced-motion already zero animation durations */
 body.tf-aurora-title:not(.terraflow-quiet) .inline-title {
     animation: tf-aurora-drift 14s ease-in-out infinite;
+}
+
+/* Pause the drift while Obsidian is in the background so the app can idle;
+   paused keeps the gradient where it stopped, so refocusing doesn't jump */
+body.tf-aurora-title:not(.is-mobile):not(.is-focused) .inline-title {
+    animation-play-state: paused;
 }
 
 @keyframes tf-aurora-drift {
