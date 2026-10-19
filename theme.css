@@ -4274,7 +4274,7 @@ body.h3-case-title :is(h3, .cm-header-3),
 body.h4-case-title :is(h4, .cm-header-4),
 body.h5-case-title :is(h5, .cm-header-5),
 body.h6-case-title :is(h6, .cm-header-6) {
-    text-transform: capitalize !important;
+    text-transform: capitalize;
 }
 
 body.h1-case-upper :is(h1, .cm-header-1),
@@ -4283,7 +4283,7 @@ body.h3-case-upper :is(h3, .cm-header-3),
 body.h4-case-upper :is(h4, .cm-header-4),
 body.h5-case-upper :is(h5, .cm-header-5),
 body.h6-case-upper :is(h6, .cm-header-6) {
-    text-transform: uppercase !important;
+    text-transform: uppercase;
     letter-spacing: 0.02em !important;
 }
 
@@ -4920,7 +4920,7 @@ body.link-style-default :is(p, li)>:is(a, .internal-link, .external-link, .cm-li
     border-radius: 0;
     background-color: transparent !important;
     color: var(--text-normal);
-    padding: 0 !important;
+    padding: 0;
     font-size: .85em;
     font-weight: var(--weight-medium);
     letter-spacing: -.01em;
@@ -4971,12 +4971,12 @@ body.nav-density-comfortable { --tf-nav-row: 36px; }
 
 :is(.nav-folder-title, .nav-file-title) {
     block-size: var(--tf-nav-row) !important;
-    min-block-size: var(--tf-nav-row) !important;
-    max-block-size: var(--tf-nav-row) !important;
+    min-block-size: var(--tf-nav-row);
+    max-block-size: var(--tf-nav-row);
     box-sizing: border-box !important;
     align-items: center !important;
     padding-block: 0;
-    overflow: visible !important;
+    overflow: visible;
 }
 
 .tree-item-self .collapse-icon {
@@ -4984,8 +4984,8 @@ body.nav-density-comfortable { --tf-nav-row: 36px; }
     opacity: 0 !important;
     inline-size: 0 !important;
     margin: 0 !important;
-    padding: 0 !important;
-    min-inline-size: 0 !important;
+    padding: 0;
+    min-inline-size: 0;
 }
 
 /* Springy chevrons (svg.svg-icon ties native specificity; later load wins) */
@@ -5235,7 +5235,7 @@ body.explorer-style-glass .nav-files-container .nav-folder-title:hover {
 
 .nav-file-title.is-active:hover {
     background-color: transparent !important;
-    filter: none !important;
+    filter: none;
 }
 
 /* Multi-select: flat chip in the folder hue behind the label (same geometry as the active chip, no lift) */
@@ -9245,7 +9245,7 @@ body.layout-card .search-result-file-match:hover {
 /* The "Tray" background in Card Layout */
 /* !important is load-bearing (measured 2026-09-28): beats the .tag-container padding !important set in the search block above (1 rule, higher specificity). */
 body.layout-card .tag-container {
-    background-color: rgba(var(--primary-color-rgb), 0.04) !important;
+    background-color: rgba(var(--primary-color-rgb), 0.04);
     border-radius: var(--card-radius);
     padding: var(--s3) !important;
     border: none;
@@ -9273,19 +9273,19 @@ body.layout-card .tag-container {
 
 /* The flair / count pill */
 .tag-container .tag-pane-tag-count {
-    background-color: rgba(var(--primary-color-rgb), 0.1) !important;
+    background-color: rgba(var(--primary-color-rgb), 0.1);
     color: var(--text-muted) !important;
-    padding: 2px 10px !important;
+    padding: 2px 10px;
     border-radius: var(--radius-pill);
     font-size: 0.75em !important;
-    font-weight: var(--weight-bold) !important;
-    border: none !important;
+    font-weight: var(--weight-bold);
+    border: none;
 }
 
 /* Nested Tags Spacing */
 .tag-container .tree-item-children {
     padding-inline-start: 16px !important;
-    margin-block-start: 4px !important;
+    margin-block-start: 4px;
     border-inline-start: none !important;
 }
 
@@ -9996,7 +9996,7 @@ body.inline-code-accent .cm-inline-code:not(.cm-formatting) {
     border-inline-start: 3px solid var(--primary-color) !important;
     padding: 2px 6px 2px 8px !important;
     border-radius: var(--r1);
-    font-weight: var(--weight-medium) !important;
+    font-weight: var(--weight-medium);
     animation: code-pulse 3s ease 3 !important;
     transition: background var(--transition-ui), transform var(--transition-ui), box-shadow var(--transition-ui);
     box-shadow: 0 1px 3px rgba(var(--primary-color-rgb), 0.1);
@@ -10105,7 +10105,7 @@ body:not(.is-mobile).layout-card .workspace-ribbon.side-dock-ribbon:is(.mod-left
     gap: 4px !important;
     display: flex !important;
     flex-direction: column !important;
-    align-items: center !important;
+    align-items: center;
     flex-shrink: 0 !important;
     overflow: visible !important;
 }
@@ -10140,7 +10140,7 @@ body:not(.is-mobile).layout-card:not(.tf-liquid-chrome):not(.is-left-sidedock-op
 
 /* Hide/fix :before pseudo-element in card layout */
 body:not(.is-mobile).layout-card .workspace-ribbon:is(.mod-left, .mod-primary):before {
-    display: none !important;
+    display: none;
 }
 
 body.layout-card .side-dock-ribbon-action {
@@ -10225,7 +10225,7 @@ body:not(.is-mobile).ribbon-autohide.layout-card .workspace-ribbon:is(.mod-left,
 
 /* Fix ribbon container background to match theme in card layout */
 body.layout-card .workspace {
-    background: var(--background-secondary) !important;
+    background: var(--background-secondary);
 }
 
 /* ========================================= */
@@ -10472,7 +10472,7 @@ body.terraflow-quiet :is(
     text-shadow: none !important;
     text-decoration: underline !important;
     text-decoration-thickness: 2px !important;
-    text-underline-offset: 2px !important;
+    text-underline-offset: 2px;
 }
 
 /* ============================== */
@@ -12853,7 +12853,7 @@ body.tf-season-mermaid .mermaid :is(span.edgeLabel, .edgeLabel p) {
    foreignObject, not an SVG rect — background-color, not fill. */
 body.tf-season-mermaid .mermaid :is(.edgeLabel rect, .labelBkg) {
     background-color: var(--background-primary) !important;
-    fill: var(--background-primary) !important;
+    fill: var(--background-primary);
 }
 
 /* Sequence diagrams: actors, lifelines, notes. Mermaid puts the same
@@ -12880,7 +12880,7 @@ body.tf-season-mermaid .mermaid :is(.messageLine0, .messageLine1) {
 body.tf-season-mermaid .mermaid .note {
     fill: var(--callout-info) !important;
     stroke: var(--callout-info) !important;
-    fill-opacity: .15 !important;
+    fill-opacity: .15;
 }
 
 /* Gantt: bars and grid */
@@ -12894,7 +12894,7 @@ body.tf-season-mermaid .mermaid .task.active {
 }
 
 body.tf-season-mermaid .mermaid .grid .tick line {
-    stroke: var(--divider-color) !important;
+    stroke: var(--divider-color);
 }
 
 /* ============================== */
