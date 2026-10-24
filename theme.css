@@ -71,11 +71,22 @@ settings:
         type: class-toggle
         default: false
     -
-        id: low-contrast
-        title: Low contrast
-        description: Unify the whole window on the season's deeper panel tone for one calm, rich surface
-        type: class-toggle
-        default: false
+        id: contrast
+        title: Contrast
+        description: Low unifies the window on the season's deeper panel tone for one calm surface. High darkens text and firms borders in light mode, brightens them in dark.
+        type: class-select
+        allowEmpty: false
+        default: contrast-default
+        options:
+            -
+                label: Default
+                value: contrast-default
+            -
+                label: Low
+                value: low-contrast
+            -
+                label: High
+                value: high-contrast
     -
         id: tinted-body-text
         title: Tint body text
@@ -10404,6 +10415,68 @@ body.heading-color-vivid.theme-light, body.heading-color-vivid.theme-dark {
    holds >= 4.4:1 contrast even at the 40% maximum. */
 body.tinted-body-text.theme-light, body.tinted-body-text.theme-dark {
     --text-normal: color-mix(in srgb, var(--primary-color) var(--body-text-tint, 20%), rgb(var(--text-normal-rgb)));
+}
+
+/* ============================== */
+/*   HIGH CONTRAST MODE           */
+/* ============================== */
+/* Pushes text, headings and borders away from the surface. Sits after Tint
+   body text and the heading intensity rules so it overrides both. Reads the
+   -rgb twins (no self-reference) and keeps each season's hue. */
+body.high-contrast.theme-light {
+    --hc-end: black;
+    --hc-bg-end: white;
+}
+
+body.high-contrast.theme-dark {
+    --hc-end: white;
+    --hc-bg-end: black;
+}
+
+body.high-contrast.theme-light, body.high-contrast.theme-dark {
+    --text-normal: color-mix(in srgb, rgb(var(--text-normal-rgb)) 55%, var(--hc-end));
+    --heading-primary: color-mix(in srgb, rgb(var(--heading-primary-rgb)) 60%, var(--hc-end));
+    --heading-secondary: color-mix(in srgb, rgb(var(--heading-secondary-rgb)) 60%, var(--hc-end));
+    --heading-tertiary: color-mix(in srgb, rgb(var(--heading-tertiary-rgb)) 60%, var(--hc-end));
+    --heading-quaternary: color-mix(in srgb, rgb(var(--heading-quaternary-rgb)) 60%, var(--hc-end));
+    --heading-quinary: color-mix(in srgb, rgb(var(--heading-quinary-rgb)) 60%, var(--hc-end));
+    --heading-senary: color-mix(in srgb, rgb(var(--heading-senary-rgb)) 60%, var(--hc-end));
+    --callout-border-opacity: .6;
+    --background-primary: color-mix(in srgb, rgb(var(--background-primary-rgb)) 55%, var(--hc-bg-end));
+    --background-secondary: color-mix(in srgb, rgb(var(--background-secondary-rgb)) 55%, var(--hc-bg-end));
+}
+
+body.high-contrast.tinted-body-text.theme-light, body.high-contrast.tinted-body-text.theme-dark {
+    --text-normal: color-mix(in srgb, color-mix(in srgb, var(--primary-color) var(--body-text-tint, 20%), rgb(var(--text-normal-rgb))) 55%, var(--hc-end));
+}
+
+body.high-contrast.theme-light, body.high-contrast.theme-dark {
+    --text-muted: color-mix(in srgb, var(--text-normal) 92%, var(--background-primary));
+    --text-faint: color-mix(in srgb, var(--text-normal) 70%, var(--background-primary));
+    --icon-color: var(--text-muted);
+    --background-modifier-border: color-mix(in srgb, var(--text-normal) 26%, transparent);
+    --background-modifier-border-hover: color-mix(in srgb, var(--text-normal) 36%, transparent);
+    --background-modifier-border-focus: color-mix(in srgb, var(--text-normal) 50%, transparent);
+    --divider-color: color-mix(in srgb, var(--text-normal) 22%, transparent);
+    --hr-color: color-mix(in srgb, var(--text-normal) 35%, transparent);
+}
+
+/* Panels that carry their own look need an explicit edge */
+body.high-contrast :is(.markdown-rendered blockquote, .markdown-rendered pre, .markdown-rendered table, .metadata-container, .modal, .menu, .suggestion-container, .prompt) {
+    border: var(--border-width) solid color-mix(in srgb, var(--text-normal) 32%, transparent) !important;
+}
+
+body.high-contrast .callout {
+    border: var(--border-width) solid color-mix(in srgb, var(--callout-color) 75%, var(--hc-end)) !important;
+}
+
+body.high-contrast.blockquote-style-default :is(div:not(.CodeMirror-activeline)>.HyperMD-quote, .markdown-source-view.mod-cm6 .cm-line.HyperMD-quote) {
+    border-block: var(--border-thin) solid color-mix(in srgb, var(--text-normal) 32%, transparent);
+    border-inline-end: var(--border-thin) solid color-mix(in srgb, var(--text-normal) 32%, transparent);
+}
+
+body.high-contrast :is(.markdown-rendered a, .cm-link, .cm-url, .external-link, .internal-link) {
+    color: color-mix(in srgb, var(--link-color) 65%, var(--hc-end));
 }
 
 /* ============================== */
