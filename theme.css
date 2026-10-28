@@ -3036,7 +3036,8 @@ body {
     --text-muted: #868eb3;
     --text-faint: #414868;
     --emphasis-color: #c0caf5;
-    --emphasis-color-light: #d5dbf8;
+    /* Bold/italic/strike: body-level brightness (5.8:1), hue carries the emphasis */
+    --emphasis-color-light: #7aa2f7;
     --primary-color: #7aa2f7;
     --primary-color-rgb: 122, 162, 247;
     --primary-color-dark: #6586cc;
