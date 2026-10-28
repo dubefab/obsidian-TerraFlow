@@ -7706,13 +7706,9 @@ body.theme-light:not(.disable-modal-frost) .modal-bg {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-
-    input[type="checkbox"],
-    .task-list-item-checkbox {
-        background: transparent !important;
-    }
+/* Dark mode: unchecked boxes stay hollow; checked ones keep the fill from the :checked rule above */
+.theme-dark :is(input[type="checkbox"], .task-list-item-checkbox):not(:checked) {
+    background: transparent !important;
 }
 
 /* Custom colored strikethrough for completed tasks */
