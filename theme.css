@@ -50,6 +50,9 @@ settings:
             -
                 label: 🌆 Tokyo Night
                 value: tokyo-theme
+            -
+                label: ⚪ Clean
+                value: clean-theme
     -
         id: use-custom-accent
         title: Use custom accent
@@ -1319,7 +1322,8 @@ body {
 .theme-light.paper-theme, .theme-dark.paper-theme,
 .theme-light.calm-focus-theme, .theme-dark.calm-focus-theme,
 .theme-light.melange-theme, .theme-dark.melange-theme,
-.theme-light.tokyo-theme, .theme-dark.tokyo-theme {
+.theme-light.tokyo-theme, .theme-dark.tokyo-theme,
+.theme-light.clean-theme, .theme-dark.clean-theme {
     --setting-items-background: var(--background-secondary);
 }
 
@@ -1341,7 +1345,8 @@ body {
 .theme-light.paper-theme, .theme-dark.paper-theme,
 .theme-light.calm-focus-theme, .theme-dark.calm-focus-theme,
 .theme-light.melange-theme, .theme-dark.melange-theme,
-.theme-light.tokyo-theme, .theme-dark.tokyo-theme {
+.theme-light.tokyo-theme, .theme-dark.tokyo-theme,
+.theme-light.clean-theme, .theme-dark.clean-theme {
     --color-red: var(--callout-danger);
     --color-red-rgb: var(--callout-danger-rgb);
     --color-orange: var(--callout-warning);
@@ -3100,6 +3105,190 @@ body {
     --highlight-bg-dark: #545a8c;
     --highlight-bg-dark-color: #545a8c;
     --highlight-bg-light-color: #c0caf5;
+}
+
+/* --- Clean Theme --- */
+/* Copies the Claude desktop app (cds design system, read from Claude.app 4.4212.0):
+   warm neutral gray ramp, black/white primary fill, blue accent, clay brand.
+   Shapes, type and motion live in the "Clean: shape layer" section. */
+.clean-theme {
+    --accent-h: 211;
+    --accent-s: 68%;
+    --accent-l: 50%;
+}
+
+.theme-light.clean-theme {
+    --hl-l: 0.59;
+    --hl-c: 0.10;
+    --hl-shift: 4deg;
+    --background-primary: #ffffff;
+    --background-primary-rgb: 255, 255, 255;
+    --background-secondary: #fafafa;
+    --background-secondary-rgb: 250, 250, 250;
+    --background-secondary-alt: #f2f2f2;
+
+    --text-normal: #191919;
+    --text-normal-rgb: 25, 25, 25;
+    --text-muted: #666666;
+    --text-faint: #a8a8a8;
+
+    --emphasis-color: #191919;
+    --emphasis-color-light: #333333;
+
+    --primary-color: #191919;
+    --primary-color-rgb: 25, 25, 25;
+    --primary-color-dark: #333333;
+    --interactive-accent: #407ad8;
+    --interactive-accent-hover: #3a6cc2;
+
+    --link-color: #2b56a6;
+    --link-color-hover: #234a90;
+    --link-unresolved-color: #a8a8a8;
+
+    --blockquote-border-color: rgba(25, 25, 25, 0.2);
+    --checkbox-color: #407ad8;
+    --text-accent: #2b56a6;
+    --divider-color: rgba(25, 25, 25, 0.14);
+    --text-selection: rgba(43, 86, 166, 0.18);
+
+    --scrollbar-thumb: rgba(25, 25, 25, 0.2);
+
+    --code-background: rgba(25, 25, 25, 0.05);
+    --code-normal: #191919;
+    --code-comment: #a8a8a8;
+    --code-function: #234a90;
+    --code-important: #c6613f;
+    --code-keyword: #666666;
+    --code-property: #234a90;
+    --code-punctuation: #a8a8a8;
+    --code-string: #c6613f;
+    --code-tag: #234a90;
+    --code-value: #191919;
+
+    --heading-primary: #191919;
+    --heading-secondary: #191919;
+    --heading-tertiary: #191919;
+    --heading-quaternary: #191919;
+    --heading-quinary: #191919;
+    --heading-senary: #191919;
+
+    --heading-primary-rgb: 25, 25, 25;
+    --heading-secondary-rgb: 25, 25, 25;
+    --heading-tertiary-rgb: 25, 25, 25;
+    --heading-quaternary-rgb: 25, 25, 25;
+    --heading-quinary-rgb: 25, 25, 25;
+    --heading-senary-rgb: 25, 25, 25;
+
+    --callout-note: #2b56a6;
+    --callout-note-rgb: 43, 86, 166;
+    --callout-info: #2b56a6;
+    --callout-info-rgb: 43, 86, 166;
+    --callout-warning: #98801f;
+    --callout-warning-rgb: 152, 128, 31;
+    --callout-question: #c5621b;
+    --callout-success: #1e9e3c;
+    --callout-success-rgb: 30, 158, 60;
+    --callout-danger: #cd2054;
+    --callout-danger-rgb: 205, 32, 84;
+    --callout-example: #8e6bd9;
+    --callout-example-rgb: 142, 107, 217;
+    --callout-cite: #7b7974;
+    --callout-cite-rgb: 123, 121, 116;
+    --callout-video: #c6613f;
+    --callout-video-rgb: 198, 97, 63;
+    --callout-quote: #7b7974;
+    --callout-quote-rgb: 123, 121, 116;
+
+    --highlight-bg: rgba(217, 119, 87, 0.25);
+    --highlight-bg-dark: rgba(217, 119, 87, 0.35);
+}
+
+.theme-dark.clean-theme {
+    --hl-l: 0.88;
+    --hl-c: 0.10;
+    --hl-shift: 4deg;
+    --background-primary: #191919;
+    --background-primary-rgb: 25, 25, 25;
+    --background-secondary: #1f1f1f;
+    --background-secondary-rgb: 31, 31, 31;
+    --background-secondary-alt: #262626;
+
+    --text-normal: #eeeeee;
+    --text-normal-rgb: 238, 238, 238;
+    --text-muted: #a2a2a2;
+    --text-faint: #818181;
+
+    --emphasis-color: #eeeeee;
+    --emphasis-color-light: #eeeeee;
+
+    --primary-color: #ffffff;
+    --primary-color-rgb: 255, 255, 255;
+    --primary-color-dark: #dddddd;
+    --interactive-accent: #407bd9;
+    --interactive-accent-hover: #5a8fe3;
+
+    --link-color: #649ae7;
+    --link-color-hover: #79aaeb;
+    --link-unresolved-color: #818181;
+
+    --blockquote-border-color: rgba(255, 255, 255, 0.2);
+    --checkbox-color: #407bd9;
+    --text-accent: #649ae7;
+    --divider-color: rgba(255, 255, 255, 0.17);
+    --text-selection: rgba(64, 123, 217, 0.3);
+
+    --scrollbar-thumb: rgba(255, 255, 255, 0.2);
+
+    --code-background: rgba(255, 255, 255, 0.075);
+    --code-normal: #eeeeee;
+    --code-comment: #818181;
+    --code-function: #79aaeb;
+    --code-important: #d97757;
+    --code-keyword: #a2a2a2;
+    --code-property: #79aaeb;
+    --code-punctuation: #818181;
+    --code-string: #d97757;
+    --code-tag: #79aaeb;
+    --code-value: #eeeeee;
+
+    --heading-primary: #eeeeee;
+    --heading-secondary: #eeeeee;
+    --heading-tertiary: #eeeeee;
+    --heading-quaternary: #eeeeee;
+    --heading-quinary: #eeeeee;
+    --heading-senary: #eeeeee;
+
+    --heading-primary-rgb: 238, 238, 238;
+    --heading-secondary-rgb: 238, 238, 238;
+    --heading-tertiary-rgb: 238, 238, 238;
+    --heading-quaternary-rgb: 238, 238, 238;
+    --heading-quinary-rgb: 238, 238, 238;
+    --heading-senary-rgb: 238, 238, 238;
+
+    --callout-note: #407bd9;
+    --callout-note-rgb: 64, 123, 217;
+    --callout-info: #407bd9;
+    --callout-info-rgb: 64, 123, 217;
+    --callout-warning: #ffd014;
+    --callout-warning-rgb: 255, 208, 20;
+    --callout-question: #fa832e;
+    --callout-success: #32d74b;
+    --callout-success-rgb: 50, 215, 75;
+    --callout-danger: #ff2c56;
+    --callout-danger-rgb: 255, 44, 86;
+    --callout-example: #b796ff;
+    --callout-example-rgb: 183, 150, 255;
+    --callout-cite: #a6a6a6;
+    --callout-cite-rgb: 166, 166, 166;
+    --callout-video: #d97757;
+    --callout-video-rgb: 217, 119, 87;
+    --callout-quote: #a6a6a6;
+    --callout-quote-rgb: 166, 166, 166;
+
+    --highlight-bg: rgba(217, 119, 87, 0.25);
+    --highlight-bg-dark: rgba(217, 119, 87, 0.35);
+    --highlight-bg-dark-color: rgba(217, 119, 87, 0.5);
+    --highlight-bg-light-color: var(--text-normal);
 }
 
 /* Paper Theme Specific Table Overrides for Readability.
@@ -13211,4 +13400,797 @@ body.tf-opaque *::before,
 body.tf-opaque *::after {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+}
+
+/* ==========================================================================
+   Clean: shape layer
+   Mirrors the Claude desktop cds tokens: 6px base radius, 10px cards, 12px
+   composer, 1px rings drawn as box-shadow, two-layer soft shadows, Anthropic
+   Sans. All variables sit on body (Style Settings rule). --tf-radius-scale is
+   kept so Corner size still scales every radius.
+   ========================================================================== */
+body.clean-theme {
+    --tf-clean-s: var(--tf-radius-scale, 1);
+    --r1: calc(8px * var(--tf-clean-s));
+    --r2: calc(12px * var(--tf-clean-s));
+    --r3: calc(12px * var(--tf-clean-s));
+    --r4: calc(14px * var(--tf-clean-s));
+    --radius-s: calc(6px * var(--tf-clean-s));
+    --radius-m: calc(8px * var(--tf-clean-s));
+    --radius-l: calc(12px * var(--tf-clean-s));
+    --radius-xl: calc(14px * var(--tf-clean-s));
+    --card-radius: calc(12px * var(--tf-clean-s));
+    --tag-radius: calc(4px * var(--tf-clean-s));
+
+    --font-text: "Anthropic Sans", -apple-system, BlinkMacSystemFont, "SF Pro", system-ui, sans-serif;
+    --font-interface: "Anthropic Sans", -apple-system, BlinkMacSystemFont, "SF Pro", system-ui, sans-serif;
+    --font-monospace: "Anthropic Mono", "SF Mono", ui-monospace, Menlo, monospace;
+    --bold-weight: 501;
+    --h1-weight: 580;
+    --h2-weight: 580;
+    --h3-weight: 580;
+    --h4-weight: 580;
+    --h5-weight: 580;
+    --h6-weight: 580;
+
+    --clean-ease-out: cubic-bezier(.165, .84, .44, 1);
+    --clean-ease-snap: cubic-bezier(.32, .72, 0, 1);
+    --clean-ease-overshoot: cubic-bezier(.34, 1.3, .64, 1);
+    --clean-dur-snap: 120ms;
+    --clean-dur-base: 200ms;
+    --anim-motion-ease: var(--clean-ease-out);
+}
+
+body.theme-light.clean-theme {
+    --clean-ink: 25, 25, 25;
+    --clean-ring: rgba(25, 25, 25, 0.14);
+    --clean-ring-strong: rgba(25, 25, 25, 0.20);
+    --clean-ghost-hover: rgba(25, 25, 25, 0.05);
+    --clean-ghost-selected: rgba(25, 25, 25, 0.12);
+    --clean-card: #fafafa;
+    --clean-popover: #ffffff;
+    --clean-field: rgba(255, 255, 255, 0.5);
+    --clean-fill-primary: #191919;
+    --clean-fill-primary-hover: #333333;
+    --clean-on-primary: #ffffff;
+    --clean-shadow-sm: 0 1px 2px 0 rgba(25, 25, 25, .06), 0 2px 8px 0 rgba(25, 25, 25, .08);
+    --clean-shadow-popover: 0 8px 24px #0000001f, 0 2px 6px #00000014;
+    --clean-focus: inset 0 0 0 1px var(--background-primary), 0 0 0 1px #2b56a6, 0 0 6px 1px #e8effa;
+}
+
+body.theme-dark.clean-theme {
+    --clean-ink: 255, 255, 255;
+    --clean-ring: rgba(255, 255, 255, 0.17);
+    --clean-ring-strong: rgba(255, 255, 255, 0.20);
+    --clean-ghost-hover: rgba(255, 255, 255, 0.075);
+    --clean-ghost-selected: rgba(255, 255, 255, 0.15);
+    --clean-card: #262626;
+    --clean-popover: #262626;
+    --clean-field: rgba(255, 255, 255, 0.10);
+    --clean-fill-primary: #ffffff;
+    --clean-fill-primary-hover: #dddddd;
+    --clean-on-primary: #191919;
+    --clean-shadow-sm: 0 1px 2px 0 rgba(255, 255, 255, .06), 0 2px 8px 0 #0000003d;
+    --clean-shadow-popover: 0 8px 24px #00000052, 0 2px 6px #0003;
+    --clean-focus: inset 0 0 0 1px var(--background-primary), 0 0 0 1px #407bd9, 0 0 6px 1px rgba(30, 37, 48, .9);
+}
+
+/* Buttons: solid black/white call to action, ringed secondary */
+body.clean-theme button.mod-cta,
+body.clean-theme .mod-cta {
+    background: var(--clean-fill-primary);
+    color: var(--clean-on-primary);
+    box-shadow: none;
+    border: 0;
+    border-radius: var(--radius-m);
+    transition: background-color var(--clean-dur-snap) var(--clean-ease-out);
+}
+body.clean-theme button.mod-cta:hover,
+body.clean-theme .mod-cta:hover {
+    background: var(--clean-fill-primary-hover);
+}
+body.clean-theme button:not(.mod-cta):not(.mod-warning):not(.clickable-icon):not(.mod-ghost),
+body.clean-theme .setting-item button:not(.mod-cta):not(.mod-warning) {
+    background: transparent;
+    border: 0;
+    border-radius: var(--radius-m);
+    box-shadow: inset 0 0 0 1px var(--clean-ring), 0 1px 2px 0 rgba(0, 0, 0, .05);
+    color: var(--text-normal);
+    transition: background-color var(--clean-dur-snap) var(--clean-ease-out);
+}
+body.clean-theme button:not(.mod-cta):not(.mod-warning):not(.clickable-icon):not(.mod-ghost):hover {
+    background: var(--clean-ghost-hover);
+    box-shadow: inset 0 0 0 1px var(--clean-ring), 0 1px 2px 0 rgba(0, 0, 0, .05);
+}
+
+/* Fields: translucent fill, 1px ring, soft blue focus glow */
+body.clean-theme input[type="text"],
+body.clean-theme input[type="search"],
+body.clean-theme input[type="email"],
+body.clean-theme input[type="password"],
+body.clean-theme input[type="number"],
+body.clean-theme input[type="url"],
+body.clean-theme textarea,
+body.clean-theme select,
+body.clean-theme .dropdown {
+    background: var(--clean-field);
+    border: 0;
+    border-radius: var(--radius-m);
+    box-shadow: inset 0 0 0 1px var(--clean-ring);
+    transition: box-shadow var(--clean-dur-base) var(--clean-ease-out);
+}
+body.clean-theme input[type="text"]:hover,
+body.clean-theme input[type="search"]:hover,
+body.clean-theme textarea:hover,
+body.clean-theme select:hover,
+body.clean-theme .dropdown:hover {
+    box-shadow: inset 0 0 0 1px var(--clean-ring-strong);
+}
+body.clean-theme input[type="text"]:focus,
+body.clean-theme input[type="search"]:focus,
+body.clean-theme input[type="number"]:focus,
+body.clean-theme textarea:focus,
+body.clean-theme select:focus,
+body.clean-theme .dropdown:focus {
+    box-shadow: var(--clean-focus);
+}
+
+/* Navigation rows: ghost hover and selected fills, no borders */
+body.clean-theme .tree-item-self,
+body.clean-theme .nav-file-title,
+body.clean-theme .nav-folder-title,
+body.clean-theme .vertical-tab-nav-item,
+body.clean-theme .clickable-icon,
+body.clean-theme .menu-item {
+    border-radius: var(--radius-m);
+    transition: background-color var(--clean-dur-snap) var(--clean-ease-out);
+}
+body.clean-theme .tree-item-self:hover,
+body.clean-theme .nav-file-title:hover,
+body.clean-theme .nav-folder-title:hover,
+body.clean-theme .vertical-tab-nav-item:hover,
+body.clean-theme .clickable-icon:hover,
+body.clean-theme .menu-item:hover {
+    background: var(--clean-ghost-hover);
+}
+body.clean-theme .tree-item-self.is-active,
+body.clean-theme .nav-file-title.is-active,
+body.clean-theme .vertical-tab-nav-item.is-active {
+    background: var(--clean-ghost-selected);
+    color: var(--text-normal);
+    box-shadow: none;
+}
+
+/* Floating surfaces: popover surface, 1px ring, popover shadow, 10px radius */
+body.clean-theme .menu,
+body.clean-theme .suggestion-container,
+body.clean-theme .prompt,
+body.clean-theme .popover,
+body.clean-theme .tooltip,
+body.clean-theme .modal {
+    background: var(--clean-popover);
+    border: 0;
+    border-radius: var(--radius-l);
+    box-shadow: 0 0 0 1px var(--clean-ring), var(--clean-shadow-popover);
+}
+body.clean-theme .modal-bg {
+    background: rgba(0, 0, 0, 0.475);
+}
+body.clean-theme .suggestion-item.is-selected,
+body.clean-theme .suggestion-item:hover {
+    background: var(--clean-ghost-selected);
+    border-radius: var(--radius-m);
+}
+
+/* Prose */
+body.clean-theme .markdown-rendered :is(h1, h2, h3, h4, h5, h6),
+body.clean-theme .cm-s-obsidian .HyperMD-header,
+body.clean-theme .inline-title {
+    color: var(--text-normal);
+    font-weight: 580;
+}
+body.clean-theme .markdown-rendered :is(strong, b),
+body.clean-theme .cm-s-obsidian .cm-strong {
+    font-weight: 501;
+}
+body.clean-theme .markdown-rendered :not(pre) > code,
+body.clean-theme .cm-s-obsidian span.cm-inline-code {
+    background: var(--clean-ghost-hover);
+    color: var(--text-normal);
+    border-radius: 4px;
+    padding: 1px 4px;
+}
+body.clean-theme .markdown-rendered pre {
+    background: var(--clean-card);
+    border-radius: var(--radius-l);
+    box-shadow: inset 0 0 0 1px var(--clean-ring);
+}
+body.clean-theme .markdown-rendered blockquote {
+    border-inline-start: 2px solid var(--clean-ring-strong);
+    background: transparent;
+}
+body.clean-theme .markdown-rendered hr {
+    border-color: var(--clean-ring);
+}
+body.clean-theme .markdown-rendered table th,
+body.clean-theme .markdown-rendered table td {
+    background: transparent;
+    border-radius: 0;
+    border-width: 0 0 1px 0;
+    border-color: var(--clean-ring);
+    padding-block: calc(.4375em + 1px);
+}
+body.clean-theme .markdown-rendered table th {
+    font-weight: 580;
+    color: var(--text-normal);
+}
+
+/* Callouts: surface card, ring, type colour on icon and title only */
+body.clean-theme .callout {
+    background: var(--clean-card);
+    border: 0;
+    border-radius: var(--radius-l);
+    box-shadow: inset 0 0 0 1px var(--clean-ring);
+}
+body.clean-theme .callout::before,
+body.clean-theme .callout::after {
+    display: none;
+}
+body.clean-theme .callout-content {
+    color: var(--text-normal);
+}
+
+/* Focus ring and accents */
+body.clean-theme :is(button, a, input, select, textarea, [role="button"], .clickable-icon, .checkbox-container):focus-visible {
+    outline: none;
+    box-shadow: var(--clean-focus);
+}
+body.clean-theme {
+    --caret-color: #c6613f;
+}
+body.clean-theme .workspace-tab-header.is-active .workspace-tab-header-inner-title {
+    color: var(--text-normal);
+}
+body.clean-theme .workspace-tab-header.is-active::after {
+    background: #c6613f;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.clean-theme * {
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Clean: neutralize TerraFlow decoration. Claude's surfaces are flat: no pills,
+   gradients, glass, glow or colour bands. Doubled class lifts specificity over
+   the Style Settings body.<toggle> rules, so toggles still work in other seasons. */
+body.clean-theme.clean-theme :is(.markdown-preview-view, .markdown-rendered) :is(h1, h2, h3, h4, h5, h6),
+body.clean-theme.clean-theme .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
+    background: none;
+    background-image: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    width: auto;
+    display: block;
+    transform: none;
+    color: var(--text-normal);
+    text-shadow: none;
+}
+body.clean-theme.clean-theme .markdown-source-view.mod-cm6 .cm-line [class*="cm-header-"] {
+    display: inline;
+}
+body.clean-theme.clean-theme .inline-title {
+    background: none;
+    -webkit-text-fill-color: currentcolor;
+    color: var(--text-normal);
+    animation: none;
+}
+body.clean-theme.clean-theme :not(pre) > code,
+body.clean-theme.clean-theme .cm-inline-code:not(.cm-formatting) {
+    background: var(--clean-ghost-hover) !important;
+    border: 0 !important;
+    border-inline-start: 0 !important;
+    border-radius: 4px;
+    padding: 1px 4px !important;
+    font-weight: 400;
+    animation: none !important;
+    box-shadow: none;
+    transform: none;
+    color: var(--text-normal);
+}
+body.clean-theme.clean-theme :is(.markdown-rendered, .markdown-preview-view) a.tag,
+body.clean-theme.clean-theme .cm-line :is(.cm-hashtag-begin, .cm-hashtag-end) {
+    background: var(--clean-ghost-hover);
+    box-shadow: none;
+    color: var(--text-muted);
+    border-radius: var(--tag-radius);
+    transform: none;
+}
+body.clean-theme.clean-theme :is(.markdown-rendered, .markdown-source-view) :is(a, .cm-link, .cm-url, .cm-hmd-internal-link, .cm-hmd-external-link) {
+    text-shadow: none;
+    background: none;
+    box-shadow: none;
+}
+body.clean-theme.clean-theme .markdown-rendered blockquote,
+body.clean-theme.clean-theme .cm-s-obsidian .HyperMD-quote {
+    background: transparent;
+    background-image: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-radius: 0;
+    transform: none;
+}
+body.clean-theme.clean-theme .callout {
+    --tf-callout-title-bg: transparent;
+    --tf-callout-title-fg: var(--text-normal);
+    --tf-callout-border: var(--clean-ring);
+    background: var(--clean-card);
+    background-image: none;
+    border: 0;
+    box-shadow: inset 0 0 0 1px var(--clean-ring);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    transform: none;
+}
+body.clean-theme.clean-theme .callout > .callout-title {
+    background: transparent;
+    color: var(--text-normal);
+    border-block-end: 0;
+}
+body.clean-theme.clean-theme .callout .callout-icon .svg-icon {
+    color: var(--callout-color);
+}
+body.clean-theme.clean-theme .tree-item-self,
+body.clean-theme.clean-theme .nav-file-title,
+body.clean-theme.clean-theme .nav-folder-title {
+    background: transparent;
+    box-shadow: none;
+    border: 0;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+body.clean-theme.clean-theme .tree-item-self:hover,
+body.clean-theme.clean-theme .nav-file-title:hover,
+body.clean-theme.clean-theme .nav-folder-title:hover {
+    background: var(--clean-ghost-hover);
+}
+body.clean-theme.clean-theme .tree-item-self.is-active,
+body.clean-theme.clean-theme .nav-file-title.is-active {
+    background: var(--clean-ghost-selected);
+}
+
+/* Clean: callout fill, tag pane rows, highlights. !important matches the
+   existing wash rule (theme.css ~5609) and the tag-pill rule (~9451) it must beat. */
+body.clean-theme.clean-theme .callout {
+    --tf-callout-wash: 0;
+    background-color: var(--clean-card) !important;
+}
+body.clean-theme.clean-theme.layout-card .tag-container {
+    background-color: transparent;
+    border-radius: 0;
+}
+body.clean-theme.clean-theme .tag-container .tree-item-self.tag-pane-tag {
+    background-color: transparent !important;
+    border-radius: var(--radius-m);
+    margin-block-end: 0 !important;
+    padding: 4px 8px !important;
+    transform: none;
+}
+body.clean-theme.clean-theme .tag-container .tree-item-self.tag-pane-tag:hover {
+    background-color: var(--clean-ghost-hover) !important;
+    transform: none !important;
+}
+body.clean-theme.clean-theme .tag-container .tag-pane-tag-count {
+    background-color: transparent;
+    padding: 0 4px;
+    border-radius: var(--tag-radius);
+    font-weight: 500;
+}
+body.clean-theme.clean-theme :is(mark, .cm-highlight) {
+    box-shadow: none;
+    border-radius: 4px;
+}
+
+body.clean-theme.clean-theme :is(.callout-content, .callout-title-inner, .callout-title) {
+    color: var(--text-normal);
+    text-shadow: none;
+}
+body.clean-theme.clean-theme :is(mark, .cm-highlight) {
+    border-bottom: 0;
+}
+
+/* Clean: callout ink and link chips stay neutral. The !important mirrors the
+   callout link rules (~5770-5840) that set a tinted ink and 8% type-colour fill. */
+body.clean-theme.clean-theme .callout {
+    --tf-callout-ink: var(--text-normal);
+    --tf-callout-title-fg: var(--text-normal);
+    color: var(--text-normal);
+}
+body.clean-theme.clean-theme .callout :is(a, .internal-link, .external-link, .cm-url, .is-unresolved) {
+    background: transparent !important;
+    color: var(--link-color) !important;
+    padding-inline: 0 !important;
+}
+body.clean-theme.clean-theme .callout .is-unresolved {
+    color: var(--link-unresolved-color) !important;
+    border-bottom-color: var(--clean-ring-strong) !important;
+}
+
+/* Tint body text re-derives --text-normal inside callouts (~5695) from the callout colour. */
+body.clean-theme.clean-theme .callout {
+    --text-normal: rgb(var(--text-normal-rgb));
+}
+
+/* Clean: sidebars match Claude's flat list. No folder cards, no per-folder hues,
+   no raised capsules. Selection is a ghost fill with the 8px row radius. The
+   !important mirrors the explorer-glass title rule (~5402) it must beat. */
+body.clean-theme.clean-theme.explorer-style-glass .nav-files-container > div > .nav-folder,
+body.clean-theme.clean-theme.explorer-style-glass .nav-files-container > div > .nav-folder:hover {
+    background-color: transparent;
+    background-image: none;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    margin-block-end: 0;
+}
+body.clean-theme.clean-theme.explorer-style-glass .nav-files-container .nav-folder-title,
+body.clean-theme.clean-theme.explorer-style-glass .nav-files-container .nav-folder-title:hover {
+    color: var(--text-normal);
+}
+body.clean-theme.clean-theme.explorer-style-glass .nav-files-container .nav-folder-title:hover {
+    background-color: var(--clean-ghost-hover) !important;
+}
+body.clean-theme.clean-theme .nav-files-container {
+    --folder-text-color: var(--text-normal);
+    --nav-item-color: var(--text-normal);
+}
+body.clean-theme.clean-theme .workspace-sidedock-vault-profile,
+body.clean-theme.clean-theme .workspace-sidedock-vault-profile:hover {
+    background: transparent;
+    box-shadow: none;
+    border: 0;
+    border-radius: var(--radius-m);
+}
+body.clean-theme.clean-theme .workspace-tab-header-container-inner,
+body.clean-theme.clean-theme .workspace-tab-header-container {
+    background: transparent;
+    box-shadow: none;
+    border: 0;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+body.clean-theme.clean-theme .workspace-tab-header.is-active {
+    background: var(--clean-ghost-selected);
+    box-shadow: none;
+    border-radius: var(--radius-m);
+}
+
+/* Clean: settings modal, copied from Claude's Settings window (measured live):
+   white sheet, hairline under the title, flat left nav, rows split by 5% ink
+   hairlines, plain #f2f2f2 buttons (no ring), blue toggle. */
+body.clean-theme.clean-theme.theme-light {
+    --clean-hair: rgba(25, 25, 25, 0.05);
+    --clean-btn: rgba(25, 25, 25, 0.056);
+}
+body.clean-theme.clean-theme.theme-dark {
+    --clean-hair: rgba(255, 255, 255, 0.07);
+    --clean-btn: rgba(255, 255, 255, 0.10);
+}
+body.clean-theme.clean-theme .modal.mod-settings {
+    border-radius: var(--radius-xl);
+    background: var(--background-primary);
+}
+body.clean-theme.clean-theme .modal.mod-settings .vertical-tab-header,
+body.clean-theme.clean-theme .modal.mod-settings .vertical-tab-content-container {
+    background: var(--background-primary);
+}
+body.clean-theme.clean-theme .modal.mod-settings .vertical-tab-header-group-title {
+    color: var(--text-muted);
+    font-size: var(--font-ui-smaller);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+}
+body.clean-theme.clean-theme .modal.mod-settings .vertical-tab-nav-item {
+    border-radius: var(--radius-l);
+}
+body.clean-theme.clean-theme .setting-item {
+    background: transparent;
+    border: 0;
+    border-top: 1px solid var(--clean-hair);
+    border-radius: 0;
+    box-shadow: none;
+    padding-block: 16px;
+}
+body.clean-theme.clean-theme .setting-item:first-child,
+body.clean-theme.clean-theme .setting-item.setting-item-heading {
+    border-top: 0;
+}
+body.clean-theme.clean-theme .setting-item-name {
+    color: var(--text-normal);
+    font-weight: 500;
+}
+body.clean-theme.clean-theme .setting-item-description {
+    color: var(--text-muted);
+}
+body.clean-theme.clean-theme .checkbox-container {
+    background: var(--clean-ghost-selected);
+    box-shadow: none;
+    border: 0;
+}
+body.clean-theme.clean-theme .checkbox-container.is-enabled {
+    background: var(--interactive-accent);
+}
+body.clean-theme.clean-theme .checkbox-container::after {
+    background: #ffffff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+body.clean-theme.clean-theme button:not(.mod-cta):not(.mod-warning):not(.clickable-icon):not(.mod-ghost) {
+    background: var(--clean-btn);
+    box-shadow: none;
+}
+body.clean-theme.clean-theme button:not(.mod-cta):not(.mod-warning):not(.clickable-icon):not(.mod-ghost):hover {
+    background: var(--clean-ghost-selected);
+    box-shadow: none;
+}
+
+/* Clean: undo liquid-chrome's grouped raised settings rows (~12781-12830). The
+   !important matches its 0.5px hairline rule. Claude's rows are flat, split by
+   a 1px hairline, with sentence-case group headings. */
+body.clean-theme.clean-theme.tf-liquid-chrome .vertical-tab-content .setting-item {
+    background: transparent;
+    border-radius: 0;
+}
+body.clean-theme.clean-theme.tf-liquid-chrome .vertical-tab-content .setting-item:hover {
+    background: transparent;
+}
+body.clean-theme.clean-theme.tf-liquid-chrome .vertical-tab-content .setting-item:not(.setting-item-heading) + .setting-item:not(.setting-item-heading) {
+    border-block-start: 1px solid var(--clean-hair) !important;
+}
+body.clean-theme.clean-theme.tf-liquid-chrome .vertical-tab-content .setting-item-heading {
+    padding-inline: 0;
+    font-size: var(--font-ui-medium);
+    font-weight: 580;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--text-normal);
+}
+body.clean-theme.clean-theme .vertical-tab-content,
+body.clean-theme.clean-theme .vertical-tab-content-container {
+    background: var(--background-primary);
+    box-shadow: none;
+    border-radius: 0;
+}
+
+/* Clean: native settings groups paint from --setting-items-background and draw
+   dividers from --background-modifier-border. Flat groups, hairline dividers. */
+body.clean-theme.clean-theme {
+    --setting-items-background: transparent;
+    --background-modifier-border: var(--clean-hair);
+    --background-modifier-border-hover: var(--clean-ring);
+    --background-modifier-border-focus: var(--interactive-accent);
+}
+
+/* Clean: top bars and dock tab strips are flat icon rows, not raised capsules.
+   !important mirrors the depth-shadows capsule rules (~10048) it must beat. */
+body.clean-theme.clean-theme.layout-card:not(.tf-x) .workspace-split:is(.mod-left-split, .mod-right-split, .mod-primary-split, .mod-secondary-split) .workspace-tab-header-container .workspace-tab-header-container-inner,
+body.clean-theme.clean-theme .workspace-split .workspace-tab-header-container .workspace-tab-header-container-inner,
+body.clean-theme.clean-theme .nav-buttons-container,
+body.clean-theme.clean-theme .workspace-ribbon {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+body.clean-theme.clean-theme .workspace-tab-header-container .workspace-tab-header {
+    box-shadow: none !important;
+    border-radius: var(--radius-m);
+    background: transparent;
+    transform: none;
+}
+body.clean-theme.clean-theme .workspace-tab-header-container .workspace-tab-header:hover {
+    background: var(--clean-ghost-hover);
+}
+body.clean-theme.clean-theme .workspace-tab-header-container .workspace-tab-header.is-active {
+    background: var(--clean-ghost-selected);
+    box-shadow: none !important;
+}
+
+/* Clean: body text is never tinted (Claude text is flat neutral). Beats the
+   Style Settings slider value on body; Tint body text still works in other seasons. */
+body.clean-theme.clean-theme {
+    --body-text-tint: 0%;
+}
+
+/* Clean: the main pane is a flat sheet with a 1px ring, as in Claude, not a
+   floating shadowed card. !important mirrors the depth-shadow card rules. */
+body.clean-theme.clean-theme .workspace-split.mod-root .workspace-leaf-content {
+    box-shadow: 0 0 0 1px var(--clean-ring) !important;
+}
+
+/* Clean: reading view and Properties. Claude's prose has no fills, glows or
+   glass: tables are horizontal rules only, code blocks are a ringed sheet,
+   rules are 1px lines. !important mirrors the liquid-table and glow rules. */
+body.clean-theme.clean-theme :is(.markdown-rendered, .markdown-preview-view) table {
+    background: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 0;
+}
+body.clean-theme.clean-theme :is(.markdown-rendered, .markdown-preview-view) table :is(th, td) {
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-radius: 0 !important;
+    border-width: 0 0 1px 0 !important;
+    border-style: solid !important;
+    border-color: var(--clean-ring) !important;
+    color: var(--text-normal);
+    padding-inline: 0 1.5em;
+}
+body.clean-theme.clean-theme :is(.markdown-rendered, .markdown-preview-view) table th {
+    font-weight: 580;
+}
+body.clean-theme.clean-theme :is(.markdown-rendered, .markdown-preview-view) hr {
+    height: 1px !important;
+    background: var(--clean-ring) !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    border: 0 !important;
+}
+body.clean-theme.clean-theme :is(.markdown-rendered, .markdown-preview-view) pre {
+    background: var(--clean-card) !important;
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: inset 0 0 0 1px var(--clean-ring) !important;
+    border-radius: var(--radius-l);
+}
+body.clean-theme.clean-theme .callout .callout-title {
+    font-size: 1em;
+    font-weight: 580;
+    padding-block: 10px 0;
+}
+body.clean-theme.clean-theme .callout .callout-content {
+    padding-block: 4px 12px;
+}
+body.clean-theme.clean-theme :is(.markdown-rendered, .markdown-preview-view) :is(a.internal-link, a.external-link, a.tag, .footnote-link) {
+    background: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+body.clean-theme.clean-theme :is(.markdown-rendered, .markdown-preview-view) a.tag {
+    background: var(--clean-ghost-hover) !important;
+    border-radius: var(--tag-radius) !important;
+    padding: 1px 6px !important;
+    color: var(--text-muted);
+}
+body.clean-theme.clean-theme .metadata-container {
+    background: none !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+body.clean-theme.clean-theme .metadata-properties-heading {
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: var(--font-ui-small);
+    font-weight: 500;
+    color: var(--text-muted);
+}
+body.clean-theme.clean-theme .metadata-property-key-input,
+body.clean-theme.clean-theme .metadata-property-value input {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: 0 !important;
+}
+body.clean-theme.clean-theme .multi-select-pill {
+    background: var(--clean-ghost-hover) !important;
+    box-shadow: none !important;
+    border-radius: var(--tag-radius) !important;
+    color: var(--text-normal);
+}
+
+/* Clean: toggle knob is plain white, no outline ring. */
+body.clean-theme.clean-theme .checkbox-container::after {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Clean: dialogs dim the page, they do not blur it (Claude's backdrop is a flat dim). */
+body.clean-theme.clean-theme :is(.modal-bg, .modal-container, .modal-container .modal-bg) {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* Clean: Live Preview code blocks, task checkboxes and table rows. Each line of a
+   code block draws its own background, so the ring is built from per-line side
+   shadows plus a top line on the first row and a bottom line on the last. */
+body.clean-theme.clean-theme .cm-s-obsidian .HyperMD-codeblock {
+    background: var(--clean-card) !important;
+    background-image: none !important;
+    box-shadow: inset 1px 0 0 var(--clean-ring), inset -1px 0 0 var(--clean-ring) !important;
+}
+body.clean-theme.clean-theme .cm-s-obsidian .HyperMD-codeblock-begin {
+    box-shadow: inset 1px 0 0 var(--clean-ring), inset -1px 0 0 var(--clean-ring), inset 0 1px 0 var(--clean-ring) !important;
+}
+body.clean-theme.clean-theme .cm-s-obsidian .HyperMD-codeblock-end {
+    box-shadow: inset 1px 0 0 var(--clean-ring), inset -1px 0 0 var(--clean-ring), inset 0 -1px 0 var(--clean-ring) !important;
+}
+body.clean-theme.clean-theme input[type="checkbox"]:checked,
+body.clean-theme.clean-theme input.task-list-item-checkbox:checked {
+    background-color: var(--interactive-accent) !important;
+    border-color: var(--interactive-accent) !important;
+}
+body.clean-theme.clean-theme :is(.markdown-rendered, .markdown-preview-view, .cm-embed-block) table :is(tr, tbody tr, thead tr, tr:nth-child(even), tr:nth-child(odd), tr:hover) {
+    background: transparent !important;
+    background-image: none !important;
+}
+
+/* Clean: a collapsed callout is only its title row, so it keeps bottom padding. */
+body.clean-theme.clean-theme .callout.is-collapsed > .callout-title,
+body.clean-theme.clean-theme .callout > .callout-title:last-child {
+    padding-block: 10px;
+}
+
+/* Clean: highlights inside callouts use the same flat clay mark as everywhere
+   else, not the callout-tinted chip with bottom border, shadow and hover lift
+   (~5856-5892). Tripled class beats the dark variant (0,6,1) on source order;
+   !important on the highlight-style-marker gradient mirrors its own rule. */
+body.clean-theme.clean-theme.clean-theme :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight),
+body.clean-theme.clean-theme.clean-theme :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight):hover {
+    background-color: var(--highlight-bg);
+    background-image: none !important;
+    color: var(--text-normal);
+    border: 0;
+    border-bottom: 0;
+    border-radius: 4px;
+    padding: 1px 4px;
+    box-shadow: none;
+    text-shadow: none;
+    transform: none;
+}
+
+/* Clean: one highlight everywhere. Same padding in and out of callouts, and the
+   dark fill uses --highlight-bg-dark in both places. */
+body.clean-theme.clean-theme :is(mark, .cm-highlight) {
+    padding: 1px 4px;
+}
+body.clean-theme.clean-theme.theme-dark.clean-theme :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight),
+body.clean-theme.clean-theme.theme-dark.clean-theme :is(.callout .callout-content, .cm-callout .callout-content, .markdown-source-view.mod-cm6 .cm-callout .cm-content) :is(mark, span.cm-highlight, .cm-highlight):hover {
+    background-color: var(--highlight-bg-dark);
+}
+
+/* Clean: tables have no surrounding lines. Rules sit under the header and between
+   rows only: nothing above the header, nothing under the last row, no outer or
+   side borders. !important mirrors the cell border rule above. */
+body.clean-theme.clean-theme :is(.markdown-rendered, .markdown-preview-view, .cm-embed-block) table {
+    border: 0 !important;
+    outline: 0 !important;
+    border-collapse: collapse;
+}
+body.clean-theme.clean-theme :is(.markdown-rendered, .markdown-preview-view, .cm-embed-block) table :is(th, td) {
+    border-top-width: 0 !important;
+    border-left-width: 0 !important;
+    border-right-width: 0 !important;
+}
+body.clean-theme.clean-theme :is(.markdown-rendered, .markdown-preview-view, .cm-embed-block) table tbody tr:last-child :is(th, td) {
+    border-bottom-width: 0 !important;
 }
