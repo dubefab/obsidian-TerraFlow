@@ -13935,6 +13935,9 @@ body.clean-theme.clean-theme .setting-item {
     border-top: 1px solid var(--clean-hair);
     border-radius: 0;
     box-shadow: none;
+}
+/* Headings (Style Settings sections) keep the native padding. */
+body.clean-theme.clean-theme .setting-item:not(.setting-item-heading) {
     padding-block: 16px;
 }
 body.clean-theme.clean-theme .setting-item:first-child,
