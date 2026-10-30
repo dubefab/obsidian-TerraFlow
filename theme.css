@@ -312,6 +312,12 @@ settings:
         type: class-toggle
         default: false
     -
+        id: tf-clean-heavy-text
+        title: Heavier text (Clean)
+        description: Clean draws text with grayscale antialiasing, like Claude desktop, so strokes look lighter. Turn this on for the system default, which is heavier
+        type: class-toggle
+        default: false
+    -
         id: neutral-chrome
         title: Neutral chrome
         description: Reserve the accent color for selection and active states — icon and button hovers wash gray instead of tinting, and the accent glow is removed
@@ -13422,8 +13428,8 @@ body.clean-theme {
     --card-radius: calc(12px * var(--tf-clean-s));
     --tag-radius: calc(4px * var(--tf-clean-s));
 
-    --font-text: "Anthropic Sans", -apple-system, BlinkMacSystemFont, "SF Pro", system-ui, sans-serif;
-    --font-interface: "Anthropic Sans", -apple-system, BlinkMacSystemFont, "SF Pro", system-ui, sans-serif;
+    --font-text: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-interface: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     --font-monospace: "Anthropic Mono", "SF Mono", ui-monospace, Menlo, monospace;
     --bold-weight: 501;
     --h1-weight: 580;
@@ -13439,6 +13445,20 @@ body.clean-theme {
     --clean-dur-snap: 120ms;
     --clean-dur-base: 200ms;
     --anim-motion-ease: var(--clean-ease-out);
+}
+
+/* Claude's list markers use the text color (--cds-prose-marker-color). */
+body.clean-theme {
+    --list-marker-color: var(--text-normal);
+}
+
+/* Claude desktop sets antialiased + grayscale on its root (read from
+   ion-dist.asar) and draws the system font, not Anthropic Sans. Default macOS
+   rendering thickens every stroke, which is why Clean text looked heavier
+   next to it. */
+body.clean-theme:not(.tf-clean-heavy-text) {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body.theme-light.clean-theme {
@@ -13849,6 +13869,15 @@ body.clean-theme.clean-theme.explorer-style-glass .nav-files-container .nav-fold
 body.clean-theme.clean-theme .nav-files-container {
     --folder-text-color: var(--text-normal);
     --nav-item-color: var(--text-normal);
+}
+/* Sidebar text rests muted and turns full ink when its pane is the active one
+   or an item is hovered. The open file keeps --nav-item-color-active. */
+body.clean-theme.clean-theme :is(.mod-left-split, .mod-right-split) .workspace-leaf:not(.mod-active) :is(.nav-file-title, .nav-folder-title, .tree-item-self):not(.is-active):not(:hover) {
+    color: var(--text-muted);
+}
+/* The tag pane pins its rows to --text-normal with !important. */
+body.clean-theme.clean-theme :is(.mod-left-split, .mod-right-split) .workspace-leaf:not(.mod-active) .tag-container .tree-item-self.tag-pane-tag:not(:hover) {
+    color: var(--text-muted) !important;
 }
 body.clean-theme.clean-theme .workspace-sidedock-vault-profile,
 body.clean-theme.clean-theme .workspace-sidedock-vault-profile:hover {
