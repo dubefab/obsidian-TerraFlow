@@ -13573,8 +13573,7 @@ body.clean-theme .clickable-icon:hover,
 body.clean-theme .menu-item:hover {
     background: var(--clean-ghost-hover);
 }
-body.clean-theme .tree-item-self.is-active,
-body.clean-theme .nav-file-title.is-active,
+body.clean-theme .tree-item-self.is-active:not(.nav-file-title),
 body.clean-theme .vertical-tab-nav-item.is-active {
     background: var(--clean-ghost-selected);
     color: var(--text-normal);
@@ -13779,8 +13778,7 @@ body.clean-theme.clean-theme .nav-file-title:hover,
 body.clean-theme.clean-theme .nav-folder-title:hover {
     background: var(--clean-ghost-hover);
 }
-body.clean-theme.clean-theme .tree-item-self.is-active,
-body.clean-theme.clean-theme .nav-file-title.is-active {
+body.clean-theme.clean-theme .tree-item-self.is-active:not(.nav-file-title) {
     background: var(--clean-ghost-selected);
 }
 
