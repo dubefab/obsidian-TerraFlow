@@ -7750,6 +7750,28 @@ body:not(.disable-ui-animations):not(.animation-style-whimsy) .markdown-source-v
     background-size: calc(100% - 0.26em) 2px;
 }
 
+/* Link spans: Link Style plain and underline set `background: transparent
+   !important`, which wiped the strike gradient off linked task text. The
+   longhands below are !important at higher specificity so the strike survives
+   (the pill colour stays, only the image layer is set). */
+body:not(.disable-ui-animations):not(.animation-style-whimsy) .markdown-source-view.mod-cm6 .cm-content .HyperMD-task-line:is([data-task=" "], [data-task="x"], [data-task="X"]) > span:is(.cm-link, .cm-url, .cm-hmd-internal-link, .cm-hmd-external-link)[class*="cm-list-"]:not(.cm-formatting) {
+    background-image: linear-gradient(var(--emphasis-color), var(--emphasis-color)) !important;
+    background-repeat: no-repeat !important;
+    background-position: left 60% !important;
+    background-size: 0% 2px !important;
+} /* (0,10,3) */
+
+body:not(.disable-ui-animations):not(.animation-style-whimsy) .markdown-source-view.mod-cm6 .cm-content .HyperMD-task-line:is([data-task="x"], [data-task="X"]) > span:is(.cm-link, .cm-url, .cm-hmd-internal-link, .cm-hmd-external-link)[class*="cm-list-"]:not(.cm-formatting) {
+    background-size: 100% 2px !important;
+}
+
+body:is(.disable-ui-animations, .animation-style-whimsy) .markdown-source-view.mod-cm6 .cm-content .HyperMD-task-line:is([data-task="x"], [data-task="X"]) > span:is(.cm-link, .cm-url, .cm-hmd-internal-link, .cm-hmd-external-link)[class*="cm-list-"]:not(.cm-formatting) {
+    background-image: linear-gradient(var(--emphasis-color), var(--emphasis-color)) !important;
+    background-repeat: no-repeat !important;
+    background-position: left 60% !important;
+    background-size: 100% 2px !important;
+}
+
 /* Animations off or whimsy: the line-level strike (see "Custom colored
    strikethrough" below) also covers the leading space, so live preview draws
    the same offset gradient statically instead. */
